@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #mapwize {
+            position: absolute; top:0; bottom:0; left: 0; right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="mapwize"></div>
+    <script>
+        window.onload = function () {
+            // MapwizeUI.map('mapwize', { // Also works
+            MapwizeUI.map({ // Also works
+                // container: 'mapwize',  // Also works
+                apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+                mapboxOptions: {},
+                mapwizeOptions: {},
+                onInformationButtonClick: (e) => {
+                    console.log('clickOnSelectedInformation', e)
+                },
+                onMenuButtonClick: (e) => {
+                    console.log('clickOnMenu', e)
+                }
+            }).then((map) => {
+                console.log('MAP LOADED')
+            })
+        }
+    </script>
+</body>
+</html>

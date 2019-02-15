@@ -1,0 +1,53 @@
+#mwz-footerSelection {
+    display: none;
+    
+    height: 50px;
+    width: 400px;
+    
+    margin-bottom: 10px;
+    margin-left: 10px;
+    
+    background-color:  white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+    
+    pointer-events: auto;
+
+    .mwz-icon {
+        padding: 12.5px;
+    }
+    .mwz-directions {
+        button {
+            padding: 12.5px;
+            border: none;
+            border-radius: unset;
+            line-height: inherit;
+
+            &:hover {
+                background-color: #efefef;
+            }
+        }
+    }
+    
+    .mwz-icon, .mwz-directions {
+        img {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+
+    .mwz-data {
+        .mwz-title {
+            font-size: 1.2em;
+        }
+    }
+}
+
+&.mwz-small {
+    #mwz-footerSelection {
+        margin-left: 0;
+        margin-bottom: 0;
+        
+        width: 100%;
+    }
+}

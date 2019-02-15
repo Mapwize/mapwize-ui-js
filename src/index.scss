@@ -1,0 +1,66 @@
+.mapwizeui {
+    
+    @import "custom";
+    @import "~bootstrap/scss/bootstrap";
+    
+    @import "./search/bar/bar";
+    @import "./search/directions/directions";
+    @import "./search/results/results";
+    
+    @import "./footer/directions/directions";
+    @import "./footer/venue/venue";
+    @import "./footer/selection/selection";
+    
+    .mapboxgl-ctrl-group > button:focus {
+        outline: none !important;
+    }
+    
+    .mapboxgl-ctrl-group {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+    }
+    .mapboxgl-ctrl-floors {
+        box-shadow: none;
+    }
+    
+    .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
+        float: none;
+    }
+    
+    .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-top-right, .mapboxgl-ctrl-bottom-right {
+        transition: top 0.5s ease-in-out, right 0.5s ease-in-out, bottom 0.5s ease-in-out, left 0.5s ease-in-out;
+    }
+    
+    &.mwz-small {
+        .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-bottom-left {
+            right: 0;
+            
+            z-index: 3;
+        }
+        
+        .mapboxgl-ctrl-top-right {
+            top: 50px !important;
+        }
+        
+        &.mwz-directions {
+            .mapboxgl-ctrl-top-right {
+                top: 150px !important;
+            }
+            
+            .mapboxgl-ctrl-bottom-right {
+                bottom: 50px !important;
+            }
+        }
+        
+        &.mwz-selected {
+            .mapboxgl-ctrl-bottom-right {
+                bottom: 50px !important;
+            }
+        }
+
+        &.mwz-venue-footer {
+            .mapboxgl-ctrl-bottom-right {
+                bottom: 50px !important;
+            }
+        }
+    }
+}

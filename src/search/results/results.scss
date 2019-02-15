@@ -1,0 +1,38 @@
+#searchResults {
+    
+    max-height: 50vh;
+    width: 400px;
+
+    overflow: auto;
+    
+    margin-left: 10px;
+    
+    background-color:  white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+    
+    pointer-events: auto;
+    
+    .mwz-place-icon, .mwz-google-icon {
+        padding-right: 12.5px;
+        
+        img {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    .mwz-place-infos {
+        .mwz-place-title {
+            font-size: 1.2em;
+        }
+    }
+}
+
+&.mwz-small {
+    #searchResults {
+        margin-left: 0;
+        
+        width: 100%;
+        // height: 100%;
+    }
+}
