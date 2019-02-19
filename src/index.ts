@@ -37,17 +37,33 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
     
-    mapInstance.on('mapwize:click', (e: any) => {
+    const onMapClick = (e: any): void => {
         if (e.venue) {
             mapInstance.centerOnVenue(e.venue)
         }
-    })
+    }
+    mapInstance.on('mapwize:click', onMapClick)
     
     mapInstance.searchBar.show()
 
     if (options.centerOnPlace) {
         mapInstance.setFloorForVenue(options.centerOnPlace.floor, options.centerOnPlace.venue)
         mapInstance.footerSelection.select(options.centerOnPlace)
+    }
+
+    mapInstance.destroy = () => {
+        mapInstance.searchResults.destroy()
+        mapInstance.searchBar.destroy()
+        mapInstance.searchDirections.destroy()
+    
+        mapInstance.footerVenue.destroy()
+        mapInstance.footerSelection.destroy()
+        mapInstance.footerDirections.destroy()
+    
+        mapInstance.off('mapwize:click', onMapClick)
+        $(mapInstance.getContainer()).removeClass('mapwizeui');
+        
+        mapInstance.remove()
     }
     
     return mapInstance
