@@ -92,7 +92,7 @@ The following parameters are available for map initialization:
 |html| `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
 |js  | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
-### Simple example
+### Simple example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
 <div id="mapwize"></div>
@@ -105,8 +105,6 @@ MapwizeUI.map(options).then(map => {
 })
 </script>
 ```
-
-<iframe width="100%" height="300" src="//jsfiddle.net/Mapwize/8peukahd/embedded/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
 ### Center on venue
 
