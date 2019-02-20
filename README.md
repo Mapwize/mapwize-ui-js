@@ -87,10 +87,10 @@ The following parameters are available for map initialization:
 - `onMenuButtonClick` callback called when the user clicked on the menu button (left button on the search bar)
 
 #### Parameters usage
-|    | Without `container` parameter | With `container` parameter | With `container` option |
-|---:|:-----------------------------:|:--------------------------:|:-----------------------:|
-|html| `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
-|js  | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
+|    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
+|---:|:---------------:|:-----------------------------:|:--------------------------:|:-----------------------:|
+|html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
+|js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
 ### Simple example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
