@@ -1,12 +1,11 @@
 import { map, apiKey, Api, apiUrl } from 'mapwize'
-import { assign, get, set, isString } from 'lodash'
+import { assign, get, set, isString, isObject, isUndefined } from 'lodash'
 import * as $ from 'jquery';
 
 import './index.scss'
 
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
-import { isObject } from 'util';
 
 const mapSizeChange = (mapInstance: any) => {
     const mapSize = mapInstance.getSize()
@@ -81,7 +80,10 @@ const constructor = (container: string|HTMLElement, options: any): any => {
 }
 
 const createMap = (container: string|HTMLElement, options?: any) => {
-    if (!options && isObject(container)) {
+    if (isString(container) && !options) {
+        options = { apiKey: container }
+        container = 'mapwize'
+    } else if (!options && isObject(container)) {
         options = container
         container = options.container || 'mapwize'
     }
