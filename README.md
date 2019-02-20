@@ -20,9 +20,18 @@ The Mapwize UI widget comes with the following components:
 - Universes switch
 - Languages switch
 
-## Installation
+## Browser support
 
-Mapwize UI is compatible with Mapwize SDK `3.2.0` and above. The library won't work with lower version.
+The SDK is tested against the following browsers:
+
+- Chrome 42+
+- Firefox 40+
+- Safari 10.1+
+- iOS Safari 10.3+
+- Edge 16+
+- IE 11
+
+## Installation
 
 ### Npm
 
@@ -52,15 +61,22 @@ You use the CDN url directly in your HTML page
 Mapwize UI can be instantiated with the constructor:
 
 ```javascript
-MapwizeUI.map(options)
+MapwizeUI.map(container?, options)
 ```
 
 The `map` method return a Promise that is resolved when the map and the UI are ready
 
-### Map options
+### Map parameters
+
+#### `container`
+
+The HTML element in which Mapbox GL JS will render the map, or the element's string  id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`
+
+#### `options`
 
 The following parameters are available for map initialization:
 
+- `container` (optionnal) same as `container` param, default is: `mapwize`
 - `centerOnVenue` to center on a venue at start. Options takes either a venueId or a venue object.
 - `centerOnPlace` to center on a place at start. Options takes either a placeId or a place object.
 - `mapboxOptions` to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
@@ -70,22 +86,35 @@ The following parameters are available for map initialization:
 - `onInformationButtonClick` callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` callback called when the user clicked on the menu button (left button on the search bar)
 
+#### Parameters usage
+|    | Without `container` parameter | With `container` parameter | With `container` option |
+|---:|:-----------------------------:|:--------------------------:|:-----------------------:|
+|html| `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
+|js  | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
+
 ### Simple example
 
-```javascript
+```html
+<div id="mapwize"></div>
+<script>
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE'
 }
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
 })
+</script>
 ```
+
+<iframe width="100%" height="300" src="//jsfiddle.net/Mapwize/8peukahd/embedded/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
 ### Center on venue
 
 To have the map centered on a venue at start up:
 
-```javascript
+```html
+<div id="mapwize"></div>
+<script>
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
   centerOnVenue: 'YOUR_VENUE_ID'
@@ -93,13 +122,16 @@ var options = {
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
 })
+</script>
 ```
 
 ### Center on place
 
 To have the map centered on a place with the place selected at start up: 
 
-```javascript
+```html
+<div id="mapwize"></div>
+<script>
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
   centerOnPlace: 'YOUR_PLACE_ID'
@@ -107,6 +139,7 @@ var options = {
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
 })
+</script>
 ```
 
 ## Demo application
