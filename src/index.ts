@@ -1,12 +1,11 @@
 import { map, apiKey, Api, apiUrl } from 'mapwize'
-import { assign, get, set, isString } from 'lodash'
+import { assign, get, set, isString, isObject, isUndefined } from 'lodash'
 import * as $ from 'jquery';
 
 import './index.scss'
 
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
-import { isObject } from 'util';
 
 const mapSizeChange = (mapInstance: any) => {
     const mapSize = mapInstance.getSize()
@@ -37,17 +36,33 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
     
-    mapInstance.on('mapwize:click', (e: any) => {
+    const onMapClick = (e: any): void => {
         if (e.venue) {
             mapInstance.centerOnVenue(e.venue)
         }
-    })
+    }
+    mapInstance.on('mapwize:click', onMapClick)
     
     mapInstance.searchBar.show()
 
     if (options.centerOnPlace) {
         mapInstance.setFloorForVenue(options.centerOnPlace.floor, options.centerOnPlace.venue)
         mapInstance.footerSelection.select(options.centerOnPlace)
+    }
+
+    mapInstance.destroy = () => {
+        mapInstance.searchResults.destroy()
+        mapInstance.searchBar.destroy()
+        mapInstance.searchDirections.destroy()
+    
+        mapInstance.footerVenue.destroy()
+        mapInstance.footerSelection.destroy()
+        mapInstance.footerDirections.destroy()
+    
+        mapInstance.off('mapwize:click', onMapClick)
+        $(mapInstance.getContainer()).removeClass('mapwizeui');
+        
+        mapInstance.remove()
     }
     
     return mapInstance
@@ -65,7 +80,10 @@ const constructor = (container: string|HTMLElement, options: any): any => {
 }
 
 const createMap = (container: string|HTMLElement, options?: any) => {
-    if (!options && isObject(container)) {
+    if (isString(container) && !options) {
+        options = { apiKey: container }
+        container = 'mapwize'
+    } else if (!options && isObject(container)) {
         options = container
         container = options.container || 'mapwize'
     }

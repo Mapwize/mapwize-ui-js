@@ -29,31 +29,19 @@ export class FooterSelection extends DefaultControl {
             
             e.stopPropagation()
         })
+
+        this.onClick = this.onClick.bind(this)
+        this.onVenueEnter = this.onVenueEnter.bind(this)
+        this.onVenueExit = this.onVenueExit.bind(this)
         
-        this.map.on('mapwize:click', (e: any) => {
-            if (e.place && !$(this.map._container).hasClass('mwz-directions')) {
-                this.select(set(e.place, 'objectClass', 'place'))
-            } else {
-                this.unselect()
-            }
-        })
-        
-        this.map.on('mapwize:venueexit', (e: any) => {
-            this.hide()
-            
-            this._currentVenue = null
-        })
-        this.map.on('mapwize:venueenter', (e: any) => {
-            this._currentVenue = e.venue
-            
-            if (this._selected && this._selected.venueId === this._currentVenue._id) {
-                this.show()
-            } else {
-                this.unselect()
-            }
-        })
-        
-        this.map.on('mapwize:venueexit', () => this.unselect())
+        this.map.on('mapwize:click', this.onClick)
+        this.map.on('mapwize:venueenter', this.onVenueEnter)
+        this.map.on('mapwize:venueexit', this.onVenueExit)
+    }
+    public destroy() {
+        this.map.off('mapwize:click', this.onClick)
+        this.map.off('mapwize:venueenter', this.onVenueEnter)
+        this.map.off('mapwize:venueexit', this.onVenueExit)
     }
     
     public show () {
@@ -68,7 +56,6 @@ export class FooterSelection extends DefaultControl {
         
         this.map.footerVenue.showIfNeeded()
     }
-    
     public select(obj: any) {
         if (!obj) {
             return this.unselect()
@@ -111,6 +98,28 @@ export class FooterSelection extends DefaultControl {
         }
     }
     
+    private onClick(e: any): void {
+        if (e.place && !$(this.map._container).hasClass('mwz-directions')) {
+            this.select(set(e.place, 'objectClass', 'place'))
+        } else {
+            this.unselect()
+        }
+    }
+    private onVenueEnter(e: any): void {
+        this._currentVenue = e.venue
+        
+        if (this._selected && this._selected.venueId === this._currentVenue._id) {
+            this.show()
+        } else {
+            this.unselect()
+        }
+    }
+    private onVenueExit(e: any): void {
+        this.hide()
+        this.unselect()
+        
+        this._currentVenue = null
+    }
     private _promoteSelected (elem: any) {
         if (elem) {
             const placesToPromote: any[] = [];

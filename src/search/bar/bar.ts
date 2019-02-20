@@ -58,29 +58,18 @@ export class SearchBar extends DefaultControl {
             }, 500)
         })
         
-        this.map.on('mapwize:venueexit', (e: any) => {
-            this.show()
-            
-            this._container.find('.mwz-entering').hide()
-            this._container.find('.mwz-directions').hide()
-            this._container.find('.mwz-search').show().find('input').attr('placeholder', 'Search in Mapwize')
-            
-            this._currentVenue = null
-        })
-        this.map.on('mapwize:venuewillenter', (e: any) => {
-            const lang = this.map.getLanguageForVenue(e.venue)
-            this._container.find('.mwz-entering').text('Entering in ' + getTranslation(e.venue, lang, 'title')).show();
-            this._container.find('.mwz-search').hide()
-            this._container.find('.mwz-directions').hide()
-            
-            this._currentVenue = e.venue
-        })
-        this.map.on('mapwize:venueenter', (e: any) => {
-            const lang = this.map.getLanguageForVenue(e.venue)
-            this._container.find('.mwz-entering').hide()
-            this._container.find('.mwz-directions').show()
-            this._container.find('.mwz-search').show().find('input').attr('placeholder', 'Search in ' + getTranslation(e.venue, lang, 'title'))
-        })
+        this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
+        this.onVenueEnter = this.onVenueEnter.bind(this)
+        this.onVenueExit = this.onVenueExit.bind(this)
+        
+        this.map.on('mapwize:venuewillenter', this.onVenueWillEnter)
+        this.map.on('mapwize:venueenter', this.onVenueEnter)
+        this.map.on('mapwize:venueexit', this.onVenueExit)
+    }
+    public destroy() {
+        this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
+        this.map.off('mapwize:venueenter', this.onVenueEnter)
+        this.map.off('mapwize:venueexit', this.onVenueExit)
     }
     
     public show () {
@@ -89,6 +78,30 @@ export class SearchBar extends DefaultControl {
     }
     public hide () {
         this.map.removeControl(this)
+    }
+    
+    private onVenueWillEnter(e: any): void {
+        const lang = this.map.getLanguageForVenue(e.venue)
+        this._container.find('.mwz-entering').text('Entering in ' + getTranslation(e.venue, lang, 'title')).show();
+        this._container.find('.mwz-search').hide()
+        this._container.find('.mwz-directions').hide()
+        
+        this._currentVenue = e.venue
+    }
+    private onVenueEnter(e: any): void {
+        const lang = this.map.getLanguageForVenue(e.venue)
+        this._container.find('.mwz-entering').hide()
+        this._container.find('.mwz-directions').show()
+        this._container.find('.mwz-search').show().find('input').attr('placeholder', 'Search in ' + getTranslation(e.venue, lang, 'title'))
+    }
+    private onVenueExit(e: any): void {
+        this.show()
+        
+        this._container.find('.mwz-entering').hide()
+        this._container.find('.mwz-directions').hide()
+        this._container.find('.mwz-search').show().find('input').attr('placeholder', 'Search in Mapwize')
+        
+        this._currentVenue = null
     }
     
     private _clickOnSearchResult(searchResult: any, universe?: any): void {

@@ -26,22 +26,32 @@ export class SearchResults extends DefaultControl {
         this._focusOn = 'search'
         this._venueId = options.restrictContentToVenue
         this._organizationId = options.restrictContentToOrganization
-        
-        this.map.on('mapwize:venueexit', (e: any) => {
-            this._currentVenue = null
-        })
-        this.map.on('mapwize:venuewillenter', (e: any) => {
-            this._currentVenue = e.venue
-        })
+
+        this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
+        this.onVenueExit = this.onVenueExit.bind(this)
+
+        this.map.on('mapwize:venuewillenter', this.onVenueWillEnter)
+        this.map.on('mapwize:venueexit', this.onVenueExit)
     }
-    
-    public show () {
+    public destroy () {
+        this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
+        this.map.off('mapwize:venueexit', this.onVenueExit)
+    }
+
+    public show() {
         this.map.addControl(this, 'top-left')
     }
-    public hide () {
+    public hide() {
         this.map.removeControl(this)
     }
     
+    private onVenueExit() {
+        this._currentVenue = null
+    }
+    private onVenueWillEnter(e) {
+        this._currentVenue = e.venue
+    }
+
     private showLoading() {
         this._container.find('#searchLoading').show()
     }
