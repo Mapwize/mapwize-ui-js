@@ -144,30 +144,19 @@ export class SearchDirections extends DefaultControl {
                 this.map.searchResults.hide()
             }, 500)
         })
+
+        this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
+        this.onVenueEnter = this.onVenueEnter.bind(this)
+        this.onVenueExit = this.onVenueExit.bind(this)
         
-        this.map.on('mapwize:venueexit', (e: any) => {
-            if (!this._direction) {
-                this.clear()
-            }
-            
-            this._currentVenue = null;
-        })
-        this.map.on('mapwize:venuewillenter', (e: any) => {
-            this._currentVenue = e.venue
-            
-            const lang = this.map.getLanguageForVenue(e.venue)
-            this._container.find('.mwz-venue-name').text(getTranslation(e.venue, lang, 'title'))
-        })
-        this.map.on('mapwize:venueenter', (e: any) => {
-            if (this._direction) {
-                if (get(this._from, 'venueId') !== e.venue._id || get(this._to, 'venueId') !== e.venue._id) {
-                    this.clear()
-                } else {
-                    this._displayDirection({ preventFitBounds: true })
-                    this.show()
-                }
-            }
-        })
+        this.map.on('mapwize:venuewillenter', this.onVenueWillEnter)
+        this.map.on('mapwize:venueenter', this.onVenueEnter)
+        this.map.on('mapwize:venueexit', this.onVenueExit)
+    }
+    public destroy() {
+        this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
+        this.map.off('mapwize:venueenter', this.onVenueEnter)
+        this.map.off('mapwize:venueexit', this.onVenueExit)
     }
     
     public show () {
@@ -193,6 +182,29 @@ export class SearchDirections extends DefaultControl {
         $(this.map._container).removeClass('mwz-directions')
     }
     
+    private onVenueWillEnter(e: any): void {
+        this._currentVenue = e.venue
+            
+            const lang = this.map.getLanguageForVenue(e.venue)
+            this._container.find('.mwz-venue-name').text(getTranslation(e.venue, lang, 'title'))
+    }
+    private onVenueEnter(e: any): void {
+        if (this._direction) {
+            if (get(this._from, 'venueId') !== e.venue._id || get(this._to, 'venueId') !== e.venue._id) {
+                this.clear()
+            } else {
+                this._displayDirection({ preventFitBounds: true })
+                this.show()
+            }
+        }
+    }
+    private onVenueExit(e: any): void {
+        if (!this._direction) {
+            this.clear()
+        }
+        
+        this._currentVenue = null;
+    }
     private clear(): void {
         this._setFrom(null)
         this._setTo(null)
@@ -200,7 +212,6 @@ export class SearchDirections extends DefaultControl {
         this._container.find('#mwz-mapwizeSearchFrom').val('')
         this._container.find('#mwz-mapwizeSearchTo').val('')
     }
-    
     private _setFrom(from: any): void {
         this._from = from
         

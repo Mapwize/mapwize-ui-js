@@ -15,6 +15,7 @@ export class FooterDirections extends DefaultControl {
             console.log('click, #footerDirections', e)
         })
     }
+    public destroy() {}
 
     public show () {
         this.map.footerSelection.unselect()
