@@ -92,18 +92,13 @@ The following parameters are available for map initialization:
 |html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
 |js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
-### Simple example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
+### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
 <div id="mapwize"></div>
-<script>
-var options = {
-  apiKey: 'YOUR_MAPWIZE_API_KEY_HERE'
-}
-MapwizeUI.map(options).then(map => {
-  console.log('Mapwize map and ui are ready to be used')
-})
-</script>
+```
+```javascript
+MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
 ```
 
 ### Center on venue
@@ -112,7 +107,8 @@ To have the map centered on a venue at start up:
 
 ```html
 <div id="mapwize"></div>
-<script>
+```
+```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
   centerOnVenue: 'YOUR_VENUE_ID'
@@ -120,7 +116,6 @@ var options = {
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
 })
-</script>
 ```
 
 ### Center on place
@@ -129,7 +124,8 @@ To have the map centered on a place with the place selected at start up:
 
 ```html
 <div id="mapwize"></div>
-<script>
+```
+```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
   centerOnPlace: 'YOUR_PLACE_ID'
@@ -137,7 +133,6 @@ var options = {
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
 })
-</script>
 ```
 
 ## Demo application
