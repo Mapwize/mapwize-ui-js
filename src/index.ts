@@ -99,6 +99,10 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     if (options.apiUrl) {
         apiUrl(options.apiUrl)
     }
+
+    if (options.color) {
+        set(options, 'mapwizeOptions.color', options.color)
+    }
     
     if (options.centerOnVenue && isString(options.centerOnVenue)) {
         return Api.getVenue(options.centerOnVenue).then((venue: any) => createMap(container, assign({}, options, { centerOnVenue: venue })))

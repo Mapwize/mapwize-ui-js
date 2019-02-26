@@ -1,4 +1,4 @@
-import { find, get, set, debounce, map, isFinite } from 'lodash'
+import { find, get, set, debounce, map, isFinite, replace } from 'lodash'
 import * as $ from 'jquery';
 import { Api, apiUrl, apiKey } from 'mapwize'
 
@@ -117,4 +117,10 @@ const longitude = (o: any): number => {
     return 0;
 }
 
-export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude }
+const replaceColorInBase64svg = (svg: string, toColor: string) => {
+    var decoded = atob(svg)
+    decoded = new Buffer(replace(decoded, '#000000', toColor)).toString('base64')
+    return 'data:image/svg+xml;base64,' + decoded
+  }
+
+export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg }
