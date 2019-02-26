@@ -23,9 +23,9 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     })
     
     mapInstance.uiOptions = options
-    
+
     mapInstance.searchResults = new SearchResults(mapInstance, options)
-    mapInstance.searchBar = new SearchBar(mapInstance, options.onMenuButtonClick)
+    mapInstance.searchBar = new SearchBar(mapInstance, options)
     mapInstance.searchDirections = new SearchDirections(mapInstance)
     
     mapInstance.footerVenue = new FooterVenue(mapInstance)
@@ -72,7 +72,7 @@ const constructor = (container: string|HTMLElement, options: any): any => {
     const mapboxOptions: any = {
         container: container
     }
-    
+
     const containerSelector: any = isString(container) ? '#' + container : container
     $(containerSelector).addClass('mapwizeui');
     

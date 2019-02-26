@@ -85,6 +85,7 @@ The following parameters are available for map initialization:
 - `restrictContentToOrganization` to show only the venues of that organization on the map. Builder takes an organization id.
 - `onInformationButtonClick` callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` callback called when the user clicked on the menu button (left button on the search bar)
+- `hideMenu` to hide menu bar.
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
