@@ -26,10 +26,10 @@ const buildUIComponent = (mapInstance: any, options: any) => {
 
     mapInstance.searchResults = new SearchResults(mapInstance, options)
     mapInstance.searchBar = new SearchBar(mapInstance, options)
-    mapInstance.searchDirections = new SearchDirections(mapInstance)
+    mapInstance.searchDirections = new SearchDirections(mapInstance, options)
     
     mapInstance.footerVenue = new FooterVenue(mapInstance)
-    mapInstance.footerSelection = new FooterSelection(mapInstance, options.onInformationButtonClick)
+    mapInstance.footerSelection = new FooterSelection(mapInstance, options)
     mapInstance.footerDirections = new FooterDirections(mapInstance)
     
     mapInstance.addControl(mapInstance.footerVenue, 'bottom-left')
