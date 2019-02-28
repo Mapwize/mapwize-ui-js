@@ -7,36 +7,42 @@ import { DefaultControl } from '../../control'
 import { getTranslation } from '../../utils'
 
 export class SearchBar extends DefaultControl {
-    
+
     private _currentVenue: any
     private _hideResultsTimeout: any
-    
-    constructor (mapInstance: any, onMenuButtonClick: Function) {
+
+    constructor (mapInstance: any, options: any) {
         super(mapInstance)
-        
+
         this._container = $(barHtml)
         this._currentVenue = this.map.getVenue();
-        
+
+        if(options.hideMenu){
+            this._container.find('#menuBar').addClass('d-none')
+        }
+
         this.listen('click', '#mwz-menuButton', (e: JQueryEventObject) => {
-            if (isFunction(onMenuButtonClick)) {
-                onMenuButtonClick(e)
+            if (isFunction(options.onMenuButtonClick)) {
+                options.onMenuButtonClick(e)
             }
         })
         this.listen('click', '#mwz-directionsButton', (e: JQueryEventObject) => {
             this.map.searchDirections.show()
         })
-        
+
         this.listen('focus', '#mwz-mapwizeSearch', (e: JQueryEventObject) => {
             this.map.searchResults.setFocusOn('search')
-            
+
             clearTimeout(this._hideResultsTimeout)
-            
+
             if (this._currentVenue) {
                 this.map.searchResults.showMainSearchIfAny(this._clickOnSearchResult.bind(this))
             }
         })
+
         this.listen('keyup', '#mwz-mapwizeSearch', (e: JQueryEventObject) => {
             const str = $('#mwz-mapwizeSearch').val() + ''
+
             if (str) {
                 this.map.searchResults.search(str, (universe: any) => {
                     return (clicked: any) => {
