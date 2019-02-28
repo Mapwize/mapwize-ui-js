@@ -1,7 +1,7 @@
 #mwz-footerSelection {
     display: none;
     
-    height: 50px;
+
     width: 400px;
     
     margin-bottom: 10px;
@@ -35,10 +35,15 @@
         }
     }
 
-
     .mwz-data {
         .mwz-title {
             font-size: 1.2em;
+            padding-top: 16px;
+        }
+
+        .mwz-details {
+            max-height: 120px;
+            overflow-y: auto;
         }
     }
 }
