@@ -72,12 +72,6 @@ export class FooterSelection extends DefaultControl {
             return this.unselect()
         }
 
-        this._selected = obj
-
-        const s = 'a<br>b'
-        var parser = new DOMParser()
-        var el = parser.parseFromString(s, "text/xml");
-
         const lang = this.map.getLanguage()
         $(this._container).find('.mwz-title').text(getTranslation(obj, lang, 'title'))
         $(this._container).find('.mwz-subtitle').text(getTranslation(obj, lang, 'subtitle'))
