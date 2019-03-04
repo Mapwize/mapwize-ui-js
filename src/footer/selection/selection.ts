@@ -10,17 +10,15 @@ export class FooterSelection extends DefaultControl {
     
     private _currentVenue: any
     private _selected: any
-    private _options: any
     
     constructor (mapInstance: any, options: any) {
         super(mapInstance)
         
-        this._options = options
         this._selected = null
         this._container = $(selectionHtml)
         this._currentVenue = this.map.getVenue()
         
-        this.mainColor()
+        this.mainColor(options)
         
         this.listen('click', '#mwz-footerSelection', (e: JQueryEventObject) => {
             if (isFunction(options.onInformationButtonClick)) {
@@ -42,10 +40,11 @@ export class FooterSelection extends DefaultControl {
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
     }
-    public mainColor(){
-        if (this._options.mainColor) {
+
+    public mainColor(options: any) {
+        if (options.mainColor) {
             const directionIconB64 = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzAgMzA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB0eXBlPSJ0ZXh0L2NzcyI+LnN0MXtmaWxsOiMwMDAwMDA7fTwvc3R5bGU+PHBhdGggY2xhc3M9InN0MSIgZD0iTTI4LjYsMTRMMTYsMS40Yy0wLjYtMC42LTEuNC0wLjYtMiwwTDEuNCwxNGMtMC42LDAuNi0wLjYsMS40LDAsMkwxNCwyOC42YzAuNiwwLjYsMS40LDAuNiwyLDBMMjguNiwxNiAgQzI5LjEsMTUuNCwyOS4xLDE0LjYsMjguNiwxNHogTTIyLDEzLjlsLTMuOSwzLjdjLTAuMiwwLjItMC41LDAtMC41LTAuMnYtMi4yYzAtMC4yLTAuMS0wLjMtMC4zLTAuM2gtNC41Yy0wLjIsMC0wLjMsMC4xLTAuMywwLjMgIHYzLjJjMCwwLjItMC4xLDAuMy0wLjMsMC4zaC0xLjljLTAuMiwwLTAuMy0wLjEtMC4zLTAuM3YtNC41YzAtMC45LDAuNy0xLjYsMS42LTEuNmg1LjhjMC4yLDAsMC4zLTAuMSwwLjMtMC4zdi0yICBjMC0wLjMsMC4zLTAuNCwwLjUtMC4ybDMuOCwzLjhDMjIuMSwxMy42LDIyLjEsMTMuOCwyMiwxMy45eiIgc3R5bGU9IiYjMTA7ICAgIC8qIGNvbG9yOiAgcmVkOyAqLyYjMTA7Ii8+PC9zdmc+'
-            this._container.find('#mwz-directionsButton img').attr('src', replaceColorInBase64svg(directionIconB64, this._options.mainColor))
+            this._container.find('#mwz-directionsButton img').attr('src', replaceColorInBase64svg(directionIconB64, options.mainColor))
         }
     }
 
@@ -71,6 +70,8 @@ export class FooterSelection extends DefaultControl {
         if (!obj) {
             return this.unselect()
         }
+
+        this._selected = obj
 
         const lang = this.map.getLanguage()
         $(this._container).find('.mwz-title').text(getTranslation(obj, lang, 'title'))
