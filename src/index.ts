@@ -26,10 +26,10 @@ const buildUIComponent = (mapInstance: any, options: any) => {
 
     mapInstance.searchResults = new SearchResults(mapInstance, options)
     mapInstance.searchBar = new SearchBar(mapInstance, options)
-    mapInstance.searchDirections = new SearchDirections(mapInstance)
+    mapInstance.searchDirections = new SearchDirections(mapInstance, options)
     
     mapInstance.footerVenue = new FooterVenue(mapInstance)
-    mapInstance.footerSelection = new FooterSelection(mapInstance, options.onInformationButtonClick)
+    mapInstance.footerSelection = new FooterSelection(mapInstance, options)
     mapInstance.footerDirections = new FooterDirections(mapInstance)
     
     mapInstance.addControl(mapInstance.footerVenue, 'bottom-left')
@@ -98,6 +98,10 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     
     if (options.apiUrl) {
         apiUrl(options.apiUrl)
+    }
+
+    if (options.mainColor) {
+        set(options, 'mapwizeOptions.color', options.mainColor)
     }
     
     if (options.centerOnVenue && isString(options.centerOnVenue)) {

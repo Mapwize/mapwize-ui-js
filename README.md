@@ -86,6 +86,7 @@ The following parameters are available for map initialization:
 - `onInformationButtonClick` callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` callback called when the user clicked on the menu button (left button on the search bar)
 - `hideMenu` to hide menu bar.
+- `mainColor` the main color for the interface.
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
