@@ -51,15 +51,15 @@
     "webpack": "4.28.4",
     "webpack-cli": "3.2.1",
     "webpack-dev-server": "3.1.14",
-    "webpack-merge": "4.2.1"
+    "webpack-merge": "4.2.1",
+    "webpack-bundle-analyzer": "3.1.0"
   },
   "dependencies": {
-    "bootstrap": "4.2.1",
+    "bootstrap": "4.3.1",
     "jquery": "3.3.1",
     "lodash": "4.17.11",
-    "mapwize": "3.2.1",
-    "popper.js": "1.14.7",
-    "webpack-bundle-analyzer": "^3.0.4"
+    "mapwize": "3.3.1",
+    "popper.js": "1.14.7"
   },
   "private": true
 }

@@ -75,7 +75,7 @@ export class FooterSelection extends DefaultControl {
 
         const lang = this.map.getLanguage()
         $(this._container).find('.mwz-title').text(getTranslation(obj, lang, 'title'))
-        $(this._container).find('.mwz-subtitle').text(getTranslation(obj, lang, 'subtitle'))
+        $(this._container).find('.mwz-subtitle').text(getTranslation(obj, lang, 'subTitle'))
         $(this._container).find('.mwz-details').html(getTranslation(obj, lang, 'details'))
         $(this._container).find('.mwz-icon img').attr('src', getIcon(obj))
         
