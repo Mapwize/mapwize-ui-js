@@ -100,8 +100,8 @@ const createMap = (container: string|HTMLElement, options?: any) => {
         apiUrl(options.apiUrl)
     }
 
-    if (options.color) {
-        set(options, 'mapwizeOptions.color', options.color)
+    if (options.mainColor) {
+        set(options, 'mapwizeOptions.color', options.mainColor)
     }
     
     if (options.centerOnVenue && isString(options.centerOnVenue)) {
