@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 1.0.3
+
+- Fix: CDN link in readme
+
 ## 1.0.2
 
 - Feat: can change buttons color
