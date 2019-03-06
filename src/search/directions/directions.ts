@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { isObject, get } from 'lodash'
+import { isObject, get, set } from 'lodash'
 import { Api } from 'mapwize'
 
 const directionsHtml = require('./directions.html')
@@ -152,10 +152,12 @@ export class SearchDirections extends DefaultControl {
         this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
         this.onVenueEnter = this.onVenueEnter.bind(this)
         this.onVenueExit = this.onVenueExit.bind(this)
+        this.onClick = this.onClick.bind(this)
         
         this.map.on('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
+        this.map.on('mapwize:click', this.onClick)
     }
 
     public mainColor(options: any) {
@@ -171,6 +173,7 @@ export class SearchDirections extends DefaultControl {
         this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.off('mapwize:venueenter', this.onVenueEnter)
         this.map.off('mapwize:venueexit', this.onVenueExit)
+        this.map.off('mapwize:click', this.onClick)
     }
     
     public show () {
@@ -218,6 +221,17 @@ export class SearchDirections extends DefaultControl {
         }
         
         this._currentVenue = null;
+    }
+    private onClick(e: any): void {
+        if (e.place && $(this.map._container).hasClass('mwz-directions')) {
+            if (!this.extractQuery(this._from)) {
+                this._setFrom(set(e.place, 'objectClass', 'place'));
+                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+            } else if (!this.extractQuery(this._to)) {
+                this._setTo(set(e.place, 'objectClass', 'place'));
+                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+            }
+        }
     }
     private clear(): void {
         this._setFrom(null)
