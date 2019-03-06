@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 1.0.4
+
+- Upgrade mapwize.js to 3.3.2
+- Feat: can click on places to fill directions from and to
+
 ## 1.0.3
 
 - Fix: CDN link in readme
