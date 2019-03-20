@@ -53,6 +53,7 @@ export class FooterVenue extends DefaultControl {
         this._container.find('#universes-selector select').removeClass('separator')
 
         const actualUniverse = this.map.getUniverse()
+        this._currentVenue = this.map.getVenue()
 
         if (!this._currentVenue || !actualUniverse || $(this.map._container).hasClass('mwz-selected')) {
             return;
@@ -94,15 +95,15 @@ export class FooterVenue extends DefaultControl {
     
     private onVenueEnter(e: any): void {
         this._currentVenue = e.venue
-            this.showIfNeeded()
+        this.showIfNeeded()
     }
     private onVenueRefresh(e: any): void {
         this._currentVenue = e.venue
-            this.showIfNeeded()
+        this.showIfNeeded()
     }
     private onVenueExit(e: any): void {
         this.hide()
             
-            this._currentVenue = null
+        this._currentVenue = null
     }
 }
