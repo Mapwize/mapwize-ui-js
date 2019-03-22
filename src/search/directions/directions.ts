@@ -29,6 +29,10 @@ export class SearchDirections extends DefaultControl {
 
         this.mainColor(options)
 
+        if(options.hideMenu){
+            this._container.find('#mwz-menuButton').addClass('d-none')
+        }
+
         if (this._currentVenue) {
             const lang = this.map.getLanguageForVenue(this._currentVenue)
             this._container.find('.mwz-venue-name').text(getTranslation(this._currentVenue, lang, 'title'))
