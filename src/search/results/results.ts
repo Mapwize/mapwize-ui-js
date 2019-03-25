@@ -106,7 +106,7 @@ export class SearchResults extends DefaultControl {
         return  $(template(templatePlace)({
             icon: getIcon(mwzObject),
             title: getTranslation(mwzObject, lang, 'title'),
-            subtitle: getTranslation(mwzObject, lang, 'subtitle'),
+            subtitle: getTranslation(mwzObject, lang, 'subTitle'),
             floor: isFinite(mwzObject.floor) ? ('On floor ' + mwzObject.floor) : ''
         })).on('click', e => {
             e.preventDefault();
