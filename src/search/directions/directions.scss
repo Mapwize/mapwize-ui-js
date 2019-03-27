@@ -71,9 +71,13 @@
                 }
             }
         }
+
     }
 }
-
+#alert{
+display: none;
+border-radius: 0;
+}
 &.mwz-small {
     #mwz-searchDirection {
         margin-left: 0;

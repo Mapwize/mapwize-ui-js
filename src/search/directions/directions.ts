@@ -40,7 +40,7 @@ export class SearchDirections extends DefaultControl {
         
         this.listen('click', '#mwz-close-button', () => {
             this.clear()
-            
+            $("#alert").hide()
             this.map.searchBar.show()
         })
         this.listen('click', '#mwz-reverse-button', () => {
@@ -151,6 +151,10 @@ export class SearchDirections extends DefaultControl {
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
                 this.map.searchResults.hide()
             }, 500)
+        })
+
+        this.listen('click', '#alertClose', () => {
+            $("#alert").hide()
         })
 
         this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
@@ -292,7 +296,15 @@ export class SearchDirections extends DefaultControl {
                 this.map.addMarker(direction.to);
                 
                 this.map.footerDirections.displayStats(direction)
-            })
+            }).catch(function() {
+
+                $("#alert").show()
+                setTimeout(function(){
+                    $("#alert").hide()
+                }, 5000)
+
+              });
+    
         } else {
             this.map.removeDirection()
             this._direction = null
