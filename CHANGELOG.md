@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 1.0.5
+
+- Fix: typo in subtitle in search result
+
 ## 1.0.4
 
 - Upgrade mapwize.js to 3.3.2
