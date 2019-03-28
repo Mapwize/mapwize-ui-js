@@ -3,6 +3,8 @@
 ## 1.0.5
 
 - Fix: typo in subtitle in search result
+- Fix: hide menu option in direction mode
+- Fix: footer display error
 
 ## 1.0.4
 
