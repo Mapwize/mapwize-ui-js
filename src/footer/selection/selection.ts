@@ -125,7 +125,6 @@ export class FooterSelection extends DefaultControl {
             $(this._container).find('.mwz-details').html('')
             $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
             $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
-                $(this._container).find('.mwz-compensator').removeClass('d-block').addClass('d-none')
         }
 
         const selected_height = $(this._container).height()
@@ -133,8 +132,9 @@ export class FooterSelection extends DefaultControl {
 
         if (selected_height >= 170) {
             $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-            $(this._container).find('.mwz-compensator').removeClass('d-none').addClass('d-block')
-
+            $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+        } else {
+            $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
             $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
         }
         

@@ -1,6 +1,6 @@
 {
   "name": "mapwize-ui",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation in your Web app",
   "author": "Mapwize",
   "license": "MIT",
@@ -58,7 +58,7 @@
     "bootstrap": "4.3.1",
     "jquery": "3.3.1",
     "lodash": "4.17.11",
-    "mapwize": "3.3.2",
+    "mapwize": "3.4.1",
     "popper.js": "1.14.7"
   },
   "private": true
