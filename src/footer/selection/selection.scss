@@ -11,6 +11,19 @@
     
     pointer-events: auto;
 
+    .mwz-open-details, .mwz-close-details {
+        padding: 10px;
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+        
+        &:hover {
+            background-color: #efefef;
+        }
+    }
+
     .mwz-icon {
         padding: 12.5px;
     }
@@ -41,11 +54,15 @@
             padding-top: 5px;
             font-size: 1.2em;
         }
+    }
 
-        .mwz-details {
-            max-height: 120px;
-            overflow: auto;
-        }
+    .mwz-details {
+        max-height: 120px;
+        overflow: auto;
+    }
+
+    &.mwz-opened-details {
+        height: 100%;
     }
 }
 

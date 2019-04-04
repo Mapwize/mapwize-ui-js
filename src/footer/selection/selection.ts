@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { isFunction, get, set, forEach } from 'lodash'
+import { isFunction, get, set, forEach, isEmpty } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 
@@ -10,11 +10,14 @@ export class FooterSelection extends DefaultControl {
     
     private _currentVenue: any
     private _selected: any
+    private _selectedHeight: number
     
     constructor (mapInstance: any, options: any) {
         super(mapInstance)
         
         this._selected = null
+        this._selectedHeight = 0;
+
         this._container = $(selectionHtml)
         this._currentVenue = this.map.getVenue()
         
@@ -30,6 +33,35 @@ export class FooterSelection extends DefaultControl {
             this.map.searchDirections.show()
             
             e.stopPropagation()
+        })
+
+        this.listen('click', '#mwz-footerSelection .mwz-open-details', (e: JQueryEventObject) => {
+            this._container.addClass('mwz-opened-details')
+
+            $(this._container).find('.mwz-close-details').removeClass('d-none').addClass('d-block')
+            $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+
+            let padding = 20;
+            if ($(this.map._container).hasClass('mwz-small')) {
+                padding = 0;
+            }
+            
+            $(this._container).find('.mwz-details').css('max-height', (this.map.getSize().y - padding - $(this._container).find('.mwz-selection-header').height()))
+            $(this._container).animate({
+                height: (this.map.getSize().y - padding)
+            }, 250)
+        })
+        this.listen('click', '#mwz-footerSelection .mwz-close-details', (e: JQueryEventObject) => {
+            this._container.removeClass('mwz-opened-details')
+
+            $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
+            $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+
+            $(this._container).animate({
+                height: this._selectedHeight
+            }, 250, () => {
+                $(this._container).find('.mwz-details').css('max-height', 120)
+            })
         })
 
         this.onClick = this.onClick.bind(this)
@@ -55,13 +87,13 @@ export class FooterSelection extends DefaultControl {
     }
     
     public show () {
-        this._container.removeClass('d-none').addClass('d-flex')
+        this._container.removeClass('d-none').addClass('d-block')
         $(this.map._container).addClass('mwz-selected')
         
         this.map.footerVenue.hide()
     }
     public hide () {
-        this._container.removeClass('d-flex').addClass('d-none')
+        this._container.removeClass('d-block').addClass('d-none')
         $(this.map._container).removeClass('mwz-selected')
         
         this.map.footerVenue.showIfNeeded()
@@ -71,13 +103,51 @@ export class FooterSelection extends DefaultControl {
             return this.unselect()
         }
 
+        const lastHeight = $(this._container).css('height')
         this._selected = obj
+
+        $(this._container).addClass('invisible')
+        $(this._container).css('height', 'auto')
+        if (this._currentVenue) {
+            this.show()
+        }
 
         const lang = this.map.getLanguage()
         $(this._container).find('.mwz-title').text(getTranslation(obj, lang, 'title'))
         $(this._container).find('.mwz-subtitle').text(getTranslation(obj, lang, 'subTitle'))
-        $(this._container).find('.mwz-details').html(getTranslation(obj, lang, 'details'))
         $(this._container).find('.mwz-icon img').attr('src', getIcon(obj))
+
+        const details = getTranslation(obj, lang, 'details')
+        // const details = 'COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />COUCOU<br />'
+        if (!isEmpty(details)) {
+            $(this._container).find('.mwz-details').html(details)
+        } else {
+            $(this._container).find('.mwz-details').html('')
+            $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+            $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+                $(this._container).find('.mwz-compensator').removeClass('d-block').addClass('d-none')
+        }
+
+        const selected_height = $(this._container).height()
+        this._selectedHeight = selected_height < 170 ? selected_height : 170;
+
+        if (selected_height >= 170) {
+            $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
+            $(this._container).find('.mwz-compensator').removeClass('d-none').addClass('d-block')
+
+            $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+        }
+        
+        $(this._container).css('height', lastHeight)
+        $(this._container).removeClass('invisible')
+        $(this._container).animate({
+            height: this._selectedHeight
+        }, 250, () => {
+            $(this._container).find('.mwz-details').css('max-height', 120)
+        })
+        if ($(this.map._container).hasClass('mwz-small')) {
+            $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', selected_height)
+        }
         
         this.map.removeMarkers()
         
@@ -86,26 +156,30 @@ export class FooterSelection extends DefaultControl {
         } else {
             this._promoteSelected(this._selected);
         }
-        
-        if (this._currentVenue) {
-            this.show()
-        }
     }
     public getSelected() {
         return this._selected
     }
     public unselect() {
         if (this._selected) {
-            this.hide()
-            
+
             this.map.removePromotedPlacesForVenue(get(this._selected, 'venueId', null))
             this.map.removeMarkers()
             
             this._selected = null
-            
-            $(this._container).find('.mwz-title').text('')
-            $(this._container).find('.mwz-subtitle').text('')
-            $(this._container).find('.mwz-icon img').attr('src', DEFAULT_PLACE_ICON)
+
+            $(this._container).animate({
+                height: 0
+            }, 250, () => {
+                this.hide()
+                
+                $(this._container).find('.mwz-title').text('')
+                $(this._container).find('.mwz-subtitle').text('')
+                $(this._container).find('.mwz-icon img').attr('src', DEFAULT_PLACE_ICON)
+            })
+            if ($(this.map._container).hasClass('mwz-small')) {
+                $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+            }
         }
     }
     
