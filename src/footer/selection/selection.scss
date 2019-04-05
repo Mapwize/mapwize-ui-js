@@ -59,6 +59,12 @@
     .mwz-details {
         max-height: 120px;
         overflow: auto;
+
+        padding-left: 12.5px;
+
+        h4 {
+            font-size: 1.2rem;
+        }
     }
 
     &.mwz-opened-details {
