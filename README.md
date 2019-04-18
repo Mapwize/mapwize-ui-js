@@ -4,8 +4,8 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `1.0.6` uses Mapwize SDK version `3.4.1`
-For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/3.4.1/).
+MapwizeUI version `1.0.7` uses Mapwize SDK version `3.4.2`
+For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/3.4.2/).
 
 ## Description
 
@@ -46,7 +46,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@1.0.6"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@1.0.7"></script>
 ```
 
 ### Manual
@@ -81,8 +81,8 @@ The following parameters are available for map initialization:
 - `container` (optional) same as `container` param, default is: `mapwize`
 - `centerOnVenue` (optional) to center on a venue at start. Options takes either a venueId or a venue object.
 - `centerOnPlace` (optional) to center on a place at start. Options takes either a placeId or a place object.
-- `mapboxOptions` (optional) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
-- `mapwizeOptions` (optional) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
+- `mapboxOptions` (optional) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
+- `mapwizeOptions` (optional) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
 - `restrictContentToVenue` (optional) to show only the related venue on the map. Builder takes a venue id.
 - `restrictContentToOrganization` (optional) to show only the venues of that organization on the map. Builder takes an organization id.
 - `onInformationButtonClick` (optional) callback called when you click on the footer when a place is selected
