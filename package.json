@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "dist": "npm i && npm run build",
+    "dist": "npm ci && npm run build",
     "start": "webpack-dev-server --config webpack.dev.js",
     "analyze": "webpack --config webpack.analyze.js"
   },
