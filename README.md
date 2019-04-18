@@ -76,17 +76,19 @@ The HTML element in which Mapbox GL JS will render the map, or the element's str
 
 The following parameters are available for map initialization:
 
-- `container` (optionnal) same as `container` param, default is: `mapwize`
-- `centerOnVenue` to center on a venue at start. Options takes either a venueId or a venue object.
-- `centerOnPlace` to center on a place at start. Options takes either a placeId or a place object.
-- `mapboxOptions` to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
-- `mapwizeOptions` to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
-- `restrictContentToVenue` to show only the related venue on the map. Builder takes a venue id.
-- `restrictContentToOrganization` to show only the venues of that organization on the map. Builder takes an organization id.
-- `onInformationButtonClick` callback called when you click on the footer when a place is selected
-- `onMenuButtonClick` callback called when the user clicked on the menu button (left button on the search bar)
-- `hideMenu` to hide menu bar.
-- `mainColor` the main color for the interface.
+- `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
+- `apiUrl` (optional) to change the server URL, if you have a dedicated Mapwize server.
+- `container` (optional) same as `container` param, default is: `mapwize`
+- `centerOnVenue` (optional) to center on a venue at start. Options takes either a venueId or a venue object.
+- `centerOnPlace` (optional) to center on a place at start. Options takes either a placeId or a place object.
+- `mapboxOptions` (optional) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
+- `mapwizeOptions` (optional) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.2.1/#map-constructor)
+- `restrictContentToVenue` (optional) to show only the related venue on the map. Builder takes a venue id.
+- `restrictContentToOrganization` (optional) to show only the venues of that organization on the map. Builder takes an organization id.
+- `onInformationButtonClick` (optional) callback called when you click on the footer when a place is selected
+- `onMenuButtonClick` (optional) callback called when the user clicked on the menu button (left button on the search bar)
+- `hideMenu` (optional) to hide menu bar.
+- `mainColor` (optional) the main color for the interface.
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
