@@ -1,5 +1,12 @@
 # Mapwize UI Changelog
 
+## 1.0.7
+
+- Fix: venue footer displayed in direction mode
+- Improvement documentation
+- Upgrade mapwize.js to 3.4.2
+- Upgrade dependencies
+
 ## 1.0.6
 
 - Improvement: details display

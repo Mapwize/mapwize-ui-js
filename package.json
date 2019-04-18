@@ -56,10 +56,10 @@
   },
   "dependencies": {
     "bootstrap": "4.3.1",
-    "jquery": "3.3.1",
+    "jquery": "3.4.0",
     "lodash": "4.17.11",
-    "mapwize": "3.4.1",
-    "popper.js": "1.14.7"
+    "mapwize": "3.4.2",
+    "popper.js": "1.15.0"
   },
   "private": true
 }

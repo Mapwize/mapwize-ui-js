@@ -55,7 +55,7 @@ export class FooterVenue extends DefaultControl {
         const actualUniverse = this.map.getUniverse()
         this._currentVenue = this.map.getVenue()
 
-        if (!this._currentVenue || !actualUniverse || $(this.map._container).hasClass('mwz-selected')) {
+        if (!this._currentVenue || !actualUniverse || $(this.map._container).hasClass('mwz-selected') || $(this.map._container).hasClass('mwz-directions')) {
             return;
         }
 
