@@ -1,11 +1,13 @@
 import * as $ from 'jquery';
-import { isObject, get, set, forEach } from 'lodash'
+import { isObject, template, get, set, forEach } from 'lodash'
+
 import { Api } from 'mapwize'
 
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
 import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+const templateWaypoints = require('./templates/waypoints.html')
 
 
 export class SearchDirections extends DefaultControl {
@@ -228,21 +230,11 @@ export class SearchDirections extends DefaultControl {
     }
     
     public addDestination() {
-        
-        const label = $('<label id="mwz-waypoint-id-' + this._wayPoint.length + '" class="mwz-searchLine d-flex align-items-center">' +
-        '<div class="mwz-icon text-secondary">' +
-        '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAADJklEQVR4AezZA6wkSxQG4P/ZtrWYpG9mus4fP4bPXm+0tm1Ga8b2xlpGa9u2zet7e+2dqZ65XdU1SX8nTio5fw1KiFYikUgkEvxGWnKqrJAKBrdLyrlSpkhLqQe31XtBteZOBtlLtqk23vNwkfcq+/AkgxB1nH3Sr8Al6VfUAJ5jkEeduTHiZbgh48lBBvmXHMx4iJ/8yVIGBVap/Il4STupYVB43RjdCfFRbRjUvVQbxMP/Wz/74T4F/2/YxxRLGURUpUxZX7K4i0GEtaveC7BJjWIQbclI2FPymZRHHqC85DPYIpMYRF8yyd6up9REAF5u+BpskC4MzJR0gQ2yKVQ7h2W8+tF/80b9JON5ONSYzTDP+1DfiFyR//AUHvSU/CdX9CNT78A0aaL/P1EZPIHv6/+7pAlM40Tt3qYjspAODvwTyTxNE4fwNLJ5WndykHkwjfs0LQxGDjJYE38/TNMeHQU5ZJRm9DmYJrW5W6j3OnKo97puaw3TWGoyAEthmm5Jyijk4Pu65Q+mcYOmhUHIgYM0ozfANJmj/Rt9Ftk8y0O5R8tcmCZjC1/IVEfdWBlr4R5Iv5Wg4Ako+q2EhXui9PthNnP859HNHP8Js5njuzBPNobbTnOC+oHv8t3w22nZCBtkpL4Vpw/2vm8qgO/DDjloZP4PwhYZbCTAYNiSeodVkQeo8t6GPTIr8vmfBZvUD1EHUD/CLi6NdP6XwTb5JdIAv8A+WRNZgHWIg/o1sgXsN8SD8yMJsABxkXqsrnP71VIPGk6/FMhkxKnhazxRpwAnvFcRL9WoTstXI2jFfMzX3IS6gJ+ztMDX4c/hBulZ0Pz3hDOe4rq8A2zAU3CHpFmZV/uVKgO3qKH5BFBD4ZynZW3Y9mUtnoZ7+A3LQgUo4zdwE1uECtAC7pKZuvZlJlzG57gqZ4BVfA5uK/lMzmed/QvpT+E+/q45eblPJj9x/qegaDwjix4LsATPoHh4bz/yGnbIexvFhan7P2Y5zxSKD79j2Z2V9zsUJ/7Oqhv1O4oX+7IvXJBIJBjYLbcCJAGSAEmAJEASIJG4vmEJRsEoGAUAvFKa18Rc8u4AAAAASUVORK5CYII=" alt="To" />' +
-        '</div>' +
-        '<div class="mwz-search flex-grow-1">' +
-        '<input type="text" class="form-control mwz-mapwizeSearchWayPoint" placeholder="To" autocomplete="off" />' +
-        '</div>' +
-        '<div class="mwz-button-icon">' +
-        '<button type="button" class="btn btn-link mwz-close-waypoint">' +
-        '<img class="d-none d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAABZUlEQVR4Ae2agWYDQRRFBxCxHxEAFsY8CwsW+r9pAdWgAvmdCttVmJJiIEzFO55wz/zAOWRj5s0kIYQQQgghhBBC/I9xsPc8JYA8lY9xSCy2t4vVcs0ToH+1ahfbs/pnq1Z9E5r+bZ2xhMPuT78lAPq3hMMO0S8nq1a9E5p+W+UEJNjRalstwVW/rWPyJi9l80/I8z39suUlNfCE+XF9W7v6fIKtecb1+QRcn0/A9fkEXJ9PwPXjE/JyT99WQB8Q6Yc7AH6IqD6fgOrzCag+n4Dq8wmYPp/gsAmMTsgvDtvwyAT7idR3OJzw+sxsgdfnE3h9PoHS5xMA/fgA+6IC9BMCPmL9jQL6fAKgXzb7jkxwmHF2ZqraTutAwx8pdaiPH6tosBU/WtRwN368rguO2CsmXfLFX7Pqott3xhmQUN589TsJr8/03GbuP7fRg6foJ2d69NcYh/IZ/+xSCCGEEEIIIYQQvw2UKo1mqKrvAAAAAElFTkSuQmCC" alt="Toggle accessible" />' +
-        '</button>' +
-        '</div>' +
-        '</label>')
-        
+
+        const label =  $(template(templateWaypoints)({
+            waypointId: 'mwz-waypoint-id-'+this._wayPoint.length
+        }))
+
         this._container.find('#mwz-direction-add-waypoints').before(label)
         
         label.find('.mwz-close-waypoint').on('click', () => {
