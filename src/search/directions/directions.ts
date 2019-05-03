@@ -21,18 +21,18 @@ export class SearchDirections extends DefaultControl {
     
     constructor (mapInstance: any, options: any) {
         super(mapInstance)
-
+        
         this._container = $(directionsHtml)
         this._currentVenue = this.map.getVenue()
         this._from = this._to = null
         this._accessible = false
-
+        
         this.mainColor(options)
-
+        
         if(options.hideMenu){
             this._container.find('#mwz-menuButton').addClass('d-none')
         }
-
+        
         if (this._currentVenue) {
             const lang = this.map.getLanguageForVenue(this._currentVenue)
             this._container.find('.mwz-venue-name').text(getTranslation(this._currentVenue, lang, 'title'))
@@ -40,7 +40,7 @@ export class SearchDirections extends DefaultControl {
         
         this.listen('click', '#mwz-close-button', () => {
             this.clear()
-            
+            this._container.find("#mwz-alert-noDirection").hide()
             this.map.searchBar.show()
         })
         this.listen('click', '#mwz-reverse-button', () => {
@@ -57,13 +57,13 @@ export class SearchDirections extends DefaultControl {
             
             this._setFrom(oldTo);
             this._setTo(oldFrom);
-
+            
             this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
             this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
         })
         this.listen('click', '#mwz-accessible-button', () => {
             this._accessible = !this._accessible;
-
+            
             if (this._accessible) {
                 this._container.find('#accessible-off').removeClass('d-inline')
                 this._container.find('#accessible-on').addClass('d-inline')
@@ -71,7 +71,7 @@ export class SearchDirections extends DefaultControl {
                 this._container.find('#accessible-off').addClass('d-inline')
                 this._container.find('#accessible-on').removeClass('d-inline')
             }
-        
+            
             this._displayDirection()
         })
         
@@ -152,7 +152,7 @@ export class SearchDirections extends DefaultControl {
                 this.map.searchResults.hide()
             }, 500)
         })
-
+        
         this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
         this.onVenueEnter = this.onVenueEnter.bind(this)
         this.onVenueExit = this.onVenueExit.bind(this)
@@ -163,7 +163,7 @@ export class SearchDirections extends DefaultControl {
         this.map.on('mapwize:venueexit', this.onVenueExit)
         this.map.on('mapwize:click', this.onClick)
     }
-
+    
     public mainColor(options: any) {
         if (options.mainColor) {
             const crossIconB64 = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDk2IDk2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA5NiA5NjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT48cG9seWdvbiBjbGFzcz0ic3QxIiBwb2ludHM9Ijc1LjYsMjYgNjkuOSwyMC40IDQ4LDQyLjMgMjYsMjAuNCAyMC40LDI2IDQyLjMsNDggMjAuNCw3MCAyNiw3NS42IDQ4LDUzLjcgNjkuOSw3NS42IDc1LjYsNzAgNTMuNiw0OCAiLz48L3N2Zz4='
@@ -172,7 +172,7 @@ export class SearchDirections extends DefaultControl {
             this._container.find('#mwz-menuButton img').attr('src', replaceColorInBase64svg(menuIconB64, options.mainColor))
         }
     }
-
+    
     public destroy() {
         this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.off('mapwize:venueenter', this.onVenueEnter)
@@ -205,9 +205,9 @@ export class SearchDirections extends DefaultControl {
     
     private onVenueWillEnter(e: any): void {
         this._currentVenue = e.venue
-            
-            const lang = this.map.getLanguageForVenue(e.venue)
-            this._container.find('.mwz-venue-name').text(getTranslation(e.venue, lang, 'title'))
+        
+        const lang = this.map.getLanguageForVenue(e.venue)
+        this._container.find('.mwz-venue-name').text(getTranslation(e.venue, lang, 'title'))
     }
     private onVenueEnter(e: any): void {
         if (this._direction) {
@@ -254,7 +254,7 @@ export class SearchDirections extends DefaultControl {
         
         this._displayDirection()
     }
-
+    
     private getDisplay(o: any): string {
         if (o) {
             const lang = this.map.getLanguage()
@@ -271,6 +271,8 @@ export class SearchDirections extends DefaultControl {
         const to = this.extractQuery(this._to)
         
         if (from && to) {
+            this._container.find("#mwz-alert-noDirection").hide();
+
             Api.getDirection({
                 from: from,
                 to: to,
@@ -292,7 +294,10 @@ export class SearchDirections extends DefaultControl {
                 this.map.addMarker(direction.to);
                 
                 this.map.footerDirections.displayStats(direction)
-            })
+            }).catch(() => {
+                this._container.find("#mwz-alert-noDirection").show();
+            });
+    
         } else {
             this.map.removeDirection()
             this._direction = null
