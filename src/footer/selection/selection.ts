@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
 import { isFunction, get, set, forEach, isEmpty } from 'lodash'
 
-import config from '../../config'
+import uiConfig from '../../config'
 
 const selectionHtml = require('./selection.html')
 
@@ -177,7 +177,7 @@ export class FooterSelection extends DefaultControl {
                 
                 $(this._container).find('.mwz-title').text('')
                 $(this._container).find('.mwz-subtitle').text('')
-                $(this._container).find('.mwz-icon img').attr('src', config.DEFAULT_PLACE_ICON)
+                $(this._container).find('.mwz-icon img').attr('src', uiConfig.DEFAULT_PLACE_ICON)
             })
             if ($(this.map._container).hasClass('mwz-small')) {
                 $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)

@@ -4,12 +4,26 @@ const browsers = {}
 
 function initBrowser (testSuites) {
   browsers[testSuites] = puppeteer.launch({
-    headless: true
+    // devtools: true
   })
   return browsers[testSuites]
 }
 function killBrowser (testSuites) {
   return browsers[testSuites].then(browser => browser.close()).catch(e => {})
+}
+
+function mwzDescribe (testSuites, fn) {
+  describe(testSuites, () => {
+    beforeAll(() => {
+      return initBrowser(testSuites)
+    })
+    
+    afterAll(() => {
+      return killBrowser(testSuites)
+    })
+    
+    fn()
+  })
 }
 
 function mwzTest (testSuites, name, evaluateFn) {
@@ -34,6 +48,11 @@ function mwzTest (testSuites, name, evaluateFn) {
       }).then(page => {
         page.exposeFunction('isSamePosition', (expectedCoordinates, foundCoordinates, expectedFloor, foundFloor) => {
           return testResult(isSamePosition(expectedCoordinates, foundCoordinates, expectedFloor, foundFloor), page)
+        }).catch(e => {})
+        return page
+      }).then(page => {
+        page.exposeFunction('isSameCoordinates', (expectedCoordinates, foundCoordinates) => {
+          return testResult(isSameCoordinates(expectedCoordinates, foundCoordinates), page)
         }).catch(e => {})
         return page
       }).then(page => {
@@ -122,6 +141,8 @@ function isSamePosition (expectedCoordinates, foundCoordinates, expectedFloor, f
 
 module.exports = {
   mwzTest: mwzTest,
+  mwzDescribe: mwzDescribe,
+
   initBrowser: initBrowser,
   killBrowser: killBrowser
 }

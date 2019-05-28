@@ -1,8 +1,8 @@
 import { map, apiKey, Api, apiUrl } from 'mapwize'
-import { get, set, isString, isObject, defaults } from 'lodash'
+import { get, set, isString, isObject, defaults, noop } from 'lodash'
 import * as $ from 'jquery'
 
-import config from './config'
+import uiConfig from './config'
 
 import attachMethods from './methods'
 import { unit } from './measure'
@@ -12,10 +12,10 @@ import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
 const mapSizeChange = (mapInstance: any) => {
     const mapSize = mapInstance.getSize()
-    if (mapSize.x < config.SMALL_SCREEN_BREAKPOINT) {
-        $(mapInstance._container).addClass(config.SMALL_SCREEN_CLASS)
+    if (mapSize.x < uiConfig.SMALL_SCREEN_BREAKPOINT) {
+        $(mapInstance._container).addClass(uiConfig.SMALL_SCREEN_CLASS)
     } else {
-        $(mapInstance._container).removeClass(config.SMALL_SCREEN_CLASS)
+        $(mapInstance._container).removeClass(uiConfig.SMALL_SCREEN_CLASS)
     }
 }
 
@@ -46,7 +46,7 @@ const buildUIComponent = (mapInstance: any, options: any) => {
         mapInstance.footerSelection.select(options.centerOnPlace)
     }
 
-    attachMethods(mapInstance);
+    attachMethods(mapInstance)
     
     return mapInstance
 }
@@ -72,21 +72,35 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     }
 
     options = defaults(options, {
+        apiKey: null,
+        apiUrl: null,
+
         locale: 'en',
         unit: 'm',
+        mainColor: null,
+
+        centerOnVenue: null,
+        centerOnPlace: null,
+        restrictContentToVenue: null,
+        restrictContentToOrganization: null,
+
+        hideMenu: false,
+        onMenuButtonClick: noop,
+        onInformationButtonClick: noop,
+
+        direction: null,
+
         mapboxOptions: {},
         mapwizeOptions: {
             preferredLanguage: 'en'
         }
     })
     
-    if (!options.apiKey) {
+    if (!apiKey(options.apiKey)) {
         return Promise.reject(new Error('Missing "apiKey" in options'))
     }
 
     set(options, 'mapwizeOptions.mapwizeAttribution', get(options, 'mapwizeOptions.mapwizeAttribution', 'bottom-right'))
-    
-    apiKey(options.apiKey)
 
     locale(options.locale)
     set(options, 'mapwizeOptions.preferredLanguage', options.locale)

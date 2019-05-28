@@ -1,13 +1,7 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest } = require('../core/utils')
 const testSuites = 'Set language'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
-  })
 
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
+mwzDescribe(testSuites, () => {
   mwzTest(testSuites, 'language: fr', (page) => {
     return () => {
       MapwizeUI.map({
@@ -65,5 +59,4 @@ describe(testSuites, () => {
       }).catch(window.callbackTest)
     }
   })
-
 })

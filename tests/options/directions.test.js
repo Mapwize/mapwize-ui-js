@@ -1,15 +1,7 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest, initBrowser, killBrowser } = require('../core/utils')
 
 const testSuites = 'Direction option'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
-  })
-  
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
-  
+mwzDescribe(testSuites, () => {
   mwzTest(testSuites, 'With correct direction object', (page) => {
     return () => {
       MapwizeUI.map({
@@ -30,5 +22,4 @@ describe(testSuites, () => {
       }).catch(window.callbackTest)
     }
   })
-  
 })

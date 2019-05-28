@@ -2,7 +2,7 @@ import { find, get, set, debounce, map, isFinite, replace } from 'lodash'
 import * as $ from 'jquery';
 import { Api, apiUrl, apiKey } from 'mapwize'
 
-import config from './config'
+import uiConfig from './config'
 
 let lastSearchSent: string = ''
 
@@ -23,7 +23,7 @@ const getIcon = (o: any) => {
     || get(o, 'style.markerUrl', false)
     || get(o, 'placeType.style.markerUrl', false)
     || get(o, 'icon', false)
-    || config.DEFAULT_PLACE_ICON
+    || uiConfig.DEFAULT_PLACE_ICON
 }
 
 const searchInMapwize = (str: string, options: any): Promise<any> => {
@@ -41,28 +41,13 @@ const searchInMapwize = (str: string, options: any): Promise<any> => {
     }).then(mapwizeResults => mapwizeResults.hits)
 }
 
-const searchInGoogle = (str: string, options: any): Promise<any> => {
-    if (config.GOOGLE_API_KEY) {
-        options.address = str
-        options.key = config.GOOGLE_API_KEY
-
-        return $.get('https://maps.googleapis.com/maps/api/geocode/json', options, null, 'json').then(googleResults => googleResults.results)
-    } else {
-        return Promise.resolve([]);
-    }
-}
-
 const doSearch = debounce((str: string, options: any, callback: Function) => {
     lastSearchSent = str
-
-    const toDo = [
+    
+    return Promise.all([
         Promise.resolve(str),
         searchInMapwize(str, options)
-    ]
-
-    toDo.push(options.google ? searchInGoogle(str, options) : Promise.resolve([]))
-
-    return Promise.all(toDo).then((results: any) => {
+    ]).then((results: any) => {
         if (results[0] !== lastSearchSent) {
             return callback(new Error('Receive old search response'))
         }

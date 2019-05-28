@@ -1,15 +1,7 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Click on buttons'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
-  })
-
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
-
+mwzDescribe(testSuites, () => {
   mwzTest(testSuites, 'Menu button', (page) => {
     return () => {
       MapwizeUI.map({
@@ -36,5 +28,4 @@ describe(testSuites, () => {
       }).catch(window.callbackTest)
     }
   })
-
 })

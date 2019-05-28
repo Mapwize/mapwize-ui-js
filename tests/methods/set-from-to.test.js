@@ -1,15 +1,7 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Set direction from and to'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
-  })
-  
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
-
+mwzDescribe(testSuites, () => {
   mwzTest(testSuites, 'Form reception to mapwize', (page) => {
     return () => {
       MapwizeUI.map({
@@ -35,5 +27,4 @@ describe(testSuites, () => {
       })
     }
   })
-  
 })

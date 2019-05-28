@@ -218,7 +218,7 @@ export class SearchDirections extends DefaultControl {
     }
 
     public launchDirection() {
-        if (this._options.hasOwnProperty('direction') && this._options.direction.hasOwnProperty('from') && this._options.direction.hasOwnProperty('to')) {
+        if (this._options.direction && this._options.direction.hasOwnProperty('from') && this._options.direction.hasOwnProperty('to')) {
             this.show();
 
             return Promise.all([
@@ -515,14 +515,6 @@ export class SearchDirections extends DefaultControl {
                     lat: latitude(o),
                     lon: longitude(o),
                     floor: get(o, 'floor'),
-                    venueId: get(o, 'venueId', this._currentVenue._id)
-                };
-            } else if (has(o, 'geometry')) {
-                // Google address result case
-                return {
-                    lat: latitude(get(o, 'geometry.location')),
-                    lon: longitude(get(o, 'geometry.location')),
-                    floor: 0,
                     venueId: get(o, 'venueId', this._currentVenue._id)
                 };
             } else {

@@ -5,7 +5,6 @@ const resultsHtml = require('./results.html')
 
 const templatePlace = require('./templates/place.html')
 const templatePlaceList = require('./templates/placeList.html')
-const templateGoogle = require('./templates/google.html')
 
 import { DefaultControl } from '../../control'
 import { getTranslation, getIcon, search, getMainSearches, getMainFroms } from '../../utils'
@@ -118,14 +117,6 @@ export class SearchResults extends DefaultControl {
             return onClick(mwzObject);
         })
     }
-    private googleObjectResults(googleObject: any, onClick: Function) {
-        return $(template(templateGoogle)({
-            address: get(googleObject, 'formatted_address'),
-        })).on('click', e => {
-            e.preventDefault();
-            return onClick(googleObject)
-        })
-    }
     
     private searchOptions(focusOn: string): any {
         const options: any = {};
@@ -140,7 +131,6 @@ export class SearchResults extends DefaultControl {
             options.organizationId = this._organizationId;
         }
         
-        options.google = !this._currentVenue;
         // options.bounds = this.map.getBounds();
         
         return options;
@@ -151,7 +141,7 @@ export class SearchResults extends DefaultControl {
         const lang = this.map.getLanguage()
         
         return search(str, searchOptions).then((results: Array<any>) => {
-            let [query, mapwize, google] = results
+            let [query, mapwize] = results
             
             const resultContainer = this._container.find('#displayResults')
             resultContainer.html('')
@@ -174,13 +164,6 @@ export class SearchResults extends DefaultControl {
                 forEach(mapwize, (mwzResult: any) => {
                     resultContainer.append(this.mapwizeObjectResults(mwzResult, onClick(null)))
                 })
-                
-                if (google.length) {
-                    // resultContainer.append($('<li class="list-group-item list-group-item-secondary">Google results</li>'))
-                    forEach(google, (googleResult: any) => {
-                        resultContainer.append(this.googleObjectResults(googleResult, onClick(null)))
-                    })
-                }
             }
         })
     }
