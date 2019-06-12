@@ -5,7 +5,7 @@ import { Api } from 'mapwize'
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+import { getTranslation, latitude, longitude, replaceColorInBase64svg, getPlace } from '../../utils'
 
 
 export class SearchDirections extends DefaultControl {
@@ -17,6 +17,7 @@ export class SearchDirections extends DefaultControl {
     private _to: any
     private _accessible: boolean
     private _direction: any
+    private _options: any
     
     
     constructor (mapInstance: any, options: any) {
@@ -26,7 +27,8 @@ export class SearchDirections extends DefaultControl {
         this._currentVenue = this.map.getVenue()
         this._from = this._to = null
         this._accessible = false
-        
+        this._options = options
+
         this.mainColor(options)
         
         if(options.hideMenu){
@@ -173,6 +175,24 @@ export class SearchDirections extends DefaultControl {
         }
     }
     
+    public launchDirection() {
+        if (this._options.hasOwnProperty('direction') && this._options.direction.hasOwnProperty('from') && this._options.direction.hasOwnProperty('to')) {
+            $('#mwz-directionsButton').click()
+            getPlace(this._options.direction.from).then(place => {
+                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(place));
+                this._setFrom(set(place, 'objectClass', 'place'));
+            }).catch(() => {
+                this._container.find("#mwz-alert-noDirection").show();
+            });
+            getPlace(this._options.direction.to).then(place => {
+                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(place));
+                this._setTo(set(place, 'objectClass', 'place'));
+            }).catch(() => {
+                this._container.find("#mwz-alert-noDirection").show();
+            });
+        }
+    }
+    
     public destroy() {
         this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.off('mapwize:venueenter', this.onVenueEnter)
@@ -218,6 +238,7 @@ export class SearchDirections extends DefaultControl {
                 this.show()
             }
         }
+        this.launchDirection()
     }
     private onVenueExit(e: any): void {
         if (!this._direction) {
