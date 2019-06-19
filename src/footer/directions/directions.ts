@@ -3,6 +3,8 @@ import * as $ from 'jquery';
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
+import { getCookie } from '../../utils'
+
 
 export class FooterDirections extends DefaultControl {
     
@@ -28,7 +30,13 @@ export class FooterDirections extends DefaultControl {
 
     public displayStats (direction: any) {
         this._container.find('#mwz-direction-time').text(this.timeParser(direction.traveltime))
-        this._container.find('#mwz-direction-distance').text(this.distanceParser(direction.distance))
+
+        var measure = ""
+        if (getCookie('isMeter') == 'true') {
+            measure = "ft";
+        }
+
+        this._container.find('#mwz-direction-distance').text(this.distanceParser(direction.distance,measure))
 
         this.show()
     }

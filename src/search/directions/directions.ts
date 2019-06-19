@@ -5,7 +5,7 @@ import { Api } from 'mapwize'
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+import { getTranslation, latitude, longitude, replaceColorInBase64svg, getCookie } from '../../utils'
 
 
 export class SearchDirections extends DefaultControl {
@@ -27,6 +27,9 @@ export class SearchDirections extends DefaultControl {
         this._from = this._to = null
         this._accessible = false
         
+        this._container.find('.mwz-wrapper').toggle()
+
+        this.measureCookie()
         this.mainColor(options)
         
         if(options.hideMenu){
@@ -42,6 +45,9 @@ export class SearchDirections extends DefaultControl {
             this.clear()
             this._container.find("#mwz-alert-noDirection").hide()
             this.map.searchBar.show()
+        })
+        this.listen('click', '#mwz-wrapper-button', () => {
+            this._container.find('.mwz-wrapper').toggle();
         })
         this.listen('click', '#mwz-reverse-button', () => {
             let oldFrom = null;
@@ -72,6 +78,21 @@ export class SearchDirections extends DefaultControl {
                 this._container.find('#accessible-on').removeClass('d-inline')
             }
             
+            this._displayDirection()
+        })
+
+        this.listen('click', '#mwz-measure-button', () => {
+            
+            if(getCookie("isMeter") == "false"){
+                document.cookie = 'isMeter=true;'
+                this._container.find('#measure-off').removeClass('d-inline')
+                this._container.find('#measure-on').addClass('d-inline')
+            }else{
+                document.cookie = 'isMeter=false;'
+                this._container.find('#measure-off').addClass('d-inline')
+                this._container.find('#measure-on').removeClass('d-inline')
+            }
+
             this._displayDirection()
         })
         
@@ -262,6 +283,17 @@ export class SearchDirections extends DefaultControl {
             
         }
         return '';
+    }
+
+    private measureCookie(){
+        if(getCookie("isMeter") == "true" || getCookie("isMeter") == ""){
+                this._container.find('#measure-off').removeClass('d-inline')
+                this._container.find('#measure-on').addClass('d-inline')
+                document.cookie = 'isMeter=true;'
+            }else{
+                this._container.find('#measure-off').addClass('d-inline')
+                this._container.find('#measure-on').removeClass('d-inline')
+            }
     }
     
     private _displayDirection(options?: any) {

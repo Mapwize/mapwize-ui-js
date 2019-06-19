@@ -121,6 +121,22 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     var decoded = atob(svg)
     decoded = new Buffer(replace(decoded, '#000000', toColor)).toString('base64')
     return 'data:image/svg+xml;base64,' + decoded
-  }
+}
 
-export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg }
+const getCookie = (cname: string) => {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getCookie }
