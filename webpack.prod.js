@@ -1,7 +1,7 @@
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -11,7 +11,7 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new GenerateJsonPlugin('package.json', {
       name: 'mapwize-ui',
       version: require('./package.json').version,
