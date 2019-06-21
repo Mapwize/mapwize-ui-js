@@ -7,6 +7,9 @@ import './index.scss'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
+import { setLanguage } from './utils'
+
+
 const mapSizeChange = (mapInstance: any) => {
     const mapSize = mapInstance.getSize()
     if (mapSize.x < 768) {
@@ -22,6 +25,8 @@ const buildUIComponent = (mapInstance: any, options: any) => {
         mapSizeChange(mapInstance)
     })
     
+    setLanguage(options.language)
+
     mapInstance.uiOptions = options
 
     mapInstance.searchResults = new SearchResults(mapInstance, options)

@@ -1,6 +1,7 @@
 import { find, get, set, debounce, map, isFinite, replace } from 'lodash'
 import * as $ from 'jquery';
 import { Api, apiUrl, apiKey } from 'mapwize'
+import translations from './translations/translations.json';
 
 const GOOGLE_API_KEY = ''
 const DEFAULT_PLACE_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAArpJREFUeNrEl89rE0EUx98uwXqpBOxBREk8RRSTCIJ6yvZiPZUVbC+CGBWPhnrwj/BQqEexWoVeWqHFk/Xi5uIPEGwUxZzcUhUPFqI9aHpZ33f3bZxs3B+NSfqFyY/N5H3mzbx58yZFCeU4TprfDG5FbhluWfnJ5rbGbZWbpWlag3ohBhrclhxFzR+/nC/Pbbfhc0Doa8TZ1SKA8Oi+eEn1xRrZTz7S1xdr1Pz5u63v0J7dtP90hrJnD1NuouA/triVeQbsxGCGmgJNv7v7il5PVztgYcIgTtwo0bGrJ/G1IfDlWDBDLwG6+blBK1cW6Pv7b10t0cjRfTQ2O0nDBxAaLnwuFCyeLm0w7PHEw8ReRnk/vniR9vIgWOdUz7XAmr5hT9OPztz5b6gKP//0GjzHtB/311xX+rhriuntFRSCLdiEbWFQCyzhbyCIul3TKMEmbIPhbzXf48oWjwwR3C/B9pY3kxW8pCQjmZ9W6pFTfPnDTdrF6xUlGL535FbolIPB+9wEEx6bbt7j5BClOGiSPgrD1P2ci9H0WwojC3Bpow8BFSZhlXRv/psDA/ssnXZIupddhgYG9FkAVyWXDkTCqupSQfB5mu07VGHYuhzYdGgsF5sc4hTXR2FYmuTqZ/wnY/7U7dDsNXww7Z+tocIZvrneCD2lLry8jiSDumw0Jc9n+IGBqkGSeafR9XCjSQTbktketKJaDmgrzz+O9CHQYDPvlUKWX4mo+3gKIxqdHnenpXfbx7Mp3k617WPxGnVxGeGOcqUX8EDpUxZGZ+aSaWjBEVDdCv8NQOeSlLdupYnt8VbK2+14iUDK/w2mDmhcQV+UGqmIAdQXam5RH1YaIYBQzOcmCz5wNTi9icAB7ytyZ3KF20R7RsqoXwGa+ZeX2wIHyl9UKwXlwkbKxa3GbTnsyhLUHwEGAHTlTmav1n2rAAAAAElFTkSuQmCC'
@@ -121,6 +122,35 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     var decoded = atob(svg)
     decoded = new Buffer(replace(decoded, '#000000', toColor)).toString('base64')
     return 'data:image/svg+xml;base64,' + decoded
-  }
+}
 
-export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg }
+const getLanguage = (key:any) => {
+    return translations[getCookie('language')][key]
+}
+
+const setLanguage = (lng: any) => {
+    if(translations[lng] != undefined){
+        document.cookie = 'language='+lng+';';
+    }else if (getCookie('language') == ''){
+        document.cookie = 'language=en;';
+    }
+ }
+
+ const getCookie = (cname: string) => {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, setLanguage, getLanguage }

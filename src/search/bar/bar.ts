@@ -4,7 +4,7 @@ import { isFunction } from 'lodash'
 const barHtml = require('./bar.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, replaceColorInBase64svg } from '../../utils'
+import { getTranslation, replaceColorInBase64svg, getLanguage } from '../../utils'
 
 export class SearchBar extends DefaultControl {
 
@@ -109,14 +109,14 @@ export class SearchBar extends DefaultControl {
         const lang = this.map.getLanguageForVenue(e.venue)
         this._container.find('.mwz-entering').hide()
         this._container.find('.mwz-directions').show()
-        this._container.find('.mwz-search').show().find('input').attr('placeholder', 'Search in ' + getTranslation(e.venue, lang, 'title'))
+        this._container.find('.mwz-search').show().find('input').attr('placeholder', getLanguage('searchIn') + ' '+getTranslation(e.venue, lang, 'title'))
     }
     private onVenueExit(e: any): void {
         this.show()
         
         this._container.find('.mwz-entering').hide()
         this._container.find('.mwz-directions').hide()
-        this._container.find('.mwz-search').show().find('input').attr('placeholder', 'Search in Mapwize')
+        this._container.find('.mwz-search').show().find('input').attr('placeholder', getLanguage('searchIn')+' Mapwize')
         
         this._currentVenue = null
     }

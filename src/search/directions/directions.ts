@@ -5,7 +5,7 @@ import { Api } from 'mapwize'
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+import { getTranslation, latitude, longitude, replaceColorInBase64svg, getLanguage } from '../../utils'
 
 
 export class SearchDirections extends DefaultControl {
@@ -27,6 +27,8 @@ export class SearchDirections extends DefaultControl {
         this._from = this._to = null
         this._accessible = false
         
+        this.updateLanguageTranslation();
+
         this.mainColor(options)
         
         if(options.hideMenu){
@@ -162,6 +164,11 @@ export class SearchDirections extends DefaultControl {
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
         this.map.on('mapwize:click', this.onClick)
+    }
+
+    public updateLanguageTranslation(){
+        this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', getLanguage('from'))
+        this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', getLanguage('to'))
     }
     
     public mainColor(options: any) {
