@@ -1,9 +1,10 @@
 import { map, apiKey, Api, apiUrl } from 'mapwize'
-import { assign, get, set, isString, isObject, isUndefined } from 'lodash'
+import { assign, get, set, isString, isObject } from 'lodash'
 import * as $ from 'jquery';
 
 import './index.scss'
 
+import attachMethods from './methods';
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
@@ -36,12 +37,6 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
     
-    const onMapClick = (e: any): void => {
-        if (e.venue) {
-            mapInstance.centerOnVenue(e.venue)
-        }
-    }
-    mapInstance.on('mapwize:click', onMapClick)
     
     mapInstance.searchBar.show()
 
@@ -50,20 +45,7 @@ const buildUIComponent = (mapInstance: any, options: any) => {
         mapInstance.footerSelection.select(options.centerOnPlace)
     }
 
-    mapInstance.destroy = () => {
-        mapInstance.searchResults.destroy()
-        mapInstance.searchBar.destroy()
-        mapInstance.searchDirections.destroy()
-    
-        mapInstance.footerVenue.destroy()
-        mapInstance.footerSelection.destroy()
-        mapInstance.footerDirections.destroy()
-    
-        mapInstance.off('mapwize:click', onMapClick)
-        $(mapInstance.getContainer()).removeClass('mapwizeui');
-        
-        mapInstance.remove()
-    }
+    attachMethods(mapInstance);
     
     return mapInstance
 }
