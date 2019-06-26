@@ -13,7 +13,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'With correct direction object', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'ContexeoDevAppAPIKEY',
+        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
         centerOnVenue: '56b20714c3fa800b00d8f0b5',
         direction: {
           from: '569f8d7cb4d7200b003c32a1',

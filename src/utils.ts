@@ -124,7 +124,7 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
 }
 
 const getPlace = (placeId: string): Promise<any> => {
-    return $.get(apiUrl() + '/places/' + placeId + '?api_key=' + apiKey(), {}, null, 'json');
+    return Api.getPlace(placeId).then().catch(() => Promise.resolve(null))
 }
 
 export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }

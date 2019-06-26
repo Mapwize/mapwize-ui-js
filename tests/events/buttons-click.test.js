@@ -13,7 +13,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Menu button', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'ContexeoDevAppAPIKEY',
+        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
         onMenuButtonClick: (e) => {
           window.callbackTest(null)
         }
@@ -26,7 +26,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Information button', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'ContexeoDevAppAPIKEY',
+        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
         centerOnPlace: "57036cd6b247f50b00a0746e",
         onInformationButtonClick: (e) => {
           window.callbackTest(null)

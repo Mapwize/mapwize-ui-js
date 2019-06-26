@@ -13,7 +13,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'hideMenu: true', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'ContexeoDevAppAPIKEY',
+        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
         hideMenu: true
       }).then((map) => {
         if ($('#menuBar').hasClass('d-none') == true) {

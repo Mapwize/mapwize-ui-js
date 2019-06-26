@@ -89,6 +89,9 @@ The following parameters are available for map initialization:
 - `onMenuButtonClick` (optional) callback called when the user clicked on the menu button (left button on the search bar)
 - `hideMenu` (optional) to hide menu bar.
 - `mainColor` (optional) the main color for the interface.
+- `direction` (optional) to start a direction (object).
+- `direction.from` (optional) to start a direction, placeId departure (String).
+- `direction.to` (optional) to start a direction placeId arrival (String).
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |

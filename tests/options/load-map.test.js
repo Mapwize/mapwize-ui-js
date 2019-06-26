@@ -13,7 +13,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Simple example (only apiKey)', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'ContexeoDevAppAPIKEY'
+        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE'
       }).then((map) => {
         window.callbackTest(null)
       }).catch(window.callbackTest)
