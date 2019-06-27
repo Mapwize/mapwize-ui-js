@@ -5,7 +5,7 @@ import { Api } from 'mapwize'
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, latitude, longitude, replaceColorInBase64svg, getPlace } from '../../utils'
+import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
 
 
 export class SearchDirections extends DefaultControl {
@@ -180,8 +180,8 @@ export class SearchDirections extends DefaultControl {
             this.show();
             
             return Promise.all([
-                getPlace(this._options.direction.from),
-                getPlace(this._options.direction.to)
+                this._map.getPlace(this._options.direction.from),
+                this._map.getPlace(this._options.direction.to)
             ]).then((objects: any) => {
                 var [from, to] = objects;
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from));

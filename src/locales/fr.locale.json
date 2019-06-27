@@ -1,0 +1,8 @@
+{
+  "search_placeholder_global": "Rechercher un lieu...",
+  "search_placeholder_venue": "Rechercher dans <%= venue %>...",
+  "entering_in_venue": "Chargement de <%= venue %>...",
+
+  "direction_placeholder_from": "De",
+  "direction_placeholder_to": "A"
+}
