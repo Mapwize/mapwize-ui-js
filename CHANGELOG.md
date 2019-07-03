@@ -1,9 +1,13 @@
 # Mapwize UI Changelog
 
-## 1.0.8
+## 1.0.9
 
 - Upgrade mapwize js sdk to 3.4.5
-- Display error message when no direction found
+- Improvement: Display error message when no direction found
+
+## 1.0.8
+
+- Upgrade mapwize js sdk to 3.4.3
 
 ## 1.0.7
 
