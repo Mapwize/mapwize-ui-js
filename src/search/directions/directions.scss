@@ -79,6 +79,17 @@
         border-radius: 0;
 
         margin-bottom: 0;
+
+    }
+
+    .mwz-direction-add-waypoint{
+        cursor: auto;
+        color: #495057;
+        padding: 0.375rem 0.75rem;
+    }
+    
+    .pointer {
+        cursor: pointer;
     }
 }
 &.mwz-small {
