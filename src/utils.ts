@@ -7,13 +7,15 @@ import config from './config'
 let lastSearchSent: string = ''
 
 const getTranslation = (o: any, lang: string, attr: string): string => {
-    const translation = find(o.translations, {
+    var translation = find(o.translations, {
         language: lang
     })
-    if (translation) {
-        return get(translation, attr, '')
+    if (o.defaultLanguage && get(translation, attr, '').length === 0) {
+        translation = find(o.translations, {
+            language: o.defaultLanguage
+        })
     }
-    return ''
+    return get(translation, attr, '')
 }
 
 const getIcon = (o: any) => {

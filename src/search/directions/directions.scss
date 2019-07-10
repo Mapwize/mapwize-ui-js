@@ -1,4 +1,6 @@
 #mwz-searchDirection {
+
+    border-radius: 8px;
     
     width: 400px;
     
@@ -7,9 +9,26 @@
     
     background-color:  white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-    
+
     pointer-events: auto;
-    
+    .mwz-accessible-button-selected{
+        background-color: #C51586;
+    }
+    .mwz-accessible-button{
+        padding: 2px 22px 2px 22px;
+        border-radius: 30px !important;
+    }
+    .mwz-close-button{
+        width: 18px !important;
+    }
+    .mwz-padding-left{
+        position: absolute;
+        left: 35%;
+    }
+    .mwz-padding-right{
+        position: absolute;
+        left: 60%;
+    }
     .mwz-searchLine {
         height: 50px;
         margin-bottom: 0;
@@ -25,23 +44,17 @@
             padding: 15px;
             
             img {
-                width: 20px;
+                width: 15px;
             }
         }
-        
+        .mwz-padding {
+            padding: 21px;
+        }
         .mwz-button-icon {
             button {
-                padding: 12.5px;
                 border: none;
-                border-radius: unset;
-                line-height: inherit;
-                
                 img {
-                    width: 25px;
-                }
-                
-                &:hover {
-                    background-color: #efefef;
+                    width: 20px;
                 }
             }
         }
@@ -52,7 +65,7 @@
         
         .mwz-back {
             img {
-                width: 25px;
+                width: 20px;
             }
         }
         
@@ -71,7 +84,21 @@
                 }
             }
         }
-        
+    }
+
+    .mwz-accessibleLine {
+        height: 30px;
+        margin-bottom: 0;
+        margin-top: 10px;
+
+        .mwz-button-icon {
+            button {
+                border: none;
+                img {
+                    width: 20px;
+                }
+            }
+        }
     }
     
     #mwz-alert-noDirection {
@@ -85,7 +112,17 @@
     #mwz-searchDirection {
         margin-left: 0;
         margin-top: 0;
-        
         width: 100%;
     }
+    &.mwz-directions{
+        #searchResults {
+            margin-left: 0;
+            width: 100%;
+    }
+    }
+   
 }
+#mwz-reverse-button{
+    margin-top: -35px;
+}
+

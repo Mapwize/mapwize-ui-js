@@ -8,22 +8,69 @@ import { DefaultControl } from '../../control'
 export class FooterVenue extends DefaultControl {
 
     private _currentVenue: any
-    
-    constructor (mapInstance: any) {
+    constructor(mapInstance: any) {
         super(mapInstance)
 
         this._container = $(venueHtml)
         this._currentVenue = this.map.getVenue()
+        this._container.find('#mwz-language-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon').attr("src") + '"/>' + this.map.getLanguage())
 
         this.listen('change', '#universes-selector select', (e: JQueryEventObject) => {
             const selectedId = this._container.find('#universes-selector select').val()
-            const selectedUniverse = find(this._currentVenue.accessibleUniverses, {_id: selectedId})
+            const selectedUniverse = find(this._currentVenue.accessibleUniverses, { _id: selectedId })
 
             this.map.setUniverse(selectedUniverse)
         })
 
         this.listen('change', '#language-selector select', (e: JQueryEventObject) => {
             this.map.setLanguage(this._container.find('#language-selector select').val())
+
+        })
+
+        this._container.find('.dropdown').on("hide.bs.dropdown", function (event) {
+            $($($(this).parent())).parent().css("border-radius", "50px");
+            if ($(mapInstance._container).hasClass('mwz-small')) {
+                if ($($($(this)).children()[0]).attr("id") == "mwz-language-button") {
+                    $($($(this)).children()[0]).children().css("margin-left", "")
+                    $($(this).children()[0]).css("width", "").css("color", "")
+                    $($(this)).parent().parent().parent().css("padding-left", "")
+                    $($(($(this)).parent().parent().parent()).children()[1]).show()
+                } else {
+                    $($($(this)).children()[0]).children().css("margin-left", "")
+                    $($(this).children()[0]).css("width", "")
+                    $($(($(this)).parent().parent().parent()).children()[0]).css("margin-right", "")
+                }
+            }
+        });
+
+        this._container.find('.dropdown').on("show.bs.dropdown", function (event) {
+            $($($(this).parent())).parent().css("border-radius", "0 0 20px 20px");
+            if ($(mapInstance._container).hasClass('mwz-small')) {
+                if ($($($(this)).children()[0]).attr("id") == "mwz-language-button") {
+                    $($($(this)).children()[0]).children().attr("style", "margin-left: 15px")
+                    $($(this)).parent().parent().parent().attr("style", "padding-left: 5px")
+                    $($(this).children()[0]).attr("style", "width: 70px !important;")
+                    $($(($(this)).parent().parent().parent()).children()[1]).hide()
+                } else {
+                    $($($(this)).children()[0]).children().attr("style", "margin-left: 58px")
+                    $($(($(this)).parent().parent().parent()).children()[0]).attr("style", "margin-right: 12px;")
+                    $($(this).children()[0]).attr("style", "width: 170px !important;")
+                }
+            }
+
+        });
+
+        this.listen('click', '.mwz-universe-item', (e: JQueryEventObject) => {
+            this._container.find('#mwz-universe-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon:eq(1)').attr("src") + '"/> ' + $(e.currentTarget).html())
+            const selectedId = $(e.currentTarget).data('val')
+            const selectedUniverse = find(this._currentVenue.accessibleUniverses, { _id: selectedId })
+
+            this.map.setUniverse(selectedUniverse)
+        })
+
+        this.listen('click', '.mwz-language-item', (e: JQueryEventObject) => {
+            this._container.find('#mwz-language-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon').attr("src") + '"/> ' + $(e.currentTarget).html())
+            this.map.setLanguage($(e.currentTarget).html())
         })
 
         this.onVenueEnter = this.onVenueEnter.bind(this)
@@ -40,11 +87,11 @@ export class FooterVenue extends DefaultControl {
         this.map.off('mapwize:venueexit', this.onVenueExit)
     }
 
-    public show () {
+    public show() {
         this._container.removeClass('d-none').addClass('d-flex')
         $(this.map._container).addClass('mwz-venue-footer')
     }
-    public hide () {
+    public hide() {
         this._container.removeClass('d-flex').addClass('d-none')
         $(this.map._container).removeClass('mwz-venue-footer')
     }
@@ -61,8 +108,9 @@ export class FooterVenue extends DefaultControl {
 
         if (this._currentVenue.accessibleUniverses.length > 1) {
             this._container.find('#universes-selector select').html('')
+            this._container.find('.mwz-universe').html('')
             forEach(get(this._currentVenue, 'accessibleUniverses'), (universe: any) => {
-                this._container.find('#universes-selector select').append('<option value="' + get(universe, '_id') + '" ' + (get(actualUniverse, '_id') === get(universe, '_id') ? 'selected': '') + '>' + get(universe, 'name') + '</option>')
+                this._container.find('.mwz-universe').append('<a class="dropdown-item mwz-universe-item" data-val=' + get(universe, '_id') + '>' + get(universe, 'name') + '</a>')
             })
             this._container.find('#universes-selector').show()
             display = true
@@ -72,9 +120,9 @@ export class FooterVenue extends DefaultControl {
 
         if (this._currentVenue.supportedLanguages.length > 1) {
             this._container.find('#language-selector select').html('')
+            this._container.find('.mwz-language').html('')
             forEach(get(this._currentVenue, 'supportedLanguages'), (language: any) => {
-                const actualLanguage = this.map.getLanguage()
-                this._container.find('#language-selector select').append('<option value="' + language + '" ' + (actualLanguage === language ? 'selected': '') + '>' + language + '</option>')
+                this._container.find('.mwz-language').append('<a class="dropdown-item mwz-language-item" data-val=' + get(language, '_id') + '>' + language + '</a>')
             })
             this._container.find('#language-selector').show()
 
@@ -86,13 +134,10 @@ export class FooterVenue extends DefaultControl {
         } else {
             this._container.find('#language-selector').hide()
         }
-        
         if (display) {
             this.show()
         }
     }
-
-    
     private onVenueEnter(e: any): void {
         this._currentVenue = e.venue
         this.showIfNeeded()
@@ -103,7 +148,6 @@ export class FooterVenue extends DefaultControl {
     }
     private onVenueExit(e: any): void {
         this.hide()
-            
         this._currentVenue = null
     }
 }

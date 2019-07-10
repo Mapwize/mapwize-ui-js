@@ -1,4 +1,6 @@
 #mwz-searchBar {
+    border-radius: 8px;
+    
     height: 50px;
     width: 400px;
     
@@ -34,6 +36,7 @@
             border-top: none;
             border-left: none;
             border-right: none;
+            border-bottom: none;
             border-radius: unset;
 
             box-shadow: none;
@@ -42,6 +45,10 @@
                 box-shadow: none;
                 border-color: #93979b;
             }
+
+            &::placeholder {
+                color: #BABABA;
+              }
         }
     }
     

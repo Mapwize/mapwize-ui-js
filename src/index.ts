@@ -1,3 +1,4 @@
+import 'bootstrap/js/dist/dropdown';
 import './index.scss'
 
 import { map } from './ui'
