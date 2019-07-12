@@ -5,6 +5,7 @@ import * as $ from 'jquery'
 import config from './config'
 
 import attachMethods from './methods'
+import { unit } from './measure'
 import { local } from './translate'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
@@ -79,6 +80,7 @@ const createMap = (container: string|HTMLElement, options?: any) => {
 
     options = defaults(options, {
         local: 'en',
+        unit: 'm',
         mapboxOptions: {},
         mapwizeOptions: {
             preferredLanguage: 'en'
@@ -95,6 +97,8 @@ const createMap = (container: string|HTMLElement, options?: any) => {
 
     local(options.local)
     set(options, 'mapwizeOptions.preferredLanguage', options.local)
+
+    unit(options.unit)
     
     if (options.apiUrl) {
         apiUrl(options.apiUrl)

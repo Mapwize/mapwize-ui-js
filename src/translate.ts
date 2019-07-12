@@ -14,7 +14,7 @@ const translate = (key: string, p?: any): string => {
   return compiled(p)
 }
 
-const local = (newLocal: string): string => {
+const local = (newLocal?: string): string => {
   if (newLocal) {
     if (getLocals().includes(newLocal)) {
       currentLocal = newLocal

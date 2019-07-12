@@ -80,20 +80,21 @@ The html element need to be correctly formated and need to be sized in css
 The following parameters are available for map initialization:
 
 - `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
-- `apiUrl` (optional) to change the server URL, if you have a dedicated Mapwize server.
-- `container` (optional) same as `container` param, default is: `mapwize`
-- `centerOnVenue` (optional) to center on a venue at start. Options takes either a venueId or a venue object.
-- `centerOnPlace` (optional) to center on a place at start. Options takes either a placeId or a place object.
-- `mapboxOptions` (optional) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
-- `mapwizeOptions` (optional) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
-- `restrictContentToVenue` (optional) to show only the related venue on the map. Builder takes a venue id.
-- `restrictContentToOrganization` (optional) to show only the venues of that organization on the map. Builder takes an organization id.
-- `onInformationButtonClick` (optional) callback called when you click on the footer when a place is selected
-- `onMenuButtonClick` (optional) callback called when the user clicked on the menu button (left button on the search bar)
-- `hideMenu` (optional) to hide menu bar.
-- `mainColor` (optional) the main color for the interface.
-- `direction`  (optional) to display directions at start. Object with keys from and to containing place ids (string).
-- `local` (optional, string, , default: en) the ui language (also set to the map as default language)
+- `apiUrl` (optional, string, default: null) to change the server URL, if you have a dedicated Mapwize server.
+- `container` (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
+- `centerOnVenue` (optional, string|object, default: null) to center on a venue at start. Options takes either a venueId or a venue object.
+- `centerOnPlace` (optional, string|object, default: null) to center on a place at start. Options takes either a placeId or a place object.
+- `mapboxOptions` (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
+- `mapwizeOptions` (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
+- `restrictContentToVenue` (optional, string, default: null) to show only the related venue on the map. Builder takes a venue id.
+- `restrictContentToOrganization` (optional, string, default: null) to show only the venues of that organization on the map. Builder takes an organization id.
+- `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
+- `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
+- `hideMenu` (optional, boolean, default: false) to hide menu bar.
+- `mainColor` (optional, string, default: null) the main color for the interface.
+- `direction`  (optional, object, default: null) to display directions at start. Object with keys from and to containing place ids (string).
+- `local` (optional, string, default: en) the ui language (also set to the map as default language)
+- `unit` (optional, string, default: m) the ui unit of measure
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
@@ -121,6 +122,24 @@ Get the list of supported locals by the user interface
 Signature: `(): Array<string>`   
 Parameters: there is no param   
 Return: the list of supported locals by the user interface
+
+##### `unit(newUnit: string): string`
+
+Change the ui unit of measure if param `newUnit` is provided
+
+Signature: `(newUnit: string): string`   
+Parameters:
+- `newUnit`(optional, string, default: null) the new unit of measure to set (need to be in `map.getUnits()` array)
+
+Return: the current ui unit of measure or the new passed unit of measure if valid
+
+##### `getUnits(): Array<string>`
+
+Get the list of supported units of measure by the user interface
+
+Signature: `(): Array<string>`   
+Parameters: there is no param   
+Return: the list of supported units of measure by the user interface
 
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 

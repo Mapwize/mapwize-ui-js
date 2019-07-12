@@ -1,4 +1,5 @@
 import { local, getLocals } from './translate'
+import { unit, getUnits } from './measure'
 
 const attachMethods = (mapInstance: any) => {
   const onMapClick = (e: any): void => {
@@ -31,6 +32,16 @@ const attachMethods = (mapInstance: any) => {
     return currentLocal
   }
   mapInstance.getLocals = getLocals
+
+  mapInstance.unit = (newUnit: string): string => {
+    const currentUnit = unit(newUnit)
+    
+    mapInstance.footerDirections.refreshUnit()
+    
+    return currentUnit
+  }
+  mapInstance.getUnits = getUnits
+
   
   mapInstance.destroy = () => {
     mapInstance.searchResults.destroy()
