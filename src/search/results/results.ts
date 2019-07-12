@@ -46,7 +46,7 @@ export class SearchResults extends DefaultControl {
         this.map.removeControl(this)
     }
 
-    public refreshLocal() {
+    public refreshLocale() {
         // need to refresh 'on floor' string in search results
     }
     

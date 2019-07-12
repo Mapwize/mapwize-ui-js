@@ -91,10 +91,10 @@ The following parameters are available for map initialization:
 - `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 - `hideMenu` (optional, boolean, default: false) to hide menu bar.
-- `mainColor` (optional, string, default: null) the main color for the interface.
-- `direction`  (optional, object, default: null) to display directions at start. Object with keys from and to containing place ids (string).
-- `local` (optional, string, default: en) the ui language (also set to the map as default language)
-- `unit` (optional, string, default: m) the ui unit of measure
+- `mainColor` (optional, string, default: null) the main color for the interface as hexadecimal string.
+- `direction`  (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
+- `locale` (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
+- `unit` (optional, string, default: m) the ui measurement unit
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
@@ -104,50 +104,50 @@ The following parameters are available for map initialization:
 
 #### Methods
 
-##### `local(newLocal: string): string`
+##### `locale(newLocale: string): string`
 
-Change the ui language if param `newLocal` is provided   
+Change the ui locale if param `newLocale` is provided   
 Also set the map preferred language
 
-Signature: `(newLocal: string): string`   
+Signature: `(newLocale: string): string`   
 Parameters:
-- `newLocal`(optional, string, default: null) the new language to set (need to be in `map.getLocals()` array)
+- `newLocale`(optional, string, default: null) the new locale to set (need to be in `map.getLocales()` array)
 
-Return: the current ui local or the new passed local if valid
+Return: the current ui locale or the new passed locale if valid
 
-##### `getLocals(): Array<string>`
+##### `getLocales(): Array<string>`
 
-Get the list of supported locals by the user interface
+Get the list of supported locales by the user interface
 
 Signature: `(): Array<string>`   
 Parameters: there is no param   
-Return: the list of supported locals by the user interface
+Return: the list of supported locales by the user interface
 
 ##### `unit(newUnit: string): string`
 
-Change the ui unit of measure if param `newUnit` is provided
+Change the ui measurement unit if param `newUnit` is provided
 
 Signature: `(newUnit: string): string`   
 Parameters:
-- `newUnit`(optional, string, default: null) the new unit of measure to set (need to be in `map.getUnits()` array)
+- `newUnit`(optional, string, default: null) the new measurement unit to set (need to be in `map.getUnits()` array)
 
-Return: the current ui unit of measure or the new passed unit of measure if valid
+Return: the current ui measurement unit or the new passed measurement unit if valid
 
 ##### `getUnits(): Array<string>`
 
-Get the list of supported units of measure by the user interface
+Get the list of supported measurement units by the user interface
 
 Signature: `(): Array<string>`   
 Parameters: there is no param   
-Return: the list of supported units of measure by the user interface
+Return: the list of supported measurement units by the user interface
 
 ##### `setDirectionMode(): void`
 
-Enable direction mode for the ui, this show the two search with from and to fields
+Enable direction mode for the ui, this shows the two search fields for from and to
 
 Signature: `(): void`   
 Parameters: there is no param   
-Return: the list of supported units of measure by the user interface
+Return: there is no return value
 
 ##### `setFrom(from: any): void`
 

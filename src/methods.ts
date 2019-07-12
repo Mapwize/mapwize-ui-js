@@ -1,4 +1,4 @@
-import { local, getLocals } from './translate'
+import { locale, getLocales } from './translate'
 import { unit, getUnits } from './measure'
 
 const attachMethods = (mapInstance: any) => {
@@ -29,16 +29,17 @@ const attachMethods = (mapInstance: any) => {
     return mapInstance.searchDirections.getDirection()
   }
   
-  mapInstance.local = (newLocal: string): string => {
-    const currentLocal = local(newLocal)
+  mapInstance.locale = (newLocale: string): string => {
+    const currentLocal = locale(newLocale)
     
     mapInstance.setPreferredLanguage(currentLocal)
-    mapInstance.searchBar.refreshLocal()
-    mapInstance.searchResults.refreshLocal()
+    mapInstance.searchBar.refreshLocale()
+    mapInstance.searchDirections.refreshLocale()
+    mapInstance.searchResults.refreshLocale()
     
     return currentLocal
   }
-  mapInstance.getLocals = getLocals
+  mapInstance.getLocales = getLocales
 
   mapInstance.unit = (newUnit: string): string => {
     const currentUnit = unit(newUnit)

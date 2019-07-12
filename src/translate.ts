@@ -1,12 +1,12 @@
 import { template, join } from 'lodash'
 
-const locals = require.context('./locals/', false, /\.local\.json$/)
+const locales = require.context('./locales/', false, /\.locale\.json$/)
 
-let currentLocal: string = "en"
-let currentTranslations: any = locals('./' + currentLocal + '.local.json')
+let currentLocale: string = "en"
+let currentTranslations: any = locales('./' + currentLocale + '.locale.json')
 
-const getLocals = (): Array<string> => {
-  return locals.keys().map((local: string) => local.replace(/\.\//g, '').replace(/\.local\.json$/g, ''))
+const getLocales = (): Array<string> => {
+  return locales.keys().map((locale: string) => locale.replace(/\.\//g, '').replace(/\.locale\.json$/g, ''))
 }
 
 const translate = (key: string, p?: any): string => {
@@ -14,16 +14,16 @@ const translate = (key: string, p?: any): string => {
   return compiled(p)
 }
 
-const local = (newLocal?: string): string => {
-  if (newLocal) {
-    if (getLocals().includes(newLocal)) {
-      currentLocal = newLocal
-      currentTranslations = locals('./' + currentLocal + '.local.json')
+const locale = (newLocale?: string): string => {
+  if (newLocale) {
+    if (getLocales().includes(newLocale)) {
+      currentLocale = newLocale
+      currentTranslations = locales('./' + currentLocale + '.locale.json')
     } else {
-      throw new Error('Locale "' + newLocal + '" is not supported, use one of: ' + join(getLocals(), ', '))
+      throw new Error('Locale "' + newLocale + '" is not supported, use one of: ' + join(getLocales(), ', '))
     }
   }
-  return currentLocal
+  return currentLocale
 }
 
-export { translate, local, getLocals }
+export { translate, locale, getLocales }

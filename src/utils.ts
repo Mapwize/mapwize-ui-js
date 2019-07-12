@@ -4,7 +4,7 @@ import { Api, apiUrl, apiKey } from 'mapwize'
 
 import config from './config'
 
-let lastSearchSended: string = ''
+let lastSearchSent: string = ''
 
 const getTranslation = (o: any, lang: string, attr: string): string => {
     const translation = find(o.translations, {
@@ -42,7 +42,7 @@ const searchInGoogle = (str: string, options: any): Promise<any> => {
 }
 
 const doSearch = debounce((str: string, options: any, callback: Function) => {
-    lastSearchSended = str
+    lastSearchSent = str
 
     const toDo = [
         Promise.resolve(str),
@@ -52,7 +52,7 @@ const doSearch = debounce((str: string, options: any, callback: Function) => {
     toDo.push(options.google ? searchInGoogle(str, options) : Promise.resolve([]))
 
     return Promise.all(toDo).then((results: any) => {
-        if (results[0] !== lastSearchSended) {
+        if (results[0] !== lastSearchSent) {
             return callback(new Error('Receive old search response'))
         }
         callback(null, results)
@@ -71,7 +71,7 @@ const search = (search: string, options: any): Promise<any> => {
         }
 
         doSearch.cancel();
-        lastSearchSended = '';
+        lastSearchSent = '';
     
         return reject('Empty search string')
     })

@@ -3,6 +3,10 @@ import { isFunction } from 'lodash'
 
 const barHtml = require('./bar.html')
 
+const OUTOFVENUE = 0
+const ENTERINGINVENUE = 1
+const INVENUE = 2
+
 import { translate } from '../../translate'
 
 import { DefaultControl } from '../../control'
@@ -77,7 +81,7 @@ export class SearchBar extends DefaultControl {
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
 
-        this.refreshLocal()
+        this.refreshLocale()
     }
     
     public mainColor(options: any) {
@@ -102,15 +106,15 @@ export class SearchBar extends DefaultControl {
         this.map.removeControl(this)
     }
 
-    public refreshLocal () {
+    public refreshLocale () {
         switch (this._currentVenueState) {
-            case 0:
+            case OUTOFVENUE:
                 this._container.find('.mwz-search input').attr('placeholder', translate('search_placeholder_global'))
             break;
-            case 1:
+            case ENTERINGINVENUE:
                 this._container.find('.mwz-entering').text(translate('entering_in_venue', {venue: getTranslation(this._currentVenue, this.map.getLanguageForVenue(this._currentVenue), 'title')}));
             break;
-            case 2:
+            case INVENUE:
                 this._container.find('.mwz-search input').attr('placeholder', translate('search_placeholder_venue', {venue:getTranslation(this._currentVenue, this.map.getLanguageForVenue(this._currentVenue), 'title')}))
             break;
             default:
@@ -125,7 +129,7 @@ export class SearchBar extends DefaultControl {
         this._container.find('.mwz-directions').hide()
         
         this._currentVenue = e.venue
-        this._currentVenueState = 1;
+        this._currentVenueState = ENTERINGINVENUE;
     }
     private onVenueEnter(e: any): void {
         const lang = this.map.getLanguageForVenue(e.venue)
@@ -133,7 +137,7 @@ export class SearchBar extends DefaultControl {
         this._container.find('.mwz-directions').show()
         this._container.find('.mwz-search').show().find('input').attr('placeholder', translate('search_placeholder_venue', {venue:getTranslation(e.venue, lang, 'title')}))
         
-        this._currentVenueState = 2;
+        this._currentVenueState = INVENUE;
     }
     private onVenueExit(e: any): void {
         this.show()
@@ -143,7 +147,7 @@ export class SearchBar extends DefaultControl {
         this._container.find('.mwz-search').show().find('input').attr('placeholder', translate('search_placeholder_global'))
         
         this._currentVenue = null
-        this._currentVenueState = 0;
+        this._currentVenueState = OUTOFVENUE;
     }
     
     private _clickOnSearchResult(searchResult: any, universe?: any): void {

@@ -6,7 +6,7 @@ import config from './config'
 
 import attachMethods from './methods'
 import { unit } from './measure'
-import { local } from './translate'
+import { locale } from './translate'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
@@ -72,7 +72,7 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     }
 
     options = defaults(options, {
-        local: 'en',
+        locale: 'en',
         unit: 'm',
         mapboxOptions: {},
         mapwizeOptions: {
@@ -88,8 +88,8 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     
     apiKey(options.apiKey)
 
-    local(options.local)
-    set(options, 'mapwizeOptions.preferredLanguage', options.local)
+    locale(options.locale)
+    set(options, 'mapwizeOptions.preferredLanguage', options.locale)
 
     unit(options.unit)
     
