@@ -39,13 +39,6 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
     
-    const onMapClick = (e: any): void => {
-        if (e.venue) {
-            mapInstance.centerOnVenue(e.venue)
-        }
-    }
-    mapInstance.on('mapwize:click', onMapClick)
-    
     mapInstance.searchBar.show()
 
     if (options.centerOnPlace) {

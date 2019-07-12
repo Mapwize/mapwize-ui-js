@@ -8,17 +8,24 @@ const attachMethods = (mapInstance: any) => {
     }
   }
   mapInstance.on('mapwize:click', onMapClick)
+
+  const onDirectionStart = (e: any): void => {
+    // mapInstance.searchDirections.show()
+    // mapInstance.searchDirections.setFrom(from)
+    // mapInstance.searchDirections.setTo(to)
+  }
+  mapInstance.on('mapwize:directionstart', onDirectionStart)
   
-  mapInstance.setDirectionMode = () => {
+  mapInstance.setDirectionMode = (): void => {
     return mapInstance.searchDirections.show()
   }
-  mapInstance.setFrom = (from: any) => {
+  mapInstance.setFrom = (from: any): void => {
     return mapInstance.searchDirections.setFrom(from)
   }
-  mapInstance.setTo = (to: any) => {
+  mapInstance.setTo = (to: any): void => {
     return mapInstance.searchDirections.setTo(to)
   }
-  mapInstance.getDirection = () => {
+  mapInstance.getDirection = (): any => {
     return mapInstance.searchDirections.getDirection()
   }
   
@@ -43,7 +50,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getUnits = getUnits
 
   
-  mapInstance.destroy = () => {
+  mapInstance.destroy = (): void => {
     mapInstance.searchResults.destroy()
     mapInstance.searchBar.destroy()
     mapInstance.searchDirections.destroy()
@@ -53,6 +60,7 @@ const attachMethods = (mapInstance: any) => {
     mapInstance.footerDirections.destroy()
     
     mapInstance.off('mapwize:click', onMapClick)
+    mapInstance.off('mapwize:directionstart', onDirectionStart)
     $(mapInstance.getContainer()).removeClass('mapwizeui')
     
     mapInstance.remove()

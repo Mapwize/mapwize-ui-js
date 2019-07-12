@@ -141,6 +141,51 @@ Signature: `(): Array<string>`
 Parameters: there is no param   
 Return: the list of supported units of measure by the user interface
 
+##### `setDirectionMode(): void`
+
+Enable direction mode for the ui, this show the two search with from and to fields
+
+Signature: `(): void`   
+Parameters: there is no param   
+Return: the list of supported units of measure by the user interface
+
+##### `setFrom(from: any): void`
+
+Set the from field of direction module
+
+Signature: `(from: any): void`   
+Parameters:
+- `from` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { objectClass: 'userPosition' }, { latitude, longitude, floor, venueId }
+
+Return: there is no return value
+
+##### `setTo(to: any): void`
+
+Set the to field of direction module
+
+Signature: `(to: any): void`   
+Parameters:
+- `to` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { latitude, longitude, floor, venueId }
+
+Return: there is no return value
+
+##### `getDirection(): any`
+
+Get the current direction object if any
+
+Signature: `(): any`   
+Parameters: there is no param   
+Return: the current direction object if any
+
+##### `destroy(): void`
+
+Destroy the map and all its components
+
+Signature: `(): void`    
+Parameters: there is no param   
+Return: there is no return value
+
+
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
