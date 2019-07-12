@@ -1,3 +1,5 @@
+import { local, getLocals } from './translate'
+
 const attachMethods = (mapInstance: any) => {
   const onMapClick = (e: any): void => {
     if (e.venue) {
@@ -5,7 +7,7 @@ const attachMethods = (mapInstance: any) => {
     }
   }
   mapInstance.on('mapwize:click', onMapClick)
-
+  
   mapInstance.setDirectionMode = () => {
     return mapInstance.searchDirections.show()
   }
@@ -19,6 +21,17 @@ const attachMethods = (mapInstance: any) => {
     return mapInstance.searchDirections.getDirection()
   }
   
+  mapInstance.local = (newLocal: string): string => {
+    const currentLocal = local(newLocal)
+    
+    mapInstance.setPreferredLanguage(currentLocal)
+    mapInstance.searchBar.refreshLocal()
+    mapInstance.searchResults.refreshLocal()
+    
+    return currentLocal
+  }
+  mapInstance.getLocals = getLocals
+  
   mapInstance.destroy = () => {
     mapInstance.searchResults.destroy()
     mapInstance.searchBar.destroy()
@@ -29,7 +42,7 @@ const attachMethods = (mapInstance: any) => {
     mapInstance.footerDirections.destroy()
     
     mapInstance.off('mapwize:click', onMapClick)
-    $(mapInstance.getContainer()).removeClass('mapwizeui');
+    $(mapInstance.getContainer()).removeClass('mapwizeui')
     
     mapInstance.remove()
   }

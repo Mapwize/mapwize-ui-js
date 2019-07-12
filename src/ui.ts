@@ -5,7 +5,7 @@ import * as $ from 'jquery'
 import config from './config'
 
 import attachMethods from './methods'
-import { local, getLocals } from './translate'
+import { local } from './translate'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
@@ -53,32 +53,6 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     }
 
     attachMethods(mapInstance);
-
-    mapInstance.destroy = () => {
-        mapInstance.searchResults.destroy()
-        mapInstance.searchBar.destroy()
-        mapInstance.searchDirections.destroy()
-    
-        mapInstance.footerVenue.destroy()
-        mapInstance.footerSelection.destroy()
-        mapInstance.footerDirections.destroy()
-    
-        mapInstance.off('mapwize:click', onMapClick)
-        $(mapInstance.getContainer()).removeClass('mapwizeui')
-        
-        mapInstance.remove()
-    }
-
-    mapInstance.local = (newLocal: string): string => {
-        const currentLocal = local(newLocal)
-
-        mapInstance.setPreferredLanguage(currentLocal)
-        mapInstance.searchBar.refreshLocal()
-        mapInstance.searchResults.refreshLocal()
-
-        return currentLocal
-    }
-    mapInstance.getLocals = getLocals
     
     return mapInstance
 }
