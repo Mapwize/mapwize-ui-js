@@ -13,7 +13,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Menu button', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
         onMenuButtonClick: (e) => {
           window.callbackTest(null)
         }
@@ -26,7 +26,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Information button', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
         centerOnPlace: "57036cd6b247f50b00a0746e",
         onInformationButtonClick: (e) => {
           window.callbackTest(null)

@@ -13,7 +13,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Must failed outside venue', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
       }).then((map) => {
         map.setDirectionMode()
         if (!$('#mwz-searchDirection').is(':visible')) {
@@ -28,7 +28,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'Must pass inside venue', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
         centerOnVenue: '56b20714c3fa800b00d8f0b5',
       }).then((map) => {
         map.on('mapwize:venueenter', () => {
