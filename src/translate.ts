@@ -3,7 +3,7 @@ import { template, join } from 'lodash'
 const locals = require.context('./locals/', false, /\.local\.json$/)
 
 let currentLocal: string = "en"
-let currentTranslations: any = {}
+let currentTranslations: any = locals('./' + currentLocal + '.local.json')
 
 const getLocales = (): Array<string> => {
   return locals.keys().map((local: string) => local.replace(/\.\//g, '').replace(/\.local\.json$/g, ''))
