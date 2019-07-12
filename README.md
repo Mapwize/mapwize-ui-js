@@ -58,10 +58,12 @@ You use the CDN url directly in your HTML page
 
 ## Initialization
 
-Mapwize UI can be instantiated with the constructor:
+Mapwize UI can be instantiated with one of these constructors:
 
-```javascript
-MapwizeUI.map(container?, options)
+```typescript
+MapwizeUI.map(apiKey: String)
+MapwizeUI.map(options: Object)
+MapwizeUI.map(container: String, options: Object)
 ```
 
 The `map` method return a Promise that is resolved when the map and the UI are ready
@@ -70,7 +72,8 @@ The `map` method return a Promise that is resolved when the map and the UI are r
 
 #### `container`
 
-The HTML element in which Mapbox GL JS will render the map, or the element's string  id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`
+The HTML element in which Mapbox GL JS will render the map, or the element's string id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`    
+The html element need to be correctly formated and need to be sized in css
 
 #### `options`
 
@@ -90,6 +93,7 @@ The following parameters are available for map initialization:
 - `hideMenu` (optional) to hide menu bar.
 - `mainColor` (optional) the main color for the interface.
 - `direction`  (optional) to display directions at start. Object with keys from and to containing place ids (string).
+- `local` (optional, string, , default: en) the ui language (also set to the map as default language)
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
@@ -97,9 +101,31 @@ The following parameters are available for map initialization:
 |html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
 |js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
+#### Methods
+
+##### `local(newLocal: string): string`
+
+Change the ui language if param `newLocal` is provided   
+Also set the map preferred language
+
+Signature: `(newLocal: string): string`   
+Parameters:
+- `newLocal`(optional, string, default: null) the new language to set (need to be in `map.getLocals()` array)
+
+Return: the current ui local or the new passed local if valid
+
+##### `getLocals(): Array<string>`
+
+Get the list of supported locals by the user interface
+
+Signature: `(): Array<string>`   
+Parameters: there is no param   
+Return: the list of supported locals by the user interface
+
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
+<style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
 ```javascript
@@ -111,6 +137,7 @@ MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
 To have the map centered on a venue at start up:
 
 ```html
+<style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
 ```javascript
@@ -128,6 +155,7 @@ MapwizeUI.map(options).then(map => {
 To have the map centered on a place with the place selected at start up: 
 
 ```html
+<style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
 ```javascript

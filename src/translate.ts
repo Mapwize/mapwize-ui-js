@@ -5,7 +5,7 @@ const locals = require.context('./locals/', false, /\.local\.json$/)
 let currentLocal: string = "en"
 let currentTranslations: any = locals('./' + currentLocal + '.local.json')
 
-const getLocales = (): Array<string> => {
+const getLocals = (): Array<string> => {
   return locals.keys().map((local: string) => local.replace(/\.\//g, '').replace(/\.local\.json$/g, ''))
 }
 
@@ -14,16 +14,16 @@ const translate = (key: string, p?: any): string => {
   return compiled(p)
 }
 
-const local = (local: string) => {
-  if (local) {
-    if (getLocales().includes(local)) {
-      currentLocal = local
-      currentTranslations = locals('./' + local + '.local.json')
+const local = (newLocal: string): string => {
+  if (newLocal) {
+    if (getLocals().includes(newLocal)) {
+      currentLocal = newLocal
+      currentTranslations = locals('./' + currentLocal + '.local.json')
     } else {
-      throw new Error('Locale "' + local + '" is not supported, use one of: ' + join(getLocales(), ', '))
+      throw new Error('Locale "' + newLocal + '" is not supported, use one of: ' + join(getLocals(), ', '))
     }
   }
   return currentLocal
 }
 
-export { translate, local }
+export { translate, local, getLocals }

@@ -5,7 +5,7 @@ import * as $ from 'jquery'
 import config from './config'
 
 import attachMethods from './methods'
-import { local } from './translate'
+import { local, getLocals } from './translate'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
@@ -69,9 +69,12 @@ const buildUIComponent = (mapInstance: any, options: any) => {
         mapInstance.remove()
     }
 
-    mapInstance.setLocal = (newLocal: string) =>{
-        return local(newLocal)
+    mapInstance.local = (newLocal: string): string => {
+        const currentLocal = local(newLocal)
+        mapInstance.setPreferredLanguage(currentLocal)
+        return currentLocal
     }
+    mapInstance.getLocals = getLocals
     
     return mapInstance
 }
