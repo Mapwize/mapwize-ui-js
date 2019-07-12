@@ -5,7 +5,7 @@ import { Api } from 'mapwize'
 const directionsHtml = require('./directions.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+import { getTranslation, latitude, longitude, replaceColorInBase64svg, getPlace } from '../../utils'
 
 
 export class SearchDirections extends DefaultControl {
@@ -17,6 +17,7 @@ export class SearchDirections extends DefaultControl {
     private _to: any
     private _accessible: boolean
     private _direction: any
+    private _options: any
     
     
     constructor (mapInstance: any, options: any) {
@@ -26,6 +27,7 @@ export class SearchDirections extends DefaultControl {
         this._currentVenue = this.map.getVenue()
         this._from = this._to = null
         this._accessible = false
+        this._options = options
         
         this.mainColor(options)
         
@@ -173,6 +175,26 @@ export class SearchDirections extends DefaultControl {
         }
     }
     
+    public launchDirection() {
+        if (this._options.hasOwnProperty('direction') && this._options.direction.hasOwnProperty('from') && this._options.direction.hasOwnProperty('to')) {
+            this.show();
+            
+            return Promise.all([
+                getPlace(this._options.direction.from),
+                getPlace(this._options.direction.to)
+            ]).then((objects: any) => {
+                var [from, to] = objects;
+                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from));
+                this._setFrom(set(from, 'objectClass', 'place'));
+                
+                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to));
+                this._setTo(set(to, 'objectClass', 'place'));
+            }).catch(() => {
+                this._container.find("#mwz-alert-noDirection").show();
+            });
+        }
+    }
+    
     public destroy() {
         this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.off('mapwize:venueenter', this.onVenueEnter)
@@ -181,19 +203,21 @@ export class SearchDirections extends DefaultControl {
     }
     
     public show () {
-        this.map.searchBar.hide()
-        
-        if (this.map.footerSelection.getSelected()) {
-            this._setTo(this.map.footerSelection.getSelected())
-            const lang = this.map.getLanguage()
-            this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
+        if (this._currentVenue) {
+            this.map.searchBar.hide()
+            
+            if (this.map.footerSelection.getSelected()) {
+                this._setTo(this.map.footerSelection.getSelected())
+                const lang = this.map.getLanguage()
+                this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
+            }
+            
+            this.map.footerSelection.unselect()
+            this.map.footerVenue.hide()
+            
+            this.map.addControl(this, 'top-left')
+            $(this.map._container).addClass('mwz-directions')
         }
-        
-        this.map.footerSelection.unselect()
-        this.map.footerVenue.hide()
-        
-        this.map.addControl(this, 'top-left')
-        $(this.map._container).addClass('mwz-directions')
     }
     public hide () {
         this.map.footerDirections.hide()
@@ -218,6 +242,7 @@ export class SearchDirections extends DefaultControl {
                 this.show()
             }
         }
+        this.launchDirection()
     }
     private onVenueExit(e: any): void {
         if (!this._direction) {
@@ -244,10 +269,21 @@ export class SearchDirections extends DefaultControl {
         this._container.find('#mwz-mapwizeSearchFrom').val('')
         this._container.find('#mwz-mapwizeSearchTo').val('')
     }
+    public getDirection(): any {
+        return this._direction;
+    }
+    public setFrom(from: any): void {
+        this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from))
+        this._setFrom(from);
+    }
     private _setFrom(from: any): void {
         this._from = from
         
         this._displayDirection()
+    }
+    public setTo(to: any): void {
+        this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to))
+        this._setTo(to);
     }
     private _setTo(to: any): void {
         this._to = to
@@ -272,7 +308,7 @@ export class SearchDirections extends DefaultControl {
         
         if (from && to) {
             this._container.find("#mwz-alert-noDirection").hide();
-
+            
             Api.getDirection({
                 from: from,
                 to: to,
@@ -297,7 +333,7 @@ export class SearchDirections extends DefaultControl {
             }).catch(() => {
                 this._container.find("#mwz-alert-noDirection").show();
             });
-    
+            
         } else {
             this.map.removeDirection()
             this._direction = null

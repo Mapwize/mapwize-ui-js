@@ -121,6 +121,10 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     var decoded = atob(svg)
     decoded = new Buffer(replace(decoded, '#000000', toColor)).toString('base64')
     return 'data:image/svg+xml;base64,' + decoded
-  }
+}
 
-export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg }
+const getPlace = (placeId: string): Promise<any> => {
+    return Api.getPlace(placeId).then().catch(() => Promise.resolve(null))
+}
+
+export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }

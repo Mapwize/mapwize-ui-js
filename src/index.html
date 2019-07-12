@@ -17,6 +17,7 @@
 <body>
     <div id="mapwize"></div>
     <script>
+        var map = null;
         window.onload = function () {
             // MapwizeUI.map('mapwize', { // Also works
             MapwizeUI.map({ // Also works
@@ -30,8 +31,9 @@
                 onMenuButtonClick: (e) => {
                     console.log('clickOnMenu', e)
                 }
-            }).then((map) => {
+            }).then((instance) => {
                 console.log('MAP LOADED')
+                map = instance;
             })
         }
     </script>
