@@ -71,7 +71,11 @@ const buildUIComponent = (mapInstance: any, options: any) => {
 
     mapInstance.local = (newLocal: string): string => {
         const currentLocal = local(newLocal)
+
         mapInstance.setPreferredLanguage(currentLocal)
+        mapInstance.searchBar.refreshLocal()
+        mapInstance.searchResults.refreshLocal()
+
         return currentLocal
     }
     mapInstance.getLocals = getLocals

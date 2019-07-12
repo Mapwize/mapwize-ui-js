@@ -45,6 +45,8 @@ export class SearchResults extends DefaultControl {
     public hide() {
         this.map.removeControl(this)
     }
+
+    public refreshLocal() {}
     
     private onVenueExit() {
         this._currentVenue = null
