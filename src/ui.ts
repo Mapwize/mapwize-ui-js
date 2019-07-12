@@ -1,6 +1,6 @@
 import { map, apiKey, Api, apiUrl } from 'mapwize'
-import { assign, get, set, isString, isObject } from 'lodash'
-import * as $ from 'jquery';
+import { get, set, isString, isObject, defaults } from 'lodash'
+import * as $ from 'jquery'
 
 import config from './config'
 
@@ -64,13 +64,13 @@ const buildUIComponent = (mapInstance: any, options: any) => {
         mapInstance.footerDirections.destroy()
     
         mapInstance.off('mapwize:click', onMapClick)
-        $(mapInstance.getContainer()).removeClass('mapwizeui');
+        $(mapInstance.getContainer()).removeClass('mapwizeui')
         
         mapInstance.remove()
     }
 
-    mapInstance.setLanguage = (lang:string) =>{
-        local(lang);
+    mapInstance.setLocal = (newLocal: string) =>{
+        return local(newLocal)
     }
     
     return mapInstance
@@ -82,9 +82,9 @@ const constructor = (container: string|HTMLElement, options: any): any => {
     }
 
     const containerSelector: any = isString(container) ? '#' + container : container
-    $(containerSelector).addClass('mapwizeui');
+    $(containerSelector).addClass('mapwizeui')
     
-    return map(assign(mapboxOptions, options.mapboxOptions), options.mapwizeOptions)
+    return map(defaults(options.mapboxOptions, mapboxOptions), options.mapwizeOptions)
 }
 
 const createMap = (container: string|HTMLElement, options?: any) => {
@@ -95,6 +95,14 @@ const createMap = (container: string|HTMLElement, options?: any) => {
         options = container
         container = options.container || 'mapwize'
     }
+
+    options = defaults(options, {
+        local: 'en',
+        mapboxOptions: {},
+        mapwizeOptions: {
+            preferredLanguage: 'en'
+        }
+    })
     
     if (!options.apiKey) {
         return Promise.reject(new Error('Missing "apiKey" in options'))
@@ -103,6 +111,9 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     set(options, 'mapwizeOptions.mapwizeAttribution', get(options, 'mapwizeOptions.mapwizeAttribution', 'bottom-right'))
     
     apiKey(options.apiKey)
+
+    local(options.local)
+    set(options, 'mapwizeOptions.preferredLanguage', options.local)
     
     if (options.apiUrl) {
         apiUrl(options.apiUrl)
@@ -111,13 +122,9 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     if (options.mainColor) {
         set(options, 'mapwizeOptions.color', options.mainColor)
     }
-
-    if (options.local) {
-        local(options.local)
-    }
     
     if (options.centerOnVenue && isString(options.centerOnVenue)) {
-        return Api.getVenue(options.centerOnVenue).then((venue: any) => createMap(container, assign({}, options, { centerOnVenue: venue })))
+        return Api.getVenue(options.centerOnVenue).then((venue: any) => createMap(container, defaults({}, { centerOnVenue: venue }, options)))
     } else if (options.centerOnVenue) {
         set(options, 'mapboxOptions.center', {
             lat: get(options.centerOnVenue, 'defaultCenter.latitude', options.centerOnVenue.marker.latitude),
@@ -134,7 +141,7 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     }
     
     if (options.centerOnPlace && isString(options.centerOnPlace)) {
-        return Api.getPlace(options.centerOnPlace).then((place: any) => createMap(container, assign({}, options, { centerOnPlace: set(place, 'objectClass', 'place') })))
+        return Api.getPlace(options.centerOnPlace).then((place: any) => createMap(container, defaults({}, { centerOnPlace: set(place, 'objectClass', 'place') }, options)))
     } else if (options.centerOnPlace) {
         set(options, 'mapboxOptions.center', {
             lat: get(options.centerOnPlace, 'marker.latitude'),

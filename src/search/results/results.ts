@@ -9,6 +9,7 @@ const templateGoogle = require('./templates/google.html')
 
 import { DefaultControl } from '../../control'
 import { getTranslation, getIcon, search, getMainSearches, getMainFroms } from '../../utils'
+import { translate } from '../../translate'
 
 export class SearchResults extends DefaultControl {
     
@@ -103,18 +104,18 @@ export class SearchResults extends DefaultControl {
     private mapwizeObjectResults(mwzObject: any, onClick: Function) {
         const lang = this.map.getLanguage() || this.map._options.preferredLanguage
         
-        return  $(template(templatePlace)({
+        return $(template(templatePlace)({
             icon: getIcon(mwzObject),
             title: getTranslation(mwzObject, lang, 'title'),
             subtitle: getTranslation(mwzObject, lang, 'subTitle'),
-            floor: isFinite(mwzObject.floor) ? ('On floor ' + mwzObject.floor) : ''
+            floor: isFinite(mwzObject.floor) ? translate('on_floor', { floor: mwzObject.floor }) : ''
         })).on('click', e => {
             e.preventDefault();
             return onClick(mwzObject);
         })
     }
     private googleObjectResults(googleObject: any, onClick: Function) {
-        return  $(template(templateGoogle)({
+        return $(template(templateGoogle)({
             address: get(googleObject, 'formatted_address'),
         })).on('click', e => {
             e.preventDefault();

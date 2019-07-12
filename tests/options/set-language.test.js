@@ -11,7 +11,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'language: fr', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YourMapwizeApiKey',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
         language: 'fr',
         centerOnVenue: '56b20714c3fa800b00d8f0b5'
       }).then((map) => {
@@ -30,7 +30,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'language: en', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YourMapwizeApiKey',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
         language: 'en',
         centerOnVenue: '56b20714c3fa800b00d8f0b5'
       }).then((map) => {
@@ -50,7 +50,7 @@ describe(testSuites, () => {
   mwzTest(testSuites, 'language: null', (page) => {
     return () => {
       MapwizeUI.map({
-        apiKey: 'YourMapwizeApiKey',
+        apiKey: '89a2695d7485fda885c96b405dcc8a25',
         centerOnVenue: '56b20714c3fa800b00d8f0b5'
       }).then((map) => {
 

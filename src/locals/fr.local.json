@@ -4,5 +4,7 @@
   "entering_in_venue": "Chargement de <%= venue %>...",
 
   "direction_placeholder_from": "De",
-  "direction_placeholder_to": "A"
+  "direction_placeholder_to": "A",
+
+  "on_floor": "À l'étage <%= floor %>"
 }

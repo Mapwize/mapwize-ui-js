@@ -1,8 +1,0 @@
-{
-    "search_placeholder_global": "Search in Mapwize",
-    "search_placeholder_venue": "Search in <%= venue %>",
-    "entering_in_venue": "Entering in <%= venue %>",
-  
-    "direction_placeholder_from": "From",
-    "direction_placeholder_to": "To"
-}

@@ -1,6 +1,3 @@
-import { init } from './translate'
-init()
-
 import './index.scss'
 
 import { map } from './ui'
