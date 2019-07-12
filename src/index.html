@@ -17,7 +17,7 @@
 <body>
     <div id="mapwize"></div>
     <script>
-        var map = null;
+        var mapwizeMap = null
         window.onload = function () {
             // MapwizeUI.map('mapwize', { // Also works
             MapwizeUI.map({ // Also works
@@ -33,7 +33,7 @@
                 }
             }).then((instance) => {
                 console.log('MAP LOADED')
-                map = instance;
+                mapwizeMap = map
             })
         }
     </script>
