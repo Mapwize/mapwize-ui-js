@@ -58,10 +58,12 @@ You use the CDN url directly in your HTML page
 
 ## Initialization
 
-Mapwize UI can be instantiated with the constructor:
+Mapwize UI can be instantiated with one of these constructors:
 
-```javascript
-MapwizeUI.map(container?, options)
+```typescript
+MapwizeUI.map(apiKey: String)
+MapwizeUI.map(options: Object)
+MapwizeUI.map(container: String, options: Object)
 ```
 
 The `map` method return a Promise that is resolved when the map and the UI are ready
@@ -70,26 +72,29 @@ The `map` method return a Promise that is resolved when the map and the UI are r
 
 #### `container`
 
-The HTML element in which Mapbox GL JS will render the map, or the element's string  id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`
+The HTML element in which Mapbox GL JS will render the map, or the element's string id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`    
+The html element need to be correctly formated and need to be sized in css
 
 #### `options`
 
 The following parameters are available for map initialization:
 
 - `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
-- `apiUrl` (optional) to change the server URL, if you have a dedicated Mapwize server.
-- `container` (optional) same as `container` param, default is: `mapwize`
-- `centerOnVenue` (optional) to center on a venue at start. Options takes either a venueId or a venue object.
-- `centerOnPlace` (optional) to center on a place at start. Options takes either a placeId or a place object.
-- `mapboxOptions` (optional) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
-- `mapwizeOptions` (optional) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
-- `restrictContentToVenue` (optional) to show only the related venue on the map. Builder takes a venue id.
-- `restrictContentToOrganization` (optional) to show only the venues of that organization on the map. Builder takes an organization id.
-- `onInformationButtonClick` (optional) callback called when you click on the footer when a place is selected
-- `onMenuButtonClick` (optional) callback called when the user clicked on the menu button (left button on the search bar)
-- `hideMenu` (optional) to hide menu bar.
-- `mainColor` (optional) the main color for the interface.
-- `direction`  (optional) to display directions at start. Object with keys from and to containing place ids (string).
+- `apiUrl` (optional, string, default: null) to change the server URL, if you have a dedicated Mapwize server.
+- `container` (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
+- `centerOnVenue` (optional, string|object, default: null) to center on a venue at start. Options takes either a venueId or a venue object.
+- `centerOnPlace` (optional, string|object, default: null) to center on a place at start. Options takes either a placeId or a place object.
+- `mapboxOptions` (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
+- `mapwizeOptions` (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
+- `restrictContentToVenue` (optional, string, default: null) to show only the related venue on the map. Builder takes a venue id.
+- `restrictContentToOrganization` (optional, string, default: null) to show only the venues of that organization on the map. Builder takes an organization id.
+- `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
+- `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
+- `hideMenu` (optional, boolean, default: false) to hide menu bar.
+- `mainColor` (optional, string, default: null) the main color for the interface as hexadecimal string.
+- `direction`  (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
+- `locale` (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
+- `unit` (optional, string, default: m) the ui measurement unit
 
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
@@ -97,9 +102,94 @@ The following parameters are available for map initialization:
 |html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
 |js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
+#### Methods
+
+##### `locale(newLocale: string): string`
+
+Change the ui locale if param `newLocale` is provided   
+Also set the map preferred language
+
+Signature: `(newLocale: string): string`   
+Parameters:
+- `newLocale`(optional, string, default: null) the new locale to set (need to be in `map.getLocales()` array)
+
+Return: the current ui locale or the new passed locale if valid
+
+##### `getLocales(): Array<string>`
+
+Get the list of supported locales by the user interface
+
+Signature: `(): Array<string>`   
+Parameters: there is no param   
+Return: the list of supported locales by the user interface
+
+##### `unit(newUnit: string): string`
+
+Change the ui measurement unit if param `newUnit` is provided
+
+Signature: `(newUnit: string): string`   
+Parameters:
+- `newUnit`(optional, string, default: null) the new measurement unit to set (need to be in `map.getUnits()` array)
+
+Return: the current ui measurement unit or the new passed measurement unit if valid
+
+##### `getUnits(): Array<string>`
+
+Get the list of supported measurement units by the user interface
+
+Signature: `(): Array<string>`   
+Parameters: there is no param   
+Return: the list of supported measurement units by the user interface
+
+##### `setDirectionMode(): void`
+
+Enable direction mode for the ui, this shows the two search fields for from and to
+
+Signature: `(): void`   
+Parameters: there is no param   
+Return: there is no return value
+
+##### `setFrom(from: any): void`
+
+Set the from field of direction module
+
+Signature: `(from: any): void`   
+Parameters:
+- `from` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { objectClass: 'userPosition' }, { latitude, longitude, floor, venueId }
+
+Return: there is no return value
+
+##### `setTo(to: any): void`
+
+Set the to field of direction module
+
+Signature: `(to: any): void`   
+Parameters:
+- `to` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { latitude, longitude, floor, venueId }
+
+Return: there is no return value
+
+##### `getDirection(): any`
+
+Get the current direction object if any
+
+Signature: `(): any`   
+Parameters: there is no param   
+Return: the current direction object if any
+
+##### `destroy(): void`
+
+Destroy the map and all its components
+
+Signature: `(): void`    
+Parameters: there is no param   
+Return: there is no return value
+
+
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
+<style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
 ```javascript
@@ -111,6 +201,7 @@ MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
 To have the map centered on a venue at start up:
 
 ```html
+<style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
 ```javascript
@@ -128,6 +219,7 @@ MapwizeUI.map(options).then(map => {
 To have the map centered on a place with the place selected at start up: 
 
 ```html
+<style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
 ```javascript

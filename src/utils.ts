@@ -2,9 +2,9 @@ import { find, get, set, debounce, map, isFinite, replace } from 'lodash'
 import * as $ from 'jquery';
 import { Api, apiUrl, apiKey } from 'mapwize'
 
-const GOOGLE_API_KEY = ''
-const DEFAULT_PLACE_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAArpJREFUeNrEl89rE0EUx98uwXqpBOxBREk8RRSTCIJ6yvZiPZUVbC+CGBWPhnrwj/BQqEexWoVeWqHFk/Xi5uIPEGwUxZzcUhUPFqI9aHpZ33f3bZxs3B+NSfqFyY/N5H3mzbx58yZFCeU4TprfDG5FbhluWfnJ5rbGbZWbpWlag3ohBhrclhxFzR+/nC/Pbbfhc0Doa8TZ1SKA8Oi+eEn1xRrZTz7S1xdr1Pz5u63v0J7dtP90hrJnD1NuouA/triVeQbsxGCGmgJNv7v7il5PVztgYcIgTtwo0bGrJ/G1IfDlWDBDLwG6+blBK1cW6Pv7b10t0cjRfTQ2O0nDBxAaLnwuFCyeLm0w7PHEw8ReRnk/vniR9vIgWOdUz7XAmr5hT9OPztz5b6gKP//0GjzHtB/311xX+rhriuntFRSCLdiEbWFQCyzhbyCIul3TKMEmbIPhbzXf48oWjwwR3C/B9pY3kxW8pCQjmZ9W6pFTfPnDTdrF6xUlGL535FbolIPB+9wEEx6bbt7j5BClOGiSPgrD1P2ci9H0WwojC3Bpow8BFSZhlXRv/psDA/ssnXZIupddhgYG9FkAVyWXDkTCqupSQfB5mu07VGHYuhzYdGgsF5sc4hTXR2FYmuTqZ/wnY/7U7dDsNXww7Z+tocIZvrneCD2lLry8jiSDumw0Jc9n+IGBqkGSeafR9XCjSQTbktketKJaDmgrzz+O9CHQYDPvlUKWX4mo+3gKIxqdHnenpXfbx7Mp3k617WPxGnVxGeGOcqUX8EDpUxZGZ+aSaWjBEVDdCv8NQOeSlLdupYnt8VbK2+14iUDK/w2mDmhcQV+UGqmIAdQXam5RH1YaIYBQzOcmCz5wNTi9icAB7ytyZ3KF20R7RsqoXwGa+ZeX2wIHyl9UKwXlwkbKxa3GbTnsyhLUHwEGAHTlTmav1n2rAAAAAElFTkSuQmCC'
-let lastSearchSended: string = ''
+import config from './config'
+
+let lastSearchSent: string = ''
 
 const getTranslation = (o: any, lang: string, attr: string): string => {
     const translation = find(o.translations, {
@@ -21,7 +21,7 @@ const getIcon = (o: any) => {
     || get(o, 'style.markerUrl', false)
     || get(o, 'placeType.style.markerUrl', false)
     || get(o, 'icon', false)
-    || DEFAULT_PLACE_ICON
+    || config.DEFAULT_PLACE_ICON
 }
 
 const searchInMapwize = (str: string, options: any): Promise<any> => {
@@ -31,9 +31,9 @@ const searchInMapwize = (str: string, options: any): Promise<any> => {
 }
 
 const searchInGoogle = (str: string, options: any): Promise<any> => {
-    if (GOOGLE_API_KEY) {
+    if (config.GOOGLE_API_KEY) {
         options.address = str
-        options.key = GOOGLE_API_KEY
+        options.key = config.GOOGLE_API_KEY
 
         return $.get('https://maps.googleapis.com/maps/api/geocode/json', options, null, 'json').then(googleResults => googleResults.results)
     } else {
@@ -42,7 +42,7 @@ const searchInGoogle = (str: string, options: any): Promise<any> => {
 }
 
 const doSearch = debounce((str: string, options: any, callback: Function) => {
-    lastSearchSended = str
+    lastSearchSent = str
 
     const toDo = [
         Promise.resolve(str),
@@ -52,7 +52,7 @@ const doSearch = debounce((str: string, options: any, callback: Function) => {
     toDo.push(options.google ? searchInGoogle(str, options) : Promise.resolve([]))
 
     return Promise.all(toDo).then((results: any) => {
-        if (results[0] !== lastSearchSended) {
+        if (results[0] !== lastSearchSent) {
             return callback(new Error('Receive old search response'))
         }
         callback(null, results)
@@ -70,8 +70,8 @@ const search = (search: string, options: any): Promise<any> => {
             })
         }
 
-        this.doSearch.cancel();
-        this.lastSearch = '';
+        doSearch.cancel();
+        lastSearchSent = '';
     
         return reject('Empty search string')
     })
@@ -123,8 +123,4 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     return 'data:image/svg+xml;base64,' + decoded
 }
 
-const getPlace = (placeId: string): Promise<any> => {
-    return Api.getPlace(placeId).then().catch(() => Promise.resolve(null))
-}
-
-export { getTranslation, getIcon, DEFAULT_PLACE_ICON, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
+export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg }

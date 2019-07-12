@@ -29,9 +29,7 @@ module.exports = {
       use: {
         loader: 'babel-loader',
         options: {
-          // '@babel/preset-env',
-          // Need to add and configure preset-env target
-          presets: ['@babel/preset-typescript']
+          presets: ['@babel/preset-env', '@babel/preset-typescript']
         }
       }
     }, {

@@ -2,14 +2,18 @@ import * as $ from 'jquery';
 
 const directionsHtml = require('./directions.html')
 
+import { unit } from '../../measure'
 import { DefaultControl } from '../../control'
 
 export class FooterDirections extends DefaultControl {
+
+    private _direction: any;
     
     constructor (mapInstance: any) {
         super(mapInstance)
 
         this._container = $(directionsHtml)
+        this._direction = null
 
         this.listen('click', '#footerDirections', (e: JQueryEventObject) => {
             console.log('click, #footerDirections', e)
@@ -27,10 +31,18 @@ export class FooterDirections extends DefaultControl {
     }
 
     public displayStats (direction: any) {
+        this._direction = direction
+
         this._container.find('#mwz-direction-time').text(this.timeParser(direction.traveltime))
-        this._container.find('#mwz-direction-distance').text(this.distanceParser(direction.distance))
+        this._container.find('#mwz-direction-distance').text(this.distanceParser(direction.distance, unit()))
 
         this.show()
+    }
+
+    public refreshUnit(): void {
+        if (this._direction) {
+            this.displayStats(this._direction)
+        }
     }
 
     private timeParser(value: number): string {

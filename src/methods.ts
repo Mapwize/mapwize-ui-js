@@ -1,3 +1,6 @@
+import { locale, getLocales } from './translate'
+import { unit, getUnits } from './measure'
+
 const attachMethods = (mapInstance: any) => {
   const onMapClick = (e: any): void => {
     if (e.venue) {
@@ -6,20 +9,49 @@ const attachMethods = (mapInstance: any) => {
   }
   mapInstance.on('mapwize:click', onMapClick)
 
-  mapInstance.setDirectionMode = () => {
+  const onDirectionStart = (e: any): void => {
+    // mapInstance.searchDirections.show()
+    // mapInstance.searchDirections.setFrom(from)
+    // mapInstance.searchDirections.setTo(to)
+  }
+  mapInstance.on('mapwize:directionstart', onDirectionStart)
+  
+  mapInstance.setDirectionMode = (): void => {
     return mapInstance.searchDirections.show()
   }
-  mapInstance.setFrom = (from: any) => {
+  mapInstance.setFrom = (from: any): void => {
     return mapInstance.searchDirections.setFrom(from)
   }
-  mapInstance.setTo = (to: any) => {
+  mapInstance.setTo = (to: any): void => {
     return mapInstance.searchDirections.setTo(to)
   }
-  mapInstance.getDirection = () => {
+  mapInstance.getDirection = (): any => {
     return mapInstance.searchDirections.getDirection()
   }
   
-  mapInstance.destroy = () => {
+  mapInstance.locale = (newLocale: string): string => {
+    const currentLocal = locale(newLocale)
+    
+    mapInstance.setPreferredLanguage(currentLocal)
+    mapInstance.searchBar.refreshLocale()
+    mapInstance.searchDirections.refreshLocale()
+    mapInstance.searchResults.refreshLocale()
+    
+    return currentLocal
+  }
+  mapInstance.getLocales = getLocales
+
+  mapInstance.unit = (newUnit: string): string => {
+    const currentUnit = unit(newUnit)
+    
+    mapInstance.footerDirections.refreshUnit()
+    
+    return currentUnit
+  }
+  mapInstance.getUnits = getUnits
+
+  
+  mapInstance.destroy = (): void => {
     mapInstance.searchResults.destroy()
     mapInstance.searchBar.destroy()
     mapInstance.searchDirections.destroy()
@@ -29,7 +61,8 @@ const attachMethods = (mapInstance: any) => {
     mapInstance.footerDirections.destroy()
     
     mapInstance.off('mapwize:click', onMapClick)
-    $(mapInstance.getContainer()).removeClass('mapwizeui');
+    mapInstance.off('mapwize:directionstart', onDirectionStart)
+    $(mapInstance.getContainer()).removeClass('mapwizeui')
     
     mapInstance.remove()
   }

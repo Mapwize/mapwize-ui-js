@@ -4,9 +4,9 @@ import { Api } from 'mapwize'
 
 const directionsHtml = require('./directions.html')
 
+import { translate } from '../../translate'
 import { DefaultControl } from '../../control'
-import { getTranslation, latitude, longitude, replaceColorInBase64svg, getPlace } from '../../utils'
-
+import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
 
 export class SearchDirections extends DefaultControl {
     
@@ -165,6 +165,11 @@ export class SearchDirections extends DefaultControl {
         this.map.on('mapwize:venueexit', this.onVenueExit)
         this.map.on('mapwize:click', this.onClick)
     }
+
+    public refreshLocale() {
+        this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('direction_placeholder_from'))
+        this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('direction_placeholder_to'))
+    }
     
     public mainColor(options: any) {
         if (options.mainColor) {
@@ -180,8 +185,8 @@ export class SearchDirections extends DefaultControl {
             this.show();
             
             return Promise.all([
-                getPlace(this._options.direction.from),
-                getPlace(this._options.direction.to)
+                this._map.getPlace(this._options.direction.from),
+                this._map.getPlace(this._options.direction.to)
             ]).then((objects: any) => {
                 var [from, to] = objects;
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from));
