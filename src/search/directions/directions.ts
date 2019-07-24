@@ -66,8 +66,19 @@ export class SearchDirections extends DefaultControl {
             this._setFrom(oldTo);
             this._setTo(oldFrom);
 
-            this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-            this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+            if(this.getDisplay(this._from) == "" ){
+                this._container.find('#mwz-mapwizeSearchFrom').val('Coordinates')
+            }else{
+                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+            }
+
+            if(this.getDisplay(this._to) == "" ){
+                this._container.find('#mwz-mapwizeSearchTo').val('Coordinates')
+            }else{
+                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+            }
+
+
         })
         this.listen('click', '#mwz-accessible-off', () => {
 
@@ -94,7 +105,6 @@ export class SearchDirections extends DefaultControl {
             this.map.searchResults.setFocusOn('from')
 
             clearTimeout(this._hideResultsTimeout)
-
             const str = this._container.find('#mwz-mapwizeSearchFrom').val() + ''
             if (str) {
                 this.map.searchResults.search(str, () => {
@@ -126,11 +136,13 @@ export class SearchDirections extends DefaultControl {
         this.listen('blur', '#mwz-mapwizeSearchFrom', () => {
 
             this._hideResultsTimeout = setTimeout(() => {
-                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-                this.map.searchResults.hide()
+                if (this._container.find('#mwz-mapwizeSearchFrom').val() != "Coordinates") {
+                    this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+                }
                 if (this._container.find('#mwz-mapwizeSearchFrom').val().length != 0) {
                     this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
                 }
+                this.map.searchResults.hide()
             }, 500)
         })
 
@@ -169,7 +181,9 @@ export class SearchDirections extends DefaultControl {
         })
         this.listen('blur', '#mwz-mapwizeSearchTo', () => {
             this._hideResultsTimeout = setTimeout(() => {
-                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+                if (this._container.find('#mwz-mapwizeSearchTo').val() != "Coordinates") {
+                    this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+                }
                 this.map.searchResults.hide()
             }, 500)
         })
@@ -296,6 +310,14 @@ export class SearchDirections extends DefaultControl {
             } else if (!this.extractQuery(this._to)) {
                 this._setTo(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+            }
+        }else if ($(this.map._container).hasClass('mwz-directions')) {
+            if (!this.extractQuery(this._from)) {
+                this._setFrom({ lng: e.lngLat.lng, lat: e.lngLat.lat, floor: e.floor });
+                this._container.find('#mwz-mapwizeSearchFrom').val('Coordinates');
+            } else if (!this.extractQuery(this._to)) {
+                this._setTo({ lng: e.lngLat.lng, lat: e.lngLat.lat, floor: e.floor });
+                this._container.find('#mwz-mapwizeSearchTo').val('Coordinates');
             }
         }
     }
