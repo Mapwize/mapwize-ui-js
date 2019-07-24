@@ -5,6 +5,7 @@
     margin-left: 10px;
     pointer-events: auto;
    
+
     .dropdown-toggle::after {
         display:none;
     }
@@ -36,6 +37,10 @@
         border: none;
         cursor: default;
         min-width: 0rem;
+        
+        a{
+            white-space: normal;
+        }
     }
     .mwz-icon{
         width: 30px;

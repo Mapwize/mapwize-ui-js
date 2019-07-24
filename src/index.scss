@@ -11,6 +11,9 @@
     @import "./footer/venue/venue";
     @import "./footer/selection/selection";
     
+   .mwz-accessible-button:hover{
+            background: #fad1ec;
+    }
     .mapboxgl-ctrl-group > button:focus {
         outline: none !important;
     }
@@ -76,7 +79,7 @@
         border-left: 2px solid rgba(0, 0, 0, 0.1);
         border-right: 2px solid rgba(0, 0, 0, 0.1);
         width: 32px;
-    height: 32px;
+        height: 32px;
      }
 
 

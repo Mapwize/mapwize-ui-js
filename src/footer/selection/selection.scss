@@ -18,9 +18,6 @@
             height: 20px;
         }
         
-        &:hover {
-            background-color: #efefef;
-        }
     }
 
     .mwz-icon {
@@ -32,10 +29,6 @@
             border: none;
             border-radius: unset;
             line-height: inherit;
-
-            &:hover {
-                background-color: #efefef;
-            }
         }
     }
     .mwz-icon, .mwz-directions {
