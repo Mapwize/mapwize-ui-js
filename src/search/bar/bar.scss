@@ -13,6 +13,7 @@
     pointer-events: auto;
 
     transition: margin-top 0.15s ease-in-out, margin-left 0.15s ease-in-out, width 0.15s ease-in-out;
+    overflow: auto;
     
     .mwz-menu, .mwz-directions {
         img {

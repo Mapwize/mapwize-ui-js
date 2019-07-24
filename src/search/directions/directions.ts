@@ -20,8 +20,8 @@ export class SearchDirections extends DefaultControl {
     private _direction: any
     private _options: any
     private _lang: any
-    
-    constructor (mapInstance: any, options: any) {
+
+    constructor(mapInstance: any, options: any) {
         super(mapInstance)
 
         this._container = $(directionsHtml)
@@ -66,18 +66,8 @@ export class SearchDirections extends DefaultControl {
             this._setFrom(oldTo);
             this._setTo(oldFrom);
 
-            if(this.getDisplay(this._from) == "" ){
-                this._container.find('#mwz-mapwizeSearchFrom').val('Coordinates')
-            }else{
-                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-            }
-
-            if(this.getDisplay(this._to) == "" ){
-                this._container.find('#mwz-mapwizeSearchTo').val('Coordinates')
-            }else{
-                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
-            }
-
+            this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+            this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
 
         })
         this.listen('click', '#mwz-accessible-off', () => {
@@ -134,14 +124,8 @@ export class SearchDirections extends DefaultControl {
             }
         })
         this.listen('blur', '#mwz-mapwizeSearchFrom', () => {
-
             this._hideResultsTimeout = setTimeout(() => {
-                if (this._container.find('#mwz-mapwizeSearchFrom').val() != "Coordinates") {
-                    this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-                }
-                if (this._container.find('#mwz-mapwizeSearchFrom').val().length != 0) {
-                    this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
-                }
+                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
                 this.map.searchResults.hide()
             }, 500)
         })
@@ -181,9 +165,7 @@ export class SearchDirections extends DefaultControl {
         })
         this.listen('blur', '#mwz-mapwizeSearchTo', () => {
             this._hideResultsTimeout = setTimeout(() => {
-                if (this._container.find('#mwz-mapwizeSearchTo').val() != "Coordinates") {
-                    this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
-                }
+                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
                 this.map.searchResults.hide()
             }, 500)
         })
@@ -202,15 +184,15 @@ export class SearchDirections extends DefaultControl {
     }
 
     public refreshLocale() {
-        if(this._from == null && this._to == null || this._to != null){
+        if (this._from == null && this._to == null || this._to != null) {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
             this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination'))
-        }else {
+        } else {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
             this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
         }
     }
-    
+
     public mainColor(options: any) {
 
         const crossIconB64 = 'TTE5IDEzdi0yYy0xLjU0LjAyLTMuMDktLjc1LTQuMDctMS44M2wtMS4yOS0xLjQzYy0uMTctLjE5LS4zOC0uMzQtLjYxLS40NS0uMDEgMC0uMDEtLjAxLS4wMi0uMDFIMTNjLS4zNS0uMi0uNzUtLjMtMS4xOS0uMjZDMTAuNzYgNy4xMSAxMCA4LjA0IDEwIDkuMDlWMTVjMCAxLjEuOSAyIDIgMmg1djVoMnYtNS41YzAtMS4xLS45LTItMi0yaC0zdi0zLjQ1YzEuMjkgMS4wNyAzLjI1IDEuOTQgNSAxLjk1em0tNi4xNyA1Yy0uNDEgMS4xNi0xLjUyIDItMi44MyAyLTEuNjYgMC0zLTEuMzQtMy0zIDAtMS4zMS44NC0yLjQxIDItMi44M1YxMi4xYy0yLjI4LjQ2LTQgMi40OC00IDQuOSAwIDIuNzYgMi4yNCA1IDUgNSAyLjQyIDAgNC40NC0xLjcyIDQuOS00aC0yLjA3eg=='
@@ -223,11 +205,11 @@ export class SearchDirections extends DefaultControl {
             this._container.find('#mwz-menuButton img').attr('src', replaceColorInBase64svg(menuIconB64, options.mainColor))
         }
     }
-    
+
     public launchDirection() {
         if (this._options.hasOwnProperty('direction') && this._options.direction.hasOwnProperty('from') && this._options.direction.hasOwnProperty('to')) {
             this.show();
-            
+
             return Promise.all([
                 this._map.getPlace(this._options.direction.from),
                 this._map.getPlace(this._options.direction.to)
@@ -235,7 +217,7 @@ export class SearchDirections extends DefaultControl {
                 var [from, to] = objects;
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from));
                 this._setFrom(set(from, 'objectClass', 'place'));
-                
+
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to));
                 this._setTo(set(to, 'objectClass', 'place'));
             }).catch(() => {
@@ -243,27 +225,27 @@ export class SearchDirections extends DefaultControl {
             });
         }
     }
-    
+
     public destroy() {
         this.map.off('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.off('mapwize:venueenter', this.onVenueEnter)
         this.map.off('mapwize:venueexit', this.onVenueExit)
         this.map.off('mapwize:click', this.onClick)
     }
-    
-    public show () {
+
+    public show() {
         if (this._currentVenue) {
             this.map.searchBar.hide()
-            
+
             if (this.map.footerSelection.getSelected()) {
                 this._setTo(this.map.footerSelection.getSelected())
                 const lang = this.map.getLanguage()
                 this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
             }
-            
+
             this.map.footerSelection.unselect()
             this.map.footerVenue.hide()
-            
+
             this.map.addControl(this, 'top-left')
             $(this.map._container).addClass('mwz-directions')
             this._container.find("#mwz-mapwizeSearchFrom").focus()
@@ -311,13 +293,13 @@ export class SearchDirections extends DefaultControl {
                 this._setTo(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
             }
-        }else if ($(this.map._container).hasClass('mwz-directions')) {
-            if (!this.extractQuery(this._from)) {
-                this._setFrom({ lng: e.lngLat.lng, lat: e.lngLat.lat, floor: e.floor });
-                this._container.find('#mwz-mapwizeSearchFrom').val('Coordinates');
-            } else if (!this.extractQuery(this._to)) {
-                this._setTo({ lng: e.lngLat.lng, lat: e.lngLat.lat, floor: e.floor });
-                this._container.find('#mwz-mapwizeSearchTo').val('Coordinates');
+        } else if ($(this.map._container).hasClass('mwz-directions')) {
+            if (!this._from) {
+                this._setFrom({ longitude: e.lngLat.lng, latitude: e.lngLat.lat, floor: e.floor });
+                this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'));
+            } else if (!this._to) {
+                this._setTo({ longitude: e.lngLat.lng, latitude: e.lngLat.lat, floor: e.floor });
+                this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'));
             }
         }
     }
@@ -354,8 +336,11 @@ export class SearchDirections extends DefaultControl {
     private getDisplay(o: any): string {
         if (o) {
             const lang = this.map.getLanguage()
-            return getTranslation(o, lang, 'title')
-
+            if (o.hasOwnProperty('_id')) {
+                return getTranslation(o, lang, 'title')
+            } else {
+                return translate('coordinates')
+            }
         }
         return '';
     }
@@ -368,7 +353,7 @@ export class SearchDirections extends DefaultControl {
 
         if (from && to) {
             this._container.find("#mwz-alert-noDirection").hide();
-            
+
             Api.getDirection({
                 from: from,
                 to: to,

@@ -27,6 +27,8 @@
         padding: 6px;
     }
     .dropdown-menu{
+        max-height: 400px;
+        overflow: auto;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-top-right-radius: 20px;
@@ -74,6 +76,9 @@
 }
 
 &.mwz-small {
+    .dropdown-menu{
+        max-height: 300px !important;
+    }
     #mwz-footerVenue {
         margin-left: 2px;
         margin-bottom: 28px;

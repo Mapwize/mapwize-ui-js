@@ -3,12 +3,11 @@
   "search_placeholder_venue": "Rechercher dans <%= venue %>...",
   "entering_in_venue": "Chargement de <%= venue %>...",
 
-  "direction_placeholder_from": "De",
-  "direction_placeholder_to": "A",
+  "choose_starting_or_click_point":"Choisissez le point de départ ou cliquez sur la carte...",
+  "choose_destination_or_click_point":"Choisissez une destination ou cliquez sur la carte...",
+  "choose_destination":"Choisissez une destination...",
 
   "on_floor": "À l'étage <%= floor %>",
 
-  "choose_starting_or_click_point":"Choisissez le point de départ ou cliquez sur la carte...",
-  "choose_destination_or_click_point":"Choisissez une destination ou cliquez sur la carte...",
-  "choose_destination":"Choisissez une destination..."
+  "coordinates": "Coordonnées"
 }
