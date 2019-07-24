@@ -65,7 +65,6 @@ export class SearchBar extends DefaultControl {
             } else {
                 this.map.searchResults.hide()
             }
-            console.log("str: "+str)
         })
         this.listen('blur', '#mwz-mapwizeSearch', (e: JQueryEventObject) => {
             this._hideResultsTimeout = setTimeout(() => {

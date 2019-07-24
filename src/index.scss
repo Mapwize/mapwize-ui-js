@@ -19,7 +19,7 @@
         border-top: none;
     }
     .mapboxgl-ctrl-group {
-        box-shadow: none;
+        box-shadow: none !important;
         background:none;
         display: flex;
         flex-direction: column-reverse;

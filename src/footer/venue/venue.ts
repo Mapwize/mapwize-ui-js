@@ -13,7 +13,6 @@ export class FooterVenue extends DefaultControl {
 
         this._container = $(venueHtml)
         this._currentVenue = this.map.getVenue()
-        this._container.find('#mwz-language-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon').attr("src") + '"/>' + this.map.getLanguage())
 
         this.listen('change', '#universes-selector select', (e: JQueryEventObject) => {
             const selectedId = this._container.find('#universes-selector select').val()
@@ -27,34 +26,48 @@ export class FooterVenue extends DefaultControl {
 
         })
 
-        this._container.find('.dropdown').on("hide.bs.dropdown", function (event) {
-            $($($(this).parent())).parent().css("border-radius", "50px");
+        this._container.find('.dropdown').on("hide.bs.dropdown", (event) => {
+            if (this._container.find(event.relatedTarget).attr('id') == "mwz-language-button") {
+                this._container.find('.mwz-wrapper-select:first-child').css("border-radius", "50px");
+            } else {
+                this._container.find('.mwz-wrapper-select:last-child').css("border-radius", "50px");
+            }
+
             if ($(mapInstance._container).hasClass('mwz-small')) {
-                if ($($($(this)).children()[0]).attr("id") == "mwz-language-button") {
-                    $($($(this)).children()[0]).children().css("margin-left", "")
-                    $($(this).children()[0]).css("width", "").css("color", "")
-                    $($(this)).parent().parent().parent().css("padding-left", "")
-                    $($(($(this)).parent().parent().parent()).children()[1]).show()
+                if (this._container.find(event.relatedTarget).attr('id') == "mwz-language-button") {
+
+                    this._container.find('.mwz-icon:first-child').css("margin-left", "")
+                    this._container.find('#mwz-language-button').css({width: '',color: ''})
+                    this._container.css("padding-left", "")
+                    this._container.find('.mwz-wrapper-select:last-child').show()
+
                 } else {
-                    $($($(this)).children()[0]).children().css("margin-left", "")
-                    $($(this).children()[0]).css("width", "")
-                    $($(($(this)).parent().parent().parent()).children()[0]).css("margin-right", "")
+                    this._container.find('.mwz-icon:last-child').css("margin-left", "")
+                    this._container.find('#mwz-universe-button').css("width", "")
+                    this._container.find('.mwz-wrapper-select:first-child').css("margin-right", "")
                 }
             }
         });
 
-        this._container.find('.dropdown').on("show.bs.dropdown", function (event) {
-            $($($(this).parent())).parent().css("border-radius", "0 0 20px 20px");
+        this._container.find('.dropdown').on("show.bs.dropdown", (event) => {
+            if (this._container.find(event.relatedTarget).attr('id') == "mwz-language-button") {
+                this._container.find('.mwz-wrapper-select:first-child').css("border-radius", "0 0 20px 20px");
+            } else {
+                this._container.find('.mwz-wrapper-select:last-child').css("border-radius", "0 0 20px 20px");
+            }
+
             if ($(mapInstance._container).hasClass('mwz-small')) {
-                if ($($($(this)).children()[0]).attr("id") == "mwz-language-button") {
-                    $($($(this)).children()[0]).children().attr("style", "margin-left: 15px")
-                    $($(this)).parent().parent().parent().attr("style", "padding-left: 5px")
-                    $($(this).children()[0]).attr("style", "width: 70px !important;")
-                    $($(($(this)).parent().parent().parent()).children()[1]).hide()
+                if (this._container.find(event.relatedTarget).attr('id') == "mwz-language-button") {
+
+                    this._container.find('.mwz-icon:first-child').attr("style", "margin-left: 15px")
+                    this._container.attr("style", "padding-left: 5px")
+                    this._container.find('#mwz-language-button').attr("style", "width: 70px !important;")
+                    this._container.find('.mwz-wrapper-select:last-child').hide()
+
                 } else {
-                    $($($(this)).children()[0]).children().attr("style", "margin-left: 58px")
-                    $($(($(this)).parent().parent().parent()).children()[0]).attr("style", "margin-right: 12px;")
-                    $($(this).children()[0]).attr("style", "width: 170px !important;")
+                   this._container.find('.mwz-icon:last-child').attr("style", "margin-left: 58px")
+                   this._container.find('.mwz-wrapper-select:first-child').attr("style", "margin-right: 12px;")
+                   this._container.find('#mwz-universe-button').attr("style", "width: 170px !important;")
                 }
             }
 
@@ -90,6 +103,7 @@ export class FooterVenue extends DefaultControl {
     public show() {
         this._container.removeClass('d-none').addClass('d-flex')
         $(this.map._container).addClass('mwz-venue-footer')
+        this._container.find('#mwz-language-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon').attr("src") + '"/>' + this.map.getLanguage())
     }
     public hide() {
         this._container.removeClass('d-flex').addClass('d-none')
