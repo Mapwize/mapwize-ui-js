@@ -2,9 +2,13 @@
   "search_placeholder_global": "Search in Mapwize",
   "search_placeholder_venue": "Search in <%= venue %>",
   "entering_in_venue": "Entering in <%= venue %>",
-  
-  "direction_placeholder_from": "From",
-  "direction_placeholder_to": "To",
-  
-  "on_floor": "On floor <%= floor %>"
+
+  "choose_starting_or_click_point":"Choose starting point, or click on the map...",
+  "choose_destination_or_click_point":"Choose destination, or click on the map...",
+  "choose_destination":"Choose destination...",
+
+  "on_floor": "On floor <%= floor %>",
+
+  "coordinates": "Coordinates"
+
 }

@@ -23,7 +23,6 @@ export class FooterDirections extends DefaultControl {
 
     public show () {
         this.map.footerSelection.unselect()
-        
         this._container.removeClass('d-none').addClass('d-flex')
     }
     public hide () {

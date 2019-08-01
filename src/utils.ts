@@ -7,13 +7,15 @@ import config from './config'
 let lastSearchSent: string = ''
 
 const getTranslation = (o: any, lang: string, attr: string): string => {
-    const translation = find(o.translations, {
+    var translation = find(o.translations, {
         language: lang
     })
-    if (translation) {
-        return get(translation, attr, '')
+    if (o.defaultLanguage && get(translation, attr, '').length === 0) {
+        translation = find(o.translations, {
+            language: o.defaultLanguage
+        })
     }
-    return ''
+    return get(translation, attr, '')
 }
 
 const getIcon = (o: any) => {
@@ -27,7 +29,16 @@ const getIcon = (o: any) => {
 const searchInMapwize = (str: string, options: any): Promise<any> => {
     options.query = str
 
-    return $.post(apiUrl() + '/search?api_key=' + apiKey(), options, null, 'json').then(mapwizeResults => mapwizeResults.hits)
+    return $.ajax({
+        type: 'POST',
+        url: apiUrl() + '/search?api_key=' + apiKey(),
+        data: options,
+        success: null,
+        dataType: 'json',
+        xhrFields: {
+            withCredentials: true
+        },
+    }).then(mapwizeResults => mapwizeResults.hits)
 }
 
 const searchInGoogle = (str: string, options: any): Promise<any> => {

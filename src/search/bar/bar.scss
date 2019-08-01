@@ -1,4 +1,6 @@
 #mwz-searchBar {
+    border-radius: 8px;
+    
     height: 50px;
     width: 400px;
     
@@ -11,6 +13,7 @@
     pointer-events: auto;
 
     transition: margin-top 0.15s ease-in-out, margin-left 0.15s ease-in-out, width 0.15s ease-in-out;
+    overflow: auto;
     
     .mwz-menu, .mwz-directions {
         img {
@@ -34,6 +37,7 @@
             border-top: none;
             border-left: none;
             border-right: none;
+            border-bottom: none;
             border-radius: unset;
 
             box-shadow: none;
@@ -42,6 +46,10 @@
                 box-shadow: none;
                 border-color: #93979b;
             }
+
+            &::placeholder {
+                color: #BABABA;
+              }
         }
     }
     
@@ -57,7 +65,10 @@
     #mwz-searchBar {
         margin-left: 0;
         margin-top: 0;
-        
         width: 100%;
+
+        .btn-link:hover {
+            background-color: transparent !important;
+        }
     }
 }
