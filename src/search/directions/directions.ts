@@ -126,6 +126,7 @@ export class SearchDirections extends DefaultControl {
         this.listen('blur', '#mwz-mapwizeSearchFrom', () => {
             this._hideResultsTimeout = setTimeout(() => {
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+                this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
                 this.map.searchResults.hide()
             }, 500)
         })
@@ -288,6 +289,11 @@ export class SearchDirections extends DefaultControl {
             if (!this.extractQuery(this._from)) {
                 this._setFrom(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+                console.log(this._from)
+                if (this.getDisplay(!this._from)) {
+                    console.log("aaas")
+                    this._container.find('#mwz-mapwizeSearchFrom').val("jebac")
+                }
                 this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
             } else if (!this.extractQuery(this._to)) {
                 this._setTo(set(e.place, 'objectClass', 'place'));
@@ -316,6 +322,7 @@ export class SearchDirections extends DefaultControl {
     }
     public setFrom(from: any): void {
         this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from))
+        
         this._setFrom(from);
     }
     private _setFrom(from: any): void {
