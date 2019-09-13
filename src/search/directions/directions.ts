@@ -126,7 +126,9 @@ export class SearchDirections extends DefaultControl {
         this.listen('blur', '#mwz-mapwizeSearchFrom', () => {
             this._hideResultsTimeout = setTimeout(() => {
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-                this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
+                if (this.getDisplay(this._from)) {
+                    this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
+                }
                 this.map.searchResults.hide()
             }, 500)
         })
@@ -185,6 +187,26 @@ export class SearchDirections extends DefaultControl {
     }
 
     public refreshLocale() {
+        const lang = this.map.getLanguage()
+
+        if (this._from && !getTranslation(this._from, lang, 'title') && this._to && !getTranslation(this._to, lang, 'title')) {
+            this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'))
+            this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'))
+        } else if (this._from && !getTranslation(this._from, lang, 'title')) {
+            this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'))
+        } else if (this._to && !getTranslation(this._to, lang, 'title') ) {
+            this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'))
+        }
+
+        if (this._from && !getTranslation(this._from, lang, 'title') && this._to && !getTranslation(this._to, lang, 'title') && this._from.hasOwnProperty('_id') && this._to.hasOwnProperty('_id')) {
+            this._container.find('#mwz-mapwizeSearchFrom').val(translate('empty_title'))
+            this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
+        } else if (this._from && !getTranslation(this._from, lang, 'title') && this._from.hasOwnProperty('_id')) {
+            this._container.find('#mwz-mapwizeSearchFrom').val(translate('empty_title'))
+        } else if (this._to && !getTranslation(this._to, lang, 'title') && this._to.hasOwnProperty('_id')) {
+            this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
+        }
+
         if (this._from == null && this._to == null || this._to != null) {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
             this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination'))
@@ -289,15 +311,16 @@ export class SearchDirections extends DefaultControl {
             if (!this.extractQuery(this._from)) {
                 this._setFrom(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-                console.log(this._from)
-                if (this.getDisplay(!this._from)) {
-                    console.log("aaas")
-                    this._container.find('#mwz-mapwizeSearchFrom').val("jebac")
+                if (!this.getDisplay(this._from)) {
+                    this._container.find('#mwz-mapwizeSearchFrom').val(translate('empty_title'))
                 }
                 this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
             } else if (!this.extractQuery(this._to)) {
                 this._setTo(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+                if (!this.getDisplay(this._to)) {
+                    this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
+                }
             }
         } else if ($(this.map._container).hasClass('mwz-directions')) {
             if (!this._from) {
@@ -322,7 +345,7 @@ export class SearchDirections extends DefaultControl {
     }
     public setFrom(from: any): void {
         this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from))
-        
+
         this._setFrom(from);
     }
     private _setFrom(from: any): void {
@@ -344,7 +367,11 @@ export class SearchDirections extends DefaultControl {
         if (o) {
             const lang = this.map.getLanguage()
             if (o.hasOwnProperty('_id')) {
-                return getTranslation(o, lang, 'title')
+                if (getTranslation(o, lang, 'title')) {
+                    return getTranslation(o, lang, 'title')
+                } else {
+                    return translate('empty_title')
+                }
             } else {
                 return translate('coordinates')
             }
