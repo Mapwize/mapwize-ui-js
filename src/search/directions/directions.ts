@@ -258,7 +258,12 @@ export class SearchDirections extends DefaultControl {
             if (this.map.footerSelection.getSelected()) {
                 this._setTo(this.map.footerSelection.getSelected())
                 const lang = this.map.getLanguage()
-                this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
+
+                if(getTranslation(this._to, lang, 'title')){
+                    this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
+                }else{
+                    this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
+                }
             }
 
             this.map.footerSelection.unselect()
