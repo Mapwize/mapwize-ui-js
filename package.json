@@ -60,10 +60,12 @@
   },
   "dependencies": {
     "bootstrap": "4.3.1",
+    "core-js": "3.2.1",
     "jquery": "3.4.1",
     "lodash": "4.17.11",
     "mapwize": "3.4.5",
-    "popper.js": "1.15.0"
+    "popper.js": "1.15.0",
+    "regenerator-runtime": "0.13.3"
   },
   "private": true
 }

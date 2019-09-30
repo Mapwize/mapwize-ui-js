@@ -29,7 +29,10 @@ module.exports = {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-typescript']
+          presets: [['@babel/preset-env', {
+            useBuiltIns: 'usage',
+            corejs: { version: 3, proposals: true }
+          }], '@babel/preset-typescript']
         }
       }
     }, {

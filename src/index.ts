@@ -1,3 +1,7 @@
+// polyfill
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import 'bootstrap/js/dist/dropdown';
 import './index.scss'
 
