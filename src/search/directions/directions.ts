@@ -187,25 +187,9 @@ export class SearchDirections extends DefaultControl {
     }
 
     public refreshLocale() {
-        const lang = this.map.getLanguage()
 
-        if (this._from && !getTranslation(this._from, lang, 'title') && this._to && !getTranslation(this._to, lang, 'title')) {
-            this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'))
-            this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'))
-        } else if (this._from && !getTranslation(this._from, lang, 'title')) {
-            this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'))
-        } else if (this._to && !getTranslation(this._to, lang, 'title') ) {
-            this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'))
-        }
-
-        if (this._from && !getTranslation(this._from, lang, 'title') && this._to && !getTranslation(this._to, lang, 'title') && this._from.hasOwnProperty('_id') && this._to.hasOwnProperty('_id')) {
-            this._container.find('#mwz-mapwizeSearchFrom').val(translate('empty_title'))
-            this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
-        } else if (this._from && !getTranslation(this._from, lang, 'title') && this._from.hasOwnProperty('_id')) {
-            this._container.find('#mwz-mapwizeSearchFrom').val(translate('empty_title'))
-        } else if (this._to && !getTranslation(this._to, lang, 'title') && this._to.hasOwnProperty('_id')) {
-            this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
-        }
+      this.setFieldDisplayIfNoTitle(this._from, '#mwz-mapwizeSearchFrom')
+      this.setFieldDisplayIfNoTitle(this._to, '#mwz-mapwizeSearchTo')
 
         if (this._from == null && this._to == null || this._to != null) {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
@@ -213,6 +197,17 @@ export class SearchDirections extends DefaultControl {
         } else {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
             this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
+        }
+    }
+
+    private setFieldDisplayIfNoTitle(field, selector) {
+        const lang = this.map.getLanguage()
+        if (field && !getTranslation(field, lang, 'title')) {
+            if (field.hasOwnProperty('_id')) {
+                this._container.find(selector).val(translate('empty_title'))
+            } else {
+                this._container.find(selector).val(translate('coordinates'))
+            }
         }
     }
 
