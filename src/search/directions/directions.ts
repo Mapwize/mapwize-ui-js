@@ -187,8 +187,8 @@ export class SearchDirections extends DefaultControl {
     }
 
     public refreshLocale() {
-      this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-      this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+        this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+        this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
 
         if (this._from == null && this._to == null || this._to != null) {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
@@ -246,7 +246,12 @@ export class SearchDirections extends DefaultControl {
             if (this.map.footerSelection.getSelected()) {
                 this._setTo(this.map.footerSelection.getSelected())
                 const lang = this.map.getLanguage()
-                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+
+                if(getTranslation(this._to, lang, 'title')){
+                    this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
+                }else{
+                    this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
+                }
             }
 
             this.map.footerSelection.unselect()
@@ -294,12 +299,10 @@ export class SearchDirections extends DefaultControl {
             if (!this.extractQuery(this._from)) {
                 this._setFrom(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
-                    this._container.find('#mwz-mapwizeSearchFrom').val(translate('empty_title'))
                 this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
             } else if (!this.extractQuery(this._to)) {
                 this._setTo(set(e.place, 'objectClass', 'place'));
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
-                    this._container.find('#mwz-mapwizeSearchTo').val(translate('empty_title'))
             }
         } else if ($(this.map._container).hasClass('mwz-directions')) {
             if (!this._from) {
