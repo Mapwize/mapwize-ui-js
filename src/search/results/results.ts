@@ -148,6 +148,7 @@ export class SearchResults extends DefaultControl {
     
     public search (str: string, onClick: Function) {
         const searchOptions = this.searchOptions(this._focusOn)
+        const lang = this.map.getLanguage()
         
         return search(str, searchOptions).then((results: Array<any>) => {
             let [query, mapwize, google] = results
@@ -164,7 +165,9 @@ export class SearchResults extends DefaultControl {
                         resultContainer.append($('<li class="list-group-item list-group-item-secondary">' + get(resultsByUniverse, 'universe.name') + '</li>'))
                     }
                     forEach(resultsByUniverse.results, (mwzResult: any) => {
-                        resultContainer.append(this.mapwizeObjectResults(mwzResult, onClick(resultsByUniverse.universe)))
+                        if (getTranslation(mwzResult, lang, 'title')) {
+                            resultContainer.append(this.mapwizeObjectResults(mwzResult, onClick(resultsByUniverse.universe)))
+                        }
                     })
                 })
             } else {

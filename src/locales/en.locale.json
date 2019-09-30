@@ -9,6 +9,9 @@
 
   "on_floor": "On floor <%= floor %>",
 
-  "coordinates": "Coordinates"
+  "coordinates": "Coordinates",
+
+  "empty_title": "Empty title"
+
 
 }

@@ -61,7 +61,7 @@ export class SearchBar extends DefaultControl {
                     this.map.searchResults.show()
                 })
             } else if (this._currentVenue) {
-                this.map.searchResults.showMainSearchIfAny(this._clickOnSearchResult.bind(this))
+               this.map.searchResults.showMainSearchIfAny(this._clickOnSearchResult.bind(this))
             } else {
                 this.map.searchResults.hide()
             }

@@ -126,6 +126,9 @@ export class SearchDirections extends DefaultControl {
         this.listen('blur', '#mwz-mapwizeSearchFrom', () => {
             this._hideResultsTimeout = setTimeout(() => {
                 this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+                if (this.getDisplay(this._from)) {
+                    this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination_or_click_point'))
+                }
                 this.map.searchResults.hide()
             }, 500)
         })
@@ -184,6 +187,9 @@ export class SearchDirections extends DefaultControl {
     }
 
     public refreshLocale() {
+        this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(this._from))
+        this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+
         if (this._from == null && this._to == null || this._to != null) {
             this._container.find('#mwz-mapwizeSearchFrom').attr('placeholder', translate('choose_starting_or_click_point'))
             this._container.find('#mwz-mapwizeSearchTo').attr('placeholder', translate('choose_destination'))
@@ -239,8 +245,7 @@ export class SearchDirections extends DefaultControl {
 
             if (this.map.footerSelection.getSelected()) {
                 this._setTo(this.map.footerSelection.getSelected())
-                const lang = this.map.getLanguage()
-                this._container.find('#mwz-mapwizeSearchTo').val(getTranslation(this._to, lang, 'title'))
+                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
             }
 
             this.map.footerSelection.unselect()
@@ -316,6 +321,7 @@ export class SearchDirections extends DefaultControl {
     }
     public setFrom(from: any): void {
         this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from))
+
         this._setFrom(from);
     }
     private _setFrom(from: any): void {
@@ -337,7 +343,11 @@ export class SearchDirections extends DefaultControl {
         if (o) {
             const lang = this.map.getLanguage()
             if (o.hasOwnProperty('_id')) {
-                return getTranslation(o, lang, 'title')
+                if (getTranslation(o, lang, 'title')) {
+                    return getTranslation(o, lang, 'title')
+                } else {
+                    return translate('empty_title')
+                }
             } else {
                 return translate('coordinates')
             }

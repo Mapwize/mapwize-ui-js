@@ -9,5 +9,8 @@
 
   "on_floor": "À l'étage <%= floor %>",
 
-  "coordinates": "Coordonnées"
+  "coordinates": "Coordonnées",
+
+  "empty_title": "Titre vide"
+
 }
