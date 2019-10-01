@@ -7,6 +7,8 @@ const directionsHtml = require('./directions.html')
 import { translate } from '../../translate'
 import { DefaultControl } from '../../control'
 import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+import { icons } from '../../config'
+
 import { cpus } from 'os';
 
 export class SearchDirections extends DefaultControl {
@@ -16,7 +18,7 @@ export class SearchDirections extends DefaultControl {
 
     private _from: any
     private _to: any
-    private _accessible: boolean
+    private _modeId: any
     private _direction: any
     private _options: any
     private _lang: any
@@ -27,12 +29,8 @@ export class SearchDirections extends DefaultControl {
         this._container = $(directionsHtml)
         this._currentVenue = this.map.getVenue()
         this._from = this._to = null
-        this._accessible = false
         this._options = options
         this._lang = ''
-
-        const accessibleOffIconB64 = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDQ4IDQ4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OCA0ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgogICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMDAwMDA7fQo8L3N0eWxlPgo8Zz4KCTxnPgoJCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yMywxMS43Yy0wLjIsMC0wLjMsMC4xLTAuNSwwLjFjLTAuMiwwLTAuMywwLjEtMC41LDAuMmwtOCw0Yy0wLjMsMC4yLTAuNiwwLjQtMC44LDAuN2wtNCw2Yy0wLjYsMC45LTAuNCwyLjIsMC42LDIuOAoJCQljMC45LDAuNiwyLjIsMC40LDIuOC0wLjZjMCwwLDAsMCwwLDBsMy43LTUuNmw0LjYtMi4zYy0wLjEsMC40LTAuMSwwLjgtMC4xLDAuOGMtMC42LDMtMS40LDYuOC0xLjgsOGMtMC42LDIuOCwxLjQsNC40LDEuNCw0LjQKCQkJbDcsN2wzLjgsOS41YzAuNCwxLDEuNiwxLjUsMi42LDEuMWMxLTAuNCwxLjUtMS42LDEuMS0yLjZsLTQtMTAuMWMtMC4xLTAuMi0wLjEtMC4zLTAuMy0wLjRsLTEuNS0ybC0zLjEtNWwxLjQtN2wxLjEsMi45CgkJCWMwLjIsMC41LDAuNiwwLjksMS4xLDEuMWw2LjcsM2MxLDAuNiwyLjIsMC4zLDIuOC0wLjdjMC42LTEsMC4zLTIuMi0wLjctMi44Yy0wLjEtMC4xLTAuMy0wLjEtMC40LTAuMmwtNS45LTIuN2wtMy4xLTguMgoJCQljLTAuMy0wLjgtMS0xLjMtMS45LTEuM2gtMy4xQzIzLjUsMTEuNywyMy4zLDExLjcsMjMsMTEuN3oiLz4KCQk8Y2lyY2xlIGNsYXNzPSJzdDAiIGN4PSIyNy45IiBjeT0iNC44IiByPSI0LjgiLz4KCTwvZz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOC40LDMwLjVsLTEuMyw2LjJsLTUuNiw3LjVjLTAuNiwwLjktMC40LDIuMSwwLjQsMi43YzAuOSwwLjYsMi4xLDAuNCwyLjctMC40bDUuNi03LjVjMC4xLTAuMSwwLjEtMC4yLDAuMi0wLjJsMC4xLTAuMQoJCWMwLDAsMC4xLTAuMSwwLjEtMC4yYzAsMCwwLDAsMCwwYzAsMCwwLTAuMSwwLjEtMC4xYzAuMS0wLjIsMC4xLTAuMywwLjItMC41bDEuMi0yLjljMC4xLTAuMiwwLTAuNS0wLjEtMC43bC0yLjgtMi44CgkJQzE5LDMxLjMsMTguNiwzMC45LDE4LjQsMzAuNXoiLz4KPC9nPgo8L3N2Zz4K';
-        const accessibleOnIconB64 = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDQ4IDQ4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OCA0ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB0eXBlPSJ0ZXh0L2NzcyI+Ci5zdDB7ZmlsbDojMDAwMDAwO30KPC9zdHlsZT4KPGc+Cgk8Y2lyY2xlIGNsYXNzPSJzdDAiIGN4PSIxOS40IiBjeT0iNC4zIiByPSI0LjMiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00NS43LDM2LjljLTAuNC0wLjgtMS41LTEuMi0yLjMtMC44bC0yLjEsMS4xTDM1LjMsMjdjMCwwLDAsMCwwLDBjLTAuNC0wLjgtMS4zLTEuMy0yLjItMS4zaC05LjR2LTMuNGg2LjkKCQljMC45LDAsMS43LTAuOCwxLjctMS43YzAtMC45LTAuOC0xLjctMS43LTEuN2gtNi45di00LjNjMC0yLjQtMS45LTQuMy00LjMtNC4zcy00LjMsMS45LTQuMyw0LjN2NC41Yy02LjgsMS4yLTEyLDcuMi0xMiwxNC4zCgkJYzAsOCw2LjUsMTQuNiwxNC42LDE0LjZzMTQuNi02LjUsMTQuNi0xNC42YzAtMC45LTAuMS0xLjctMC4zLTIuNmgwLjNsNi45LDExLjRsNS44LTNDNDUuOCwzOC44LDQ2LjIsMzcuOCw0NS43LDM2Ljl6IE0yOC44LDMzLjQKCQljMCw2LjEtNSwxMS4xLTExLjEsMTEuMXMtMTEuMS01LTExLjEtMTEuMWMwLTUuMywzLjctOS43LDguNi0xMC44djRjMCwyLjQsMS45LDQuMyw0LjMsNC4zYzAuMywwLDAuNSwwLDAuNywwYzAsMCwwLjEsMCwwLjEsMGg4LjMKCQlDMjguNywzMS43LDI4LjgsMzIuNSwyOC44LDMzLjR6Ii8+CjwvZz4KPC9zdmc+';
 
         this.mainColor(options)
 
@@ -70,25 +68,14 @@ export class SearchDirections extends DefaultControl {
             this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
 
         })
-        this.listen('click', '#mwz-accessible-off', () => {
 
-            this._container.find('#mwz-accessible-on').removeClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-off').addClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-off img').attr('src', replaceColorInBase64svg(accessibleOffIconB64, "#FFFFFF"))
-            this._container.find('#mwz-accessible-on img').attr('src', replaceColorInBase64svg(accessibleOnIconB64, "#000000"))
-            this._accessible = !this._accessible;
+        this.listen('click', '.mwz-accessible-button', (e) => {
+            this._modeId = $(e.currentTarget).attr('id')
+            this._container.find('.mwz-accessible-button-selected').removeClass('mwz-accessible-button-selected')
+            $(e.currentTarget).addClass('mwz-accessible-button-selected')
             this._displayDirection()
         })
 
-        this.listen('click', '#mwz-accessible-on', () => {
-
-            this._container.find('#mwz-accessible-off').removeClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-on').addClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-on img').attr('src', replaceColorInBase64svg(accessibleOnIconB64, "#FFFFFF"))
-            this._container.find('#mwz-accessible-off img').attr('src', replaceColorInBase64svg(accessibleOffIconB64, "#000000"))
-            this._accessible = !this._accessible;
-            this._displayDirection()
-        })
 
         this.listen('focus', '#mwz-mapwizeSearchFrom', () => {
             this._container.find('#mwz-mapwizeSearchFrom').select()
@@ -254,6 +241,7 @@ export class SearchDirections extends DefaultControl {
             this.map.addControl(this, 'top-left')
             $(this.map._container).addClass('mwz-directions')
             this._container.find("#mwz-mapwizeSearchFrom").focus()
+            this.setAvailablesModes(this.map.getModes())
         }
     }
     public hide() {
@@ -307,6 +295,21 @@ export class SearchDirections extends DefaultControl {
                 this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'));
             }
         }
+    }
+    private setAvailablesModes(modes: any) {
+        $('.mwz-accessibleLine').empty()
+        _.forEach(modes, (mode,i) => {
+            var selected = "";
+            if(i == 0){
+                selected = " mwz-accessible-button-selected";
+            }
+            var button = '<div class="mwz-button-icon">'
+                + '<button type="button" id="'+mode._id+'" class="btn btn-link mwz-accessible-button'+selected+'">'
+                + '<img src="'+icons[mode.type]+'" alt="'+mode.name+'" />'
+                + '</button>'
+                + '</div><div class="mwz-accessible-separator"></div>'
+            $('.mwz-accessibleLine').append(button)
+        })
     }
     private clear(): void {
         this._setFrom(null)
@@ -367,12 +370,10 @@ export class SearchDirections extends DefaultControl {
             Api.getDirection({
                 from: from,
                 to: to,
-                options: {
-                    isAccessible: this._accessible
-                }
+                modeId:this._modeId
             }).then((direction: any) => {
                 this._direction = direction
-
+                direction.modeId = this._modeId
                 this.map.setDirection(direction, options);
                 const placesToPromote = [];
                 if (direction.from.placeId) {

@@ -79,9 +79,12 @@
     .mwz-accessibleLine {
         height: 44px;
         margin: 0;
+        overflow-x: scroll;
+        max-width: 200px;
+        margin: 0 auto;
         
         .mwz-accessible-button-selected {
-            background-color: #C51586;
+            background-color: rgba(197,21,134,0.3);
         }
         .mwz-accessible-button {
             padding: 2px 22px 2px 22px;
