@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { isObject, get, set } from 'lodash'
+import { isObject, get, set, has, first, keyBy, template, inRange, map } from 'lodash'
 import { Api } from 'mapwize'
 
 const directionsHtml = require('./directions.html')
@@ -9,7 +9,9 @@ import { DefaultControl } from '../../control'
 import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
 import { icons } from '../../config'
 
-import { cpus } from 'os';
+const templateButtonMode = template(require('./templates/button-mode.html'))
+
+const modeButtonWidth = 64
 
 export class SearchDirections extends DefaultControl {
 
@@ -18,7 +20,8 @@ export class SearchDirections extends DefaultControl {
 
     private _from: any
     private _to: any
-    private _modeId: any
+    private _modes: any
+    private _mode: any
     private _direction: any
     private _options: any
     private _lang: any
@@ -69,28 +72,18 @@ export class SearchDirections extends DefaultControl {
 
         })
 
-        this.listen('click', '.mwz-accessible-button', (e) => {
-            var modeSelected = this._container.find('.mwz-accessible-button-selected')
-            var iconName = modeSelected.children().attr("alt")
-            var iconLink = this._container.find(e.currentTarget).children().attr("src").split(",")[1]
-
-            modeSelected.children().attr("src",icons[iconName])
-            modeSelected.removeClass('mwz-accessible-button-selected')
-
-            this._container.find(e.currentTarget).addClass('mwz-accessible-button-selected')
-
-
-            this._container.find(e.currentTarget).children().attr("src", replaceColorInBase64svg(iconLink, '#C51586'))
-            this._modeId = $(e.currentTarget).attr('id')
+        this.listen('click', '.mwz-mode-button', (e: any) => {
+            const mode = this._modes[e.currentTarget.id]
+            this.setSelectedMode(mode)
             this._displayDirection()
         })
 
-        this.listen('click', '.mwz-next-mode, .mwz-previous-mode', (e) => {
+        this.listen('click', '.mwz-next-mode, .mwz-previous-mode', (e: any) => {
             var element = this._container.find(".mwz-mode-icons");
-            var scroll = 256;
+            var scroll = 4 * modeButtonWidth;
 
             if ($(this.map._container).hasClass('mwz-small')) {
-                scroll = 192
+                scroll = 3 * modeButtonWidth
             }
 
             var scrollValue = element.scrollLeft() + scroll
@@ -98,8 +91,7 @@ export class SearchDirections extends DefaultControl {
                 scrollValue = element.scrollLeft() - scroll
             }
 
-            element.animate({ scrollLeft: scrollValue }, 600)
-            this.setScroll(scrollValue)
+            this.setModeScroll(scrollValue)
         })
 
         this.listen('focus', '#mwz-mapwizeSearchFrom', () => {
@@ -193,6 +185,7 @@ export class SearchDirections extends DefaultControl {
         this.map.on('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
+        this.map.on('mapwize:modeschange', (e: any) => { this.setAvailablesModes(e.modes) })
         this.map.on('mapwize:click', this.onClick)
 
         this.refreshLocale()
@@ -266,7 +259,6 @@ export class SearchDirections extends DefaultControl {
             this.map.addControl(this, 'top-left')
             $(this.map._container).addClass('mwz-directions')
             this._container.find("#mwz-mapwizeSearchFrom").focus()
-            this.setAvailablesModes(this.map.getModes())
         }
     }
     public hide() {
@@ -321,7 +313,7 @@ export class SearchDirections extends DefaultControl {
             }
         }
     }
-    private setScroll(position: any) {
+    private updateArrowDisplayForModes(position: any) {
         var base64PrevouousMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
         var base64NextMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
 
@@ -348,26 +340,85 @@ export class SearchDirections extends DefaultControl {
         }
     }
     private setAvailablesModes(modes: any) {
+        modes = [
+            { type: 'WALK', _id: "1"}, 
+            { type: 'RUN', _id: "2"}, 
+            { type: 'ACCESSIBLE', _id: "3"},
+            { type: 'BIKE', _id: "4"},
+            { type: 'BOAT', _id: "5"}, 
+            { type: 'BUS', _id: "6"}, 
+            { type: 'WALK', _id: "7"}, 
+            { type: 'RUN', _id: "8"}, 
+            { type: 'ACCESSIBLE', _id: "9"},
+            { type: 'BIKE', _id: "10"},
+            { type: 'BOAT', _id: "11"}
+        ]
+
         this._container.find('.mwz-mode-icons').empty()
 
-        _.forEach(modes, (mode, i) => {
-            var selected = "";
-            var icon = icons[mode.type];
+        this._modes = keyBy(map(modes, (mode: any, index: number) => set(mode, 'index', index)), '_id')
 
-            if (!this._modeId && i == 0 || mode._id == this._modeId) {
+        modes.forEach((mode: any, i: number) => {
+            var selected = "";
+            var icon = get(icons, mode.type);
+
+            if (this._mode && mode._id == this._mode._id) {
                 selected = " mwz-accessible-button-selected";
                 icon = replaceColorInBase64svg(icon.split(",")[1], '#C51586')
             }
 
-            var button = '<div class="mwz-button-icon">'
-                + '<button type="button" id="' + mode._id + '" class="btn btn-link mwz-accessible-button' + selected + '">'
-                + '<img src="' + icon + '" alt="' + mode.type + '" />'
-                + '</button>'
-                + '</div>'
+            var button = templateButtonMode({
+                modeId: mode._id,
+                modeType: mode.type,
+                selected: selected,
+                icon: icon
+            })
             this._container.find('.mwz-mode-icons').append(button)
         })
-        this.setScroll(0)
+
+        if (!this._mode) {
+            this.setSelectedMode(first(modes))
+        } else {
+            this.ensureSelectedModeIsVisible()
+        }
+
+        this.updateArrowDisplayForModes(0)
     }
+
+    private setSelectedMode(mode: any) {
+        if (this._mode) {
+            this._container.find('#' + this._mode._id).removeClass('mwz-accessible-button-selected')
+            this._container.find('#' + this._mode._id + ' img').attr('src', get(icons, this._mode.type))
+        }
+
+        this._mode = mode
+        this._container.find('#' + this._mode._id).addClass('mwz-accessible-button-selected')
+        this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(",")[1], '#C51586'))
+        
+        this.ensureSelectedModeIsVisible()
+    }
+
+    private ensureSelectedModeIsVisible() {
+        const currentScroll = this._container.find(".mwz-mode-icons").scrollLeft()
+        const buttonOffset = (this._mode.index - 1) * modeButtonWidth
+
+        let visibleZone = currentScroll + 4 * modeButtonWidth
+        if ($(this.map._container).hasClass('mwz-small')) {
+            visibleZone = currentScroll + 3 * modeButtonWidth
+        }
+
+        if (!inRange(buttonOffset, currentScroll, visibleZone)) {
+            this.setModeScroll(buttonOffset + modeButtonWidth)
+        }
+    }
+
+    private setModeScroll(scrollValue: number) {
+        this._container.find(".mwz-mode-icons").animate({ scrollLeft: scrollValue }, 600, () => {
+            this.updateArrowDisplayForModes(scrollValue)
+        })
+    }
+
+
     private clear(): void {
         this._setFrom(null)
         this._setTo(null)
@@ -427,10 +478,9 @@ export class SearchDirections extends DefaultControl {
             Api.getDirection({
                 from: from,
                 to: to,
-                modeId: this._modeId
+                modeId: this._mode._id
             }).then((direction: any) => {
                 this._direction = direction
-                direction.modeId = this._modeId
                 this.map.setDirection(direction, options);
                 const placesToPromote = [];
                 if (direction.from.placeId) {
@@ -455,18 +505,18 @@ export class SearchDirections extends DefaultControl {
 
     private extractQuery(o: any): any {
         if (isObject(o)) {
-            if (o.location) {
+            if (has(o, 'location')) {
                 return {
-                    lat: latitude(o.location),
-                    lon: longitude(o.location),
-                    floor: o.floor,
-                    venueId: o.venueId || this._currentVenue._id
+                    lat: latitude(get(o, 'location')),
+                    lon: longitude(get(o, 'location')),
+                    floor: get(o, 'floor'),
+                    venueId: get(o, 'venueId', this._currentVenue._id)
                 };
-            } else if (o.objectClass === 'place') {
-                return { placeId: o._id };
-            } else if (o.objectClass === 'placeList') {
-                return { placeListId: o._id };
-            } else if (o.objectClass === 'userPosition') {
+            } else if (get(o, 'objectClass') === 'place') {
+                return { placeId: get(o, '_id') };
+            } else if (get(o, 'objectClass') === 'placeList') {
+                return { placeListId: get(o, '_id') };
+            } else if (get(o, 'objectClass') === 'userPosition') {
                 const userPosition = this.map.getUserPosition();
                 return {
                     lat: latitude(userPosition),
@@ -478,16 +528,16 @@ export class SearchDirections extends DefaultControl {
                 return {
                     lat: latitude(o),
                     lon: longitude(o),
-                    floor: o.floor,
-                    venueId: o.venueId || this._currentVenue._id
+                    floor: get(o, 'floor'),
+                    venueId: get(o, 'venueId', this._currentVenue._id)
                 };
-            } else if (o.geometry) {
+            } else if (has(o, 'geometry')) {
                 // Google address result case
                 return {
-                    lat: latitude(o.geometry.location),
-                    lon: longitude(o.geometry.location),
+                    lat: latitude(get(o, 'geometry.location')),
+                    lon: longitude(get(o, 'geometry.location')),
                     floor: 0,
-                    venueId: o.venueId || this._currentVenue._id
+                    venueId: get(o, 'venueId', this._currentVenue._id)
                 };
             } else {
                 console.error('Unexpected object content', o)
