@@ -80,15 +80,15 @@
         margin-top: -35px;
     }
     
-    .mwz-accessibleLine {
+    .mwz-modesLine {
         height: 54px;
         max-width: 256px;
         margin: 0 auto;
 
-        .mwz-accessible-button-selected {
+        .mwz-mode-button-selected {
             background-color: rgba(197,21,134,0.1);
         }
-        .mwz-accessible-button {
+        .mwz-mode-button {
             padding: 2px 22px 2px 22px;
             border-radius: 30px !important;
         }
@@ -100,9 +100,6 @@
                 }
             }
         }
-        .mwz-accessible-separator {
-            width: 30px;
-        }
     }
     
     #mwz-alert-noDirection {
@@ -113,7 +110,7 @@
     }
 }
 &.mwz-small {
-    .mwz-accessibleLine{
+    .mwz-modesLine{
         max-width: 192px !important;
     }
     #mwz-searchDirection {

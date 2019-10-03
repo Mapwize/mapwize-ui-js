@@ -48,7 +48,7 @@ export class SearchDirections extends DefaultControl {
 
         this.listen('click', '#mwz-close-button', () => {
             this.clear()
-            this._container.find("#mwz-alert-noDirection").hide()
+            this._container.find('#mwz-alert-noDirection').hide()
             this.map.searchBar.show()
             this.map.footerVenue.show()
         })
@@ -79,7 +79,7 @@ export class SearchDirections extends DefaultControl {
         })
 
         this.listen('click', '.mwz-next-mode, .mwz-previous-mode', (e: any) => {
-            var element = this._container.find(".mwz-mode-icons");
+            var element = this._container.find('.mwz-mode-icons');
             var scroll = 4 * modeButtonWidth;
 
             if ($(this.map._container).hasClass('mwz-small')) {
@@ -232,7 +232,7 @@ export class SearchDirections extends DefaultControl {
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to));
                 this._setTo(set(to, 'objectClass', 'place'));
             }).catch(() => {
-                this._container.find("#mwz-alert-noDirection").show();
+                this._container.find('#mwz-alert-noDirection').show();
             });
         }
     }
@@ -258,7 +258,7 @@ export class SearchDirections extends DefaultControl {
 
             this.map.addControl(this, 'top-left')
             $(this.map._container).addClass('mwz-directions')
-            this._container.find("#mwz-mapwizeSearchFrom").focus()
+            this._container.find('#mwz-mapwizeSearchFrom').focus()
         }
     }
     public hide() {
@@ -340,31 +340,17 @@ export class SearchDirections extends DefaultControl {
         }
     }
     private setAvailablesModes(modes: any) {
-        modes = [
-            { type: 'WALK', _id: "1"}, 
-            { type: 'RUN', _id: "2"}, 
-            { type: 'ACCESSIBLE', _id: "3"},
-            { type: 'BIKE', _id: "4"},
-            { type: 'BOAT', _id: "5"}, 
-            { type: 'BUS', _id: "6"}, 
-            { type: 'WALK', _id: "7"}, 
-            { type: 'RUN', _id: "8"}, 
-            { type: 'ACCESSIBLE', _id: "9"},
-            { type: 'BIKE', _id: "10"},
-            { type: 'BOAT', _id: "11"}
-        ]
-
         this._container.find('.mwz-mode-icons').empty()
 
         this._modes = keyBy(map(modes, (mode: any, index: number) => set(mode, 'index', index)), '_id')
 
         modes.forEach((mode: any, i: number) => {
-            var selected = "";
+            var selected = '';
             var icon = get(icons, mode.type);
 
             if (this._mode && mode._id == this._mode._id) {
-                selected = " mwz-accessible-button-selected";
-                icon = replaceColorInBase64svg(icon.split(",")[1], '#C51586')
+                selected = ' mwz-mode-button-selected';
+                icon = replaceColorInBase64svg(icon.split(',')[1], '#C51586')
             }
 
             var button = templateButtonMode({
@@ -387,19 +373,19 @@ export class SearchDirections extends DefaultControl {
 
     private setSelectedMode(mode: any) {
         if (this._mode) {
-            this._container.find('#' + this._mode._id).removeClass('mwz-accessible-button-selected')
+            this._container.find('#' + this._mode._id).removeClass('mwz-mode-button-selected')
             this._container.find('#' + this._mode._id + ' img').attr('src', get(icons, this._mode.type))
         }
 
         this._mode = mode
-        this._container.find('#' + this._mode._id).addClass('mwz-accessible-button-selected')
-        this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(",")[1], '#C51586'))
+        this._container.find('#' + this._mode._id).addClass('mwz-mode-button-selected')
+        this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(',')[1], '#C51586'))
         
         this.ensureSelectedModeIsVisible()
     }
 
     private ensureSelectedModeIsVisible() {
-        const currentScroll = this._container.find(".mwz-mode-icons").scrollLeft()
+        const currentScroll = this._container.find('.mwz-mode-icons').scrollLeft()
         const buttonOffset = (this._mode.index - 1) * modeButtonWidth
 
         let visibleZone = currentScroll + 4 * modeButtonWidth
@@ -413,7 +399,7 @@ export class SearchDirections extends DefaultControl {
     }
 
     private setModeScroll(scrollValue: number) {
-        this._container.find(".mwz-mode-icons").animate({ scrollLeft: scrollValue }, 600, () => {
+        this._container.find('.mwz-mode-icons').animate({ scrollLeft: scrollValue }, 600, () => {
             this.updateArrowDisplayForModes(scrollValue)
         })
     }
@@ -473,7 +459,7 @@ export class SearchDirections extends DefaultControl {
         const to = this.extractQuery(this._to)
 
         if (from && to) {
-            this._container.find("#mwz-alert-noDirection").hide();
+            this._container.find('#mwz-alert-noDirection').hide();
 
             Api.getDirection({
                 from: from,
@@ -494,7 +480,7 @@ export class SearchDirections extends DefaultControl {
 
                 this.map.footerDirections.displayStats(direction)
             }).catch(() => {
-                this._container.find("#mwz-alert-noDirection").show();
+                this._container.find('#mwz-alert-noDirection').show();
             });
         } else {
             this.map.removeDirection()
