@@ -130,7 +130,7 @@ const longitude = (o: any): number => {
 
 const replaceColorInBase64svg = (svg: string, toColor: string) => {
     var decoded = atob(svg)
-    decoded = new Buffer(replace(decoded, '#000000', toColor)).toString('base64')
+    decoded = new Buffer(replace(decoded, /#000000/g, toColor)).toString('base64')
     return 'data:image/svg+xml;base64,' + decoded
 }
 

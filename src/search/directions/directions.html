@@ -12,7 +12,8 @@
                 alt="From" />
         </div>
         <div class="mwz-search flex-grow-1">
-            <input type="text" class="form-control" id="mwz-mapwizeSearchFrom" placeholder="Choose starting point, or click on the map..." autocomplete="off" />
+            <input type="text" class="form-control" id="mwz-mapwizeSearchFrom"
+                placeholder="Choose starting point, or click on the map..." autocomplete="off" />
         </div>
         <div class="mwz-padding"></div>
 
@@ -24,18 +25,34 @@
                 alt="To" />
         </div>
         <div class="mwz-search flex-grow-1">
-            <input type="text" class="form-control" id="mwz-mapwizeSearchTo" placeholder="Choose destination..." autocomplete="off" />
+            <input type="text" class="form-control" id="mwz-mapwizeSearchTo" placeholder="Choose destination..."
+                autocomplete="off" />
         </div>
         <div class="mwz-button-icon">
             <button type="button" id="mwz-reverse-button" class="btn btn-link">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAA60lEQVRYCe2WQQrCQAxFq3gR8RouPEdP4kYQXLjwHF5LT9G1JuCHOCWTOoyjhV8oaZPJzOO1dNp1PGZmYFHA+zA9Jf2mfXy5HKd+myFQ5J+GaCgyENX5DkWGVsGAjdT7zJhDUrvK/S3JVb+9yIy6XUTnufrKmQkjqKYw4PSgPJgdGr8ZU6ijs5hC6iP2YJ22sjSg9k47YPDONYHaToRpCpUypWYAg9jEFKAimMlQ0YcRC+biWoqDnPYjeTINNq9pHX839bfL6v/Er9nVCI6P1uDmCm1epCHPDPI0BBNepCHPDPJ/ZwhgjLMx8ARPo0UTRXPlXQAAAABJRU5ErkJggg=="
-                    alt="Reverse" />
+                    alt="Previous" />
             </button>
         </div>
     </label>
-    <div class="mwz-accessibleLine d-flex justify-content-center align-items-center">
 
+    <div class="mwz-searchLine d-flex align-items-center">
+        <div class="mwz-padding"></div>
+        <button type="button" class="btn btn-link mwz-previous-mode">
+            <img src="data:image/svg+xml;PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4="
+                alt="Previous" />
+        </button>
+        <div class="mwz-search flex-grow-1">
+            <div class="mwz-accessibleLine d-flex justify-content-center align-items-center">
+                <div class="mwz-mode-icons"></div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-link mwz-next-mode">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4="
+                alt="Next" />
+        </button>
     </div>
+
     <div id="mwz-alert-noDirection" class="alert alert-danger" role="alert" role="alert">
         Oops, looks like we can’t find a way for you to get there!
     </div>

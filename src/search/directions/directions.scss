@@ -12,6 +12,10 @@
     
     pointer-events: auto;
     
+    .mwz-mode-icons{
+        display: flex;
+        overflow-x: hidden;
+    }
     .mwz-close-button {
         width: 18px !important;
     }
@@ -77,14 +81,12 @@
     }
     
     .mwz-accessibleLine {
-        height: 44px;
-        margin: 0;
-        overflow-x: scroll;
-        max-width: 200px;
+        height: 54px;
+        max-width: 256px;
         margin: 0 auto;
-        
+
         .mwz-accessible-button-selected {
-            background-color: rgba(197,21,134,0.3);
+            background-color: rgba(197,21,134,0.1);
         }
         .mwz-accessible-button {
             padding: 2px 22px 2px 22px;
@@ -111,6 +113,9 @@
     }
 }
 &.mwz-small {
+    .mwz-accessibleLine{
+        max-width: 192px !important;
+    }
     #mwz-searchDirection {
         margin-left: 0;
         margin-top: 0;

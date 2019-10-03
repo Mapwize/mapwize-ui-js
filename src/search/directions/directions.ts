@@ -70,12 +70,37 @@ export class SearchDirections extends DefaultControl {
         })
 
         this.listen('click', '.mwz-accessible-button', (e) => {
+            var modeSelected = this._container.find('.mwz-accessible-button-selected')
+            var iconName = modeSelected.children().attr("alt")
+            var iconLink = this._container.find(e.currentTarget).children().attr("src").split(",")[1]
+
+            modeSelected.children().attr("src",icons[iconName])
+            modeSelected.removeClass('mwz-accessible-button-selected')
+
+            this._container.find(e.currentTarget).addClass('mwz-accessible-button-selected')
+
+
+            this._container.find(e.currentTarget).children().attr("src", replaceColorInBase64svg(iconLink, '#C51586'))
             this._modeId = $(e.currentTarget).attr('id')
-            this._container.find('.mwz-accessible-button-selected').removeClass('mwz-accessible-button-selected')
-            $(e.currentTarget).addClass('mwz-accessible-button-selected')
             this._displayDirection()
         })
 
+        this.listen('click', '.mwz-next-mode, .mwz-previous-mode', (e) => {
+            var element = this._container.find(".mwz-mode-icons");
+            var scroll = 256;
+
+            if ($(this.map._container).hasClass('mwz-small')) {
+                scroll = 192
+            }
+
+            var scrollValue = element.scrollLeft() + scroll
+            if(!this._container.find(e.currentTarget).hasClass('mwz-next-mode')){
+                scrollValue = element.scrollLeft() - scroll
+            }
+
+            element.animate({ scrollLeft: scrollValue }, 600)
+            this.setScroll(scrollValue)
+        })
 
         this.listen('focus', '#mwz-mapwizeSearchFrom', () => {
             this._container.find('#mwz-mapwizeSearchFrom').select()
@@ -296,20 +321,52 @@ export class SearchDirections extends DefaultControl {
             }
         }
     }
+    private setScroll(position: any) {
+        var base64PrevouousMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
+        var base64NextMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
+
+        var numberOfmodeToDisplay = 4;
+
+        if ($(this.map._container).hasClass('mwz-small')) {
+            numberOfmodeToDisplay = 3;
+        }
+
+        var endScroll = (this._container.find('.mwz-mode-icons button').length - numberOfmodeToDisplay) * 64;
+        if (this._container.find('.mwz-mode-icons button').length - numberOfmodeToDisplay <= 0) {
+            this._container.find('.mwz-previous-mode').hide()
+            this._container.find('.mwz-next-mode').hide()
+        } else if (position <= 0) {
+            this._container.find('.mwz-previous-mode img').attr('src', replaceColorInBase64svg(base64PrevouousMode, '#DCDCDC'))
+            this._container.find('.mwz-next-mode img').attr('src', replaceColorInBase64svg(base64NextMode, '#000000'))
+        } else if (position >= endScroll) {
+            this._container.find('.mwz-next-mode img').attr('src', replaceColorInBase64svg(base64NextMode, '#DCDCDC'))
+            this._container.find('.mwz-previous-mode img').attr('src', replaceColorInBase64svg(base64PrevouousMode, '#000000'))
+        } else {
+            this._container.find('.mwz-previous-mode').show()
+            this._container.find('.mwz-previous-mode img').attr('src', replaceColorInBase64svg(base64PrevouousMode, '#000000'))
+            this._container.find('.mwz-next-mode img').attr('src', replaceColorInBase64svg(base64NextMode, '#000000'))
+        }
+    }
     private setAvailablesModes(modes: any) {
-        $('.mwz-accessibleLine').empty()
-        _.forEach(modes, (mode,i) => {
+        this._container.find('.mwz-mode-icons').empty()
+
+        _.forEach(modes, (mode, i) => {
             var selected = "";
-            if(i == 0){
+            var icon = icons[mode.type];
+
+            if (!this._modeId && i == 0 || mode._id == this._modeId) {
                 selected = " mwz-accessible-button-selected";
+                icon = replaceColorInBase64svg(icon.split(",")[1], '#C51586')
             }
+
             var button = '<div class="mwz-button-icon">'
-                + '<button type="button" id="'+mode._id+'" class="btn btn-link mwz-accessible-button'+selected+'">'
-                + '<img src="'+icons[mode.type]+'" alt="'+mode.name+'" />'
+                + '<button type="button" id="' + mode._id + '" class="btn btn-link mwz-accessible-button' + selected + '">'
+                + '<img src="' + icon + '" alt="' + mode.type + '" />'
                 + '</button>'
-                + '</div><div class="mwz-accessible-separator"></div>'
-            $('.mwz-accessibleLine').append(button)
+                + '</div>'
+            this._container.find('.mwz-mode-icons').append(button)
         })
+        this.setScroll(0)
     }
     private clear(): void {
         this._setFrom(null)
@@ -370,7 +427,7 @@ export class SearchDirections extends DefaultControl {
             Api.getDirection({
                 from: from,
                 to: to,
-                modeId:this._modeId
+                modeId: this._modeId
             }).then((direction: any) => {
                 this._direction = direction
                 direction.modeId = this._modeId
