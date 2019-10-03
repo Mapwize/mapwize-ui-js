@@ -24,8 +24,6 @@ export class SearchResults extends DefaultControl {
         this._container = $(resultsHtml)
         this._currentVenue = this.map.getVenue()
         this._focusOn = 'search'
-        this._venueId = options.restrictContentToVenue
-        this._organizationId = options.restrictContentToOrganization
 
         this.onVenueWillEnter = this.onVenueWillEnter.bind(this)
         this.onVenueExit = this.onVenueExit.bind(this)
@@ -124,11 +122,11 @@ export class SearchResults extends DefaultControl {
         options.venueId = this._currentVenue ? this._currentVenue._id : null;
         options.objectClass = options.venueId ? (focusOn === 'from' ? ['place'] : ['place', 'placeList']) : ['venue'];
         
-        if (this._venueId) {
-            options.venueId = this._venueId
+        if (this.map._options.restrictContentToVenueId) {
+            options.venueId = this.map._options.restrictContentToVenueId
         }
-        if (this._organizationId) {
-            options.organizationId = this._organizationId;
+        if (this.map._options.restrictContentToOrganizationId) {
+            options.organizationId = this.map._options.restrictContentToOrganizationId
         }
         
         // options.bounds = this.map.getBounds();

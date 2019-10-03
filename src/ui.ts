@@ -11,8 +11,9 @@ import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
 const mapSizeChange = (mapInstance: any) => {
+    const devicePixelRatio = window.devicePixelRatio || 1;
     const mapSize = mapInstance.getSize()
-    if (mapSize.x < uiConfig.SMALL_SCREEN_BREAKPOINT) {
+    if (mapSize.x < (uiConfig.SMALL_SCREEN_BREAKPOINT * devicePixelRatio)) {
         $(mapInstance._container).addClass(uiConfig.SMALL_SCREEN_CLASS)
     } else {
         $(mapInstance._container).removeClass(uiConfig.SMALL_SCREEN_CLASS)
@@ -40,11 +41,6 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
     
     mapInstance.searchBar.show()
-
-    if (options.centerOnPlace) {
-        mapInstance.setFloorForVenue(options.centerOnPlace.floor, options.centerOnPlace.venue)
-        mapInstance.footerSelection.select(options.centerOnPlace)
-    }
 
     attachMethods(mapInstance)
     
@@ -79,11 +75,6 @@ const createMap = (container: string|HTMLElement, options?: any) => {
         unit: 'm',
         mainColor: null,
 
-        centerOnVenue: null,
-        centerOnPlace: null,
-        restrictContentToVenue: null,
-        restrictContentToOrganization: null,
-
         hideMenu: false,
         onMenuButtonClick: noop,
         onInformationButtonClick: noop,
@@ -113,33 +104,6 @@ const createMap = (container: string|HTMLElement, options?: any) => {
 
     if (options.mainColor) {
         set(options, 'mapwizeOptions.color', options.mainColor)
-    }
-    
-    if (options.centerOnVenue && isString(options.centerOnVenue)) {
-        return Api.getVenue(options.centerOnVenue).then((venue: any) => createMap(container, defaults({}, { centerOnVenue: venue }, options)))
-    } else if (options.centerOnVenue) {
-        set(options, 'mapboxOptions.center', {
-            lat: get(options.centerOnVenue, 'defaultCenter.latitude', options.centerOnVenue.marker.latitude),
-            lng: get(options.centerOnVenue, 'defaultCenter.longitude', options.centerOnVenue.marker.longitude)
-        })
-        set(options, 'mapboxOptions.zoom', get(options.centerOnVenue, 'defaultZoom', 19))
-    }
-    
-    if (options.restrictContentToVenue) {
-        set(options, 'mapwizeOptions.venueId', options.restrictContentToVenue)
-    }
-    if (options.restrictContentToOrganization) {
-        set(options, 'mapwizeOptions.organizationId', options.restrictContentToOrganization)
-    }
-    
-    if (options.centerOnPlace && isString(options.centerOnPlace)) {
-        return Api.getPlace(options.centerOnPlace).then((place: any) => createMap(container, defaults({}, { centerOnPlace: set(place, 'objectClass', 'place') }, options)))
-    } else if (options.centerOnPlace) {
-        set(options, 'mapboxOptions.center', {
-            lat: get(options.centerOnPlace, 'marker.latitude'),
-            lng: get(options.centerOnPlace, 'marker.longitude')
-        })
-        set(options, 'mapboxOptions.zoom', 19)
     }
     
     return constructor(container, options).then((mapInstance: any) => buildUIComponent(mapInstance, options))

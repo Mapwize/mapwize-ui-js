@@ -18,7 +18,7 @@ export class FooterVenue extends DefaultControl {
             const selectedId = this._container.find('#universes-selector select').val()
             const selectedUniverse = find(this._currentVenue.accessibleUniverses, { _id: selectedId })
 
-            this.map.setUniverse(selectedUniverse)
+            this.map.setUniverse(selectedUniverse._id)
         })
 
         this.listen('change', '#language-selector select', (e: JQueryEventObject) => {
@@ -78,7 +78,7 @@ export class FooterVenue extends DefaultControl {
             const selectedId = $(e.currentTarget).data('val')
             const selectedUniverse = find(this._currentVenue.accessibleUniverses, { _id: selectedId })
 
-            this.map.setUniverse(selectedUniverse)
+            this.map.setUniverse(selectedUniverse._id)
         })
 
         this.listen('click', '.mwz-language-item', (e: JQueryEventObject) => {

@@ -153,7 +153,7 @@ export class SearchBar extends DefaultControl {
     private _clickOnSearchResult(searchResult: any, universe?: any): void {
         if (searchResult._id) {
             if (universe && this._currentVenue) {
-                this.map.setUniverseForVenue(universe, this._currentVenue)
+                this.map.setUniverseForVenue(universe._id, this._currentVenue)
             }
             
             if (searchResult.objectClass === 'venue') {

@@ -1,5 +1,16 @@
 # Mapwize UI Changelog
 
+## 2.0.0
+
+- Upgrade mapwize js sdk to 4.0.0
+
+### /!\ BREAKING CHANGES /!\
+
+- Move: `options.centerOnVenue` to `options.mapwizeOptions.centerOnVenueId` and only accept a venue id
+- Move: `options.centerOnPlace` to `options.mapwizeOptions.centerOnPlaceId` and only accept a place id
+- Move: `options.restrictContentToVenue` to `options.mapwizeOptions.restrictContentToVenueId` and only accept a venue id
+- Move: `options.restrictContentToOrganization` to `options.mapwizeOptions.restrictContentToOrganizationId` and only accept a organization id
+
 ## 1.0.9
 
 - Upgrade mapwize js sdk to 3.4.5
