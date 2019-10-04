@@ -123,4 +123,4 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     return 'data:image/svg+xml;base64,' + decoded
 }
 
-export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg }
+export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace}
