@@ -14,10 +14,6 @@ export class FooterDirections extends DefaultControl {
 
         this._container = $(directionsHtml)
         this._direction = null
-
-        this.listen('click', '#footerDirections', (e: JQueryEventObject) => {
-            console.log('click, #footerDirections', e)
-        })
     }
     public destroy() {}
 

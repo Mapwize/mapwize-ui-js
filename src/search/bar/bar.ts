@@ -112,10 +112,10 @@ export class SearchBar extends DefaultControl {
                 this._container.find('.mwz-search input').attr('placeholder', translate('search_placeholder_global'))
             break;
             case ENTERINGINVENUE:
-                this._container.find('.mwz-entering').text(translate('entering_in_venue', {venue: getTranslation(this._currentVenue, this.map.getLanguageForVenue(this._currentVenue), 'title')}));
+                this._container.find('.mwz-entering').text(translate('entering_in_venue', {venue: getTranslation(this._currentVenue, this.map.getLanguageForVenue(this._currentVenue._id), 'title')}));
             break;
             case INVENUE:
-                this._container.find('.mwz-search input').attr('placeholder', translate('search_placeholder_venue', {venue:getTranslation(this._currentVenue, this.map.getLanguageForVenue(this._currentVenue), 'title')}))
+                this._container.find('.mwz-search input').attr('placeholder', translate('search_placeholder_venue', {venue:getTranslation(this._currentVenue, this.map.getLanguageForVenue(this._currentVenue._id), 'title')}))
             break;
             default:
             break;
@@ -123,7 +123,7 @@ export class SearchBar extends DefaultControl {
     }
     
     private onVenueWillEnter(e: any): void {
-        const lang = this.map.getLanguageForVenue(e.venue)
+        const lang = this.map.getLanguageForVenue(e.venue._id)
         this._container.find('.mwz-entering').text(translate('entering_in_venue', {venue:getTranslation(e.venue, lang, 'title')})).show();
         this._container.find('.mwz-search').hide()
         this._container.find('.mwz-directions').hide()
@@ -132,7 +132,7 @@ export class SearchBar extends DefaultControl {
         this._currentVenueState = ENTERINGINVENUE;
     }
     private onVenueEnter(e: any): void {
-        const lang = this.map.getLanguageForVenue(e.venue)
+        const lang = this.map.getLanguageForVenue(e.venue._id)
         this._container.find('.mwz-entering').hide()
         this._container.find('.mwz-directions').show()
         this._container.find('.mwz-search').show().find('input').attr('placeholder', translate('search_placeholder_venue', {venue:getTranslation(e.venue, lang, 'title')}))

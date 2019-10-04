@@ -42,7 +42,7 @@ export class SearchDirections extends DefaultControl {
         }
 
         if (this._currentVenue) {
-            this._lang = this.map.getLanguageForVenue(this._currentVenue)
+            this._lang = this.map.getLanguageForVenue(this._currentVenue._id)
             this._container.find('.mwz-venue-name').text(getTranslation(this._currentVenue, this._lang, 'title'))
         }
 
@@ -272,7 +272,7 @@ export class SearchDirections extends DefaultControl {
     private onVenueWillEnter(e: any): void {
         this._currentVenue = e.venue
 
-        const lang = this.map.getLanguageForVenue(e.venue)
+        const lang = this.map.getLanguageForVenue(e.venue._id)
         this._container.find('.mwz-venue-name').text(getTranslation(e.venue, lang, 'title'))
     }
     private onVenueEnter(e: any): void {
