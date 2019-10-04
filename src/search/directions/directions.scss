@@ -12,6 +12,10 @@
     
     pointer-events: auto;
     
+    .mwz-mode-icons{
+        display: flex;
+        overflow-x: hidden;
+    }
     .mwz-close-button {
         width: 18px !important;
     }
@@ -76,14 +80,15 @@
         margin-top: -35px;
     }
     
-    .mwz-accessibleLine {
-        height: 44px;
-        margin: 0;
-        
-        .mwz-accessible-button-selected {
-            background-color: #C51586;
+    .mwz-modesLine {
+        height: 54px;
+        max-width: 256px;
+        margin: 0 auto;
+
+        .mwz-mode-button-selected {
+            background-color: rgba(197,21,134,0.1);
         }
-        .mwz-accessible-button {
+        .mwz-mode-button {
             padding: 2px 22px 2px 22px;
             border-radius: 30px !important;
         }
@@ -95,9 +100,6 @@
                 }
             }
         }
-        .mwz-accessible-separator {
-            width: 30px;
-        }
     }
     
     #mwz-alert-noDirection {
@@ -108,6 +110,9 @@
     }
 }
 &.mwz-small {
+    .mwz-modesLine{
+        max-width: 192px !important;
+    }
     #mwz-searchDirection {
         margin-left: 0;
         margin-top: 0;

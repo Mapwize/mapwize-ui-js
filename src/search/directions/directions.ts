@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { isObject, get, set } from 'lodash'
+import { isObject, get, set, has, first, keyBy, template, inRange, map } from 'lodash'
 import { Api } from 'mapwize'
 
 const directionsHtml = require('./directions.html')
@@ -7,7 +7,11 @@ const directionsHtml = require('./directions.html')
 import { translate } from '../../translate'
 import { DefaultControl } from '../../control'
 import { getTranslation, latitude, longitude, replaceColorInBase64svg } from '../../utils'
-import { cpus } from 'os';
+import { icons } from '../../config'
+
+const templateButtonMode = template(require('./templates/button-mode.html'))
+
+const modeButtonWidth = 64
 
 export class SearchDirections extends DefaultControl {
 
@@ -16,7 +20,8 @@ export class SearchDirections extends DefaultControl {
 
     private _from: any
     private _to: any
-    private _accessible: boolean
+    private _modes: any
+    private _mode: any
     private _direction: any
     private _options: any
     private _lang: any
@@ -27,12 +32,8 @@ export class SearchDirections extends DefaultControl {
         this._container = $(directionsHtml)
         this._currentVenue = this.map.getVenue()
         this._from = this._to = null
-        this._accessible = false
         this._options = options
         this._lang = ''
-
-        const accessibleOffIconB64 = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDQ4IDQ4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OCA0ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgogICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMDAwMDA7fQo8L3N0eWxlPgo8Zz4KCTxnPgoJCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yMywxMS43Yy0wLjIsMC0wLjMsMC4xLTAuNSwwLjFjLTAuMiwwLTAuMywwLjEtMC41LDAuMmwtOCw0Yy0wLjMsMC4yLTAuNiwwLjQtMC44LDAuN2wtNCw2Yy0wLjYsMC45LTAuNCwyLjIsMC42LDIuOAoJCQljMC45LDAuNiwyLjIsMC40LDIuOC0wLjZjMCwwLDAsMCwwLDBsMy43LTUuNmw0LjYtMi4zYy0wLjEsMC40LTAuMSwwLjgtMC4xLDAuOGMtMC42LDMtMS40LDYuOC0xLjgsOGMtMC42LDIuOCwxLjQsNC40LDEuNCw0LjQKCQkJbDcsN2wzLjgsOS41YzAuNCwxLDEuNiwxLjUsMi42LDEuMWMxLTAuNCwxLjUtMS42LDEuMS0yLjZsLTQtMTAuMWMtMC4xLTAuMi0wLjEtMC4zLTAuMy0wLjRsLTEuNS0ybC0zLjEtNWwxLjQtN2wxLjEsMi45CgkJCWMwLjIsMC41LDAuNiwwLjksMS4xLDEuMWw2LjcsM2MxLDAuNiwyLjIsMC4zLDIuOC0wLjdjMC42LTEsMC4zLTIuMi0wLjctMi44Yy0wLjEtMC4xLTAuMy0wLjEtMC40LTAuMmwtNS45LTIuN2wtMy4xLTguMgoJCQljLTAuMy0wLjgtMS0xLjMtMS45LTEuM2gtMy4xQzIzLjUsMTEuNywyMy4zLDExLjcsMjMsMTEuN3oiLz4KCQk8Y2lyY2xlIGNsYXNzPSJzdDAiIGN4PSIyNy45IiBjeT0iNC44IiByPSI0LjgiLz4KCTwvZz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOC40LDMwLjVsLTEuMyw2LjJsLTUuNiw3LjVjLTAuNiwwLjktMC40LDIuMSwwLjQsMi43YzAuOSwwLjYsMi4xLDAuNCwyLjctMC40bDUuNi03LjVjMC4xLTAuMSwwLjEtMC4yLDAuMi0wLjJsMC4xLTAuMQoJCWMwLDAsMC4xLTAuMSwwLjEtMC4yYzAsMCwwLDAsMCwwYzAsMCwwLTAuMSwwLjEtMC4xYzAuMS0wLjIsMC4xLTAuMywwLjItMC41bDEuMi0yLjljMC4xLTAuMiwwLTAuNS0wLjEtMC43bC0yLjgtMi44CgkJQzE5LDMxLjMsMTguNiwzMC45LDE4LjQsMzAuNXoiLz4KPC9nPgo8L3N2Zz4K';
-        const accessibleOnIconB64 = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDQ4IDQ4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OCA0ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB0eXBlPSJ0ZXh0L2NzcyI+Ci5zdDB7ZmlsbDojMDAwMDAwO30KPC9zdHlsZT4KPGc+Cgk8Y2lyY2xlIGNsYXNzPSJzdDAiIGN4PSIxOS40IiBjeT0iNC4zIiByPSI0LjMiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00NS43LDM2LjljLTAuNC0wLjgtMS41LTEuMi0yLjMtMC44bC0yLjEsMS4xTDM1LjMsMjdjMCwwLDAsMCwwLDBjLTAuNC0wLjgtMS4zLTEuMy0yLjItMS4zaC05LjR2LTMuNGg2LjkKCQljMC45LDAsMS43LTAuOCwxLjctMS43YzAtMC45LTAuOC0xLjctMS43LTEuN2gtNi45di00LjNjMC0yLjQtMS45LTQuMy00LjMtNC4zcy00LjMsMS45LTQuMyw0LjN2NC41Yy02LjgsMS4yLTEyLDcuMi0xMiwxNC4zCgkJYzAsOCw2LjUsMTQuNiwxNC42LDE0LjZzMTQuNi02LjUsMTQuNi0xNC42YzAtMC45LTAuMS0xLjctMC4zLTIuNmgwLjNsNi45LDExLjRsNS44LTNDNDUuOCwzOC44LDQ2LjIsMzcuOCw0NS43LDM2Ljl6IE0yOC44LDMzLjQKCQljMCw2LjEtNSwxMS4xLTExLjEsMTEuMXMtMTEuMS01LTExLjEtMTEuMWMwLTUuMywzLjctOS43LDguNi0xMC44djRjMCwyLjQsMS45LDQuMyw0LjMsNC4zYzAuMywwLDAuNSwwLDAuNywwYzAsMCwwLjEsMCwwLjEsMGg4LjMKCQlDMjguNywzMS43LDI4LjgsMzIuNSwyOC44LDMzLjR6Ii8+CjwvZz4KPC9zdmc+';
 
         this.mainColor(options)
 
@@ -47,7 +48,7 @@ export class SearchDirections extends DefaultControl {
 
         this.listen('click', '#mwz-close-button', () => {
             this.clear()
-            this._container.find("#mwz-alert-noDirection").hide()
+            this._container.find('#mwz-alert-noDirection').hide()
             this.map.searchBar.show()
             this.map.footerVenue.show()
         })
@@ -70,24 +71,27 @@ export class SearchDirections extends DefaultControl {
             this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
 
         })
-        this.listen('click', '#mwz-accessible-off', () => {
 
-            this._container.find('#mwz-accessible-on').removeClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-off').addClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-off img').attr('src', replaceColorInBase64svg(accessibleOffIconB64, "#FFFFFF"))
-            this._container.find('#mwz-accessible-on img').attr('src', replaceColorInBase64svg(accessibleOnIconB64, "#000000"))
-            this._accessible = !this._accessible;
+        this.listen('click', '.mwz-mode-button', (e: any) => {
+            const mode = this._modes[e.currentTarget.id]
+            this.setSelectedMode(mode)
             this._displayDirection()
         })
 
-        this.listen('click', '#mwz-accessible-on', () => {
+        this.listen('click', '.mwz-next-mode, .mwz-previous-mode', (e: any) => {
+            var element = this._container.find('.mwz-mode-icons');
+            var scroll = 4 * modeButtonWidth;
 
-            this._container.find('#mwz-accessible-off').removeClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-on').addClass("mwz-accessible-button-selected")
-            this._container.find('#mwz-accessible-on img').attr('src', replaceColorInBase64svg(accessibleOnIconB64, "#FFFFFF"))
-            this._container.find('#mwz-accessible-off img').attr('src', replaceColorInBase64svg(accessibleOffIconB64, "#000000"))
-            this._accessible = !this._accessible;
-            this._displayDirection()
+            if ($(this.map._container).hasClass('mwz-small')) {
+                scroll = 3 * modeButtonWidth
+            }
+
+            var scrollValue = element.scrollLeft() + scroll
+            if(!this._container.find(e.currentTarget).hasClass('mwz-next-mode')){
+                scrollValue = element.scrollLeft() - scroll
+            }
+
+            this.setModeScroll(scrollValue)
         })
 
         this.listen('focus', '#mwz-mapwizeSearchFrom', () => {
@@ -181,6 +185,7 @@ export class SearchDirections extends DefaultControl {
         this.map.on('mapwize:venuewillenter', this.onVenueWillEnter)
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
+        this.map.on('mapwize:modeschange', (e: any) => { this.setAvailablesModes(e.modes) })
         this.map.on('mapwize:click', this.onClick)
 
         this.refreshLocale()
@@ -227,7 +232,7 @@ export class SearchDirections extends DefaultControl {
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to));
                 this._setTo(set(to, 'objectClass', 'place'));
             }).catch(() => {
-                this._container.find("#mwz-alert-noDirection").show();
+                this._container.find('#mwz-alert-noDirection').show();
             });
         }
     }
@@ -253,7 +258,7 @@ export class SearchDirections extends DefaultControl {
 
             this.map.addControl(this, 'top-left')
             $(this.map._container).addClass('mwz-directions')
-            this._container.find("#mwz-mapwizeSearchFrom").focus()
+            this._container.find('#mwz-mapwizeSearchFrom').focus()
         }
     }
     public hide() {
@@ -308,6 +313,98 @@ export class SearchDirections extends DefaultControl {
             }
         }
     }
+    private updateArrowDisplayForModes(position: any) {
+        var base64PrevouousMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
+        var base64NextMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
+
+        var numberOfmodeToDisplay = 4;
+
+        if ($(this.map._container).hasClass('mwz-small')) {
+            numberOfmodeToDisplay = 3;
+        }
+
+        var endScroll = (this._container.find('.mwz-mode-icons button').length - numberOfmodeToDisplay) * 64;
+        if (this._container.find('.mwz-mode-icons button').length - numberOfmodeToDisplay <= 0) {
+            this._container.find('.mwz-previous-mode').hide()
+            this._container.find('.mwz-next-mode').hide()
+        } else if (position <= 0) {
+            this._container.find('.mwz-previous-mode img').attr('src', replaceColorInBase64svg(base64PrevouousMode, '#DCDCDC'))
+            this._container.find('.mwz-next-mode img').attr('src', replaceColorInBase64svg(base64NextMode, '#000000'))
+        } else if (position >= endScroll) {
+            this._container.find('.mwz-next-mode img').attr('src', replaceColorInBase64svg(base64NextMode, '#DCDCDC'))
+            this._container.find('.mwz-previous-mode img').attr('src', replaceColorInBase64svg(base64PrevouousMode, '#000000'))
+        } else {
+            this._container.find('.mwz-previous-mode').show()
+            this._container.find('.mwz-previous-mode img').attr('src', replaceColorInBase64svg(base64PrevouousMode, '#000000'))
+            this._container.find('.mwz-next-mode img').attr('src', replaceColorInBase64svg(base64NextMode, '#000000'))
+        }
+    }
+    private setAvailablesModes(modes: any) {
+        this._container.find('.mwz-mode-icons').empty()
+
+        this._modes = keyBy(map(modes, (mode: any, index: number) => set(mode, 'index', index)), '_id')
+
+        modes.forEach((mode: any, i: number) => {
+            var selected = '';
+            var icon = get(icons, mode.type);
+
+            if (this._mode && mode._id == this._mode._id) {
+                selected = ' mwz-mode-button-selected';
+                icon = replaceColorInBase64svg(icon.split(',')[1], '#C51586')
+            }
+
+            var button = templateButtonMode({
+                modeId: mode._id,
+                modeType: mode.type,
+                selected: selected,
+                icon: icon
+            })
+            this._container.find('.mwz-mode-icons').append(button)
+        })
+
+        if (!this._mode) {
+            this.setSelectedMode(first(modes))
+        } else {
+            this.ensureSelectedModeIsVisible()
+        }
+
+        this.updateArrowDisplayForModes(0)
+    }
+
+    private setSelectedMode(mode: any) {
+        if (this._mode) {
+            this._container.find('#' + this._mode._id).removeClass('mwz-mode-button-selected')
+            this._container.find('#' + this._mode._id + ' img').attr('src', get(icons, this._mode.type))
+        }
+
+        this._mode = mode
+        this._container.find('#' + this._mode._id).addClass('mwz-mode-button-selected')
+        this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(',')[1], '#C51586'))
+        
+        this.ensureSelectedModeIsVisible()
+    }
+
+    private ensureSelectedModeIsVisible() {
+        const currentScroll = this._container.find('.mwz-mode-icons').scrollLeft()
+        const buttonOffset = (this._mode.index - 1) * modeButtonWidth
+
+        let visibleZone = currentScroll + 4 * modeButtonWidth
+        if ($(this.map._container).hasClass('mwz-small')) {
+            visibleZone = currentScroll + 3 * modeButtonWidth
+        }
+
+        if (!inRange(buttonOffset, currentScroll, visibleZone)) {
+            this.setModeScroll(buttonOffset + modeButtonWidth)
+        }
+    }
+
+    private setModeScroll(scrollValue: number) {
+        this._container.find('.mwz-mode-icons').animate({ scrollLeft: scrollValue }, 600, () => {
+            this.updateArrowDisplayForModes(scrollValue)
+        })
+    }
+
+
     private clear(): void {
         this._setFrom(null)
         this._setTo(null)
@@ -362,17 +459,14 @@ export class SearchDirections extends DefaultControl {
         const to = this.extractQuery(this._to)
 
         if (from && to) {
-            this._container.find("#mwz-alert-noDirection").hide();
+            this._container.find('#mwz-alert-noDirection').hide();
 
             Api.getDirection({
                 from: from,
                 to: to,
-                options: {
-                    isAccessible: this._accessible
-                }
+                modeId: this._mode._id
             }).then((direction: any) => {
                 this._direction = direction
-
                 this.map.setDirection(direction, options);
                 const placesToPromote = [];
                 if (direction.from.placeId) {
@@ -386,7 +480,7 @@ export class SearchDirections extends DefaultControl {
 
                 this.map.footerDirections.displayStats(direction)
             }).catch(() => {
-                this._container.find("#mwz-alert-noDirection").show();
+                this._container.find('#mwz-alert-noDirection').show();
             });
         } else {
             this.map.removeDirection()
@@ -397,18 +491,18 @@ export class SearchDirections extends DefaultControl {
 
     private extractQuery(o: any): any {
         if (isObject(o)) {
-            if (o.location) {
+            if (has(o, 'location')) {
                 return {
-                    lat: latitude(o.location),
-                    lon: longitude(o.location),
-                    floor: o.floor,
-                    venueId: o.venueId || this._currentVenue._id
+                    lat: latitude(get(o, 'location')),
+                    lon: longitude(get(o, 'location')),
+                    floor: get(o, 'floor'),
+                    venueId: get(o, 'venueId', this._currentVenue._id)
                 };
-            } else if (o.objectClass === 'place') {
-                return { placeId: o._id };
-            } else if (o.objectClass === 'placeList') {
-                return { placeListId: o._id };
-            } else if (o.objectClass === 'userPosition') {
+            } else if (get(o, 'objectClass') === 'place') {
+                return { placeId: get(o, '_id') };
+            } else if (get(o, 'objectClass') === 'placeList') {
+                return { placeListId: get(o, '_id') };
+            } else if (get(o, 'objectClass') === 'userPosition') {
                 const userPosition = this.map.getUserPosition();
                 return {
                     lat: latitude(userPosition),
@@ -420,16 +514,16 @@ export class SearchDirections extends DefaultControl {
                 return {
                     lat: latitude(o),
                     lon: longitude(o),
-                    floor: o.floor,
-                    venueId: o.venueId || this._currentVenue._id
+                    floor: get(o, 'floor'),
+                    venueId: get(o, 'venueId', this._currentVenue._id)
                 };
-            } else if (o.geometry) {
+            } else if (has(o, 'geometry')) {
                 // Google address result case
                 return {
-                    lat: latitude(o.geometry.location),
-                    lon: longitude(o.geometry.location),
+                    lat: latitude(get(o, 'geometry.location')),
+                    lon: longitude(get(o, 'geometry.location')),
                     floor: 0,
-                    venueId: o.venueId || this._currentVenue._id
+                    venueId: get(o, 'venueId', this._currentVenue._id)
                 };
             } else {
                 console.error('Unexpected object content', o)
