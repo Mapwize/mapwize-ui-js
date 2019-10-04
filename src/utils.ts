@@ -77,6 +77,10 @@ const getPlaceList = (placeListId: string): Promise<any> => {
     return $.get(apiUrl() + '/placeList/' + placeListId + '?api_key=' + apiKey(), {}, null, 'json')
 }
 
+const getPlace = (placeId: string): Promise<any> => {
+    return Api.getPlace(placeId)
+}
+
 const getMainSearches = (mainSearches: Array<string>): Promise<any> => {
     return Promise.all(map(mainSearches, (mainSearch: any): Promise<any> => {
         if (mainSearch.objectClass === 'place') {
