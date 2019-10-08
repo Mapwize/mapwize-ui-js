@@ -10,6 +10,9 @@
     @import "./footer/directions/directions";
     @import "./footer/venue/venue";
     @import "./footer/selection/selection";
+
+    @import "./controls/floorControl/floorControl";
+    @import "./controls/navigationControl/navigationControl";
     
     
     .mapboxgl-ctrl-group > button:focus {

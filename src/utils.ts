@@ -1,10 +1,22 @@
-import { find, get, set, debounce, map, isFinite, replace } from 'lodash'
+import { find, get, set, debounce, map, isFinite, replace, uniq, pull } from 'lodash'
 import * as $ from 'jquery';
 import { Api, apiUrl, apiKey } from 'mapwize'
 
 import uiConfig from './config'
 
 let lastSearchSent: string = ''
+
+const addClass = (classString: string, classToAdd: string) => {
+    var classes = classString.split(' ')
+    classes.push(classToAdd)
+    uniq(classes)
+    return classes.join(' ')
+  }
+  const removeClass = (classString: string, classToRemove: string) => {
+    var classes = classString.split(' ')
+    pull(classes, classToRemove)
+    return classes.join(' ')
+  }
 
 const getTranslation = (o: any, lang: string, attr: string): string => {
     var translation = find(o.translations, {
@@ -123,4 +135,5 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     return 'data:image/svg+xml;base64,' + decoded
 }
 
-export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace}
+export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
+export { addClass, removeClass }

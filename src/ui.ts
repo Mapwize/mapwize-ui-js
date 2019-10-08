@@ -1,4 +1,4 @@
-import { map, apiKey, Api, apiUrl } from 'mapwize'
+import { map, apiKey, apiUrl } from 'mapwize'
 import { get, set, isString, isObject, defaults, noop } from 'lodash'
 import * as $ from 'jquery'
 
@@ -9,6 +9,8 @@ import { unit } from './measure'
 import { locale } from './translate'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
+
+import { FloorControl, NavigationControl } from './controls'
 
 const mapSizeChange = (mapInstance: any) => {
     const devicePixelRatio = window.devicePixelRatio || 1;
@@ -35,10 +37,20 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.footerVenue = new FooterVenue(mapInstance)
     mapInstance.footerSelection = new FooterSelection(mapInstance, options)
     mapInstance.footerDirections = new FooterDirections(mapInstance)
-    
+
     mapInstance.addControl(mapInstance.footerVenue, 'bottom-left')
     mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
+
+    if (options.floorControl) {
+        mapInstance.floorControl = new FloorControl(mapInstance.floorControlOptions)
+        mapInstance.addControl(mapInstance.floorControl, isString(options.floorControl) ? options.floorControl : undefined)
+    }
+
+    if (options.navigationControl) {
+        mapInstance.navigationControl = new NavigationControl(mapInstance.navigationControlOptions)
+        mapInstance.addControl(mapInstance.navigationControl, isString(options.navigationControl) ? options.navigationControl : undefined)
+    }
     
     mapInstance.searchBar.show()
 
@@ -78,6 +90,12 @@ const createMap = (container: string|HTMLElement, options?: any) => {
         hideMenu: false,
         onMenuButtonClick: noop,
         onInformationButtonClick: noop,
+
+        floorControl: true,
+        floorControlOptions: {},
+
+        navigationControl: true,
+        navigationControlOptions: {},
 
         direction: null,
 

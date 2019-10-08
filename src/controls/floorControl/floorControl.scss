@@ -1,0 +1,118 @@
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+$button-border-radius: 20px;
+$button-box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+
+.mwz-ctrl-floors {
+  position: relative;
+  right: -5px;
+  
+  border-radius: 0;
+  box-shadow: none !important;
+  
+  background: transparent;
+  padding: 5px;
+  
+  .mwz-floor-button {
+    box-sizing: border-box;
+    position: relative;
+    z-index: 0;
+    
+    min-width: 40px;
+    height: 40px;
+    
+    border: none;
+    
+    border-radius: $button-border-radius;
+    
+    background: #fff;
+    box-shadow: $button-box-shadow;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    
+    overflow: hidden;
+    
+    -webkit-transition: background-color .5s ease;
+    -moz-transition: background-color .5s ease;
+    -ms-transition: background-color .5s ease;
+    -o-transition: background-color .5s ease;
+    transition: background-color .5s ease;
+    
+    &:hover {
+      background-color: #eee;
+      color: inherit;
+    }
+
+    &:focus {
+      box-shadow: $button-box-shadow;
+      
+      &:first-child {
+        border-radius: $button-border-radius;
+      }
+      &:last-child {
+        border-radius: $button-border-radius;
+      }
+    }
+    
+    &.mwz-selectedFloor, &.mwz-selectedFloor:hover {
+      background-color: #C51586;
+      color: #fff;
+    }
+    
+    &::after {
+      box-sizing: border-box;
+      content: '';
+      position: absolute;
+      z-index: -1;
+      
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      
+      -webkit-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+      -moz-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+      -ms-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+      -o-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+      transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+    }
+    
+    &.mwz-loading {
+      &::before {
+        box-sizing: border-box;
+        content: '';
+        position: absolute;
+        z-index: -2;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background-color: #399953;
+        background-repeat: no-repeat;
+        background-size: 50% 50%, 50% 50%;
+        background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+        background-image: linear-gradient(#C51586, #C51586), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff);
+        animation: rotate 1s ease-in-out infinite;
+      }
+      
+      &::after {
+        left: 3px;
+        top: 3px;
+        width: calc(100% - 6px);
+        height: calc(100% - 6px);
+        
+        background: white;
+        border-radius: 20px;
+      }
+    }
+  }
+  
+  > .mwz-floor-button + .mwz-floor-button {
+    margin-top: 4px;
+  }
+}
