@@ -9,7 +9,7 @@ type Options = {
 const defaultOptions: Options = {
   showCompass: true,
   showZoom: true,
-  visualizePitch: false
+  visualizePitch: true
 };
 
 class NavigationControl {
@@ -27,38 +27,57 @@ class NavigationControl {
     this._container = document.createElement('div')
     this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group mwz-ctrl-navigation'
     
-    this._zoomInButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in', 'Zoom in', '+', (e) => this._map.zoomIn({}, {originalEvent: e}));
-    this._zoomOutButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out', 'Zoom out', '-', (e) => this._map.zoomOut({}, {originalEvent: e}));
-
-    this._compass = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-compass', 'Reset bearing to north', '', (e) => this._map.resetNorthPitch({}, {originalEvent: e}));
+    if (this.options.showZoom) {
+      this._zoomInButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in', 'Zoom in', '+', (e) => this._map.zoomIn({}, {originalEvent: e}));
+      this._zoomOutButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out', 'Zoom out', '-', (e) => this._map.zoomOut({}, {originalEvent: e}));
+    }
     
-    this._compassArrow = document.createElement('span')
-    this._compassArrow.className = 'mapboxgl-ctrl-compass-arrow'
-    this._compass.appendChild(this._compassArrow);
+    if (this.options.showCompass) {
+      this._compass = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-compass', 'Reset bearing to north', '', (e) => {
+        if (this.options.visualizePitch) {
+          this._map.resetNorthPitch({}, { originalEvent: e });
+        } else {
+          this._map.resetNorth({}, { originalEvent: e });
+        }
+      });
+      
+      this._compassArrow = document.createElement('span')
+      this._compassArrow.className = 'mapboxgl-ctrl-compass-arrow'
+      this._compass.appendChild(this._compassArrow);
+    }
   }
   
   onAdd (map: any) {
     this._map = map
     
-    this._onZoomChange = this._onZoomChange.bind(this)
-    this._onBearingChange = this._onBearingChange.bind(this)
-    
-    this._map.on('zoom', this._onZoomChange)
-    this._map.on('rotate', this._onBearingChange)
-    this._map.on('pitch', this._onBearingChange);
-
-    this._onZoomChange()
-    this._onBearingChange()
-    
+    if (this.options.showZoom) {
+      this._onZoomChange = this._onZoomChange.bind(this)
+      this._map.on('zoom', this._onZoomChange)
+      this._onZoomChange()
+    }
+    if (this.options.showCompass) {
+      this._onBearingChange = this._onBearingChange.bind(this)
+      if (this.options.visualizePitch) {
+        this._map.on('pitch', this._onBearingChange);
+      }
+      this._map.on('rotate', this._onBearingChange)
+      this._onBearingChange()
+    }
     return this._container
   }
   
   onRemove () {
     this._container.parentNode.removeChild(this._container)
     
-    this._map.off('zoom', this._onZoomChange)
-    this._map.off('rotate', this._onBearingChange)
-    this._map.off('pitch', this._onBearingChange)
+    if (this.options.showZoom) {
+      this._map.off('zoom', this._onZoomChange)
+    }
+    if (this.options.showCompass) {
+      this._map.off('rotate', this._onBearingChange)
+      if (this.options.visualizePitch) {
+        this._map.off('pitch', this._onBearingChange)
+      }
+    }
     this._map = undefined
   }
   
@@ -70,11 +89,9 @@ class NavigationControl {
   }
   
   _rotateCompassArrow() {
-    // const rotate = this.options.visualizePitch ?
-    // `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)` :
-    // `rotate(${this._map.transform.angle * (180 / Math.PI)}deg)`;
-
-    const rotate = `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)`;
+    const rotate = this.options.visualizePitch ?
+    `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)` :
+    `rotate(${this._map.transform.angle * (180 / Math.PI)}deg)`;
     
     this._compassArrow.style.transform = rotate;
   }
