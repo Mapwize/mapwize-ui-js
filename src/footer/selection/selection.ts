@@ -154,7 +154,7 @@ export class FooterSelection extends DefaultControl {
         this.map.removeMarkers()
         
         if (get(this._selected, 'venueId')) {
-            this.map.removePromotedPlacesForVenue(get(this._selected, 'venueId', null)).then(() => this._promoteSelected(this._selected));
+            this.map.removePromotedPlaces().then(() => this._promoteSelected(this._selected));
         } else {
             this._promoteSelected(this._selected);
         }
@@ -165,7 +165,7 @@ export class FooterSelection extends DefaultControl {
     public unselect() {
         if (this._selected) {
 
-            this.map.removePromotedPlacesForVenue(get(this._selected, 'venueId', null))
+            this.map.removePromotedPlaces()
             this.map.removeMarkers()
             
             this._selected = null
