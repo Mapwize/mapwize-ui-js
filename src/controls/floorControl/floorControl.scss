@@ -4,9 +4,6 @@
   }
 }
 
-$button-border-radius: 20px;
-$button-box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-
 .mwz-ctrl-floors {
   position: relative;
   right: -5px;
@@ -30,7 +27,7 @@ $button-box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
     border-radius: $button-border-radius;
     
     background: #fff;
-    box-shadow: $button-box-shadow;
+    box-shadow: $controls-box-shadow;
     width: 100%;
     padding-left: 5px;
     padding-right: 5px;
@@ -49,7 +46,7 @@ $button-box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
     }
 
     &:focus {
-      box-shadow: $button-box-shadow;
+      box-shadow: $controls-box-shadow;
       
       &:first-child {
         border-radius: $button-border-radius;

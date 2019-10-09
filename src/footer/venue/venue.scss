@@ -49,6 +49,8 @@
         background: white;
         border-radius: 50px;
         margin-right: 70px;
+
+        box-shadow: $controls-box-shadow;
     }
     option:disabled {
         display:none;

@@ -27,10 +27,10 @@ class NavigationControl {
     this._container = document.createElement('div')
     this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group mwz-ctrl-navigation'
     
-    this._zoomInButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in', 'Zoom in', (e) => this._map.zoomIn({}, {originalEvent: e}));
-    this._zoomOutButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out', 'Zoom out', (e) => this._map.zoomOut({}, {originalEvent: e}));
+    this._zoomInButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in', 'Zoom in', '+', (e) => this._map.zoomIn({}, {originalEvent: e}));
+    this._zoomOutButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out', 'Zoom out', '-', (e) => this._map.zoomOut({}, {originalEvent: e}));
 
-    this._compass = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-compass', 'Reset bearing to north', (e) => this._map.resetNorthPitch({}, {originalEvent: e}));
+    this._compass = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-compass', 'Reset bearing to north', '', (e) => this._map.resetNorthPitch({}, {originalEvent: e}));
     
     this._compassArrow = document.createElement('span')
     this._compassArrow.className = 'mapboxgl-ctrl-compass-arrow'
@@ -70,9 +70,11 @@ class NavigationControl {
   }
   
   _rotateCompassArrow() {
-    const rotate = this.options.visualizePitch ?
-    `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)` :
-    `rotate(${this._map.transform.angle * (180 / Math.PI)}deg)`;
+    // const rotate = this.options.visualizePitch ?
+    // `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)` :
+    // `rotate(${this._map.transform.angle * (180 / Math.PI)}deg)`;
+
+    const rotate = `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)`;
     
     this._compassArrow.style.transform = rotate;
   }
@@ -91,11 +93,12 @@ class NavigationControl {
     }
   }
   
-  _createButton(className: string, ariaLabel: string, fn: (e: any) => any) {
+  _createButton(className: string, ariaLabel: string, html: string, fn: (e: any) => any) {
     const a = document.createElement('button')
     a.className = className
     a.type = 'button';
     a.title = ariaLabel;
+    a.innerHTML = html;
     a.setAttribute('aria-label', ariaLabel);
     a.addEventListener('click', fn);
     
