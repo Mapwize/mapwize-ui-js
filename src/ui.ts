@@ -10,7 +10,7 @@ import { locale } from './translate'
 import { SearchBar, SearchDirections, SearchResults } from './search'
 import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 
-import { FloorControl, NavigationControl } from './controls'
+import { FloorControl, NavigationControl, LocationControl } from './controls'
 
 const mapSizeChange = (mapInstance: any) => {
     const devicePixelRatio = window.devicePixelRatio || 1;
@@ -41,6 +41,11 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.addControl(mapInstance.footerVenue, 'bottom-left')
     mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
     mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
+
+    if (options.locationControl) {
+        mapInstance.locationControl = new LocationControl(mapInstance.locationControlOptions)
+        mapInstance.addControl(mapInstance.locationControl, isString(options.locationControl) ? options.locationControl : undefined)
+    }
 
     if (options.floorControl) {
         mapInstance.floorControl = new FloorControl(mapInstance.floorControlOptions)
@@ -96,6 +101,9 @@ const createMap = (container: string|HTMLElement, options?: any) => {
 
         navigationControl: true,
         navigationControlOptions: {},
+
+        locationControl: true,
+        locationControlOptions: {},
 
         direction: null,
 
