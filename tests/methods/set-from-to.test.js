@@ -17,10 +17,10 @@ mwzDescribe(testSuites, () => {
         })
         map.on('mapwize:venueenter', () => {
           map.setDirectionMode()
-          map.getPlace('569f8d7cb4d7200b003c32a1').then(from => {
+          MapwizeUI.Api.getPlace('569f8d7cb4d7200b003c32a1').then(from => {
             map.setFrom(_.set(from, 'objectClass', 'place'))
           })
-          map.getPlace('5d08d8a4efe1d20012809ee5').then(to => {
+          MapwizeUI.Api.getPlace('5d08d8a4efe1d20012809ee5').then(to => {
             map.setTo(_.set(to, 'objectClass', 'place'))
           })
         });
