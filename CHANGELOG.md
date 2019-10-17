@@ -11,6 +11,11 @@
 - Move: `options.restrictContentToVenue` to `options.mapwizeOptions.restrictContentToVenueId` and only accept a venue id
 - Move: `options.restrictContentToOrganization` to `options.mapwizeOptions.restrictContentToOrganizationId` and only accept a organization id
 
+userPosition --> userLocation
+locale --> setLocale
+unit --> setUnit
+
+
 ## 1.0.9
 
 - Upgrade mapwize js sdk to 3.4.5
