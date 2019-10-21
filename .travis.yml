@@ -1,0 +1,31 @@
+language: node_js
+node_js:
+- 10
+
+# before_script:
+# - npm i -g http-server
+
+script:
+- npm run build
+# - npm test
+# - npm run docs
+# - zip -r jsdoc.zip docs
+
+deploy:
+  - provider: npm
+    email: support@mapwize.io
+    api_key:
+      secure: HWN04W5ntgLw2rmLMX4xJfDAvobDxXAaoshmRzH23mXhnUfsfilxqUoJXShfTonjZ/6iWH3ei9svtuW9bxlwdDNvb5hkZB2QIDZDsCd7UCyE8vFZDjAqtiqUcNnh0rX/o6r4D5ayi+ji96tgzKe1LIJeZdAqd+cs9MM9aJdxyaRrgjthdrvy4e55VfKduK0PJBQLgP0piApCzQvA6VoxFcHQF4GljWHZfAPle/ZzmNy1q5Bbq6TcfJSFPOZFi4dPB1ryNRCJzU3Xb8cE+CYbjQ6QJidkOqm/IO3O0638NwlZeyGK10SDU88azail0epuzI6u5msmbn2TWj5W443OGipn0wKaF4aZ/whKB0I6Mr/DqASbR6j8ivnLoLi9hJEukIUBbc0mmJxy1GNmTU1FWbVBoeIm2H0dvVPbu/nU6nhMPyNVoAxQsboB4Be9Iq3KF/pph9f1NtO1FUe7+haOr7adTs1Idg6LfKRoFRMkAwRHUVIAE1dlqFSZGYmjk/y6TbmAZsuKLO8Ro5MafGe7GkTcMQwHZua/LsXp/yVZGwnWi1Z2WCCSPnVE3y+EqpO33XDB5Zwnw7akuYoD1ISBO4VhTTu8gNmNK8FJfuzKwkrjnJXcOXrD4J0wbfR0enLgE+RdnTYFCk3L5/z5frB6HsFnejuFh5ijJAkWRhHgWnU=
+    skip_cleanup: true
+    on:
+      tags: true
+  # - provider: releases
+  #   api_key: "${GITHUB_TOKEN}"
+  #   file: "jsdoc.zip"
+  #   skip_cleanup: true
+  #   on:
+  #     tags: true
+
+env:
+  global:
+    secure: PWEnNYo6nVV6aV3HtgtGfKvuZYQreoI20wr9jPd9NKgFdfQWKwAV8WbN0TAdvCQ+SvVdwtzerEQESHwhVPZLYVluQU4OagYrkLECdh3bepy42pKAD/AxNL8ypTvkG20Kq48YxK4cFeerLuBGPgTAi2HzqHNNzyf7CJ3WTQLvCSSDyLhOPeQ2Uu56tkHxTWC8DagTvjBVw49s4ylzUQ6+WhDI0nUpVhP5DYRc96cD4l7wNDTF5KEtuRRNBdtRDHtsxrOiUwXX9iGPb39szhC102x/mYAxp5NBsx4201R3f1qmC44Nh1avrkxJi3AX9VNG/yIgaJB5jQk9AMA5FKd3GI385writWOa14/+RmhcBtti8FKJaDY62QghDmRIqsSxE0vidAP4ra0jbV6TxWrTLMqaX6mngx6k6GRpdRZE/8HH8ie2M5qGRgBKTQ/PbcPiisj/LY9aj7kbrG1HJ+tkiNBVCRHe3P6Uz1Uj7jLMqXvkzaaDoM/UyPz0/cpoy4wZbjaJCV+Y6jNmyHp+DAtpB9b7kgruS+mWzvSgN3Igcw49ltWfGviXAQUYOSBLtpYgNZsMDDqhmsyLKHare+kd9LBeNN9KM7Lv2aJtmNOaKI5poKbs5QWmmy/9Nc2H70/JNWnvSWk5HvoI2/u1bmUypJCqkRgKxuvJXLqUFJ/m6lM=
