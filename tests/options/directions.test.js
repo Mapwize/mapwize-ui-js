@@ -1,25 +1,25 @@
-const { mwzDescribe, mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Direction option'
 mwzDescribe(testSuites, () => {
-  mwzTest(testSuites, 'With correct direction object', (page) => {
-    return () => {
-      MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-        mapwizeOptions: {centerOnVenueId: '56b20714c3fa800b00d8f0b5'},
-        direction: {
-          from: '569f8d7cb4d7200b003c32a1',
-          to: '5d08d8a4efe1d20012809ee5'
-        },
-      }).then((map) => {
-        map.on('mapwize:directionstart', direction => {
-          if (direction.directions.from.placeId === '569f8d7cb4d7200b003c32a1' && direction.directions.to.placeId === '5d08d8a4efe1d20012809ee5') {
-            window.callbackTest(null)
-          } else {
-            window.callbackTest("Bad direction found. Expected from 569f8d7cb4d7200b003c32a1 to 5d08d8a4efe1d20012809ee5. Found from " + direction.from.placeId + " to " +direction.to.placeId)
-          }
-        })
-      }).catch(window.callbackTest)
-    }
+  mwzTest('With correct direction object', (callbackTest) => {
+    MapwizeUI.map({
+      apiKey: APIKEY,
+      mapwizeOptions: {
+        centerOnVenueId: EURATECHNOLOGIESVENUEID
+      },
+      direction: {
+        from: RECEPTIONPLACEID,
+        to: MAPWIZEPLACEID
+      },
+    }).then((map) => {
+      map.on('mapwize:directionstart', e => {
+        if (e.direction.from.placeId === RECEPTIONPLACEID && e.direction.to.placeId === MAPWIZEPLACEID) {
+          callbackTest(null)
+        } else {
+          callbackTest('Bad direction found. Expected from ' + RECEPTIONPLACEID + ' to ' + MAPWIZEPLACEID + '. Found from ' + e.from.placeId + ' to ' + e.to.placeId)
+        }
+      })
+    }).catch(e => callbackTest(e))
   })
 })
