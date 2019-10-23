@@ -43,7 +43,7 @@ const searchInMapwize = (str: string, options: any): Promise<any> => {
 
     return $.ajax({
         type: 'POST',
-        url: apiUrl() + '/search?api_key=' + apiKey(),
+        url: apiUrl() + '/v1/search?api_key=' + apiKey(),
         data: options,
         success: null,
         dataType: 'json',
@@ -86,7 +86,7 @@ const search = (search: string, options: any): Promise<any> => {
 }
 
 const getPlaceList = (placeListId: string): Promise<any> => {
-    return $.get(apiUrl() + '/placeList/' + placeListId + '?api_key=' + apiKey(), {}, null, 'json')
+    return $.get(apiUrl() + '/v1/placeList/' + placeListId + '?api_key=' + apiKey(), {}, null, 'json')
 }
 
 const getPlace = (placeId: string): Promise<any> => {

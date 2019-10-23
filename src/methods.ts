@@ -25,9 +25,6 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setTo = (to: any): void => {
     return mapInstance.searchDirections.setTo(to)
   }
-  mapInstance.getDirection = (): any => {
-    return mapInstance.searchDirections.getDirection()
-  }
   
   mapInstance.locale = (newLocale: string): string => {
     const currentLocal = locale(newLocale)
