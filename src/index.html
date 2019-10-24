@@ -1,23 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
         body {
             margin: 0;
             padding: 0;
         }
+
         #mapwize {
-            position: absolute; top:0; bottom:0; left: 0; right: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90%;
+        }
+
+        .buttons {
+            position: absolute;
+            bottom: 7%;
         }
     </style>
 </head>
+
 <body>
     <div id="mapwize"></div>
+    <div class="buttons">
+        <button onclick="setDirectionMode()">Go to direction mode</button>
+        <button onclick="getModes()">Get all modes</button>
+        <button onclick="getMode()">Get current mode</button>
+        <button onclick="setMode()">Set mode to Accessible </button>
+        <button onclick="getSelectedPlace()">Get selected place </button>
+        <button onclick="setSelectedPlace()">Select mapwize place </button>
+        <button onclick="getAllLocales()">Get all locales</button>
+        <button onclick="setFrLocale()">Set locale FR </button>
+        <button onclick="setEnLocale()">Set locale EN </button>
+        <button onclick="getUnits()">Get all units</button>
+        <button onclick="setMunit()">Set unit to meter </button>
+        <button onclick="setFunit()">Set unit to feet </button>
+       <!--
+           TO do
+        <button onclick="setFrom()">Set from Dustbins </button>
+        <button onclick="setTo()">Set to Local Poubelles</button>
+       -->
+    </div>
+
     <script>
         var mapwizeMap = null
+        var modeId = "5da6bec9aefa100010c7df67"
+        var mapwizePlaceId = "5d08d8a4efe1d20012809ee5"
+
         window.onload = function () {
             // MapwizeUI.map('mapwize', { // Also works
             MapwizeUI.map({ // Also works
@@ -25,17 +61,75 @@
                 apiKey: '89a2695d7485fda885c96b405dcc8a25',
                 mapboxOptions: {},
                 mapwizeOptions: {},
-                onInformationButtonClick: function(e) {
+                onInformationButtonClick: function (e) {
                     console.log('clickOnSelectedInformation', e)
                 },
-                onMenuButtonClick: function(e) {
+                onMenuButtonClick: function (e) {
                     console.log('clickOnMenu', e)
                 }
-            }).then(function(instance) {
+            }).then(function (instance) {
                 console.log('MAP LOADED')
                 mapwizeMap = instance
             })
+
         }
+
+        function setDirectionMode() {
+            mapwizeMap.setDirectionMode()
+        }
+        function getModes() {
+            mapwizeMap.getModes().forEach(data => {
+                console.log(data.name)
+            })
+        }
+        function getMode() {
+            console.log(mapwizeMap.getMode().name)
+        }
+        function setMode() {
+            mapwizeMap.setMode(modeId)
+        }
+        function getSelectedPlace() {
+            if (mapwizeMap.getSelectedPlace()) {
+                console.log(mapwizeMap.getSelectedPlace().name);
+            } else {
+                console.log("no place selected")
+            }
+        }
+        function setSelectedPlace() {
+            mapwizeMap.setSelectedPlace(mapwizePlaceId)
+        }
+        function getAllLocales() {
+            mapwizeMap.getLocales().forEach(locale => {
+                console.log(locale)
+            })
+        }
+        function setFrLocale() {
+            mapwizeMap.setLocale("fr")
+        }
+        function setEnLocale() {
+            mapwizeMap.setLocale("en")
+        }
+        function getUnits() {
+            mapwizeMap.getUnits().forEach(unit => {
+                console.log(unit)
+            })
+        }
+        function setMunit() {
+            mapwizeMap.setUnit("m")
+        }
+        function setFunit() {
+            mapwizeMap.setUnit("ft")
+        }
+
+        /*
+        function setFrom() {
+            mapwizeMap.setFrom()
+        }
+        function setTo() {
+            mapwizeMap.setTo()
+        }
+        */
     </script>
 </body>
+
 </html>
