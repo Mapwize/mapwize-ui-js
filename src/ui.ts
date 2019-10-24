@@ -107,6 +107,8 @@ const createMap = (container: string|HTMLElement, options?: any) => {
 
         direction: null,
 
+        selectPlace: null,
+
         mapboxOptions: {},
         mapwizeOptions: {
             preferredLanguage: 'en'

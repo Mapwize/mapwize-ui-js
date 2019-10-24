@@ -6,17 +6,19 @@ import uiConfig from '../../config'
 const selectionHtml = require('./selection.html')
 
 import { DefaultControl } from '../../control'
-import { getTranslation, getIcon, replaceColorInBase64svg } from '../../utils'
+import { getTranslation, getIcon, replaceColorInBase64svg, getPlace } from '../../utils'
 
 export class FooterSelection extends DefaultControl {
     
     private _currentVenue: any
     private _selected: any
     private _selectedHeight: number
+    private _options: any;
     
     constructor (mapInstance: any, options: any) {
         super(mapInstance)
-        
+        this._options = options
+
         this._selected = null
         this._selectedHeight = 0;
 
@@ -107,7 +109,7 @@ export class FooterSelection extends DefaultControl {
 
         const lastHeight = $(this._container).css('height')
         this._selected = obj
-
+        
         $(this._container).addClass('invisible')
         $(this._container).css('height', 'auto')
         if (this._currentVenue) {
@@ -159,8 +161,19 @@ export class FooterSelection extends DefaultControl {
             this._promoteSelected(this._selected);
         }
     }
-    public getSelected() {
+    public getSelectedPlace() {
         return this._selected
+    }
+    public setSelectedPlace(place: any){
+        if(typeof place == "string"){
+            getPlace(place).then(place=>{
+                this.map.setFloor(place.floor)
+                this.select(set(place, 'objectClass', 'place'))
+            })
+        }else{
+            this.map.setFloor(place.floor)
+            this.select(set(place, 'objectClass', 'place'))
+        }
     }
     public unselect() {
         if (this._selected) {
@@ -194,7 +207,11 @@ export class FooterSelection extends DefaultControl {
     }
     private onVenueEnter(e: any): void {
         this._currentVenue = e.venue
-        
+
+        if(this._options.selectPlace){
+            this.setSelectedPlace(this._options.selectPlace)
+        }
+
         if (this._selected && this._selected.venueId === this._currentVenue._id) {
             this.show()
         } else {

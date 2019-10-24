@@ -244,8 +244,8 @@ export class SearchDirections extends DefaultControl {
         if (this._currentVenue) {
             this.map.searchBar.hide()
 
-            if (this.map.footerSelection.getSelected()) {
-                this._setTo(this.map.footerSelection.getSelected())
+            if (this.map.footerSelection.getSelectedPlace()) {
+                this._setTo(this.map.footerSelection.getSelectedPlace())
                 this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
             }
 

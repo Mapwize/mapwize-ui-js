@@ -9,6 +9,10 @@ const getLocales = (): Array<string> => {
   return locales.keys().map((locale: string) => locale.replace(/\.\//g, '').replace(/\.locale\.json$/g, ''))
 }
 
+const getLocale = (): string => {
+  return currentLocale
+}
+
 const translate = (key: string, p?: any): string => {
   var compiled = template(currentTranslations[key])
   return compiled(p)
@@ -26,4 +30,4 @@ const locale = (newLocale?: string): string => {
   return currentLocale
 }
 
-export { translate, locale, getLocales }
+export { translate, locale, getLocales, getLocale }

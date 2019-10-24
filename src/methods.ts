@@ -1,5 +1,5 @@
-import { locale, getLocales } from './translate'
-import { unit, getUnits } from './measure'
+import { locale, getLocales, getLocale } from './translate'
+import { unit, getUnits, getUnit } from './measure'
 
 const attachMethods = (mapInstance: any) => {
   const onMapClick = (e: any): void => {
@@ -31,8 +31,14 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setMode = (modeId: string): void => {
     return mapInstance.searchDirections.setMode(modeId)
   }
+  mapInstance.getSelectedPlace = (): void => {
+    return mapInstance.footerSelection.getSelectedPlace()
+  }
+  mapInstance.setSelectedPlace = (place: any): void => {
+    return mapInstance.footerSelection.setSelectedPlace(place)
+  }
   
-  mapInstance.locale = (newLocale: string): string => {
+  mapInstance.setLocale = (newLocale: string): string => {
     const currentLocal = locale(newLocale)
     
     mapInstance.setPreferredLanguage(currentLocal)
@@ -43,8 +49,10 @@ const attachMethods = (mapInstance: any) => {
     return currentLocal
   }
   mapInstance.getLocales = getLocales
+  mapInstance.getLocale = getLocale
 
-  mapInstance.unit = (newUnit: string): string => {
+
+  mapInstance.setUnit = (newUnit: string): string => {
     const currentUnit = unit(newUnit)
     
     mapInstance.footerDirections.refreshUnit()
@@ -52,6 +60,7 @@ const attachMethods = (mapInstance: any) => {
     return currentUnit
   }
   mapInstance.getUnits = getUnits
+  mapInstance.getUnit = getUnit
 
   
   mapInstance.destroy = (): void => {
