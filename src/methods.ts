@@ -25,6 +25,12 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setTo = (to: any): void => {
     return mapInstance.searchDirections.setTo(to)
   }
+  mapInstance.getMode = (): any => {
+    return mapInstance.searchDirections.getMode()
+  }
+  mapInstance.setMode = (modeId: string): void => {
+    return mapInstance.searchDirections.setMode(modeId)
+  }
   
   mapInstance.locale = (newLocale: string): string => {
     const currentLocal = locale(newLocale)

@@ -255,6 +255,8 @@ export class SearchDirections extends DefaultControl {
             this.map.addControl(this, 'top-left')
             $(this.map._container).addClass('mwz-directions')
             this._container.find('#mwz-mapwizeSearchFrom').focus()
+        } else {
+            throw new Error('There is no current venue displayed')
         }
     }
     public hide() {
@@ -263,6 +265,18 @@ export class SearchDirections extends DefaultControl {
 
         this.map.removeControl(this)
         $(this.map._container).removeClass('mwz-directions')
+    }
+
+    public getMode(): any {
+        return this._mode;
+    }
+    public setMode(modeId: string): void {
+        const mode = this._modes[modeId]
+        if (mode) {
+            this.setSelectedMode(mode)
+        } else {
+            throw new Error('Mode does not exist or is not available')
+        }
     }
 
     private onVenueWillEnter(e: any): void {
@@ -280,6 +294,7 @@ export class SearchDirections extends DefaultControl {
                 this.show()
             }
         }
+        this.setAvailablesModes(this.map.getModes())
         this.launchDirection()
     }
     private onVenueExit(e: any): void {
@@ -460,7 +475,7 @@ export class SearchDirections extends DefaultControl {
             Api.getDirection({
                 from: from,
                 to: to,
-                modeId: this._mode._id
+                modeId: this._mode ? this._mode._id : null
             }).then((direction: any) => {
                 this._direction = direction
                 this.map.setDirection(direction, options);
