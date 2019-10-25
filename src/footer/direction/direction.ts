@@ -1,42 +1,42 @@
 import * as $ from 'jquery';
 
-const directionsHtml = require('./directions.html')
+const directionsHtml = require('./direction.html')
 
 import { unit } from '../../measure'
 import { DefaultControl } from '../../control'
 
 export class FooterDirections extends DefaultControl {
-
-    private _direction: any;
     
     constructor (mapInstance: any) {
         super(mapInstance)
 
         this._container = $(directionsHtml)
-        this._direction = null
     }
     public destroy() {}
 
-    public show () {
-        this.map.footerSelection.unselect()
-        this._container.removeClass('d-none').addClass('d-flex')
-    }
-    public hide () {
-        this._container.removeClass('d-flex').addClass('d-none')
+    public getDefaultPosition(): string {
+        return 'bottom-left'
     }
 
-    public displayStats (direction: any) {
-        this._direction = direction
+    public onAdd(map: any) {
+        this._map = map;
+        this.isOnMap = true
+
+        this.displayStats()
+
+        return this._container.get(0);
+    }
+
+    public displayStats () {
+        const direction = this._map.getDirection()
 
         this._container.find('#mwz-direction-time').text(this.timeParser(direction.traveltime))
         this._container.find('#mwz-direction-distance').text(this.distanceParser(direction.distance, unit()))
-
-        this.show()
     }
 
     public refreshUnit(): void {
-        if (this._direction) {
-            this.displayStats(this._direction)
+        if (this._map.getDirection()) {
+            this.displayStats()
         }
     }
 

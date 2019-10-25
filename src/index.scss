@@ -3,13 +3,7 @@
     @import "custom";
     @import "~bootstrap/scss/bootstrap";
     
-    @import "./search/bar/bar";
-    @import "./search/directions/directions";
-    @import "./search/results/results";
-    
-    @import "./footer/directions/directions";
-    @import "./footer/venue/venue";
-    @import "./footer/selection/selection";
-
+    @import "./header";
+    @import "./footer";
     @import "./controls";
 }

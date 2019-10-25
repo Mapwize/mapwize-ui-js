@@ -76,6 +76,23 @@ export class FooterSelection extends DefaultControl {
         this.map.on('mapwize:venueenter', this.onVenueEnter)
         this.map.on('mapwize:venueexit', this.onVenueExit)
     }
+    
+    public getDefaultPosition(): string {
+        return 'bottom-left'
+    }
+
+    public destroy() {
+        this.map.off('mapwize:click', this.onClick)
+        this.map.off('mapwize:venueenter', this.onVenueEnter)
+        this.map.off('mapwize:venueexit', this.onVenueExit)
+    }
+
+
+
+
+
+
+
 
     public mainColor(options: any) {
         if (options.mainColor) {
@@ -84,24 +101,6 @@ export class FooterSelection extends DefaultControl {
         }
     }
 
-    public destroy() {
-        this.map.off('mapwize:click', this.onClick)
-        this.map.off('mapwize:venueenter', this.onVenueEnter)
-        this.map.off('mapwize:venueexit', this.onVenueExit)
-    }
-    
-    public show () {
-        this._container.removeClass('d-none').addClass('d-block')
-        $(this.map._container).addClass('mwz-selected')
-        
-        this.map.footerVenue.hide()
-    }
-    public hide () {
-        this._container.removeClass('d-block').addClass('d-none')
-        $(this.map._container).removeClass('mwz-selected')
-        
-        this.map.footerVenue.showIfNeeded()
-    }
     public select(obj: any) {
         if (!obj) {
             return this.unselect()
@@ -112,9 +111,6 @@ export class FooterSelection extends DefaultControl {
         
         $(this._container).addClass('invisible')
         $(this._container).css('height', 'auto')
-        if (this._currentVenue) {
-            this.show()
-        }
 
         const lang = this.map.getLanguage()
         $(this._container).find('.mwz-title').text(getTranslation(obj, lang, 'title'))
@@ -186,7 +182,7 @@ export class FooterSelection extends DefaultControl {
             $(this._container).animate({
                 height: 0
             }, 250, () => {
-                this.hide()
+                // this.hide()
                 
                 $(this._container).find('.mwz-title').text('')
                 $(this._container).find('.mwz-subtitle').text('')
@@ -213,13 +209,13 @@ export class FooterSelection extends DefaultControl {
         }
 
         if (this._selected && this._selected.venueId === this._currentVenue._id) {
-            this.show()
+            // this.show()
         } else {
             this.unselect()
         }
     }
     private onVenueExit(e: any): void {
-        this.hide()
+        // this.hide()
         this.unselect()
         
         this._currentVenue = null

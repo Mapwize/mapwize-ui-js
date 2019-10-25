@@ -1,0 +1,122 @@
+#mwz-search-direction {
+  
+  border-radius: 8px;
+  
+  width: 400px;
+  
+  margin-top: 10px;
+  margin-left: 10px;
+  
+  background-color:  white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+  
+  pointer-events: auto;
+  
+  .mwz-mode-icons{
+    display: flex;
+    overflow-x: hidden;
+  }
+  .mwz-close-button {
+    width: 18px !important;
+  }
+  .mwz-search-line {
+    height: 50px;
+    margin-bottom: 0;
+    
+    .mwz-venue-name {
+      color: rgb(73, 80, 87);
+      font-size: 16px;
+      
+      padding-left: 12px;
+    }
+    
+    .mwz-icon {
+      padding: 15px;
+      
+      img {
+        width: 15px;
+      }
+    }
+    .mwz-padding {
+      padding: 21px;
+    }
+    .mwz-button-icon {
+      button {
+        border: none;
+        img {
+          width: 20px;
+        }
+      }
+    }
+    
+    .mwz-empty {
+      width: 50px;
+    }
+    
+    .mwz-back {
+      img {
+        width: 20px;
+      }
+    }
+    
+    .mwz-search {
+      input {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: unset;
+        
+        box-shadow: none;
+        
+        &:focus {
+          box-shadow: none;
+          border-color: #93979b;
+        }
+      }
+    }
+  }
+  
+  #mwz-reverse-button {
+    margin-top: -35px;
+  }
+  
+  .mwz-modes-line {
+    height: 54px;
+    max-width: 256px;
+    margin: 0 auto;
+    
+    .mwz-mode-button-selected {
+      background-color: rgba(197,21,134,0.1);
+    }
+    .mwz-mode-button {
+      padding: 2px 22px 2px 22px;
+      border-radius: 30px !important;
+    }
+    .mwz-button-icon {
+      button {
+        border: none;
+        img {
+          width: 20px;
+        }
+      }
+    }
+  }
+  
+  #mwz-alert-no-direction {
+    display: none;
+    border-radius: 0;
+    
+    margin-bottom: 0;
+  }
+}
+&.mwz-small {
+  #mwz-search-direction {
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+    
+    .mwz-modes-line{
+      max-width: 192px !important;
+    }
+  }
+}

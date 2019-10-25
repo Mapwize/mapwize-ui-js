@@ -1,10 +1,8 @@
-import { find, get, set, debounce, map, isFinite, replace, uniq, pull } from 'lodash'
+import { find, get, set, map, isFinite, replace, uniq, pull } from 'lodash'
 import * as $ from 'jquery';
 import { Api, apiUrl, apiKey } from 'mapwize'
 
 import uiConfig from './config'
-
-let lastSearchSent: string = ''
 
 const addClass = (classString: string, classToAdd: string) => {
     var classes = classString.split(' ')
@@ -36,53 +34,6 @@ const getIcon = (o: any) => {
     || get(o, 'placeType.style.markerUrl', false)
     || get(o, 'icon', false)
     || uiConfig.DEFAULT_PLACE_ICON
-}
-
-const searchInMapwize = (str: string, options: any): Promise<any> => {
-    options.query = str
-
-    return $.ajax({
-        type: 'POST',
-        url: apiUrl() + '/v1/search?api_key=' + apiKey(),
-        data: options,
-        success: null,
-        dataType: 'json',
-        xhrFields: {
-            withCredentials: true
-        },
-    }).then(mapwizeResults => mapwizeResults.hits)
-}
-
-const doSearch = debounce((str: string, options: any, callback: Function) => {
-    lastSearchSent = str
-    
-    return Promise.all([
-        Promise.resolve(str),
-        searchInMapwize(str, options)
-    ]).then((results: any) => {
-        if (results[0] !== lastSearchSent) {
-            return callback(new Error('Receive old search response'))
-        }
-        callback(null, results)
-    })
-}, 250, {'maxWait': 500})
-
-const search = (search: string, options: any): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        if (search) {
-            return doSearch(search, options, (err: any, results: any) => {
-                if (err) {
-                    return reject(err)
-                }
-                resolve(results)
-            })
-        }
-
-        doSearch.cancel();
-        lastSearchSent = '';
-    
-        return reject('Empty search string')
-    })
 }
 
 const getPlaceList = (placeListId: string): Promise<any> => {
@@ -135,5 +86,5 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     return 'data:image/svg+xml;base64,' + decoded
 }
 
-export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
+export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
 export { addClass, removeClass }

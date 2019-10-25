@@ -5,14 +5,13 @@
     margin-left: 10px;
     pointer-events: auto;
    
-
     .dropdown-toggle::after {
         display:none;
     }
-    .dropdown-item{
+    .dropdown-item {
         padding: 0.5rem 1.5rem
     }
-    .dropdown-item:hover{
+    .dropdown-item:hover {
         background-color:#efefef;
     }
     .btn-secondary {
@@ -21,13 +20,13 @@
         border: none;
         text-align: left;
     }
-    .btn-secondary:focus{
+    .btn-secondary:focus {
         box-shadow:none;
     }
-    .btn{
+    .btn {
         padding: 6px;
     }
-    .dropdown-menu{
+    .dropdown-menu {
         max-height: 400px;
         overflow: auto;
         border-bottom-left-radius: 0;
@@ -42,10 +41,10 @@
             white-space: normal;
         }
     }
-    .mwz-icon{
+    .mwz-icon {
         width: 30px;
     }
-    .mwz-wrapper-select{
+    .mwz-wrapper-select {
         background: white;
         border-radius: 50px;
         margin-right: 70px;
@@ -55,7 +54,9 @@
     option:disabled {
         display:none;
     }
-    .Select-input option[value=four] {display: none;}
+    .Select-input option[value=four] {
+        display: none;
+    }
     select {
         border: none;
         border-radius: 0;
@@ -67,23 +68,23 @@
         }
     }
 
-    .mwz-wrapper-select:nth-child(2){
+    .mwz-wrapper-select:nth-child(2) {
         margin-left: -55px;
         z-index:1;
     }
-    #universes-selector, #language-selector{
+    #universes-selector, #language-selector {
         display: inline-block;
     }
-    #mwz-universe-button, .mwz-universe{
+    #mwz-universe-button, .mwz-universe {
         min-width: 170px;
     }
-    #mwz-language-button, .mwz-language{
+    #mwz-language-button, .mwz-language {
         width: 70px ;
     }
 }
 
 &.mwz-small {
-    .dropdown-menu{
+    .dropdown-menu {
         max-height: 300px !important;
     }
     #mwz-footerVenue {
@@ -92,19 +93,19 @@
         width: 75%;
         padding-left: 20px;
     }
-    #mwz-language-button{
+    #mwz-language-button {
         color: transparent;
         width: 42px !important;
     }
-    #mwz-universe-button{
+    #mwz-universe-button {
         color: transparent;
         width: 42px !important;
         min-width: 0px !important;
     }
-    .mwz-text-icon{
+    .mwz-text-icon {
         display: none;
     }
-    #mwz-searchBar{
+    #mwz-searchBar {
         border-radius: 8px;
         margin-left: 2.5%;
         margin-top: 15px;

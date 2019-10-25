@@ -100,6 +100,10 @@ export class FooterVenue extends DefaultControl {
         this.map.off('mapwize:venueexit', this.onVenueExit)
     }
 
+    public getDefaultPosition(): string {
+        return 'bottom-left'
+    }
+
     public show() {
         this._container.removeClass('d-none').addClass('d-flex')
         $(this.map._container).addClass('mwz-venue-footer')

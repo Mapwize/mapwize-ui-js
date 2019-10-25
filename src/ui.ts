@@ -7,8 +7,8 @@ import uiConfig from './config'
 import attachMethods from './methods'
 import { unit } from './measure'
 import { locale } from './translate'
-import { SearchBar, SearchDirections, SearchResults } from './search'
-import { FooterSelection, FooterDirections, FooterVenue } from './footer'
+import { FooterManager } from './footer'
+import { HeaderManager } from './header'
 
 import { FloorControl, NavigationControl, LocationControl } from './controls'
 
@@ -28,18 +28,9 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     })
     
     mapInstance.uiOptions = options
-
-    mapInstance.searchResults = new SearchResults(mapInstance, options)
-    mapInstance.searchBar = new SearchBar(mapInstance, options)
-    mapInstance.searchDirections = new SearchDirections(mapInstance, options)
     
-    mapInstance.footerVenue = new FooterVenue(mapInstance)
-    mapInstance.footerSelection = new FooterSelection(mapInstance, options)
-    mapInstance.footerDirections = new FooterDirections(mapInstance)
-
-    mapInstance.addControl(mapInstance.footerVenue, 'bottom-left')
-    mapInstance.addControl(mapInstance.footerSelection, 'bottom-left')
-    mapInstance.addControl(mapInstance.footerDirections, 'bottom-left')
+    mapInstance.headerManager = new HeaderManager(mapInstance, options)
+    mapInstance.footerManager = new FooterManager(mapInstance, options)
 
     if (options.locationControl) {
         mapInstance.locationControl = new LocationControl(mapInstance.locationControlOptions)
@@ -55,10 +46,14 @@ const buildUIComponent = (mapInstance: any, options: any) => {
         mapInstance.navigationControl = new NavigationControl(mapInstance.navigationControlOptions)
         mapInstance.addControl(mapInstance.navigationControl, isString(options.navigationControl) ? options.navigationControl : undefined)
     }
-    
-    mapInstance.searchBar.show()
 
     attachMethods(mapInstance)
+
+    mapInstance.headerManager.showSearch()
+
+    if (options.direction) {
+        mapInstance.headerManager.displayDirection(options.direction)
+      }
     
     return mapInstance
 }

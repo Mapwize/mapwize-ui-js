@@ -1,6 +1,8 @@
 import { locale, getLocales } from './translate'
 import { unit, getUnits } from './measure'
 
+import { DefaultControl } from './control'
+
 const attachMethods = (mapInstance: any) => {
 
   const onMapClick = (e: any): void => {
@@ -17,6 +19,10 @@ const attachMethods = (mapInstance: any) => {
   }
   mapInstance.on('mapwize:directionstart', onDirectionStart)
 
+  mapInstance.hasControl = (control: DefaultControl): boolean => {
+    return control.isOnMap
+  }
+
   /**
   * @instance
   * @memberof Map
@@ -25,7 +31,7 @@ const attachMethods = (mapInstance: any) => {
   * @returns {object}
   */
   mapInstance.setDirectionMode = (): void => {
-    return mapInstance.searchDirections.show()
+    return mapInstance.headerManager.showDirection()
   }
 
   /**
@@ -40,7 +46,7 @@ const attachMethods = (mapInstance: any) => {
   *      { latitude, longitude, floor, venueId }
   */
   mapInstance.setFrom = (from: any): void => {
-    return mapInstance.searchDirections.setFrom(from)
+    return mapInstance.headerManager.setFrom(from)
   }
 
   /**
@@ -54,7 +60,7 @@ const attachMethods = (mapInstance: any) => {
   *      { latitude, longitude, floor, venueId }
   */
   mapInstance.setTo = (to: any): void => {
-    return mapInstance.searchDirections.setTo(to)
+    return mapInstance.headerManager.setTo(to)
   }
 
   /**
@@ -65,7 +71,7 @@ const attachMethods = (mapInstance: any) => {
   * @param  {string} locale locale code like 'en' or 'fr'
   */
   mapInstance.getMode = (): any => {
-    return mapInstance.searchDirections.getMode()
+    return mapInstance.headerManager.getMode()
   }
   /**
   * @instance
@@ -75,7 +81,7 @@ const attachMethods = (mapInstance: any) => {
   * @param  {string} modeId
   */
   mapInstance.setMode = (modeId: string): void => {
-    return mapInstance.searchDirections.setMode(modeId)
+    return mapInstance.headerManager.setMode(modeId)
   }
 
   /**
@@ -86,7 +92,7 @@ const attachMethods = (mapInstance: any) => {
   * @param  {string} locale locale code like 'en' or 'fr'
   */
   mapInstance.getSelected = (): void => {
-    return mapInstance.footerSelection.getSelected()
+    return mapInstance.footerManager.getSelected()
   }
   /**
   * @instance
@@ -96,7 +102,7 @@ const attachMethods = (mapInstance: any) => {
   * @param  {object} place locale code like 'en' or 'fr'
   */
   mapInstance.setSelected = (place: any): void => {
-    return mapInstance.footerSelection.setSelected(place)
+    return mapInstance.footerManager.setSelected(place)
   }
 
   /**
@@ -110,9 +116,8 @@ const attachMethods = (mapInstance: any) => {
     const currentLocal = locale(newLocale)
 
     mapInstance.setPreferredLanguage(currentLocal)
-    mapInstance.searchBar.refreshLocale()
-    mapInstance.searchDirections.refreshLocale()
-    mapInstance.searchResults.refreshLocale()
+    mapInstance.headerManager.refreshLocale()
+    mapInstance.footerManager.refreshLocale()
   }
   /**
   * @instance
@@ -145,7 +150,7 @@ const attachMethods = (mapInstance: any) => {
   */
   mapInstance.setUnit = (newUnit: string): void => {
     unit(newUnit)
-    mapInstance.footerDirections.refreshUnit()
+    mapInstance.footerManager.refreshUnit()
   }
   /**
   * @instance
@@ -176,13 +181,8 @@ const attachMethods = (mapInstance: any) => {
   * @function remove
   */
   mapInstance.remove = (): void => {
-    mapInstance.searchResults.destroy()
-    mapInstance.searchBar.destroy()
-    mapInstance.searchDirections.destroy()
-    
-    mapInstance.footerVenue.destroy()
-    mapInstance.footerSelection.destroy()
-    mapInstance.footerDirections.destroy()
+    mapInstance.headerManager.destroy()
+    mapInstance.footerManager.destroy()
     
     mapInstance.off('mapwize:click', onMapClick)
     mapInstance.off('mapwize:directionstart', onDirectionStart)
