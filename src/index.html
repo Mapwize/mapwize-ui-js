@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
         }
-        
+
         #mapwize {
             position: absolute;
             top: 0;
@@ -19,7 +19,7 @@
             right: 0;
             height: 90%;
         }
-        
+
         .buttons {
             position: absolute;
             bottom: 7%;
@@ -42,20 +42,17 @@
         <button onclick="getUnits()">Get all units</button>
         <button onclick="setMunit()">Set unit to meter </button>
         <button onclick="setFunit()">Set unit to feet </button>
-        <!--
-            TO do
-            <button onclick="setFrom()">Set from Dustbins </button>
-            <button onclick="setTo()">Set to Local Poubelles</button>
-        -->
+        <button onclick="setFrom()">Set from mapwize</button>
+        <button onclick="setTo()">Set to reception</button>
     </div>
-    
+
     <script>
         var mapwizeMap = null
         var apiKey = '89a2695d7485fda885c96b405dcc8a25'
         var modeId = "5da6bec9aefa100010c7df67"
         var mapwizePlaceId = "5d08d8a4efe1d20012809ee5"
         var receptionPlaceId = "569f8d7cb4d7200b003c32a1"
-        
+
         window.onload = function () {
             MapwizeUI.apiKey(apiKey)
             MapwizeUI.Api.getDirection({
@@ -79,10 +76,8 @@
                     mapwizeMap = instance
                 })
             })
-            
-            
         }
-        
+
         function setDirectionMode() {
             mapwizeMap.setDirectionMode()
         }
@@ -129,15 +124,20 @@
         function setFunit() {
             mapwizeMap.setUnit("ft")
         }
-        
-        /*
+
         function setFrom() {
-            mapwizeMap.setFrom()
+            MapwizeUI.Api.getPlace(mapwizePlaceId).then(place => {
+                place.objectClass = "place"
+                mapwizeMap.setFrom(place)
+
+            })
         }
         function setTo() {
-            mapwizeMap.setTo()
+            MapwizeUI.Api.getPlace(receptionPlaceId).then(place => {
+                place.objectClass = "place"
+                mapwizeMap.setTo(place)
+            })
         }
-        */
     </script>
 </body>
 
