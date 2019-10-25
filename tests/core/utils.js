@@ -1,15 +1,22 @@
-const _ = require('lodash')
+var _ = require('lodash')
 
 function mwzDescribe (testSuites, fn) {
-  describe(testSuites, () => {
+  describe(testSuites, function () {
     fn()
   })
 }
 
 function mwzTest(name, evaluateFn) {
-  it(name, () => {
-    browser.newWindow('http://localhost:8888/tests/core/index.html')
-    browser.waitUntil
+  it(name, function () {
+    browser.url('http://localhost:8888/tests/core/index.html')
+    browser.waitUntil(function () {
+      return browser.execute(function () {
+        return document.readyState === 'complete' && MapwizeUI;
+      })
+    })
+    browser.setTimeout({
+      'script': 60000
+    });
     var error = browser.executeAsync(evaluateFn)
     if (error != null) {
       if (_.isString(error)) {

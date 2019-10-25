@@ -1,57 +1,57 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 const testSuites = 'Set language'
 
-mwzDescribe(testSuites, () => {
-  mwzTest('language: fr', (callbackTest) => {
+mwzDescribe(testSuites, function () {
+  mwzTest('language: fr', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       locale: 'fr',
       mapwizeOptions: {
         centerOnVenueId: EURATECHNOLOGIESVENUEID
       }
-    }).then((map) => {
-      map.on('mapwize:venueenter', venue => {
+    }).then(function (map) {
+      map.on('mapwize:venueenter', function (venue) {
         if ($('#mwz-mapwizeSearch').attr('placeholder').includes('Rechercher dans')) {
-          callbackTest(null)
+          callbackTest(null);
         } else {
-          callbackTest('#mwz-mapwizeSearch placeholder expected: "Rechercher dans EuraTechnologies" received: ' + $('#mwz-mapwizeSearch').attr('placeholder'))
+          callbackTest('#mwz-mapwizeSearch placeholder expected: "Rechercher dans EuraTechnologies" received: ' + $('#mwz-mapwizeSearch').attr('placeholder'));
         }
       })
-    }).catch(callbackTest)
+    }).catch(function (e) { callbackTest(e); });
   })
   
-  mwzTest('language: en', (callbackTest) => {
+  mwzTest('language: en', function(callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       locale: 'en',
       mapwizeOptions: {
         centerOnVenueId: EURATECHNOLOGIESVENUEID
       }
-    }).then((map) => {
-      map.on('mapwize:venueenter', venue => {
+    }).then(function (map) {
+      map.on('mapwize:venueenter', function (venue) {
         if ($('#mwz-mapwizeSearch').attr('placeholder').includes('Search in')) {
-          callbackTest(null)
+          callbackTest(null);
         } else {
-          callbackTest('#mwz-mapwizeSearch placeholder expected: "Search in EuraTechnologies" received: ' + $('#mwz-mapwizeSearch').attr('placeholder'))
+          callbackTest('#mwz-mapwizeSearch placeholder expected: "Search in EuraTechnologies" received: ' + $('#mwz-mapwizeSearch').attr('placeholder'));
         }
-      })
-    }).catch(callbackTest)
+      });
+    }).catch(function (e) { callbackTest(e); });
   })
   
-  mwzTest('language: null', (callbackTest) => {
+  mwzTest('language: null', function(callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       mapwizeOptions: {
         centerOnVenueId: EURATECHNOLOGIESVENUEID
       }
-    }).then((map) => {
-      map.on('mapwize:venueenter', venue => {
+    }).then(function (map) {
+      map.on('mapwize:venueenter', function (venue) {
         if ($('#mwz-mapwizeSearch').attr('placeholder').includes('Search in')) {
-          callbackTest(null)
+          callbackTest(null);
         } else {
-          callbackTest('#mwz-mapwizeSearch placeholder expected: "Search in EuraTechnologies" received: ' + $('#mwz-mapwizeSearch').attr('placeholder'))
+          callbackTest('#mwz-mapwizeSearch placeholder expected: "Search in EuraTechnologies" received: ' + $('#mwz-mapwizeSearch').attr('placeholder'));
         }
       })
-    }).catch(callbackTest)
+    }).catch(function (e) { callbackTest(e); });
   })
 })

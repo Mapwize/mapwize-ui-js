@@ -1,17 +1,17 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Hide menu'
-mwzDescribe(testSuites, () => {
-  mwzTest('hideMenu: true', (callbackTest) => {
+mwzDescribe(testSuites, function () {
+  mwzTest('hideMenu: true', function(callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       hideMenu: true
-    }).then((map) => {
+    }).then(function (map) {
       if ($('#menuBar').hasClass('d-none') == true) {
         callbackTest(null)
       } else {
         callbackTest('#menuBar don\'t have d-none css class')
       }
-    }).catch(callbackTest)
+    }).catch(function (e) { callbackTest(e) })
   })
 })

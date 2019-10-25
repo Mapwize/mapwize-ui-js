@@ -1,16 +1,16 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Apikey'
-mwzDescribe(testSuites, () => {
-  mwzTest('With correct apikey', (callbackTest) => {
+mwzDescribe(testSuites, function () {
+  mwzTest('With correct apikey', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-    }).then((map) => {
+    }).then(function (map) {
       if ($('#mapwize').hasClass('mapwizeui') == true) {
         callbackTest(null)
       } else {
         callbackTest('#mapwize don\'t have mapwizeui css class')
       }
-    }).catch(e => callbackTest(e))
+    }).catch(function (e) { callbackTest(e) })
   })
 })

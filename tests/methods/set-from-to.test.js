@@ -1,32 +1,32 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Set direction from and to'
-mwzDescribe(testSuites, () => {
-  mwzTest('Form reception to mapwize', (callbackTest) => {
+mwzDescribe(testSuites, function () {
+  mwzTest('Form reception to mapwize', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       mapwizeOptions: {
         centerOnVenueId: EURATECHNOLOGIESVENUEID
       },
-    }).then((map) => {
-      map.on('mapwize:directionstart', e => {
+    }).then(function (map) {
+      map.on('mapwize:directionstart', function (e) {
         if (e.direction.from.placeId === RECEPTIONPLACEID && e.direction.to.placeId === MAPWIZEPLACEID) {
           callbackTest(null)
         } else {
           callbackTest('Bad direction found. Expected from ' + RECEPTIONPLACEID + ' to ' + MAPWIZEPLACEID + '. Found from ' + e.direction.from.placeId + ' to ' + e.direction.to.placeId)
         }
       })
-      map.on('mapwize:venueenter', () => {
-        setTimeout(() => {
+      map.on('mapwize:venueenter', function () {
+        setTimeout(function () {
           map.setDirectionMode()
-          MapwizeUI.Api.getPlace(RECEPTIONPLACEID).then(from => {
+          MapwizeUI.Api.getPlace(RECEPTIONPLACEID).then(function (from) {
             map.setFrom(_.set(from, 'objectClass', 'place'))
           })
-          MapwizeUI.Api.getPlace(MAPWIZEPLACEID).then(to => {
+          MapwizeUI.Api.getPlace(MAPWIZEPLACEID).then(function (to) {
             map.setTo(_.set(to, 'objectClass', 'place'))
           })
         }, 0)
       })
-    }).catch(e => callbackTest(e))
+    }).catch(function (e) { callbackTest(e) })
   })
 })

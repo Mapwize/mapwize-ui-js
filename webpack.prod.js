@@ -9,7 +9,7 @@ const LicenseWebpackPlugin = require('license-webpack-plugin').LicenseWebpackPlu
 
 module.exports = merge(common, {
   mode: 'production',
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new CleanWebpackPlugin(),
     new GenerateJsonPlugin('package.json', {

@@ -1,31 +1,31 @@
-const { mwzDescribe, mwzTest } = require('../core/utils')
+var { mwzDescribe, mwzTest } = require('../core/utils')
 
-const testSuites = 'Set direction mode'
-mwzDescribe(testSuites, () => {
-  mwzTest('Must failed outside venue', (callbackTest) => {
+var testSuites = 'Set direction mode'
+mwzDescribe(testSuites, function () {
+  mwzTest('Must failed outside venue', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-    }).then((map) => {
-      map.setDirectionMode().then(() => {
+    }).then(function (map) {
+      map.setDirectionMode().then(function () {
         callbackTest('Direction mode must not be setted outside venue')
-      }).catch(e => callbackTest(null))
-    }).catch(e => callbackTest(e))
+      }).catch(function (e) { callbackTest(null) })
+    }).catch(function (e) { callbackTest(e) })
   })
   
-  mwzTest('Must pass inside venue', (callbackTest) => {
+  mwzTest('Must pass inside venue', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       mapwizeOptions: {
         centerOnVenueId: EURATECHNOLOGIESVENUEID
       },
-    }).then((map) => {
-      map.on('mapwize:venueenter', () => {
-        map.setDirectionMode().then(() => {
+    }).then(function (map) {
+      map.on('mapwize:venueenter', function () {
+        map.setDirectionMode().then(function () {
           callbackTest(null)
-        }).catch(() => {
+        }).catch(function () {
           callbackTest('Direction must be visible inside venue')
         })
       });
-    }).catch(e => callbackTest(e))
+    }).catch(function (e) { callbackTest(e) })
   })
 })

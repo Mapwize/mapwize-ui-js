@@ -1,27 +1,27 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Click on buttons'
-mwzDescribe(testSuites, () => {
-  mwzTest('Menu button', callbackTest => {
+mwzDescribe(testSuites, function () {
+  mwzTest('Menu button', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-      onMenuButtonClick: (e) => {
-        callbackTest(null)
+      onMenuButtonClick: function (e) {
+        callbackTest(null);
       }
-    }).then((map) => {
-      $('#mwz-menuButton').click()
-    }).catch(e => callbackTest(e))
+    }).then(function (map) {
+      $('#mwz-menuButton').click();
+    }).catch(function (e) { callbackTest(e); });
   })
   
-  mwzTest('Information button', callbackTest => {
+  mwzTest('Information button', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlace: MAPWIZEPLACEID,
-      onInformationButtonClick: (e) => {
-        callbackTest(null)
+      onInformationButtonClick: function (e) {
+        callbackTest(null);
       }
-    }).then((map) => {
-      $('#mwz-footerSelection').click()
-    }).catch(e => callbackTest(e))
+    }).then(function (map) {
+      $('#mwz-footerSelection').click();
+    }).catch(function (e) { callbackTest(e); });
   })
 })

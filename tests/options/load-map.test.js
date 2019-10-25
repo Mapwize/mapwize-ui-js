@@ -1,12 +1,12 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Displaying a map'
-mwzDescribe(testSuites, () => {
-  mwzTest('Simple example (only apiKey)', (callbackTest) => {
+mwzDescribe(testSuites, function () {
+  mwzTest('Simple example (only apiKey)', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY
-    }).then((map) => {
-      callbackTest(null)
-    }).catch(callbackTest)
+    }).then(function (map) {
+      callbackTest(null);
+    }).catch(function (e) { callbackTest(e); });
   })
 })
