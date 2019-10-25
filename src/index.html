@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
         }
-
+        
         #mapwize {
             position: absolute;
             top: 0;
@@ -19,7 +19,7 @@
             right: 0;
             height: 90%;
         }
-
+        
         .buttons {
             position: absolute;
             bottom: 7%;
@@ -42,38 +42,47 @@
         <button onclick="getUnits()">Get all units</button>
         <button onclick="setMunit()">Set unit to meter </button>
         <button onclick="setFunit()">Set unit to feet </button>
-       <!--
-           TO do
-        <button onclick="setFrom()">Set from Dustbins </button>
-        <button onclick="setTo()">Set to Local Poubelles</button>
-       -->
+        <!--
+            TO do
+            <button onclick="setFrom()">Set from Dustbins </button>
+            <button onclick="setTo()">Set to Local Poubelles</button>
+        -->
     </div>
-
+    
     <script>
         var mapwizeMap = null
+        var apiKey = '89a2695d7485fda885c96b405dcc8a25'
         var modeId = "5da6bec9aefa100010c7df67"
         var mapwizePlaceId = "5d08d8a4efe1d20012809ee5"
-
+        var receptionPlaceId = "569f8d7cb4d7200b003c32a1"
+        
         window.onload = function () {
-            // MapwizeUI.map('mapwize', { // Also works
-            MapwizeUI.map({ // Also works
-                // container: 'mapwize',  // Also works
-                apiKey: '89a2695d7485fda885c96b405dcc8a25',
-                mapboxOptions: {},
-                mapwizeOptions: {},
-                onInformationButtonClick: function (e) {
-                    console.log('clickOnSelectedInformation', e)
-                },
-                onMenuButtonClick: function (e) {
-                    console.log('clickOnMenu', e)
-                }
-            }).then(function (instance) {
-                console.log('MAP LOADED')
-                mapwizeMap = instance
+            MapwizeUI.apiKey(apiKey)
+            MapwizeUI.Api.getDirection({
+                from: { placeId: receptionPlaceId },
+                to: { placeId: mapwizePlaceId }
+            }).then(function (direction) {
+                MapwizeUI.map({ // Also works
+                    // container: 'mapwize',  // Also works
+                    apiKey: apiKey,
+                    direction: direction,
+                    mapboxOptions: {},
+                    mapwizeOptions: {},
+                    onInformationButtonClick: function (e) {
+                        console.log('clickOnSelectedInformation', e)
+                    },
+                    onMenuButtonClick: function (e) {
+                        console.log('clickOnMenu', e)
+                    }
+                }).then(function (instance) {
+                    console.log('MAP LOADED')
+                    mapwizeMap = instance
+                })
             })
-
+            
+            
         }
-
+        
         function setDirectionMode() {
             mapwizeMap.setDirectionMode()
         }
@@ -120,7 +129,7 @@
         function setFunit() {
             mapwizeMap.setUnit("ft")
         }
-
+        
         /*
         function setFrom() {
             mapwizeMap.setFrom()
