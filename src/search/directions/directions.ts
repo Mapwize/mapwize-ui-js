@@ -214,19 +214,48 @@ export class SearchDirections extends DefaultControl {
     }
 
     public launchDirection() {
-        if (this._options.direction && this._options.direction.hasOwnProperty('from') && this._options.direction.hasOwnProperty('to')) {
-            this.show();
+        if (has(this._options.direction, 'from') && has(this._options.direction, 'to')) {
+            var from = this._options.direction.from
+            var to = this._options.direction.to
 
-            return Promise.all([
-                getPlace(this._options.direction.from),
-                getPlace(this._options.direction.to)
-            ]).then((objects: any) => {
-                var [from, to] = objects;
-                this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from));
-                this._setFrom(set(from, 'objectClass', 'place'));
+            if (has(from, 'placeId') && has(to, 'placeId')) {
+                this.getPlaceAndSetDirection([getPlace(from.placeId),getPlace(to.placeId)])
+            } else if (has(from, 'placeId') && has(to, 'floor') && has(to, 'lat') && has(to, 'lon')) {
+                this.getPlaceAndSetDirection([getPlace(from.placeId)], { to: to })
+            } else if (has(to, 'placeId') && has(from, 'floor') && has(from, 'lat') && has(from, 'lon')) {
+                this.getPlaceAndSetDirection([getPlace(to.placeId)], { from: from })
+            } else if (has(from, 'floor') && has(from, 'lat') && has(from, 'lon') && has(to, 'floor') && has(to, 'lat') && has(to, 'lon')) {
+                this.getPlaceAndSetDirection([], { from:from, to:to })
+            }
+        }
+    }
 
-                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to));
-                this._setTo(set(to, 'objectClass', 'place'));
+private getPlaceAndSetDirection(placesToGet: any, corodinates?: any) {
+        this.show();
+        if (placesToGet.length == 0) {
+            this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'));
+            this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'));
+            this._setFrom(corodinates.from);
+            this._setTo(corodinates.to);
+        } else {
+            Promise.all(placesToGet).then((places: any) => {
+                var [from, to] = places
+                if (!corodinates) {
+                    this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(from));
+                    this._setFrom(set(from, 'objectClass', 'place'));
+                    this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(to));
+                    this._setTo(set(to, 'objectClass', 'place'));
+                } else if (has(corodinates, "from")) {
+                    this._container.find('#mwz-mapwizeSearchFrom').val(translate('coordinates'));
+                    this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(places[0]));
+                    this._setFrom(corodinates.from);
+                    this._setTo(set(places[0], 'objectClass', 'place'));
+                } else {
+                    this._container.find('#mwz-mapwizeSearchFrom').val(this.getDisplay(places[0]));
+                    this._container.find('#mwz-mapwizeSearchTo').val(translate('coordinates'));
+                    this._setFrom(set(places[0], 'objectClass', 'place'));
+                    this._setTo(corodinates.to);
+                }
             }).catch(() => {
                 this._container.find('#mwz-alert-noDirection').show();
             });
@@ -391,7 +420,7 @@ export class SearchDirections extends DefaultControl {
         this._mode = mode
         this._container.find('#' + this._mode._id).addClass('mwz-mode-button-selected')
         this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(',')[1], '#C51586'))
-        
+
         this.ensureSelectedModeIsVisible()
     }
 
