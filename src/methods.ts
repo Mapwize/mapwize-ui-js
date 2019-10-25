@@ -22,7 +22,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Activates the direction mode. This displays the directions header with the from and to fields.
   * @function setDirectionMode
-  * @returns {Object}
+  * @returns {object}
   */
   mapInstance.setDirectionMode = (): void => {
     return mapInstance.searchDirections.show()
@@ -33,7 +33,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Set the `from` field of the direction header
   * @function setFrom
-  * @param  {Object} from Can be one of those formats
+  * @param  {object} from Can be one of those formats
   *      { objectClass: 'place', {mapwize place object} }
   *      { objectClass: 'placeList', {mapwize placeList object} }
   *      { objectClass: 'userLocation' }
@@ -48,7 +48,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Set to
   * @function setTo
-  * @param  {Object} to Can be one of those formats
+  * @param  {object} to Can be one of those formats
   *      { objectClass: 'place', {mapwize place object} }
   *      { objectClass: 'placeList', {mapwize placeList object} }
   *      { latitude, longitude, floor, venueId }
@@ -57,16 +57,44 @@ const attachMethods = (mapInstance: any) => {
     return mapInstance.searchDirections.setTo(to)
   }
 
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Get the current direction mode
+  * @function getMode
+  * @param  {string} locale locale code like 'en' or 'fr'
+  */
   mapInstance.getMode = (): any => {
     return mapInstance.searchDirections.getMode()
   }
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Set the current direction mode
+  * @function setMode
+  * @param  {string} modeId
+  */
   mapInstance.setMode = (modeId: string): void => {
     return mapInstance.searchDirections.setMode(modeId)
   }
 
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Get the currently selected place object if any
+  * @function getSelectedPlace
+  * @param  {string} locale locale code like 'en' or 'fr'
+  */
   mapInstance.getSelectedPlace = (): void => {
     return mapInstance.footerSelection.getSelectedPlace()
   }
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Set the currently selected place
+  * @function setSelectedPlace
+  * @param  {object} place locale code like 'en' or 'fr'
+  */
   mapInstance.setSelectedPlace = (place: any): void => {
     return mapInstance.footerSelection.setSelectedPlace(place)
   }
@@ -76,7 +104,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Set the locale of the UI interface. The locale need to be availble in the `scr/locales` folder.
   * @function setLocale
-  * @param  {String} locale locale code like 'en' or 'fr'
+  * @param  {string} locale locale code like 'en' or 'fr'
   */
   mapInstance.setLocale = (newLocale: string): void => {
     const currentLocal = locale(newLocale)
@@ -101,7 +129,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Get all available locales for the UI interfaces. To add a locale, add the corresponding file in `src/loales`.
   * @function getLocales
-  * @returns Array<string>
+  * @returns array<string>
   */
   mapInstance.getLocales = (): Array<string> => {
     return getLocales()
@@ -113,7 +141,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Set the UI unit for the display fo the distances.
   * @function setUnit
-  * @param  {String} unit code. 'm' and 'ft' are supported
+  * @param  {string} unit code. 'm' and 'ft' are supported
   */
   mapInstance.setUnit = (newUnit: string): void => {
     unit(newUnit)
@@ -124,7 +152,7 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Get the current UI unit.
   * @function getUnit
-  * @return  {String} unit code. 'm' and 'ft' are supported
+  * @return  {string} unit code. 'm' and 'ft' are supported
   */
   mapInstance.getUnit = (): string => {
     return unit()
@@ -140,13 +168,14 @@ const attachMethods = (mapInstance: any) => {
     return getUnits()
   }
 
+  const mapRemoveSave = mapInstance.remove;
   /**
   * @instance
   * @memberof Map
   * @desc Destroy the map view
-  * @function destroy
+  * @function remove
   */
-  mapInstance.destroy = (): void => {
+  mapInstance.remove = (): void => {
     mapInstance.searchResults.destroy()
     mapInstance.searchBar.destroy()
     mapInstance.searchDirections.destroy()
@@ -159,7 +188,7 @@ const attachMethods = (mapInstance: any) => {
     mapInstance.off('mapwize:directionstart', onDirectionStart)
     $(mapInstance.getContainer()).removeClass('mapwizeui')
     
-    mapInstance.remove()
+    mapRemoveSave()
   }
 }
 
