@@ -518,13 +518,13 @@ export class SearchDirections extends DefaultControl {
                 return { placeId: get(o, '_id') };
             } else if (get(o, 'objectClass') === 'placeList') {
                 return { placeListId: get(o, '_id') };
-            } else if (get(o, 'objectClass') === 'userPosition') {
-                const userPosition = this.map.getUserPosition();
+            } else if (get(o, 'objectClass') === 'userLocation') {
+                const userLocation = this.map.getUserLocation();
                 return {
-                    lat: latitude(userPosition),
-                    lon: longitude(userPosition),
-                    floor: userPosition.floor,
-                    venueId: userPosition.venueId || this._currentVenue._id
+                    lat: latitude(userLocation),
+                    lon: longitude(userLocation),
+                    floor: userLocation.floor,
+                    venueId: userLocation.venueId || this._currentVenue._id
                 };
             } else if (isFinite(latitude(o)) && isFinite(longitude(o))) {
                 return {
