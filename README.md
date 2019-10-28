@@ -1,3 +1,7 @@
+![Travis (.org)](https://img.shields.io/travis/mapwize/mapwize-ui-js?style=flat-square)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mapwize/mapwize-ui-js?style=flat-square)
+![npm](https://img.shields.io/npm/v/mapwize-ui?style=flat-square)
+
 # Mapwize UI
 
 Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation in your Web app.

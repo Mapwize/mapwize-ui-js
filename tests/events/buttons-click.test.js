@@ -1,31 +1,27 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Click on buttons'
-mwzDescribe(testSuites, () => {
-  mwzTest(testSuites, 'Menu button', (page) => {
-    return () => {
-      MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-        onMenuButtonClick: (e) => {
-          window.callbackTest(null)
-        }
-      }).then((map) => {
-        $('#mwz-menuButton').click()
-      }).catch(window.callbackTest)
-    }
+mwzDescribe(testSuites, function () {
+  mwzTest('Menu button', function (callbackTest) {
+    MapwizeUI.map({
+      apiKey: APIKEY,
+      onMenuButtonClick: function (e) {
+        callbackTest(null);
+      }
+    }).then(function (map) {
+      $('#mwz-menuButton').click();
+    }).catch(function (e) { callbackTest(e); });
   })
-
-  mwzTest(testSuites, 'Information button', (page) => {
-    return () => {
-      MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-        centerOnPlace: "57036cd6b247f50b00a0746e",
-        onInformationButtonClick: (e) => {
-          window.callbackTest(null)
-        }
-      }).then((map) => {
-        $('#mwz-footerSelection').click()
-      }).catch(window.callbackTest)
-    }
+  
+  mwzTest('Information button', function (callbackTest) {
+    MapwizeUI.map({
+      apiKey: APIKEY,
+      centerOnPlace: MAPWIZEPLACEID,
+      onInformationButtonClick: function (e) {
+        callbackTest(null);
+      }
+    }).then(function (map) {
+      $('#mwz-footerSelection').click();
+    }).catch(function (e) { callbackTest(e); });
   })
 })

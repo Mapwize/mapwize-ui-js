@@ -246,23 +246,26 @@ export class SearchDirections extends DefaultControl {
     }
     
     public show() {
-        if (this._currentVenue) {
-            this.map.searchBar.hide()
-            
-            if (this.map.footerSelection.getSelectedPlace()) {
-                this._setTo(this.map.footerSelection.getSelectedPlace())
-                this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+        return new Promise((resolve, reject) => {
+            if (this._currentVenue) {
+                this.map.searchBar.hide()
+    
+                if (this.map.footerSelection.getSelected()) {
+                    this._setTo(this.map.footerSelection.getSelected())
+                    this._container.find('#mwz-mapwizeSearchTo').val(this.getDisplay(this._to))
+                }
+    
+                this.map.footerSelection.unselect()
+                this.map.footerVenue.hide()
+    
+                this.map.addControl(this, 'top-left')
+                $(this.map._container).addClass('mwz-directions')
+                this._container.find('#mwz-mapwizeSearchFrom').focus()
+                resolve()
+            } else {
+                reject(new Error('There is no current venue displayed'))
             }
-            
-            this.map.footerSelection.unselect()
-            this.map.footerVenue.hide()
-            
-            this.map.addControl(this, 'top-left')
-            $(this.map._container).addClass('mwz-directions')
-            this._container.find('#mwz-mapwizeSearchFrom').focus()
-        } else {
-            throw new Error('There is no current venue displayed')
-        }
+        })
     }
     public hide() {
         this.map.footerDirections.hide()

@@ -1,71 +1,30 @@
-const puppeteer = require('puppeteer')
-
-const browsers = {}
-
-function initBrowser (testSuites) {
-  browsers[testSuites] = puppeteer.launch({
-    // devtools: true
-  })
-  return browsers[testSuites]
-}
-function killBrowser (testSuites) {
-  return browsers[testSuites].then(browser => browser.close()).catch(e => {})
-}
+var _ = require('lodash')
 
 function mwzDescribe (testSuites, fn) {
-  describe(testSuites, () => {
-    beforeAll(() => {
-      return initBrowser(testSuites)
-    })
-    
-    afterAll(() => {
-      return killBrowser(testSuites)
-    })
-    
+  describe(testSuites, function () {
     fn()
   })
 }
 
-function mwzTest (testSuites, name, evaluateFn) {
-  test(name, () => {
-    return new Promise((resolve, reject) => {
-      function testResult(error, page) {
-        page.close().catch(e => {})
-        if (error) {
-          return reject(error)
-        }
-        return resolve()
-      }
-      
-      browsers[testSuites].then(browser => browser.newPage()).then(page => {
-        // page.on('console', console.log)
-        return page.goto('http://localhost:8888/tests/core/index.test.html').then(() => page)
-      }).then(page => {
-        page.exposeFunction('callbackTest', error => {
-          return testResult(error, page)
-        }).catch(e => {})
-        return page
-      }).then(page => {
-        page.exposeFunction('isSamePosition', (expectedCoordinates, foundCoordinates, expectedFloor, foundFloor) => {
-          return testResult(isSamePosition(expectedCoordinates, foundCoordinates, expectedFloor, foundFloor), page)
-        }).catch(e => {})
-        return page
-      }).then(page => {
-        page.exposeFunction('isSameCoordinates', (expectedCoordinates, foundCoordinates) => {
-          return testResult(isSameCoordinates(expectedCoordinates, foundCoordinates), page)
-        }).catch(e => {})
-        return page
-      }).then(page => {
-        page.evaluate(evaluateFn(page)).catch(error => {
-          page.close().catch(e => {})
-          return reject(error)
-        })
-        return page
-      }).catch(e => {
-        return reject(e)
+function mwzTest(name, evaluateFn) {
+  it(name, function () {
+    browser.url('http://localhost:8888/tests/core/index.html')
+    browser.waitUntil(function () {
+      return browser.execute(function () {
+        return document.readyState === 'complete' && MapwizeUI;
       })
     })
-  }, 50000)
+    browser.setTimeout({
+      'script': 60000
+    });
+    var error = browser.executeAsync(evaluateFn)
+    if (error != null) {
+      if (_.isString(error)) {
+        error = new Error(error)
+      }
+      throw error;
+    }
+  });
 }
 
 function latitude (data) {
@@ -141,8 +100,5 @@ function isSamePosition (expectedCoordinates, foundCoordinates, expectedFloor, f
 
 module.exports = {
   mwzTest: mwzTest,
-  mwzDescribe: mwzDescribe,
-
-  initBrowser: initBrowser,
-  killBrowser: killBrowser
+  mwzDescribe: mwzDescribe
 }
