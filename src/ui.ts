@@ -66,9 +66,9 @@ const buildUIComponent = (mapInstance: any, options: any) => {
 
 /**
  * @class Map
+ * @augments external:MapwizeSDK_Map
  * @classdesc The class managing the map view and all attached UI. 
- *      It can be created using the global `map` method. 
- *      This class extends the Mapwize.Map class and all methods from the base class can be used. Doc can be found on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/jsdoc/Map.html).
+ *      It can be created using the global `map` method.
  * @hideconstructor
  */
 const constructor = (container: string|HTMLElement, options: any): any => {
