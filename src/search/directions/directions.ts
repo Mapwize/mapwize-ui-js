@@ -247,7 +247,8 @@ export class SearchDirections extends DefaultControl {
     
     public show() {
         return new Promise((resolve, reject) => {
-            if (this._currentVenue) {
+            const venue = this.map.getVenue()
+            if (venue) {
                 this.map.searchBar.hide()
     
                 if (this.map.footerSelection.getSelected()) {

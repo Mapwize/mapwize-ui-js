@@ -161,10 +161,10 @@ export class FooterSelection extends DefaultControl {
             this._promoteSelected(this._selected);
         }
     }
-    public getSelectedPlace() {
+    public getSelected() {
         return this._selected
     }
-    public setSelectedPlace(place: any){
+    public setSelected(place: any){
         if(typeof place == "string"){
             getPlace(place).then(place=>{
                 this.map.setFloor(place.floor)
@@ -209,7 +209,7 @@ export class FooterSelection extends DefaultControl {
         this._currentVenue = e.venue
 
         if(this._options.selectPlace){
-            this.setSelectedPlace(this._options.selectPlace)
+            this.setSelected(this._options.selectPlace)
         }
 
         if (this._selected && this._selected.venueId === this._currentVenue._id) {

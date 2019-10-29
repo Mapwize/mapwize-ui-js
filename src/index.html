@@ -34,8 +34,8 @@
         <button onclick="getModes()">Get all modes</button>
         <button onclick="getMode()">Get current mode</button>
         <button onclick="setMode()">Set mode to Accessible </button>
-        <button onclick="getSelectedPlace()">Get selected place </button>
-        <button onclick="setSelectedPlace()">Select mapwize place </button>
+        <button onclick="getSelected()">Get selected place </button>
+        <button onclick="setSelected()">Select mapwize place </button>
         <button onclick="getAllLocales()">Get all locales</button>
         <button onclick="setFrLocale()">Set locale FR </button>
         <button onclick="setEnLocale()">Set locale EN </button>
@@ -63,8 +63,6 @@
                     // container: 'mapwize',  // Also works
                     apiKey: apiKey,
                     direction: direction,
-                    mapboxOptions: {},
-                    mapwizeOptions: {},
                     onInformationButtonClick: function (e) {
                         console.log('clickOnSelectedInformation', e)
                     },
@@ -92,15 +90,15 @@
         function setMode() {
             mapwizeMap.setMode(modeId)
         }
-        function getSelectedPlace() {
-            if (mapwizeMap.getSelectedPlace()) {
-                console.log(mapwizeMap.getSelectedPlace().name);
+        function getSelected() {
+            if (mapwizeMap.getSelected()) {
+                console.log(mapwizeMap.getSelected().name);
             } else {
                 console.log("no place selected")
             }
         }
-        function setSelectedPlace() {
-            mapwizeMap.setSelectedPlace(mapwizePlaceId)
+        function setSelected() {
+            mapwizeMap.setSelected(mapwizePlaceId)
         }
         function getAllLocales() {
             mapwizeMap.getLocales().forEach(locale => {

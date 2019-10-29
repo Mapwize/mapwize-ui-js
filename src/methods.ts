@@ -82,21 +82,21 @@ const attachMethods = (mapInstance: any) => {
   * @instance
   * @memberof Map
   * @desc Get the currently selected place object if any
-  * @function getSelectedPlace
+  * @function getSelected
   * @param  {string} locale locale code like 'en' or 'fr'
   */
-  mapInstance.getSelectedPlace = (): void => {
-    return mapInstance.footerSelection.getSelectedPlace()
+  mapInstance.getSelected = (): void => {
+    return mapInstance.footerSelection.getSelected()
   }
   /**
   * @instance
   * @memberof Map
   * @desc Set the currently selected place
-  * @function setSelectedPlace
+  * @function setSelected
   * @param  {object} place locale code like 'en' or 'fr'
   */
-  mapInstance.setSelectedPlace = (place: any): void => {
-    return mapInstance.footerSelection.setSelectedPlace(place)
+  mapInstance.setSelected = (place: any): void => {
+    return mapInstance.footerSelection.setSelected(place)
   }
 
   /**

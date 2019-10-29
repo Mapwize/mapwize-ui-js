@@ -72,14 +72,14 @@ const buildUIComponent = (mapInstance: any, options: any) => {
  * @hideconstructor
  */
 const constructor = (container: string|HTMLElement, options: any): any => {
-    const mapboxOptions: any = {
+    const defaultOptions: any = {
         container: container
     }
 
     const containerSelector: any = isString(container) ? '#' + container : container
     $(containerSelector).addClass('mapwizeui')
     
-    return map(defaults(options.mapboxOptions, mapboxOptions), options.mapwizeOptions)
+    return map(defaults(options, defaultOptions))
 }
 
   /**
@@ -101,8 +101,6 @@ const constructor = (container: string|HTMLElement, options: any): any => {
   * @param {boolean} [options.locationControl=true]  (optional, boolean, default: true) if the user location control should be displayed.
   * @param {object} [options.locationControlOptions=null]
   * @param {object} [options.direction=null] (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
-  * @param {object} [options.mapboxOptions=null] (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
-  * @param {object} [options.mapwizeOptions=null] (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
   * @returns {Promise.<Object>}
   * @example
   *      <style> #mapwize { width: 400px; height: 400px; } </style>
@@ -144,30 +142,23 @@ const createMap = (container: string|HTMLElement, options?: any) => {
         direction: null,
 
         selectPlace: null,
-
-        mapboxOptions: {},
-        mapwizeOptions: {
-            preferredLanguage: 'en'
-        }
+        
+        preferredLanguage: 'en'
     })
     
     if (!apiKey(options.apiKey)) {
         return Promise.reject(new Error('Missing "apiKey" in options'))
     }
 
-    set(options, 'mapwizeOptions.mapwizeAttribution', get(options, 'mapwizeOptions.mapwizeAttribution', 'bottom-right'))
+    set(options, 'mapwizeAttribution', get(options, 'mapwizeAttribution', 'bottom-right'))
 
     locale(options.locale)
-    set(options, 'mapwizeOptions.preferredLanguage', options.locale)
+    set(options, 'preferredLanguage', options.locale)
 
     unit(options.unit)
     
     if (options.apiUrl) {
         apiUrl(options.apiUrl)
-    }
-
-    if (options.mainColor) {
-        set(options, 'mapwizeOptions.color', options.mainColor)
     }
     
     return constructor(container, options).then((mapInstance: any) => buildUIComponent(mapInstance, options))

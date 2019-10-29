@@ -6,9 +6,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       locale: 'fr',
-      mapwizeOptions: {
-        centerOnVenueId: EURATECHNOLOGIESVENUEID
-      }
+      centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
       map.on('mapwize:venueenter', function (venue) {
         if ($('#mwz-mapwizeSearch').attr('placeholder').includes('Rechercher dans')) {
@@ -24,9 +22,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       locale: 'en',
-      mapwizeOptions: {
-        centerOnVenueId: EURATECHNOLOGIESVENUEID
-      }
+      centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
       map.on('mapwize:venueenter', function (venue) {
         if ($('#mwz-mapwizeSearch').attr('placeholder').includes('Search in')) {
@@ -41,9 +37,7 @@ mwzDescribe(testSuites, function () {
   mwzTest('language: null', function(callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-      mapwizeOptions: {
-        centerOnVenueId: EURATECHNOLOGIESVENUEID
-      }
+      centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
       map.on('mapwize:venueenter', function (venue) {
         if ($('#mwz-mapwizeSearch').attr('placeholder').includes('Search in')) {

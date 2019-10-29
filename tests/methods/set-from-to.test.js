@@ -5,9 +5,7 @@ mwzDescribe(testSuites, function () {
   mwzTest('Form reception to mapwize', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-      mapwizeOptions: {
-        centerOnVenueId: EURATECHNOLOGIESVENUEID
-      },
+      centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
       map.on('mapwize:directionstart', function (e) {
         if (e.direction.from.placeId === RECEPTIONPLACEID && e.direction.to.placeId === MAPWIZEPLACEID) {

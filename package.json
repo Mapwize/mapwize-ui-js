@@ -14,8 +14,8 @@
     "dist": "npm ci && npm run build",
     "start": "webpack-dev-server --config webpack.dev.js",
     "analyze": "webpack --config webpack.analyze.js",
-    "test": "npm run build && concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/local.conf.js\"",
-    "test-build": "concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/local.conf.js\"",
+    "test": "concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/local.conf.js\"",
+    "test-build": "npm run build && concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/local.conf.js\"",
     "test-browserstack": "concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/browserstack.conf.js\"",
     "test-browserstack-build": "npm run build && concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/browserstack.conf.js\"",
     "integrate": "webpack --watch --config webpack.integrate.js",
@@ -78,11 +78,11 @@
   },
   "dependencies": {
     "bootstrap": "4.3.1",
-    "core-js": "3.2.1",
+    "core-js": "3.3.5",
     "jquery": "3.4.1",
     "lodash": "4.17.15",
-    "mapwize": "4.0.0",
-    "popper.js": "1.15.0",
+    "mapwize": "4.0.1",
+    "popper.js": "1.16.0",
     "regenerator-runtime": "0.13.3"
   },
   "private": true
