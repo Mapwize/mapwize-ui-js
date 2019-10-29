@@ -1,5 +1,10 @@
-import { locale, getLocales } from './translate'
-import { unit, getUnits } from './measure'
+import * as $ from 'jquery'
+import { isString } from 'lodash'
+import { getUnits, unit } from './measure'
+import { getLocales, locale } from './translate'
+import { getPlace } from './utils'
+
+import { DefaultControl } from './control'
 
 const attachMethods = (mapInstance: any) => {
 
@@ -17,6 +22,10 @@ const attachMethods = (mapInstance: any) => {
   }
   mapInstance.on('mapwize:directionstart', onDirectionStart)
 
+  mapInstance.hasControl = (control: DefaultControl): boolean => {
+    return control.isOnMap
+  }
+
   /**
   * @instance
   * @memberof Map
@@ -24,10 +33,20 @@ const attachMethods = (mapInstance: any) => {
   * @function setDirectionMode
   * @returns {object}
   */
-  mapInstance.setDirectionMode = (): void => {
-    return mapInstance.searchDirections.show()
+  mapInstance.setDirectionMode = (): Promise<void> => {
+    return mapInstance.headerManager.showDirection()
   }
-
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Activates the search mode. This displays the search header with the search field.
+  * @function setSearchMode
+  * @returns {object}
+  */
+  mapInstance.setSearchMode = (): Promise<void> => {
+    return mapInstance.headerManager.showSearch()
+  }
+  
   /**
   * @instance
   * @memberof Map
@@ -40,13 +59,27 @@ const attachMethods = (mapInstance: any) => {
   *      { latitude, longitude, floor, venueId }
   */
   mapInstance.setFrom = (from: any): void => {
-    return mapInstance.searchDirections.setFrom(from)
+    return mapInstance.headerManager.setFrom(from)
   }
-
   /**
   * @instance
   * @memberof Map
-  * @desc Set to
+  * @desc Get the `from` field of the direction header
+  * @function getFrom
+  * @returns {object?} from Can be one of those formats
+  *      { objectClass: 'place', {mapwize place object} }
+  *      { objectClass: 'placeList', {mapwize placeList object} }
+  *      { objectClass: 'userLocation' }
+  *      { latitude, longitude, floor, venueId }
+  */
+  mapInstance.getFrom = (): any => {
+    return mapInstance.headerManager.getFrom()
+  }
+  
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Set the `to` field of the direction header
   * @function setTo
   * @param  {object} to Can be one of those formats
   *      { objectClass: 'place', {mapwize place object} }
@@ -54,9 +87,22 @@ const attachMethods = (mapInstance: any) => {
   *      { latitude, longitude, floor, venueId }
   */
   mapInstance.setTo = (to: any): void => {
-    return mapInstance.searchDirections.setTo(to)
+    return mapInstance.headerManager.setTo(to)
   }
-
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Set the `to` field of the direction header
+  * @function getTo
+  * @returns  {object?} to Can be one of those formats
+  *      { objectClass: 'place', {mapwize place object} }
+  *      { objectClass: 'placeList', {mapwize placeList object} }
+  *      { latitude, longitude, floor, venueId }
+  */
+  mapInstance.getTo = (): any => {
+    return mapInstance.headerManager.getTo()
+  }
+  
   /**
   * @instance
   * @memberof Map
@@ -65,7 +111,7 @@ const attachMethods = (mapInstance: any) => {
   * @param  {string} locale locale code like 'en' or 'fr'
   */
   mapInstance.getMode = (): any => {
-    return mapInstance.searchDirections.getMode()
+    return mapInstance.headerManager.getMode()
   }
   /**
   * @instance
@@ -75,30 +121,35 @@ const attachMethods = (mapInstance: any) => {
   * @param  {string} modeId
   */
   mapInstance.setMode = (modeId: string): void => {
-    return mapInstance.searchDirections.setMode(modeId)
+    return mapInstance.headerManager.setMode(modeId)
   }
-
+  
   /**
   * @instance
   * @memberof Map
-  * @desc Get the currently selected place object if any
-  * @function getSelectedPlace
-  * @param  {string} locale locale code like 'en' or 'fr'
+  * @desc Get the currently selected place or placeList object if any
+  * @function getSelected
   */
-  mapInstance.getSelectedPlace = (): void => {
-    return mapInstance.footerSelection.getSelectedPlace()
+  mapInstance.getSelected = (): void => {
+    return mapInstance.footerManager.getSelected()
   }
   /**
   * @instance
   * @memberof Map
-  * @desc Set the currently selected place
-  * @function setSelectedPlace
-  * @param  {object} place locale code like 'en' or 'fr'
+  * @desc Set the currently selected place or placeList
+  * @function setSelected
+  * @param  {object} mwzElement
   */
-  mapInstance.setSelectedPlace = (place: any): void => {
-    return mapInstance.footerSelection.setSelectedPlace(place)
+  mapInstance.setSelected = (mwzElement: any): Promise<void> => {
+    if (isString(mwzElement)) {
+      return getPlace(mwzElement).then((place: any) => {
+        place.objectClass = 'place'
+        return mapInstance.footerManager.setSelected(place)
+      })
+    }
+    return mapInstance.footerManager.setSelected(mwzElement)
   }
-
+  
   /**
   * @instance
   * @memberof Map
@@ -108,18 +159,17 @@ const attachMethods = (mapInstance: any) => {
   */
   mapInstance.setLocale = (newLocale: string): void => {
     const currentLocal = locale(newLocale)
-
+    
     mapInstance.setPreferredLanguage(currentLocal)
-    mapInstance.searchBar.refreshLocale()
-    mapInstance.searchDirections.refreshLocale()
-    mapInstance.searchResults.refreshLocale()
+    mapInstance.headerManager.refreshLocale()
+    // mapInstance.footerManager.refreshLocale()
   }
   /**
   * @instance
   * @memberof Map
   * @desc Get the current locale of the UI interface.
   * @function getLocale
-  * @returns {string}
+  * @returns {string} locale code like 'en' or 'fr'
   */
   mapInstance.getLocale = (): string => {
     return locale()
@@ -129,13 +179,12 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Get all available locales for the UI interfaces. To add a locale, add the corresponding file in `src/loales`.
   * @function getLocales
-  * @returns array<string>
+  * @returns array<string> locale codes like 'en' or 'fr'
   */
-  mapInstance.getLocales = (): Array<string> => {
+  mapInstance.getLocales = (): string[] => {
     return getLocales()
   }
-
-
+  
   /**
   * @instance
   * @memberof Map
@@ -145,7 +194,7 @@ const attachMethods = (mapInstance: any) => {
   */
   mapInstance.setUnit = (newUnit: string): void => {
     unit(newUnit)
-    mapInstance.footerDirections.refreshUnit()
+    mapInstance.footerManager.refreshUnit()
   }
   /**
   * @instance
@@ -164,11 +213,11 @@ const attachMethods = (mapInstance: any) => {
   * @function getUnits
   * @returns Array<string>
   */
-  mapInstance.getUnits = (): Array<string> => {
+  mapInstance.getUnits = (): string[] => {
     return getUnits()
   }
-
-  const mapRemoveSave = mapInstance.remove;
+  
+  const mapRemoveSave = mapInstance.remove.bind(mapInstance)
   /**
   * @instance
   * @memberof Map
@@ -176,13 +225,8 @@ const attachMethods = (mapInstance: any) => {
   * @function remove
   */
   mapInstance.remove = (): void => {
-    mapInstance.searchResults.destroy()
-    mapInstance.searchBar.destroy()
-    mapInstance.searchDirections.destroy()
-    
-    mapInstance.footerVenue.destroy()
-    mapInstance.footerSelection.destroy()
-    mapInstance.footerDirections.destroy()
+    mapInstance.headerManager.remove()
+    mapInstance.footerManager.remove()
     
     mapInstance.off('mapwize:click', onMapClick)
     mapInstance.off('mapwize:directionstart', onDirectionStart)
@@ -192,4 +236,4 @@ const attachMethods = (mapInstance: any) => {
   }
 }
 
-export { attachMethods  as default }
+export { attachMethods as default }

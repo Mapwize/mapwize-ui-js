@@ -1,33 +1,43 @@
-import { find, get, set, debounce, map, isFinite, replace, uniq, pull } from 'lodash'
-import * as $ from 'jquery';
-import { Api, apiUrl, apiKey } from 'mapwize'
+import * as $ from 'jquery'
+import { find, get, isFinite, map, pull, replace, set, uniq } from 'lodash'
+import { Api, apiKey, apiUrl } from 'mapwize'
 
 import uiConfig from './config'
 
-let lastSearchSent: string = ''
-
 const addClass = (classString: string, classToAdd: string) => {
-    var classes = classString.split(' ')
+    const classes = classString.split(' ')
     classes.push(classToAdd)
     uniq(classes)
     return classes.join(' ')
-  }
-  const removeClass = (classString: string, classToRemove: string) => {
-    var classes = classString.split(' ')
+}
+const removeClass = (classString: string, classToRemove: string) => {
+    const classes = classString.split(' ')
     pull(classes, classToRemove)
     return classes.join(' ')
-  }
+}
 
 const getTranslation = (o: any, lang: string, attr: string): string => {
-    var translation = find(o.translations, {
-        language: lang
+    let translation = find(o.translations, {
+        language: lang,
     })
     if (o.defaultLanguage && get(translation, attr, '').length === 0) {
         translation = find(o.translations, {
-            language: o.defaultLanguage
+            language: o.defaultLanguage,
         })
     }
     return get(translation, attr, '')
+}
+
+const hexToRgb = (hex: string): any => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    return result ? {
+        b: parseInt(result[3], 16),
+        g: parseInt(result[2], 16),
+        r: parseInt(result[1], 16),
+    } : null
+}
+const rgbToHex = (rgb: any): string => {
+    return '#' + ((1 << 24) + (rgb.r << 16) + (rgb.g << 8) + rgb.b).toString(16).slice(1)
 }
 
 const getIcon = (o: any) => {
@@ -38,53 +48,6 @@ const getIcon = (o: any) => {
     || uiConfig.DEFAULT_PLACE_ICON
 }
 
-const searchInMapwize = (str: string, options: any): Promise<any> => {
-    options.query = str
-
-    return $.ajax({
-        type: 'POST',
-        url: apiUrl() + '/v1/search?api_key=' + apiKey(),
-        data: options,
-        success: null,
-        dataType: 'json',
-        xhrFields: {
-            withCredentials: true
-        },
-    }).then(mapwizeResults => mapwizeResults.hits)
-}
-
-const doSearch = debounce((str: string, options: any, callback: Function) => {
-    lastSearchSent = str
-    
-    return Promise.all([
-        Promise.resolve(str),
-        searchInMapwize(str, options)
-    ]).then((results: any) => {
-        if (results[0] !== lastSearchSent) {
-            return callback(new Error('Receive old search response'))
-        }
-        callback(null, results)
-    })
-}, 250, {'maxWait': 500})
-
-const search = (search: string, options: any): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        if (search) {
-            return doSearch(search, options, (err: any, results: any) => {
-                if (err) {
-                    return reject(err)
-                }
-                resolve(results)
-            })
-        }
-
-        doSearch.cancel();
-        lastSearchSent = '';
-    
-        return reject('Empty search string')
-    })
-}
-
 const getPlaceList = (placeListId: string): Promise<any> => {
     return $.get(apiUrl() + '/v1/placeList/' + placeListId + '?api_key=' + apiKey(), {}, null, 'json')
 }
@@ -93,7 +56,7 @@ const getPlace = (placeId: string): Promise<any> => {
     return Api.getPlace(placeId)
 }
 
-const getMainSearches = (mainSearches: Array<string>): Promise<any> => {
+const getMainSearches = (mainSearches: string[]): Promise<any> => {
     return Promise.all(map(mainSearches, (mainSearch: any): Promise<any> => {
         if (mainSearch.objectClass === 'place') {
             return Api.getPlace(mainSearch.objectId).then((res: any) => set(res, 'objectClass', mainSearch.objectClass)).catch(() => Promise.resolve(null))
@@ -103,7 +66,7 @@ const getMainSearches = (mainSearches: Array<string>): Promise<any> => {
     }))
 }
 
-const getMainFroms = (mainFroms: Array<string>): Promise<any> => {
+const getMainFroms = (mainFroms: string[]): Promise<any> => {
     return Promise.all(map(mainFroms, (mainFrom: string): Promise<any> => {
         return Api.getPlace(mainFrom).then((res: any) => set(res, 'objectClass', 'place')).catch(() => Promise.resolve(null))
     }))
@@ -111,29 +74,30 @@ const getMainFroms = (mainFroms: Array<string>): Promise<any> => {
 
 const latitude = (o: any): number => {
     if (isFinite(o.lat)) {
-        return o.lat;
+        return o.lat
     } else if (isFinite(o.latitude)) {
-        return o.latitude;
+        return o.latitude
     }
-    return 0;
+    return 0
 }
 
 const longitude = (o: any): number => {
     if (isFinite(o.lon)) {
-        return o.lon;
+        return o.lon
     } else if (isFinite(o.lng)) {
-        return o.lng;
+        return o.lng
     } else if (isFinite(o.longitude)) {
-        return o.longitude;
+        return o.longitude
     }
-    return 0;
+    return 0
 }
 
 const replaceColorInBase64svg = (svg: string, toColor: string) => {
-    var decoded = atob(svg)
+    let decoded = atob(svg)
     decoded = new Buffer(replace(decoded, /#000000/g, toColor)).toString('base64')
     return 'data:image/svg+xml;base64,' + decoded
 }
 
-export { getTranslation, getIcon, search, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
+export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
 export { addClass, removeClass }
+export { hexToRgb, rgbToHex }

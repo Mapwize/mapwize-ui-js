@@ -1,71 +1,74 @@
-#mwz-footerSelection {
-    display: none;
-    
-    width: 400px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    background-color:  white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-    
-    pointer-events: auto;
-
-    .mwz-open-details, .mwz-close-details {
-        padding: 10px;
-
-        img {
-            width: 20px;
-            height: 20px;
-        }
-        
-    }
+#mwz-footer-selection {
+  width: 400px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  background-color:  white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+  
+  pointer-events: auto;
+  
+  .mwz-selection-header {
+    // width: 100%;
 
     .mwz-icon {
-        padding: 12.5px;
+      padding: 12.5px;
     }
+    
+    .mwz-data {
+      overflow: hidden;
+      
+      .mwz-title {
+        font-size: 1.2em;
+      }
+    }
+    
     .mwz-directions {
-        button {
-            padding: 12.5px;
-            border: none;
-            border-radius: unset;
-            line-height: inherit;
-        }
+      button {
+        padding: 12.5px;
+        border: none;
+        border-radius: unset;
+        line-height: inherit;
+      }
     }
     .mwz-icon, .mwz-directions {
-        img {
-            width: 25px;
-            height: 25px;
-        }
+      img {
+        width: 25px;
+        height: 25px;
+      }
     }
-
-    .mwz-data {
-        overflow: hidden;
-
-        .mwz-title {
-            font-size: 1.2em;
-        }
+  }
+  
+  .mwz-open-details, .mwz-close-details {
+    padding: 10px;
+    
+    img {
+      width: 20px;
+      height: 20px;
     }
-
-    .mwz-details {
-        max-height: 120px;
-        overflow: auto;
-        padding-left: 12.5px;
-
-        h4 {
-            font-size: 1.2rem;
-        }
+    
+  }
+  
+  .mwz-details {
+    max-height: 120px;
+    overflow: auto;
+    padding-left: 12.5px;
+    
+    h4 {
+      font-size: 1.2rem;
     }
-
-    &.mwz-opened-details {
-        height: 100%;
-    }
+  }
+  
+  &.mwz-opened-details {
+    height: 100%;
+  }
 }
 
 &.mwz-small {
-    #mwz-footerSelection {
-        margin-left: 0;
-        margin-bottom: 0;
-        border-radius: 8px 8px 0 0;
-        width: 100%;
-    }
+  #mwz-footer-selection {
+    margin-left: 0;
+    margin-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    width: 100%;
+  }
 }

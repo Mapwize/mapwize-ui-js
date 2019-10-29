@@ -1,5 +1,5 @@
-import * as $ from 'jquery';
-import { forEach, find, get } from 'lodash'
+import * as $ from 'jquery'
+import { find, forEach, get } from 'lodash'
 
 const venueHtml = require('./venue.html')
 
@@ -8,7 +8,7 @@ import { DefaultControl } from '../../control'
 export class FooterVenue extends DefaultControl {
 
     private _currentVenue: any
-    constructor(mapInstance: any) {
+    constructor (mapInstance: any) {
         super(mapInstance)
 
         this._container = $(venueHtml)
@@ -94,22 +94,26 @@ export class FooterVenue extends DefaultControl {
         this.map.on('mapwize:venuerefresh', this.onVenueRefresh)
         this.map.on('mapwize:venueexit', this.onVenueExit)
     }
-    public destroy() {
+    public remove () {
         this.map.off('mapwize:venueenter', this.onVenueEnter)
         this.map.off('mapwize:venuerefresh', this.onVenueRefresh)
         this.map.off('mapwize:venueexit', this.onVenueExit)
     }
 
-    public show() {
+    public getDefaultPosition (): string {
+        return 'bottom-left'
+    }
+
+    public show () {
         this._container.removeClass('d-none').addClass('d-flex')
         $(this.map._container).addClass('mwz-venue-footer')
-        this._container.find('#mwz-language-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon').attr("src") + '"/>' + this.map.getLanguage())
+        this._container.find('#mwz-language-button').html('<img class="mwz-icon" src="' + this._container.find('.mwz-icon').attr('src') + '"/>' + this.map.getLanguage())
     }
-    public hide() {
+    public hide () {
         this._container.removeClass('d-flex').addClass('d-none')
         $(this.map._container).removeClass('mwz-venue-footer')
     }
-    public showIfNeeded() {
+    public showIfNeeded () {
         let display = false
         this._container.find('#universes-selector select').removeClass('separator')
 
@@ -117,7 +121,7 @@ export class FooterVenue extends DefaultControl {
         this._currentVenue = this.map.getVenue()
 
         if (!this._currentVenue || !actualUniverse || $(this.map._container).hasClass('mwz-selected') || $(this.map._container).hasClass('mwz-directions')) {
-            return;
+            return
         }
 
         if (this._currentVenue.accessibleUniverses.length > 1) {
@@ -152,15 +156,15 @@ export class FooterVenue extends DefaultControl {
             this.show()
         }
     }
-    private onVenueEnter(e: any): void {
+    private onVenueEnter (e: any): void {
         this._currentVenue = e.venue
         this.showIfNeeded()
     }
-    private onVenueRefresh(e: any): void {
+    private onVenueRefresh (e: any): void {
         this._currentVenue = e.venue
         this.showIfNeeded()
     }
-    private onVenueExit(e: any): void {
+    private onVenueExit (e: any): void {
         this.hide()
         this._currentVenue = null
     }

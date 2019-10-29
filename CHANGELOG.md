@@ -2,14 +2,14 @@
 
 ## 2.0.0
 
-- Upgrade mapwize js sdk to 4.0.0
+- Upgrade mapwize js sdk to 4.0.1
 
 ### /!\ BREAKING CHANGES /!\
 
-- Move: `options.centerOnVenue` to `options.mapwizeOptions.centerOnVenueId` and only accept a venue id
-- Move: `options.centerOnPlace` to `options.mapwizeOptions.centerOnPlaceId` and only accept a place id
-- Move: `options.restrictContentToVenue` to `options.mapwizeOptions.restrictContentToVenueId` and only accept a venue id
-- Move: `options.restrictContentToOrganization` to `options.mapwizeOptions.restrictContentToOrganizationId` and only accept a organization id
+- Move: `options.centerOnVenue` to `options.centerOnVenueId` and only accept a venue id
+- Move: `options.centerOnPlace` to `options.centerOnPlaceId` and only accept a place id
+- Move: `options.restrictContentToVenue` to `options.restrictContentToVenueId` and only accept a venue id
+- Move: `options.restrictContentToOrganization` to `options.restrictContentToOrganizationId` and only accept a organization id
 
 userPosition --> userLocation
 locale --> setLocale

@@ -9,19 +9,23 @@ mwzDescribe(testSuites, function () {
         callbackTest(null);
       }
     }).then(function (map) {
-      $('#mwz-menuButton').click();
+      $('#mwz-menu-button').click();
     }).catch(function (e) { callbackTest(e); });
   })
   
   mwzTest('Information button', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-      centerOnPlace: MAPWIZEPLACEID,
+      centerOnPlaceId: MAPWIZEPLACEID,
       onInformationButtonClick: function (e) {
         callbackTest(null);
       }
     }).then(function (map) {
-      $('#mwz-footerSelection').click();
+      map.on('mapwize:venueenter', function () {
+        setTimeout(() => {
+          $('#mwz-footer-selection').click();
+        }, 100);
+      })
     }).catch(function (e) { callbackTest(e); });
   })
 })

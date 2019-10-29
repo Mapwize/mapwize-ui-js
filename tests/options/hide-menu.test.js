@@ -7,10 +7,10 @@ mwzDescribe(testSuites, function () {
       apiKey: APIKEY,
       hideMenu: true
     }).then(function (map) {
-      if ($('#menuBar').hasClass('d-none') == true) {
-        callbackTest(null)
+      if ($('#mwz-menu-button').length) {
+        callbackTest('#mwz-menu-button does not exist when hideMenu is set to true')
       } else {
-        callbackTest('#menuBar don\'t have d-none css class')
+        callbackTest(null)
       }
     }).catch(function (e) { callbackTest(e) })
   })

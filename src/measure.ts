@@ -1,9 +1,9 @@
 import { join } from 'lodash'
 
-const units: Array<string> = ['m', 'ft']
+const units: string[] = ['m', 'ft']
 let currentUnit: string = 'm'
 
-const getUnits = (): Array<string> => {
+const getUnits = (): string[] => {
   return units
 }
 
