@@ -43,7 +43,7 @@ export class HeaderManager {
     this.searchBar.destroy()
   }
 
-  public showSearch() {
+  public showSearch(): Promise<void> {
     if (!this._map.getDirection() && !this._map.hasControl(this.searchBar)) {
       this._map.removeControl(this.searchResults)
       this._map.removeControl(this.directionBar)
@@ -53,7 +53,7 @@ export class HeaderManager {
     }
     return Promise.reject()
   }
-  public showDirection() {
+  public showDirection(): Promise<void> {
     if (this._map.getVenue() && !this._map.hasControl(this.directionBar)) {
       this._map.removeControl(this.searchResults)
       this._map.removeControl(this.searchBar)
@@ -69,7 +69,11 @@ export class HeaderManager {
     return Promise.reject()
   }
 
-  public search(searchString: string, searchOptions: any, clickOnResultCallback: Function) {
+  public isInDirectionMode(): boolean {
+    return this._map.hasControl(this.directionBar)
+  }
+
+  public search(searchString: string, searchOptions: any, clickOnResultCallback: Function): void {
     this.searchResults.showLoading()
     search(searchString, searchOptions).then((searchResults: any) => {
       this.searchResults.hideLoading()
@@ -77,7 +81,7 @@ export class HeaderManager {
     })
   }
 
-  public showSearchResults(results: string|Array<any>, clickOnResultCallback: Function) {
+  public showSearchResults(results: string|Array<any>, clickOnResultCallback: Function): void {
     this.searchResults.setResults(results, clickOnResultCallback)
     if (!this._map.hasControl(this.searchResults)) {
       this._map.addControl(this.searchResults)
@@ -100,7 +104,7 @@ export class HeaderManager {
     this.directionBar.setMode(modeId)
   }
 
-  public displayDirection(direction: any) {
+  public displayDirection(direction: any): void {
     const venueId = direction.from.venueId || direction.to.venueId
 
     this._map.centerOnVenue(venueId).then(() => {

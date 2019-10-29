@@ -34,7 +34,7 @@ export class SearchBar extends DefaultControl {
     // this.mainColor(options);
     
     this.listen('click', '#mwz-menu-button', this._menuButtonClick.bind(this))
-    this.listen('click', '#mwz-directions-button', this._directionButtonClick.bind(this))
+    this.listen('click', '#mwz-header-directions-button', this._directionButtonClick.bind(this))
     
     this.listen('focus', '#mwz-mapwize-search', this._searchFocus.bind(this))
     this.listen('keyup', '#mwz-mapwize-search', this._searchKeyup.bind(this))
