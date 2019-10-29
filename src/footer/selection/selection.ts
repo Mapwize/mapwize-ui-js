@@ -58,7 +58,7 @@ export class FooterSelection extends DefaultControl {
     // this.mainColor(options)
   }
   
-  public destroy() {
+  public remove() {
     
   }
   

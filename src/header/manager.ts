@@ -36,11 +36,10 @@ export class HeaderManager {
     this._map.off('mapwize:venueenter', this._onVenueEnter)
     this._map.off('mapwize:venueexit', this._onVenueExit)
     this._map.off('mapwize:directionstart', this._onDirectionStart)
-    this._map.off('mapwize:directionstop', this._onDirectionStop)
 
-    this.searchResults.destroy()
-    this.directionBar.destroy()
-    this.searchBar.destroy()
+    this.searchResults.remove()
+    this.directionBar.remove()
+    this.searchBar.remove()
   }
 
   public showSearch(): Promise<void> {

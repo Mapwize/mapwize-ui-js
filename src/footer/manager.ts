@@ -40,9 +40,9 @@ export class FooterManager {
     this._map.off('mapwize:directionstart', this._onDirectionStart)
     this._map.off('mapwize:directionstop', this._onDirectionStop)
 
-    this.venueFooter.destroy()
-    this.selectionFooter.destroy()
-    this.directionFooter.destroy()
+    this.venueFooter.remove()
+    this.selectionFooter.remove()
+    this.directionFooter.remove()
   }
 
   public getSelected(): any {

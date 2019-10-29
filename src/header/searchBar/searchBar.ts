@@ -47,7 +47,7 @@ export class SearchBar extends DefaultControl {
     return 'top-left'
   }
   
-  public destroy() {}
+  public remove() {}
   
   public enteringIn(venue: any): void {
     this._container.html(enteringInVenueHtml(venue))

@@ -18,7 +18,7 @@ export class SearchResults extends DefaultControl {
     
     this._container = $(resultsHtml)
   }
-  public destroy () {}
+  public remove () {}
   
   public getDefaultPosition(): string {
     return 'top-left'

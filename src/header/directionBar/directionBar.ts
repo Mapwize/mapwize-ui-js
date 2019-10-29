@@ -83,7 +83,7 @@ export class DirectionBar extends DefaultControl {
     this.isOnMap = false
   }
   
-  public destroy() {}
+  public remove() {}
   
   public getDefaultPosition(): string {
     return 'top-left'

@@ -94,7 +94,7 @@ export class FooterVenue extends DefaultControl {
         this.map.on('mapwize:venuerefresh', this.onVenueRefresh)
         this.map.on('mapwize:venueexit', this.onVenueExit)
     }
-    public destroy() {
+    public remove() {
         this.map.off('mapwize:venueenter', this.onVenueEnter)
         this.map.off('mapwize:venuerefresh', this.onVenueRefresh)
         this.map.off('mapwize:venueexit', this.onVenueExit)
