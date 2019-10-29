@@ -13,9 +13,8 @@ import { FooterSelection, FooterDirections, FooterVenue } from './footer'
 import { FloorControl, NavigationControl, LocationControl } from './controls'
 
 const mapSizeChange = (mapInstance: any) => {
-    const devicePixelRatio = window.devicePixelRatio || 1;
     const mapSize = mapInstance.getSize()
-    if (mapSize.x < (uiConfig.SMALL_SCREEN_BREAKPOINT * devicePixelRatio)) {
+    if (mapSize.x < uiConfig.SMALL_SCREEN_BREAKPOINT) {
         $(mapInstance._container).addClass(uiConfig.SMALL_SCREEN_CLASS)
     } else {
         $(mapInstance._container).removeClass(uiConfig.SMALL_SCREEN_CLASS)
