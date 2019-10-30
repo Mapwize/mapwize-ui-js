@@ -12,7 +12,7 @@ export class FooterManager {
   private selectionFooter: FooterSelection;
   private venueFooter: FooterVenue;
 
-  constructor (mapInstance: any, options: any) {
+  constructor(mapInstance: any, options: any) {
     this._map = mapInstance
 
     this.venueFooter = new FooterVenue(mapInstance)
@@ -45,13 +45,16 @@ export class FooterManager {
     this.directionFooter.remove()
   }
 
+  public refreshUnit(): any {
+    this.directionFooter.refreshUnit()
+  }
   public getSelected(): any {
     return this._selected
   }
   public setSelected(elem: any): Promise<void> {
     this._selected = elem
-    if (this._selected) {
-      return this.showSelection().catch(() => {}).then(() => {
+    if (this._selected && this._map.getVenue() && !this._map.headerManager.isInDirectionMode()) {
+      return this.showSelection().catch(() => { }).then(() => {
         this.selectionFooter.setSelected(this._selected)
       })
     } else {

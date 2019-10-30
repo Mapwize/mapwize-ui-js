@@ -102,6 +102,9 @@ export class HeaderManager {
   public setMode(modeId: string): void {
     this.directionBar.setMode(modeId)
   }
+  public refreshLocale(): any {
+    this.directionBar.refreshLocale()
+  }
 
   public displayDirection(direction: any): void {
     const venueId = direction.from.venueId || direction.to.venueId

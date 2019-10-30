@@ -1,6 +1,7 @@
 import * as $ from 'jquery';
 import { locale, getLocales } from './translate'
 import { unit, getUnits } from './measure'
+import { getPlace } from './utils'
 
 import { DefaultControl } from './control'
 
@@ -139,7 +140,14 @@ const attachMethods = (mapInstance: any) => {
   * @param  {object} mwzElement 
   */
   mapInstance.setSelected = (mwzElement: any): void => {
-    return mapInstance.footerManager.setSelected(mwzElement)
+    if(typeof mwzElement == "string"){
+      getPlace(mwzElement).then(place=>{
+          place.objectClass = "place"
+          return mapInstance.footerManager.setSelected(place)
+      })
+    }else{
+      return mapInstance.footerManager.setSelected(mwzElement)
+    }
   }
   
   /**
@@ -154,7 +162,7 @@ const attachMethods = (mapInstance: any) => {
     
     mapInstance.setPreferredLanguage(currentLocal)
     mapInstance.headerManager.refreshLocale()
-    mapInstance.footerManager.refreshLocale()
+    // mapInstance.footerManager.refreshLocale()
   }
   /**
   * @instance

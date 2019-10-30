@@ -70,6 +70,7 @@ export class FooterSelection extends DefaultControl {
     this.map.removeMarkers()
 
     if (element) {
+      this.map.centerOnPlace(element._id)
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
