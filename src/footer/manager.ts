@@ -46,7 +46,7 @@ export class FooterManager {
   }
 
   public refreshUnit(): any {
-    this.directionFooter.refreshUnit()
+    return this.directionFooter.refreshUnit()
   }
   public getSelected(): any {
     return this._selected

@@ -2,29 +2,30 @@ import * as $ from 'jquery';
 import { locale, getLocales } from './translate'
 import { unit, getUnits } from './measure'
 import { getPlace } from './utils'
+import { isString } from 'lodash'
 
 import { DefaultControl } from './control'
 
 const attachMethods = (mapInstance: any) => {
-  
+
   const onMapClick = (e: any): void => {
     if (e.venue) {
       mapInstance.centerOnVenue(e.venue)
     }
   }
   mapInstance.on('mapwize:click', onMapClick)
-  
+
   const onDirectionStart = (e: any): void => {
     // mapInstance.searchDirections.show()
     // mapInstance.searchDirections.setFrom(from)
     // mapInstance.searchDirections.setTo(to)
   }
   mapInstance.on('mapwize:directionstart', onDirectionStart)
-  
+
   mapInstance.hasControl = (control: DefaultControl): boolean => {
     return control.isOnMap
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -45,7 +46,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setSearchMode = (): Promise<void> => {
     return mapInstance.headerManager.showSearch()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -74,7 +75,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getFrom = (): any => {
     return mapInstance.headerManager.getFrom()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -101,7 +102,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getTo = (): any => {
     return mapInstance.headerManager.getTo()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -122,7 +123,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setMode = (modeId: string): void => {
     return mapInstance.headerManager.setMode(modeId)
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -139,17 +140,17 @@ const attachMethods = (mapInstance: any) => {
   * @function setSelected
   * @param  {object} mwzElement 
   */
-  mapInstance.setSelected = (mwzElement: any): void => {
-    if(typeof mwzElement == "string"){
-      getPlace(mwzElement).then(place=>{
-          place.objectClass = "place"
-          return mapInstance.footerManager.setSelected(place)
+  mapInstance.setSelected = (mwzElement: any): Promise<void> => {
+    if (isString(mwzElement)) {
+      getPlace(mwzElement).then((place: any) => {
+        place.objectClass = 'place'
+        return mapInstance.footerManager.setSelected(place)
       })
-    }else{
+    } else {
       return mapInstance.footerManager.setSelected(mwzElement)
     }
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -159,7 +160,7 @@ const attachMethods = (mapInstance: any) => {
   */
   mapInstance.setLocale = (newLocale: string): void => {
     const currentLocal = locale(newLocale)
-    
+
     mapInstance.setPreferredLanguage(currentLocal)
     mapInstance.headerManager.refreshLocale()
     // mapInstance.footerManager.refreshLocale()
@@ -184,8 +185,8 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getLocales = (): Array<string> => {
     return getLocales()
   }
-  
-  
+
+
   /**
   * @instance
   * @memberof Map
@@ -217,7 +218,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getUnits = (): Array<string> => {
     return getUnits()
   }
-  
+
   const mapRemoveSave = mapInstance.remove.bind(mapInstance);
   /**
   * @instance
@@ -228,13 +229,13 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.remove = (): void => {
     mapInstance.headerManager.remove()
     mapInstance.footerManager.remove()
-    
+
     mapInstance.off('mapwize:click', onMapClick)
     mapInstance.off('mapwize:directionstart', onDirectionStart)
     $(mapInstance.getContainer()).removeClass('mapwizeui')
-    
+
     mapRemoveSave()
   }
 }
 
-export { attachMethods  as default }
+export { attachMethods as default }

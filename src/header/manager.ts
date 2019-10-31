@@ -80,7 +80,7 @@ export class HeaderManager {
     })
   }
 
-  public showSearchResults(results: string|Array<any>, clickOnResultCallback: Function): void {
+  public showSearchResults(results: string | Array<any>, clickOnResultCallback: Function): void {
     this.searchResults.setResults(results, clickOnResultCallback)
     if (!this._map.hasControl(this.searchResults)) {
       this._map.addControl(this.searchResults)
@@ -103,7 +103,7 @@ export class HeaderManager {
     this.directionBar.setMode(modeId)
   }
   public refreshLocale(): any {
-    this.directionBar.refreshLocale()
+    return this.directionBar.refreshLocale()
   }
 
   public displayDirection(direction: any): void {
@@ -114,7 +114,7 @@ export class HeaderManager {
 
       var from = direction.from
       var to = direction.to
-      
+
       if (from.placeId) {
         getPlace(from.placeId).then((place: any) => {
           this.directionBar.setFrom(set(place, 'objectClass', 'place'))
@@ -122,7 +122,7 @@ export class HeaderManager {
       } else {
         this.directionBar.setFrom(from)
       }
-      
+
       if (to.placeId) {
         getPlace(to.placeId).then((place: any) => {
           this.directionBar.setTo(set(place, 'objectClass', 'place'))
