@@ -59,9 +59,18 @@ export class FooterManager {
       })
     } else {
       this.selectionFooter.setSelected(null)
-      this.showVenue()
     }
     return Promise.resolve()
+  }
+
+  public showDirectionMode(): Promise<void> {
+    if (this._map.headerManager.isInDirectionMode()) {
+      this._map.removeControl(this.venueFooter)
+      this._map.removeControl(this.selectionFooter)
+      this._map.removeControl(this.directionFooter)
+      return Promise.resolve()
+    }
+    return Promise.reject()
   }
 
   public showDirection(): Promise<void> {
@@ -100,6 +109,7 @@ export class FooterManager {
       if (e.place) {
         this.setSelected(set(e.place, 'objectClass', 'place'))
       } else {
+        this.showVenue()
         this.setSelected(null)
       }
     }

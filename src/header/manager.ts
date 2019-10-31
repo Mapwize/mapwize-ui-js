@@ -42,6 +42,11 @@ export class HeaderManager {
     this.searchBar.remove()
   }
 
+  public closeButtonClick(): void {
+    this.showSearch()
+    this._map.footerManager.showVenue()
+  }
+
   public showSearch(): Promise<void> {
     if (!this._map.getDirection() && !this._map.hasControl(this.searchBar)) {
       this._map.removeControl(this.searchResults)
@@ -63,6 +68,7 @@ export class HeaderManager {
       }
 
       this._map.addControl(this.directionBar)
+      this._map.footerManager.showDirectionMode()
       return Promise.resolve()
     }
     return Promise.reject()

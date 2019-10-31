@@ -131,7 +131,7 @@ export class DirectionBar extends DefaultControl {
   
   private _closeButtonClick(e: JQueryEventObject): void {
     this._clear()
-    this._map.headerManager.showSearch()
+    this._map.headerManager.closeButtonClick()
   }
   private _reverseButtonClick(e: JQueryEventObject): void {
     let oldFrom = null;
