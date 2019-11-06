@@ -142,13 +142,12 @@ const attachMethods = (mapInstance: any) => {
   */
   mapInstance.setSelected = (mwzElement: any): Promise<void> => {
     if (isString(mwzElement)) {
-      getPlace(mwzElement).then((place: any) => {
+      return getPlace(mwzElement).then((place: any) => {
         place.objectClass = 'place'
         return mapInstance.footerManager.setSelected(place)
       })
-    } else {
-      return mapInstance.footerManager.setSelected(mwzElement)
     }
+    return mapInstance.footerManager.setSelected(mwzElement)
   }
 
   /**

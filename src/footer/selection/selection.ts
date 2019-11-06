@@ -66,7 +66,7 @@ export class FooterSelection extends DefaultControl {
     return 'bottom-left'
   }
   
-  public setSelected(element: any): void {
+  public setSelected(element: any): Promise<void> {
     this.map.removeMarkers()
 
     if (element) {
@@ -76,6 +76,7 @@ export class FooterSelection extends DefaultControl {
     } else {
       this.map.setPromotedPlaces([])
     }
+    return Promise.resolve()
   }
   
   // ---------------------------------------
