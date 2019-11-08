@@ -9,7 +9,7 @@ const inVenueHtml = require('./templates/inVenue.html')
 
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
-import { getTranslation, replaceColorInBase64svg } from '../../utils'
+import { getTranslation } from '../../utils'
 
 const OUT_OF_VENUE = 0
 const ENTERING_IN_VENUE = 1
@@ -27,10 +27,6 @@ export class SearchBar extends DefaultControl {
     
     this._options = options
     this._container = $('<div />')
-    
-    // if (options.hideMenu) {
-    //     this._container.find('#menuBar').addClass('d-none')
-    // }
     
     this.listen('click', '#mwz-menu-button', this._menuButtonClick.bind(this))
     this.listen('click', '#mwz-header-directions-button', this._directionButtonClick.bind(this))
@@ -64,12 +60,14 @@ export class SearchBar extends DefaultControl {
   }
 
   public refreshLocale () {
-    if (this._currentVenueState === ENTERING_IN_VENUE) {
-      this.enteringIn(this._map.getVenue())
-    } else if (this._currentVenueState === IN_VENUE) {
-      this.enteredIn(this._map.getVenue())
-    } else {
-      this.leaveVenue()
+    if (this._map) {
+      if (this._currentVenueState === ENTERING_IN_VENUE) {
+        this.enteringIn(this._map.getVenue())
+      } else if (this._currentVenueState === IN_VENUE) {
+        this.enteredIn(this._map.getVenue())
+      } else {
+        this.leaveVenue()
+      }
     }
   }
 

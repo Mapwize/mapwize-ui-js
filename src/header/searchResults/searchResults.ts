@@ -48,7 +48,9 @@ export class SearchResults extends DefaultControl {
   }
 
   public refreshLocale () {
-    // need to refresh 'on floor' string in search results
+    if (this._map) {
+      // need to refresh 'on floor' string in search results
+    }
   }
   
   // ---------------------------------------

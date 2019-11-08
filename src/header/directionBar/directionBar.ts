@@ -137,10 +137,12 @@ export class DirectionBar extends DefaultControl {
   }
 
   public refreshLocale () {
-    this._container.find('#mwz-mapwize-search-from').val(this._getDisplay(this._from))
-    this._container.find('#mwz-mapwize-search-to').val(this._getDisplay(this._to))
-    
-    this._updateFieldsPlaceholder()
+    if (this._map) {
+      this._container.find('#mwz-mapwize-search-from').val(this._getDisplay(this._from))
+      this._container.find('#mwz-mapwize-search-to').val(this._getDisplay(this._to))
+      
+      this._updateFieldsPlaceholder()
+    }
   }
   
   // ---------------------------------------
