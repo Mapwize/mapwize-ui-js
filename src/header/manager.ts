@@ -48,7 +48,7 @@ export class HeaderManager {
   }
 
   public showSearch (): Promise<void> {
-    if (!this._map.getDirection() && !this._map.hasControl(this.searchBar)) {
+    if ((!this._map.getVenue() || !this._map.getDirection()) && !this._map.hasControl(this.searchBar)) {
       this._map.removeControl(this.searchResults)
       this._map.removeControl(this.directionBar)
 
@@ -150,6 +150,16 @@ export class HeaderManager {
   }
   private _onVenueEnter (e: any): void {
     this.searchBar.enteredIn(e.venue)
+
+    const currentDirection = this._map.getDirection()
+    if (currentDirection) {
+      const venueId = currentDirection.from.venueId || currentDirection.to.venueId
+      if (venueId === e.venue._id) {
+        this.showDirection()
+      } else {
+        this._map.removeDirection()
+      }
+    }
   }
   private _onVenueExit (e: any): void {
     this.searchBar.leaveVenue()

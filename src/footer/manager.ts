@@ -113,6 +113,11 @@ export class FooterManager {
     }
   }
   private _onVenueEnter (e: any): void {
+    const currentSelected = this.getSelected()
+    if (currentSelected && currentSelected.venueId !== e.venue._id) {
+      this.setSelected(null)
+    }
+
     if (this._map.getDirection()) {
       this.showDirection().catch(() => null)
     } else if (this.getSelected()) {
