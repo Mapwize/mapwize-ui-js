@@ -76,8 +76,10 @@
           restrictContentToVenueIds: [euratechnologieVenueId, demoVenueId],
           // mainColor: '#fca903',
           // hideMenu: true,
-          // onDirectionQueryWillBeSend: function (query) { return query; }
-          // onDirectionWillBeDisplayed: function (direction, options) { return { direction: direction, options: options }; }
+          // onDirectionQueryWillBeSent: function (query) { return query; },
+          // onDirectionWillBeDisplayed: function (direction, options) { return { direction: direction, options: options }; },
+          // onSearchQueryWillBeSent: function (searchString, searchOptions) { return { searchString: searchString, searchOptions: searchOptions }; },
+          // onSearchResultWillBeDisplayed: function (results) { return results; },
           onInformationButtonClick: function (e) {
             console.log('onInformationButtonClick', e)
             alert('onInformationButtonClick ' + e.name)

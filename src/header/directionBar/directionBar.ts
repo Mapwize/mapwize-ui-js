@@ -326,7 +326,7 @@ export class DirectionBar extends DefaultControl {
       this._container.find('.mwz-mode-icons').append(button)
     })
     
-    if (!this._mode) {
+    if (!this._mode || !this._modes[this._mode._id]) {
       this._setSelectedMode(first(modes))
     } else {
       this._ensureSelectedModeIsVisible()
@@ -403,7 +403,7 @@ export class DirectionBar extends DefaultControl {
       if (from && to) {
         this._container.find('#mwz-alert-no-direction').hide()
         
-        Api.getDirection(this._options.onDirectionQueryWillBeSend({
+        Api.getDirection(this._options.onDirectionQueryWillBeSent({
           from,
           modeId: this._mode ? this._mode._id : null,
           to,

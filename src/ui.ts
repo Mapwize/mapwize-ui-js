@@ -97,6 +97,12 @@ const constructor = (container: string|HTMLElement, options: any): any => {
 * @param {boolean} [options.locationControl=true]  (optional, boolean, default: true) if the user location control should be displayed.
 * @param {object} [options.locationControlOptions=null]
 * @param {object} [options.direction=null] (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
+* @param {function} [options.onDirectionQueryWillBeSent]
+* @param {function} [options.onDirectionWillBeDisplayed]
+* @param {function} [options.onInformationButtonClick]
+* @param {function} [options.onMenuButtonClick]
+* @param {function} [options.onSearchQueryWillBeSent]
+* @param {function} [options.onSearchResultWillBeDisplayed]
 * @returns {Promise.<Object>}
 * @example
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
@@ -135,11 +141,11 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     navigationControl: true,
     navigationControlOptions: {},
 
-    onDirectionQueryWillBeSend: (query: any) => query,
+    onDirectionQueryWillBeSent: (query: any) => query,
     onDirectionWillBeDisplayed: (direction: any, directionOptions: any) => ({ direction, options: directionOptions }),
     onInformationButtonClick: () => null,
     onMenuButtonClick: () => null,
-    onSearchQueryWillBeSend: (searchString: string, searchOptions: any) => ({ searchString, searchOptions }),
+    onSearchQueryWillBeSent: (searchString: string, searchOptions: any) => ({ searchString, searchOptions }),
     onSearchResultWillBeDisplayed: (results: any) => results,
 
     preferredLanguage: 'en',

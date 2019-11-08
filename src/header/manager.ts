@@ -82,7 +82,7 @@ export class HeaderManager {
 
   public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void): void {
     this.searchResults.showLoading()
-    const transformedSearchQuery = this._options.onSearchQueryWillBeSend(searchString, searchOptions)
+    const transformedSearchQuery = this._options.onSearchQueryWillBeSent(searchString, searchOptions)
     search(transformedSearchQuery.searchString, transformedSearchQuery.searchOptions).then((searchResults: any) => {
       this.searchResults.hideLoading()
       this.showSearchResults(this._options.onSearchResultWillBeDisplayed(searchResults), clickOnResultCallback)
