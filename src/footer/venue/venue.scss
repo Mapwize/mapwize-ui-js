@@ -1,4 +1,4 @@
-#mwz-footerVenue {
+#mwz-footer-venue {
     height: 50px;
     width: 400px;
     margin-bottom: 28px;
@@ -37,43 +37,12 @@
         cursor: default;
         min-width: 0rem;
         
-        a{
+        a {
             white-space: normal;
         }
     }
     .mwz-icon {
         width: 30px;
-    }
-    .mwz-wrapper-select {
-        background: white;
-        border-radius: 50px;
-        margin-right: 70px;
-
-        box-shadow: $controls-box-shadow;
-    }
-    option:disabled {
-        display:none;
-    }
-    .Select-input option[value=four] {
-        display: none;
-    }
-    select {
-        border: none;
-        border-radius: 0;
-        background: none;
-        box-shadow: none;
-
-        &:focus {
-            box-shadow: none;
-        }
-    }
-
-    .mwz-wrapper-select:nth-child(2) {
-        margin-left: -55px;
-        z-index:1;
-    }
-    #universes-selector, #language-selector {
-        display: inline-block;
     }
     #mwz-universe-button, .mwz-universe {
         min-width: 170px;
@@ -87,7 +56,7 @@
     .dropdown-menu {
         max-height: 300px !important;
     }
-    #mwz-footerVenue {
+    #mwz-footer-venue {
         margin-left: 2px;
         margin-bottom: 28px;
         width: 75%;
@@ -104,11 +73,5 @@
     }
     .mwz-text-icon {
         display: none;
-    }
-    #mwz-searchBar {
-        border-radius: 8px;
-        margin-left: 2.5%;
-        margin-top: 15px;
-        width: 95%;
     }
 }

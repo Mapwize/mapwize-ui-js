@@ -86,7 +86,9 @@ export class FooterManager {
       this._map.removeControl(this.directionFooter)
       this._map.removeControl(this.selectionFooter)
 
-      this._map.addControl(this.venueFooter)
+      if (this.venueFooter.needToBeDisplayed(this._map.getVenue())) {
+        this._map.addControl(this.venueFooter)
+      }
       return Promise.resolve()
     }
     return Promise.reject()
