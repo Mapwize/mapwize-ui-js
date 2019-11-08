@@ -108,7 +108,6 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Get the current direction mode
   * @function getMode
-  * @param  {string} locale locale code like 'en' or 'fr'
   */
   mapInstance.getMode = (): any => {
     return mapInstance.headerManager.getMode()
@@ -177,7 +176,7 @@ const attachMethods = (mapInstance: any) => {
   /**
   * @instance
   * @memberof Map
-  * @desc Get all available locales for the UI interfaces. To add a locale, add the corresponding file in `src/loales`.
+  * @desc Get all available locales for the UI interfaces. To add a locale, add the corresponding file in `src/locales`.
   * @function getLocales
   * @returns array<string> locale codes like 'en' or 'fr'
   */
