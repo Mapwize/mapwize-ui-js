@@ -403,14 +403,15 @@ export class DirectionBar extends DefaultControl {
       if (from && to) {
         this._container.find('#mwz-alert-no-direction').hide()
         
-        Api.getDirection({
+        Api.getDirection(this._options.onDirectionQueryWillBeSend({
           from,
           modeId: this._mode ? this._mode._id : null,
           to,
-        }).then((direction: any) => {
-          this._map.setDirection(direction, options)
-          this._promoteDirectionPlaces(direction)
-          this._map.addMarker(direction.to)
+        })).then((direction: any) => {
+          const transformedDirection = this._options.onDirectionWillBeDisplayed(direction, options)
+          this._map.setDirection(transformedDirection.direction, transformedDirection.options)
+          this._promoteDirectionPlaces(transformedDirection.direction)
+          this._map.addMarker(transformedDirection.direction.to)
         }).catch(() => {
           this._container.find('#mwz-alert-no-direction').show()
         })

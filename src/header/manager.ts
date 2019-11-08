@@ -7,6 +7,7 @@ import { DirectionBar, SearchBar, SearchResults } from './'
 export class HeaderManager {
 
   private _map: any
+  private _options: any
 
   private directionBar: DirectionBar
   private searchBar: SearchBar
@@ -14,6 +15,7 @@ export class HeaderManager {
 
   constructor (mapInstance: any, options: any) {
     this._map = mapInstance
+    this._options = options
 
     this.directionBar = new DirectionBar(mapInstance, options)
     this.searchBar = new SearchBar(mapInstance, options)
@@ -80,9 +82,10 @@ export class HeaderManager {
 
   public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void): void {
     this.searchResults.showLoading()
-    search(searchString, searchOptions).then((searchResults: any) => {
+    const transformedSearchQuery = this._options.onSearchQueryWillBeSend(searchString, searchOptions)
+    search(transformedSearchQuery.searchString, transformedSearchQuery.searchOptions).then((searchResults: any) => {
       this.searchResults.hideLoading()
-      this.showSearchResults(searchResults, clickOnResultCallback)
+      this.showSearchResults(this._options.onSearchResultWillBeDisplayed(searchResults), clickOnResultCallback)
     })
   }
 

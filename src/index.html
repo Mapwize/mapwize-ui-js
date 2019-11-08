@@ -55,6 +55,7 @@
     var apiKey = '89a2695d7485fda885c96b405dcc8a25'
     var modeId = '5da6bec9aefa100010c7df67'
     var euratechnologieVenueId = '56b20714c3fa800b00d8f0b5'
+    var demoVenueId = '56c2ea3402275a0b00fb00ac'
     var mapwizePlaceId = '5d08d8a4efe1d20012809ee5'
     var receptionPlaceId = '569f8d7cb4d7200b003c32a1'
     
@@ -67,16 +68,23 @@
         MapwizeUI.map({ // Also works
           // container: 'mapwize',  // Also works
           apiKey: apiKey,
-          direction: direction,
+          // direction: direction,
           // centerOnPlaceId: mapwizePlaceId,
-          restrictContentToVenueId: euratechnologieVenueId,
-          mainColor: '#fca903',
-          hideMenu: true,
+          // centerOnVenueId: euratechnologieVenueId,
+          // restrictContentToOrganizationId: '',
+          // restrictContentToVenueId: euratechnologieVenueId,
+          restrictContentToVenueIds: [euratechnologieVenueId, demoVenueId],
+          // mainColor: '#fca903',
+          // hideMenu: true,
+          // onDirectionQueryWillBeSend: function (query) { return query; }
+          // onDirectionWillBeDisplayed: function (direction, options) { return { direction: direction, options: options }; }
           onInformationButtonClick: function (e) {
-            console.log('clickOnSelectedInformation', e)
+            console.log('onInformationButtonClick', e)
+            alert('onInformationButtonClick ' + e.name)
           },
           onMenuButtonClick: function (e) {
-            console.log('clickOnMenu', e)
+            console.log('onMenuButtonClick')
+            alert('onMenuButtonClick')
           }
         }).then(function (instance) {
           console.log('MAP LOADED')

@@ -135,8 +135,12 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     navigationControl: true,
     navigationControlOptions: {},
 
-    onInformationButtonClick: noop,
-    onMenuButtonClick: noop,
+    onDirectionQueryWillBeSend: (query: any) => query,
+    onDirectionWillBeDisplayed: (direction: any, directionOptions: any) => ({ direction, options: directionOptions }),
+    onInformationButtonClick: () => null,
+    onMenuButtonClick: () => null,
+    onSearchQueryWillBeSend: (searchString: string, searchOptions: any) => ({ searchString, searchOptions }),
+    onSearchResultWillBeDisplayed: (results: any) => results,
 
     preferredLanguage: 'en',
 

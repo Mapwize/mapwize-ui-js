@@ -26,34 +26,8 @@ export class FooterSelection extends DefaultControl {
     this.listen('click', '#mwz-footer-selection', this._footerClick.bind(this))
     this.listen('click', '#mwz-footer-directions-button', this._directionButtonClick.bind(this))
     
-    this.listen('click', '.mwz-open-details', (e: JQueryEventObject) => {
-      this._container.addClass('mwz-opened-details')
-      
-      $(this._container).find('.mwz-close-details').removeClass('d-none').addClass('d-block')
-      $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      
-      let padding = 20
-      if ($(this.map._container).hasClass('mwz-small')) {
-        padding = 0
-      }
-      
-      $(this._container).find('.mwz-details').css('max-height', (this.map.getSize().y - padding - $(this._container).find('.mwz-selection-header').height()))
-      $(this._container).animate({
-        height: (this.map.getSize().y - padding),
-      }, 250)
-    })
-    this.listen('click', '#mwz-footer-selection .mwz-close-details', (e: JQueryEventObject) => {
-      this._container.removeClass('mwz-opened-details')
-      
-      $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-      $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
-      
-      $(this._container).animate({
-        height: this._selectedHeight,
-      }, 250, () => {
-        $(this._container).find('.mwz-details').css('max-height', 120)
-      })
-    })
+    this.listen('click', '#mwz-footer-selection .mwz-open-details', this._onOpenDetailsClick.bind(this))
+    this.listen('click', '#mwz-footer-selection .mwz-close-details', this._onCloseDetailsClick.bind(this))
   }
   
   public remove (): void {
@@ -66,7 +40,7 @@ export class FooterSelection extends DefaultControl {
   
   public setSelected (element: any): Promise<void> {
     this.map.removeMarkers()
-
+    
     if (element) {
       this.map.centerOnPlace(element._id)
       this._displaySelectedElementInformations(element)
@@ -87,9 +61,43 @@ export class FooterSelection extends DefaultControl {
     }
   }
   private _directionButtonClick (e: JQueryEventObject): void {
+    e.stopPropagation()
+
     this._map.headerManager.showDirection()
     this._map.footerManager.setSelected(null)
+  }
+  
+  private _onOpenDetailsClick (e: JQueryEventObject): void {
     e.stopPropagation()
+
+    this._container.addClass('mwz-opened-details')
+    
+    $(this._container).find('.mwz-close-details').removeClass('d-none').addClass('d-block')
+    $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+    
+    let padding = 20
+    if ($(this.map._container).hasClass('mwz-small')) {
+      padding = 0
+    }
+    
+    $(this._container).find('.mwz-details').css('max-height', (this.map.getSize().y - padding - $(this._container).find('.mwz-selection-header').height()))
+    $(this._container).animate({
+      height: (this.map.getSize().y - padding),
+    }, 250)
+  }
+  private _onCloseDetailsClick (e: JQueryEventObject): void {
+    e.stopPropagation()
+    
+    this._container.removeClass('mwz-opened-details')
+    
+    $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
+    $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+    
+    $(this._container).animate({
+      height: this._selectedHeight,
+    }, 250, () => {
+      $(this._container).find('.mwz-details').css('max-height', 120)
+    })
   }
   
   private _displaySelectedElementInformations (element: any): void {

@@ -1,4 +1,4 @@
-import { debounce } from 'lodash'
+import { debounce, join } from 'lodash'
 
 import { Api } from 'mapwize'
 
@@ -42,6 +42,9 @@ const searchOptions = (map: any, venue?: any, focusOn?: string): any => {
   
   if (map._options.restrictContentToVenueId) {
     options.venueId = map._options.restrictContentToVenueId
+  }
+  if (map._options.restrictContentToVenueIds) {
+    options.venueIds = join(map._options.restrictContentToVenueIds, ',')
   }
   if (map._options.restrictContentToOrganizationId) {
     options.organizationId = map._options.restrictContentToOrganizationId
