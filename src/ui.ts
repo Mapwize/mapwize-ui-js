@@ -97,12 +97,8 @@ const constructor = (container: string|HTMLElement, options: any): any => {
 * @param {boolean} [options.locationControl=true]  (optional, boolean, default: true) if the user location control should be displayed.
 * @param {object} [options.locationControlOptions=null]
 * @param {object} [options.direction=null] (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
-* @param {function} [options.onDirectionQueryWillBeSent]
-* @param {function} [options.onDirectionWillBeDisplayed]
 * @param {function} [options.onInformationButtonClick]
 * @param {function} [options.onMenuButtonClick]
-* @param {function} [options.onSearchQueryWillBeSent]
-* @param {function} [options.onSearchResultWillBeDisplayed]
 * @returns {Promise.<Object>}
 * @example
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
