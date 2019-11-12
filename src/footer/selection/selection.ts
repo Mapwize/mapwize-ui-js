@@ -46,7 +46,7 @@ export class FooterSelection extends DefaultControl {
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
-      this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+      $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
       this.map.setPromotedPlaces([])
     }
     return Promise.resolve()
