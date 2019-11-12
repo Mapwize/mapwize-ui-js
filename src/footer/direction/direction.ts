@@ -9,13 +9,13 @@ export class FooterDirections extends DefaultControl {
   
   constructor (mapInstance: any) {
     super(mapInstance)
-    
+
     this._container = $(directionsHtml)
   }
   public remove (): void {
     return null
   }
-  
+
   public getDefaultPosition (): string {
     return 'bottom-left'
   }

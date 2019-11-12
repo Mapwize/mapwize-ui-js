@@ -28,7 +28,7 @@ export class DirectionBar extends DefaultControl {
   
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
-
+   
     this._options = options
     
     this._container = $(directionsHtml)
@@ -152,6 +152,7 @@ export class DirectionBar extends DefaultControl {
   private _closeButtonClick (e: JQueryEventObject): void {
     this._clear()
     this._map.headerManager.closeButtonClick()
+    this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
   }
   private _reverseButtonClick (e: JQueryEventObject): void {
     let oldFrom = null
@@ -209,6 +210,7 @@ export class DirectionBar extends DefaultControl {
   }
   
   private _fromFocus (e: JQueryEventObject): void {
+    this._container.find('#mwz-mapwize-search-from').select()
     this._fromKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }
@@ -233,6 +235,7 @@ export class DirectionBar extends DefaultControl {
   }
   
   private _toFocus (e: JQueryEventObject): void {
+    this._container.find('#mwz-mapwize-search-').select()
     this._toKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }

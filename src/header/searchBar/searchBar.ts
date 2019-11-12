@@ -81,6 +81,7 @@ export class SearchBar extends DefaultControl {
     }
   }
   private _directionButtonClick (e: JQueryEventObject): void {
+    this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
     this._map.headerManager.showDirection()
   }
   

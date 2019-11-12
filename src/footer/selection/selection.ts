@@ -38,6 +38,10 @@ export class FooterSelection extends DefaultControl {
     return 'bottom-left'
   }
   
+  public setFloorSelector () {
+    $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 50)
+  }
+
   public setSelected (element: any): Promise<void> {
     this.map.removeMarkers()
     
@@ -46,6 +50,7 @@ export class FooterSelection extends DefaultControl {
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
+      this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
       this.map.setPromotedPlaces([])
     }
     return Promise.resolve()
@@ -62,6 +67,7 @@ export class FooterSelection extends DefaultControl {
   }
   private _directionButtonClick (e: JQueryEventObject): void {
     e.stopPropagation()
+    this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
 
     this._map.headerManager.showDirection()
     this._map.footerManager.setSelected(null)

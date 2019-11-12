@@ -76,6 +76,7 @@ export class FooterManager {
       this._map.removeControl(this.venueFooter)
       this._map.removeControl(this.selectionFooter)
 
+      this.selectionFooter.setFloorSelector()
       this._map.addControl(this.directionFooter)
       return Promise.resolve()
     }
