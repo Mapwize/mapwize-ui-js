@@ -66,7 +66,7 @@ export class HeaderManager {
 
       const selected = this._map.getSelected()
       if (selected) {
-        this.directionBar.setTo(selected)
+        this.directionBar.setTo(selected, false)
         this._map.footerManager.setSelected(null)
       }
 
