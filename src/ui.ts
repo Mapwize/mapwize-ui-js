@@ -74,6 +74,11 @@ const constructor = (container: string|HTMLElement, options: any): any => {
   
   const containerSelector: any = isString(container) ? '#' + container : container
   $(containerSelector).addClass('mapwizeui')
+
+  if (options.direction) {
+    const venueId = options.direction.from.venueId || options.direction.to.venueId
+    options.centerOnVenueId = venueId
+  }
   
   return map(defaults(options, defaultOptions))
 }
