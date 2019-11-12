@@ -20,12 +20,6 @@ export class FooterDirections extends DefaultControl {
     return 'bottom-left'
   }
   
-  public setFloorSelector () {
-    if ($(this.map._container).hasClass('mwz-small')) {
-      $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 50)
-    }
-  }
-  
   public onAdd (map: any) {
     this._map = map
     this.isOnMap = true
@@ -45,6 +39,12 @@ export class FooterDirections extends DefaultControl {
   public refreshUnit (): void {
     if (this._map && this._map.getDirection()) {
       this.displayStats()
+    }
+  }
+
+  public setFloorSelector () {
+    if ($(this.map._container).hasClass('mwz-small')) {
+      $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 50)
     }
   }
   
