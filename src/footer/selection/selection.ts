@@ -66,7 +66,6 @@ export class FooterSelection extends DefaultControl {
     this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
 
     this._map.headerManager.showDirection()
-    this._map.footerManager.setSelected(null)
   }
   
   private _onOpenDetailsClick (e: JQueryEventObject): void {

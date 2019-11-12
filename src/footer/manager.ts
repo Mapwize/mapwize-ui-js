@@ -53,10 +53,17 @@ export class FooterManager {
   }
   public setSelected (elem: any): Promise<void> {
     this._selected = elem
-    if (this._selected && this._map.getVenue() && !this._map.headerManager.isInDirectionMode()) {
-      return this.showSelection().catch(() => null ).then(() => {
-        return this.selectionFooter.setSelected(this._selected)
-      })
+    if (this._selected && !this._map.headerManager.isInDirectionMode()) {
+      const venue = this._map.getVenue()
+      if (venue && venue._id === this._selected.venueId) {
+        return this.showSelection().catch(() => null ).then(() => {
+          return this.selectionFooter.setSelected(this._selected)
+        })
+      } else {
+        return this._map.centerOnPlace(this._selected._id).then(() => {
+          return this.selectionFooter.setSelected(this._selected)
+        })
+      }
     }
     return this.selectionFooter.setSelected(null)
   }
