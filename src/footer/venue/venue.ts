@@ -40,9 +40,11 @@ export class FooterVenue extends DefaultControl {
     return this._container.get(0)
   }
   public onRemove () {
-    this._map.off('mapwize:venuerefresh', this._onVenueRefresh)
-    this._map.off('mapwize:universewillchange', this._onUniverseWillChange)
-    this._map.off('mapwize:universechange', this._onUniverseChange)
+    if (this._map) {
+      this._map.off('mapwize:venuerefresh', this._onVenueRefresh)
+      this._map.off('mapwize:universewillchange', this._onUniverseWillChange)
+      this._map.off('mapwize:universechange', this._onUniverseChange)
+    }
 
     this._container.remove()
     this._map = undefined

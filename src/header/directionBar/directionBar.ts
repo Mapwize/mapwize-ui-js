@@ -102,25 +102,29 @@ export class DirectionBar extends DefaultControl {
     return 'top-left'
   }
   
-  public setFrom (from: any): void {
+  public setFrom (from: any, updateFocus = true): void {
     this._from = from
     
     const fromDisplay = this._getDisplay(this._from)
     this._container.find('#mwz-mapwize-search-from').val(fromDisplay)
     this._updateFieldsPlaceholder()
 
-    this._updateFieldFocus()
+    if (updateFocus) {
+      this._updateFieldFocus()
+    }
     this._displayDirection()
   }
   // public setWaypoint(index: number, waypoint: any): any {}
   // public setWaypoints(waypoints: Array<any>): any {}
-  public setTo (to: any): void {
+  public setTo (to: any, updateFocus = true): void {
     this._to = to
     
     const toDisplay = this._getDisplay(this._to)
     this._container.find('#mwz-mapwize-search-to').val(toDisplay)
     
-    this._updateFieldFocus()
+    if (updateFocus) {
+      this._updateFieldFocus()
+    }
     this._displayDirection()
   }
   
@@ -162,10 +166,10 @@ export class DirectionBar extends DefaultControl {
     if (this._to) {
       oldTo = Object.assign({}, this._to)
     }
-    this.setFrom(null) // theses two lines avoid double direction calculation
-    this.setTo(null)
+    this.setFrom(null, false) // theses two lines avoid double direction calculation
+    this.setTo(null, false)
     
-    this.setFrom(oldTo)
+    this.setFrom(oldTo, false)
     this.setTo(oldFrom)
   }
   private _modeButtonClick (e: JQueryEventObject): void {
