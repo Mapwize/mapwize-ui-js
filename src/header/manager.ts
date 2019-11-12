@@ -46,7 +46,7 @@ export class HeaderManager {
 
   public closeButtonClick (): void {
     this.showSearch()
-    this._map.footerManager.showVenue()
+    this._map.footerManager.showVenue().catch((): void => null)
   }
 
   public showSearch (): Promise<void> {

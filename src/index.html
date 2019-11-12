@@ -96,7 +96,7 @@
     }
     
     function setDirectionMode() {
-      mapwizeMap.setDirectionMode()
+      mapwizeMap.setDirectionMode().catch(() => null)
     }
     function getModes() {
       console.log(mapwizeMap.getModes())
