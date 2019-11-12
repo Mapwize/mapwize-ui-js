@@ -156,7 +156,7 @@ export class DirectionBar extends DefaultControl {
   private _closeButtonClick (e: JQueryEventObject): void {
     this._clear()
     this._map.headerManager.closeButtonClick()
-    this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+    $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
   }
   private _reverseButtonClick (e: JQueryEventObject): void {
     let oldFrom = null
