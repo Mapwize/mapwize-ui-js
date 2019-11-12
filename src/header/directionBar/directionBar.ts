@@ -235,7 +235,7 @@ export class DirectionBar extends DefaultControl {
   }
   
   private _toFocus (e: JQueryEventObject): void {
-    this._container.find('#mwz-mapwize-search-').select()
+    this._container.find('#mwz-mapwize-search-to').select()
     this._toKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }

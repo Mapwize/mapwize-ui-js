@@ -37,10 +37,6 @@ export class FooterSelection extends DefaultControl {
   public getDefaultPosition (): string {
     return 'bottom-left'
   }
-  
-  public setFloorSelector () {
-    $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 50)
-  }
 
   public setSelected (element: any): Promise<void> {
     this.map.removeMarkers()
