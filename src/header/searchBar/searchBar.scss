@@ -63,10 +63,11 @@
 
 &.mwz-small {
   #mwz-search-bar {
-    margin-left: 0;
-    margin-top: 0;
-    width: 100%;
-    
+    border-radius: 8px;
+    margin-left: 2.5%;
+    margin-top: 15px;
+    width: 95%;
+
     .btn-link:hover {
       background-color: transparent !important;
     }

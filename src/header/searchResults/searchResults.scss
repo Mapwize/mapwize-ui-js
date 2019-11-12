@@ -35,13 +35,10 @@
     margin-left: 2.5%;
     // height: 100%;
   }
-  
-  
-  &.mwz-directions {
-    #mwz-search-results {
-      margin-left: 0;
-      width: 100%;
-    }
+
+  #mwz-search-direction + #mwz-search-results {
+    margin-left: 0;
+    width: 100%;
   }
 }
 
