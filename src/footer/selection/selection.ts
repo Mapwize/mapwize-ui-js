@@ -64,7 +64,6 @@ export class FooterSelection extends DefaultControl {
     e.stopPropagation()
 
     this._map.headerManager.showDirection()
-    this._map.footerManager.setSelected(null)
   }
   
   private _onOpenDetailsClick (e: JQueryEventObject): void {

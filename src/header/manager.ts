@@ -67,6 +67,7 @@ export class HeaderManager {
       const selected = this._map.getSelected()
       if (selected) {
         this.directionBar.setTo(selected)
+        this._map.footerManager.setSelected(null)
       }
 
       this._map.addControl(this.directionBar)
