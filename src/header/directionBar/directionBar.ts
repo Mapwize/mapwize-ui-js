@@ -231,7 +231,7 @@ export class DirectionBar extends DefaultControl {
   }
   private _fromBlur (e: JQueryEventObject): void {
     this._hideSearchResultsTimeout = setTimeout(() => {
-      this.setFrom(this._from)
+      this.setFrom(this._from, !!this._from)
       if (this._map) {
         this._map.headerManager.hideSearchResults()
       }
@@ -256,7 +256,7 @@ export class DirectionBar extends DefaultControl {
   }
   private _toBlur (e: JQueryEventObject): void {
     this._hideSearchResultsTimeout = setTimeout(() => {
-      this.setTo(this._to)
+      this.setTo(this._to, !!this._to)
       if (this._map) {
         this._map.headerManager.hideSearchResults()
       }
@@ -271,9 +271,9 @@ export class DirectionBar extends DefaultControl {
   }
   
   private _clear (): void {
-    this.setFrom(null)
+    this.setFrom(null, false)
     // this.setWaypoints([])
-    this.setTo(null)
+    this.setTo(null, false)
   }
   
   private _getDisplay (o: any): string {
