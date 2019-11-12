@@ -1,3 +1,4 @@
 export * from './selection'
 export * from './venue'
-export * from './directions'
+export * from './direction'
+export * from './manager'

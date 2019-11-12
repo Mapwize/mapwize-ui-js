@@ -1,46 +1,29 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+var { mwzDescribe, mwzTest } = require('../core/utils')
 
-const testSuites = 'Set direction mode'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
+var testSuites = 'Set direction mode'
+mwzDescribe(testSuites, function () {
+  mwzTest('Must failed outside venue', function (callbackTest) {
+    MapwizeUI.map({
+      apiKey: APIKEY,
+    }).then(function (map) {
+      map.setDirectionMode().then(function () {
+        callbackTest('Direction mode must not be setted outside venue')
+      }).catch(function (e) { callbackTest(null) })
+    }).catch(function (e) { callbackTest(e) })
   })
   
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
-  
-  mwzTest(testSuites, 'Must failed outside venue', (page) => {
-    return () => {
-      MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-      }).then((map) => {
-        map.setDirectionMode()
-        if (!$('#mwz-searchDirection').is(':visible')) {
-          window.callbackTest(null)
-        } else {
-          window.callbackTest("#mwz-searchDirection must not be visible outside venue")
-        }
-      }).catch(window.callbackTest)
-    }
-  })
-
-  mwzTest(testSuites, 'Must pass inside venue', (page) => {
-    return () => {
-      MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-        centerOnVenue: '56b20714c3fa800b00d8f0b5',
-      }).then((map) => {
-        map.on('mapwize:venueenter', () => {
-          map.setDirectionMode()
-          if ($('#mwz-searchDirection').is(':visible')) {
-            window.callbackTest(null)
-          } else {
-            window.callbackTest("#mwz-searchDirection must be visible inside venue")
-          }
-        });
-      }).catch(window.callbackTest)
-    }
-  })
-  
+  // mwzTest('Must pass inside venue', function (callbackTest) {
+  //   MapwizeUI.map({
+  //     apiKey: APIKEY,
+  //     centerOnVenueId: EURATECHNOLOGIESVENUEID
+  //   }).then(function (map) {
+  //     map.on('mapwize:venueenter', function () {
+  //       map.setDirectionMode().then(function () {
+  //         callbackTest(null)
+  //       }).catch(function (e) {
+  //         callbackTest(e)
+  //       })
+  //     });
+  //   }).catch(function (e) { callbackTest(e) })
+  // })
 })

@@ -1,28 +1,17 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Hide menu'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
+mwzDescribe(testSuites, function () {
+  mwzTest('hideMenu: true', function(callbackTest) {
+    MapwizeUI.map({
+      apiKey: APIKEY,
+      hideMenu: true
+    }).then(function (map) {
+      if ($('#mwz-menu-button').length) {
+        callbackTest('#mwz-menu-button does not exist when hideMenu is set to true')
+      } else {
+        callbackTest(null)
+      }
+    }).catch(function (e) { callbackTest(e) })
   })
-
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
-
-  mwzTest(testSuites, 'hideMenu: true', (page) => {
-    return () => {
-      MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-        hideMenu: true
-      }).then((map) => {
-        if ($('#menuBar').hasClass('d-none') == true) {
-          window.callbackTest(null)
-        } else {
-          window.callbackTest("#menuBar don't have d-none css class")
-        }
-      }).catch(window.callbackTest)
-    }
-  })
-
 })

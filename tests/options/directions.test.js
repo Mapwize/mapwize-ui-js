@@ -1,34 +1,25 @@
-const { mwzTest, initBrowser, killBrowser } = require('../core/utils')
+const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'Direction option'
-describe(testSuites, () => {
-  beforeAll(() => {
-    return initBrowser(testSuites)
-  })
-  
-  afterAll(() => {
-    return killBrowser(testSuites)
-  })
-  
-  mwzTest(testSuites, 'With correct direction object', (page) => {
-    return () => {
+mwzDescribe(testSuites, function () {
+  mwzTest('With correct direction object', function (callbackTest) {
+    MapwizeUI.apiKey(APIKEY)
+    MapwizeUI.Api.getDirection({
+      from: { placeId: RECEPTIONPLACEID },
+      to: { placeId: MAPWIZEPLACEID }
+    }).then(function (direction) {
       MapwizeUI.map({
-        apiKey: '89a2695d7485fda885c96b405dcc8a25',
-        centerOnVenue: '56b20714c3fa800b00d8f0b5',
-        direction: {
-          from: '569f8d7cb4d7200b003c32a1',
-          to: '5d08d8a4efe1d20012809ee5'
-        },
-      }).then((map) => {
-        map.on('mapwize:directionstart', direction => {
-          if (direction.from.placeId === '569f8d7cb4d7200b003c32a1' && direction.to.placeId === '5d08d8a4efe1d20012809ee5') {
-            window.callbackTest(null)
+        centerOnVenueId: EURATECHNOLOGIESVENUEID,
+        direction: direction,
+      }).then(function (map) {
+        map.on('mapwize:directionstart', function (e) {
+          if (e.direction.from.placeId === RECEPTIONPLACEID && e.direction.to.placeId === MAPWIZEPLACEID) {
+            callbackTest(null)
           } else {
-            window.callbackTest("Bad direction found. Expected from 569f8d7cb4d7200b003c32a1 to 5d08d8a4efe1d20012809ee5. Found from " + direction.from.placeId + " to " +direction.to.placeId)
+            callbackTest('Bad direction found. Expected from ' + RECEPTIONPLACEID + ' to ' + MAPWIZEPLACEID + '. Found from ' + e.from.placeId + ' to ' + e.to.placeId)
           }
         })
-      }).catch(window.callbackTest)
-    }
+      }).catch(function (e) { callbackTest(e) })
+    })
   })
-  
 })

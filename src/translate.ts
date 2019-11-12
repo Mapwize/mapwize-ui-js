@@ -1,16 +1,20 @@
-import { template, join } from 'lodash'
+import { join, template } from 'lodash'
 
 const locales = require.context('./locales/', false, /\.locale\.json$/)
 
-let currentLocale: string = "en"
+let currentLocale: string = 'en'
 let currentTranslations: any = locales('./' + currentLocale + '.locale.json')
 
-const getLocales = (): Array<string> => {
-  return locales.keys().map((locale: string) => locale.replace(/\.\//g, '').replace(/\.locale\.json$/g, ''))
+const getLocales = (): string[] => {
+  return locales.keys().map((l: string) => l.replace(/\.\//g, '').replace(/\.locale\.json$/g, ''))
+}
+
+const getLocale = (): string => {
+  return currentLocale
 }
 
 const translate = (key: string, p?: any): string => {
-  var compiled = template(currentTranslations[key])
+  const compiled = template(currentTranslations[key])
   return compiled(p)
 }
 
@@ -26,4 +30,4 @@ const locale = (newLocale?: string): string => {
   return currentLocale
 }
 
-export { translate, locale, getLocales }
+export { translate, locale, getLocales, getLocale }

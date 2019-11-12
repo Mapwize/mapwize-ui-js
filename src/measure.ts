@@ -1,11 +1,16 @@
 import { join } from 'lodash'
 
-const units: Array<string> = ['m', 'ft']
+const units: string[] = ['m', 'ft']
 let currentUnit: string = 'm'
 
-const getUnits = (): Array<string> => {
+const getUnits = (): string[] => {
   return units
 }
+
+const getUnit = (): string => {
+  return currentUnit
+}
+
 const unit = (newUnit?: string): string => {
   if (newUnit) {
     if (getUnits().includes(newUnit)) {
@@ -17,4 +22,4 @@ const unit = (newUnit?: string): string => {
   return currentUnit
 }
 
-export { unit, getUnits }
+export { unit, getUnits, getUnit }

@@ -8,8 +8,8 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `1.0.9` uses Mapwize SDK version `3.4.5`
-For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/3.4.5/).
+MapwizeUI version `2.0.0` uses Mapwize SDK version `4.0.1`.
+For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/).
 
 ## Description
 
@@ -50,7 +50,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@1.0.9"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.0.0"></script>
 ```
 
 ### Manual
@@ -76,8 +76,8 @@ The `map` method return a Promise that is resolved when the map and the UI are r
 
 #### `container`
 
-The HTML element in which Mapbox GL JS will render the map, or the element's string id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`    
-The html element need to be correctly formated and need to be sized in css
+The HTML element in which Mapbox GL JS will render the map, or the element's string id . The specified element must have no children. This parameter is optionnal, default point to the id: `mapwize`.
+The html element need to be correctly formated and need to be sized in css.
 
 #### `options`
 
@@ -88,8 +88,8 @@ The following parameters are available for map initialization:
 - `container` (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
 - `centerOnVenue` (optional, string|object, default: null) to center on a venue at start. Options takes either a venueId or a venue object.
 - `centerOnPlace` (optional, string|object, default: null) to center on a place at start. Options takes either a placeId or a place object.
-- `mapboxOptions` (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
-- `mapwizeOptions` (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/3.4.2/#map-constructor)
+- `mapboxOptions` (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
+- `mapwizeOptions` (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
 - `restrictContentToVenue` (optional, string, default: null) to show only the related venue on the map. Builder takes a venue id.
 - `restrictContentToOrganization` (optional, string, default: null) to show only the venues of that organization on the map. Builder takes an organization id.
 - `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
@@ -110,10 +110,10 @@ The following parameters are available for map initialization:
 
 ##### `locale(newLocale: string): string`
 
-Change the ui locale if param `newLocale` is provided   
-Also set the map preferred language
+Change the ui locale if param `newLocale` is provided.
+Also set the map preferred language.
 
-Signature: `(newLocale: string): string`   
+Signature: `(newLocale: string): string`
 Parameters:
 - `newLocale`(optional, string, default: null) the new locale to set (need to be in `map.getLocales()` array)
 
@@ -188,7 +188,6 @@ Destroy the map and all its components
 Signature: `(): void`    
 Parameters: there is no param   
 Return: there is no return value
-
 
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 

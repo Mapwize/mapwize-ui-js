@@ -1,0 +1,18 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "quotemark": [true, "single"],
+        "semicolon": [true, "never"],
+        "no-trailing-whitespace": [true, "ignore-blank-lines", "ignore-jsdoc"],
+        "space-before-function-paren": [true, "always"],
+        "variable-name": [true, "ban-keywords"],
+        "jsdoc-format": false,
+        "max-line-length": false,
+        "no-bitwise": false
+    },
+    "rulesDirectory": []
+}

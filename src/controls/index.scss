@@ -1,0 +1,41 @@
+@import "./floorControl/floorControl";
+@import "./navigationControl/navigationControl";
+@import "./locationControl/locationControl";
+
+.mapboxgl-ctrl-top-left, .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-top-right, .mapboxgl-ctrl-bottom-right {
+  transition: top 0.5s ease-in-out, right 0.5s ease-in-out, bottom 0.5s ease-in-out, left 0.5s ease-in-out;
+}
+
+.mapboxgl-ctrl, .mapboxgl-ctrl-group {
+  > button {
+    outline: none;
+    box-shadow: none;
+    
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}
+
+&.mwz-small {
+  .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-bottom-left {
+    right: 0;
+    
+    z-index: 3;
+  }
+  
+  .mapboxgl-ctrl-top-right {
+    top: 70px !important;
+  }
+  
+  &.mwz-directions {
+    .mapboxgl-ctrl-top-right {
+      top: 150px !important;
+    }
+    
+    .mapboxgl-ctrl-bottom-right {
+      bottom: 50px !important;
+    }
+  }
+}
