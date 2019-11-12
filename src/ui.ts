@@ -33,17 +33,17 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   mapInstance.footerManager = new FooterManager(mapInstance, options)
   
   if (options.locationControl) {
-    mapInstance.locationControl = new LocationControl(mapInstance.locationControlOptions)
+    mapInstance.locationControl = new LocationControl(options.locationControlOptions)
     mapInstance.addControl(mapInstance.locationControl, isString(options.locationControl) ? options.locationControl : undefined)
   }
   
   if (options.floorControl) {
-    mapInstance.floorControl = new FloorControl(mapInstance.floorControlOptions)
+    mapInstance.floorControl = new FloorControl(set(options.floorControlOptions, 'mainColor', options.mainColor))
     mapInstance.addControl(mapInstance.floorControl, isString(options.floorControl) ? options.floorControl : undefined)
   }
   
   if (options.navigationControl) {
-    mapInstance.navigationControl = new NavigationControl(mapInstance.navigationControlOptions)
+    mapInstance.navigationControl = new NavigationControl(options.navigationControlOptions)
     mapInstance.addControl(mapInstance.navigationControl, isString(options.navigationControl) ? options.navigationControl : undefined)
   }
   

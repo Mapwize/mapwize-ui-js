@@ -372,7 +372,6 @@ export class DirectionBar extends DefaultControl {
     
     this._mode = mode
     this._container.find('#' + this._mode._id).addClass('mwz-mode-button-selected')
-    // #TODO Replace #C51586 with mainColor option
     this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(',')[1], this._options.mainColor || '#C51586'))
     
     this._ensureSelectedModeIsVisible()

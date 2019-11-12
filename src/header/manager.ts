@@ -167,7 +167,7 @@ export class HeaderManager {
   }
   private _onVenueExit (e: any): void {
     this.searchBar.leaveVenue()
-    this.showSearch()
+    this.showSearch().catch((): void => null)
   }
   private _onDirectionStart (e: any): void {
     // If direction is not started by ui, show direction header and fill from and to fields
