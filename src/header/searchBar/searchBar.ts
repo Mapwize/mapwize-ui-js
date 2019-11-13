@@ -7,6 +7,7 @@ const outOfVenueHtml = require('./templates/outOfVenue.html')
 const enteringInVenueHtml = require('./templates/enteringInVenue.html')
 const inVenueHtml = require('./templates/inVenue.html')
 
+import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
 import { getTranslation } from '../../utils'
@@ -16,43 +17,43 @@ const ENTERING_IN_VENUE = 1
 const IN_VENUE = 2
 
 export class SearchBar extends DefaultControl {
-  
+
   private _options: any
-  
+
   private _hideSearchResultsTimeout: any
   private _currentVenueState: number
-  
+
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
-    
+
     this._options = options
     this._container = $('<div />')
-    
+
     this.listen('click', '#mwz-menu-button', this._menuButtonClick.bind(this))
     this.listen('click', '#mwz-header-directions-button', this._directionButtonClick.bind(this))
-    
+
     this.listen('focus', '#mwz-mapwize-search', this._searchFocus.bind(this))
     this.listen('keyup', '#mwz-mapwize-search', this._searchKeyup.bind(this))
     this.listen('blur', '#mwz-mapwize-search', this._searchBlur.bind(this))
-    
+
     this.leaveVenue()
   }
-  
+
   public getDefaultPosition (): string {
     return 'top-left'
   }
-  
+
   public remove (): void {
     return null
   }
-  
+
   public enteringIn (venue: any): void {
     this._currentVenueState = ENTERING_IN_VENUE
-    this._container.html(template(enteringInVenueHtml)({ hide_menu: this._options.hideMenu, entering_in: translate('entering_in_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title')}) }))
+    this._container.html(template(enteringInVenueHtml)({ hide_menu: this._options.hideMenu, entering_in: translate('entering_in_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
   }
   public enteredIn (venue: any): void {
     this._currentVenueState = IN_VENUE
-    this._container.html(template(inVenueHtml)({ hide_menu: this._options.hideMenu, search_in: translate('search_placeholder_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title')}) }))
+    this._container.html(template(inVenueHtml)({ hide_menu: this._options.hideMenu, search_in: translate('search_placeholder_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
   }
   public leaveVenue (): void {
     this._currentVenueState = OUT_OF_VENUE
@@ -74,7 +75,7 @@ export class SearchBar extends DefaultControl {
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------
-  
+
   private _menuButtonClick (e: JQueryEventObject): void {
     if (isFunction(this._options.onMenuButtonClick)) {
       this._options.onMenuButtonClick(e)
@@ -84,7 +85,7 @@ export class SearchBar extends DefaultControl {
     $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
     this._map.headerManager.showDirection()
   }
-  
+
   private _searchFocus (e: JQueryEventObject): void {
     if (this._map.getVenue()) {
       this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
@@ -92,15 +93,23 @@ export class SearchBar extends DefaultControl {
     clearTimeout(this._hideSearchResultsTimeout)
   }
   private _searchKeyup (e: JQueryEventObject): void {
-    const target = $(e.target)
-    const searchString: string = target.val().toString()
-    
-    if (searchString) {
-      this._map.headerManager.search(searchString, searchOptions(this._map, this._map.getVenue(), 'search'), this._clickOnSearchResult.bind(this))
-    } else if (this._map.getVenue()) {
-      this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
+    if (e.keyCode === UPARROW) {
+      this._map.headerManager.upArrow()
+    } else if (e.keyCode === DOWNARROW) {
+      this._map.headerManager.downArrow()
+    } else if (e.keyCode === ENTER) {
+      this._map.headerManager.enterKeyup()
     } else {
-      this._map.headerManager.hideSearchResults()
+      const target = $(e.target)
+      const searchString: string = target.val().toString()
+
+      if (searchString) {
+        this._map.headerManager.search(searchString, searchOptions(this._map, this._map.getVenue(), 'search'), this._clickOnSearchResult.bind(this))
+      } else if (this._map.getVenue()) {
+        this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
+      } else {
+        this._map.headerManager.hideSearchResults()
+      }
     }
   }
   private _searchBlur (e: JQueryEventObject): void {
@@ -109,7 +118,7 @@ export class SearchBar extends DefaultControl {
       this._map.headerManager.hideSearchResults()
     }, 500)
   }
-  
+
   private _clickOnSearchResult (searchResult: any, universe?: any): void {
     if (this._map.getVenue()) {
       this._map.footerManager.setSelected(searchResult)
@@ -123,7 +132,7 @@ export class SearchBar extends DefaultControl {
       if (universe && venue) {
         this.map.setUniverseForVenue(universe._id, venue)
       }
-      
+
       if (searchResult.objectClass === 'venue') {
         return this.map.centerOnVenue(searchResult._id)
       } else if (searchResult.objectClass === 'place') {

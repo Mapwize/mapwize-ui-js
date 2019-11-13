@@ -5,6 +5,7 @@ import { Api } from 'mapwize'
 const directionsHtml = require('./directionBar.html')
 
 import { icons } from '../../config'
+import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
 import { translate } from '../../translate'
@@ -221,11 +222,19 @@ export class DirectionBar extends DefaultControl {
     const target = $(e.target)
     const searchString: string = target.val().toString()
 
-    if (searchString) {
-      const options = searchOptions(this._map, this._map.getVenue(), 'from')
-      this._map.headerManager.search(searchString, options, this._clickOnFromResult.bind(this), 'from')
+    if (e.keyCode === UPARROW) {
+      this._map.headerManager.upArrow()
+    } else if (e.keyCode === DOWNARROW) {
+      this._map.headerManager.downArrow()
+    } else if (e.keyCode === ENTER) {
+      this._map.headerManager.enterKeyup()
     } else {
-      this._map.headerManager.showSearchResults('mainFroms', this._clickOnFromResult.bind(this), 'from')
+      if (searchString) {
+        const options = searchOptions(this._map, this._map.getVenue(), 'from')
+        this._map.headerManager.search(searchString, options, this._clickOnFromResult.bind(this), 'from')
+      } else {
+        this._map.headerManager.showSearchResults('mainFroms', this._clickOnFromResult.bind(this), 'from')
+      }
     }
   }
   private _fromBlur (e: JQueryEventObject): void {
@@ -244,11 +253,19 @@ export class DirectionBar extends DefaultControl {
     const target = $(e.target)
     const searchString: string = target.val().toString()
 
-    if (searchString) {
-      const options = searchOptions(this._map, this._map.getVenue(), 'to')
-      this._map.headerManager.search(searchString, options, this._clickOnToResult.bind(this), 'to')
+    if (e.keyCode === UPARROW) {
+      this._map.headerManager.upArrow()
+    } else if (e.keyCode === DOWNARROW) {
+      this._map.headerManager.downArrow()
+    } else if (e.keyCode === ENTER) {
+      this._map.headerManager.enterKeyup()
     } else {
-      this._map.headerManager.showSearchResults('mainSearches', this._clickOnToResult.bind(this), 'to')
+      if (searchString) {
+        const options = searchOptions(this._map, this._map.getVenue(), 'to')
+        this._map.headerManager.search(searchString, options, this._clickOnToResult.bind(this), 'to')
+      } else {
+        this._map.headerManager.showSearchResults('mainSearches', this._clickOnToResult.bind(this), 'to')
+      }
     }
   }
   private _toBlur (e: JQueryEventObject): void {
