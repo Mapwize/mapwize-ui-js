@@ -8,9 +8,11 @@ node_js:
 script:
 - npm run build
 # - npm test
-# - npm run docs
-# - zip -r jsdoc.zip docs
+- npm run docs
+- zip -r jsdoc.zip docs
 
+before_deploy:
+  - cd dist
 deploy:
   - provider: npm
     email: support@mapwize.io
@@ -19,12 +21,14 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-  # - provider: releases
-  #   api_key: "${GITHUB_TOKEN}"
-  #   file: "jsdoc.zip"
-  #   skip_cleanup: true
-  #   on:
-  #     tags: true
+  - provider: releases
+    api_key: "${GITHUB_TOKEN}"
+    file: "../jsdoc.zip"
+    skip_cleanup: true
+    on:
+      tags: true
+after_deploy:
+  - cd ..
 
 env:
   global:
