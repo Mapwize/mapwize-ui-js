@@ -81,17 +81,17 @@ export class HeaderManager {
     return this._map.hasControl(this.directionBar)
   }
 
-  public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void): void {
+  public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
     this.searchResults.showLoading()
     const transformedSearchQuery = this._options.onSearchQueryWillBeSent(searchString, searchOptions)
     search(transformedSearchQuery.searchString, transformedSearchQuery.searchOptions).then((searchResults: any) => {
       this.searchResults.hideLoading()
-      this.showSearchResults(this._options.onSearchResultWillBeDisplayed(searchResults), clickOnResultCallback)
+      this.showSearchResults(this._options.onSearchResultWillBeDisplayed(searchResults), clickOnResultCallback, focusedField)
     })
   }
 
-  public showSearchResults (results: string | any[], clickOnResultCallback: (searchResult: any, universe?: any) => void): void {
-    this.searchResults.setResults(results, clickOnResultCallback)
+  public showSearchResults (results: string | any[], clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
+    this.searchResults.setResults(results, clickOnResultCallback, focusedField)
     if (!this._map.hasControl(this.searchResults)) {
       this._map.addControl(this.searchResults)
     }

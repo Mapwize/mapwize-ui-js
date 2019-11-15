@@ -2,15 +2,11 @@
   "search_placeholder_global": "Rechercher un lieu...",
   "search_placeholder_venue": "Rechercher dans <%= venue %>...",
   "entering_in_venue": "Chargement de <%= venue %>...",
-
-  "choose_starting_or_click_point":"Choisissez le point de départ ou cliquez sur la carte...",
-  "choose_destination_or_click_point":"Choisissez une destination ou cliquez sur la carte...",
-  "choose_destination":"Choisissez une destination...",
-
+  "choose_starting_or_click_point": "Choisissez le point de départ ou cliquez sur la carte...",
+  "choose_destination_or_click_point": "Choisissez une destination ou cliquez sur la carte...",
+  "choose_destination": "Choisissez une destination...",
   "on_floor": "À l'étage <%= floor %>",
-
   "coordinates": "Coordonnées",
-
+  "location": "Position actuelle",
   "empty_title": "Titre vide"
-
 }
