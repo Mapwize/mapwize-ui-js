@@ -22,7 +22,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       map.on('mapwize:venueenter', function () {
-        setTimeout(() => {
+        setTimeout(function () {
           $('#mwz-footer-selection').click();
         }, 100);
       })
