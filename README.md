@@ -1,6 +1,4 @@
-![Travis (.org)](https://img.shields.io/travis/mapwize/mapwize-ui-js/master?style=flat-square)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mapwize/mapwize-ui-js?style=flat-square)
-![npm](https://img.shields.io/npm/v/mapwize-ui?style=flat-square)
+![Travis (.org)](https://img.shields.io/travis/mapwize/mapwize-ui-js/master) ![BrowserStack](https://automate.browserstack.com/badge.svg?badge_key=bHVja3V5V3JCY05ER0MzUFRucE1GTXJKQ3MzVU8wbTkvcnRYYlVNSGdFST0tLW1ZT3JwNGY1ZEpBS21vQjFpeWpjaVE9PQ==--7ccca5e09ae56f691a608c6018343e99e2e266aa%) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mapwize/mapwize-ui-js) ![npm](https://img.shields.io/npm/v/mapwize-ui)
 
 # Mapwize UI
 

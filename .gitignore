@@ -48,3 +48,6 @@ Thumbs.db
 tests/report
 browserstack.err
 local.log
+.gitsecret/keys/random_seed
+!*.secret
+browserstack-credentials.json
