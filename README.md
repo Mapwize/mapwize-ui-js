@@ -27,10 +27,10 @@ The Mapwize UI widget comes with the following components:
 The SDK is tested against the following browsers:
 
 - Chrome 42+
-- Firefox 40+
+- Firefox 60+
 - Safari 10.1+
 - iOS Safari 10.3+
-- Edge 16+
+- Edge 18+
 - IE 11
 
 ## Installation
