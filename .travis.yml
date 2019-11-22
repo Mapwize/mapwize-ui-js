@@ -6,7 +6,7 @@ addons:
 script:
 - npm run build || travis_terminate 1;
 - |
-  if [ $TRAVIS_BRANCH == "master" ] || [ $TRAVIS_BRANCH == "develop" ]; then
+  if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
     npm run test-browserstack || travis_terminate 1;
   else
     npm run test || travis_terminate 1;
