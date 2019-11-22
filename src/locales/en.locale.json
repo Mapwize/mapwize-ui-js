@@ -7,6 +7,7 @@
   "choose_destination": "Choose destination...",
   "on_floor": "On floor <%= floor %>",
   "coordinates": "Coordinates",
-  "location": "Current location",
+  "current_location": "Current location",
+  "use_current_location": "Use my current location",
   "empty_title": "Empty title"
 }

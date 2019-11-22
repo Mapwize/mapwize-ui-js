@@ -1,4 +1,4 @@
-import { set } from 'lodash'
+import { isFinite, set } from 'lodash'
 
 import { search } from '../search'
 import { getPlace } from '../utils'
@@ -68,6 +68,11 @@ export class HeaderManager {
       if (selected) {
         this.directionBar.setTo(selected, false)
         this._map.footerManager.setSelected(null)
+      }
+
+      const userLocation = this._map.getUserLocation()
+      if (userLocation && isFinite(userLocation.floor)) {
+        this.directionBar.setFrom({ objectClass: 'userLocation' }, false)
       }
 
       this._map.addControl(this.directionBar)

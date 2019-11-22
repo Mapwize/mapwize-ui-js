@@ -144,9 +144,8 @@ export class DirectionBar extends DefaultControl {
     if (this._map) {
       this._container.find('#mwz-mapwize-search-from').val(this._getDisplay(this._from))
       this._container.find('#mwz-mapwize-search-to').val(this._getDisplay(this._to))
-
-      this._updateFieldsPlaceholder()
     }
+    this._updateFieldsPlaceholder()
   }
 
   // ---------------------------------------
@@ -282,7 +281,7 @@ export class DirectionBar extends DefaultControl {
           return translate('empty_title')
         }
       } else if (o.objectClass === 'userLocation') {
-        return translate('location')
+        return translate('current_location')
       } else {
         return translate('coordinates')
       }

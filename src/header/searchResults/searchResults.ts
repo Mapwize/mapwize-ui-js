@@ -72,7 +72,7 @@ export class SearchResults extends DefaultControl {
   private _showUserLocationButtonIfPossible (focusedField: string, clickOnResultCallback: (searchResult: any, universe?: any) => void) {
     const userLocation = this.map.getUserLocation()
     if (focusedField === 'from' && userLocation && isFinite(userLocation.floor)) {
-      this._container.find('#mwz-use-user-location').show()
+      this._container.find('#mwz-use-user-location').show().find('button').text(translate('use_current_location'))
       this.userLocationCallback = clickOnResultCallback
     } else {
       this._container.find('#mwz-use-user-location').hide()
