@@ -1,5 +1,12 @@
 # Mapwize UI Changelog
 
+## 2.1.0
+
+- Upgrade mapwize js sdk to 4.1.0
+- Upgrade dependencies
+- Feat: Ability to choose search result with keyboard
+- Feat: Ability to use user location for directions
+
 ## 2.0.0
 
 - Upgrade mapwize js sdk to 4.0.1
