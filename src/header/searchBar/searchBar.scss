@@ -25,13 +25,29 @@
       border: none;
       border-radius: unset;
       line-height: inherit;
-      
-      &:hover {
-        background-color: #efefef;
-      }
     }
   }
-  
+  .mwz-directions-tooltip, .mwz-menu-tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    position: absolute;
+    padding: 0px 5px 0px 5px;
+    z-index: 1;
+  }
+
+  .mwz-directions:hover .mwz-directions-tooltip, .mwz-menu:hover .mwz-menu-tooltip {
+    visibility: visible;
+  }
+  .mwz-directions-tooltip {
+    margin: 50px 0px 0px -60px;
+  }
+  .mwz-menu-tooltip {
+    margin: 50px 0px 0px -45px;
+  }
+
   .mwz-search {
     input {
       border-top: none;
@@ -71,5 +87,8 @@
     .btn-link:hover {
       background-color: transparent !important;
     }
+    .mwz-directions:hover .mwz-directions-tooltip, .mwz-menu:hover .mwz-menu-tooltip {
+      visibility: hidden;
+      }
   }
 }
