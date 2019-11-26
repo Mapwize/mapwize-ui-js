@@ -108,14 +108,14 @@ export class SearchResults extends DefaultControl {
 
   public setScroll () {
     const searchResultContainer = this._container.find('#mwz-search-results-container li')
-    let itemPiexl = ITEMPIXEL
+    let itemPixel = ITEMPIXEL
 
     if (searchResultContainer.length > 0) {
-      itemPiexl = itemPiexl + 10
+      itemPixel = itemPixel + 10
     }
 
-    const scrollPiexl = ((ITEMSTOSCROLL - 1) * itemPiexl) * Math.floor(itemSelected / ITEMSTOSCROLL)
-    $(this.map._container).find('#mwz-search-results').animate({ scrollTop: scrollPiexl }, 250)
+    const scrollPixel = ((ITEMSTOSCROLL - 1) * itemPixel) * Math.floor(itemSelected / ITEMSTOSCROLL)
+    $(this.map._container).find('#mwz-search-results').animate({ scrollTop: scrollPixel }, 250)
   }
 
   // ---------------------------------------
