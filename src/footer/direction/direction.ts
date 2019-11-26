@@ -1,12 +1,14 @@
 import * as $ from 'jquery'
+import { get } from 'lodash'
 
 const directionsHtml = require('./direction.html')
 
+import { icons } from '../../config'
 import { DefaultControl } from '../../control'
 import { unit } from '../../measure'
 
 export class FooterDirections extends DefaultControl {
-  
+
   constructor (mapInstance: any) {
     super(mapInstance)
 
@@ -19,23 +21,26 @@ export class FooterDirections extends DefaultControl {
   public getDefaultPosition (): string {
     return 'bottom-left'
   }
-  
+
   public onAdd (map: any) {
     this._map = map
     this.isOnMap = true
-    
+
     this.displayStats()
-    
+
     return this._container.get(0)
   }
-  
+
   public displayStats () {
     const direction = this._map.getDirection()
-    
+    const mode = this._map.getMode()
+    const icon = get(icons, mode.type)
+
+    this._container.find('.mwz-distance img').attr('src', icon)
     this._container.find('#mwz-direction-time').text(this._timeParser(direction.traveltime))
     this._container.find('#mwz-direction-distance').text(this._distanceParser(direction.distance, unit()))
   }
-  
+
   public refreshUnit (): void {
     if (this._map && this._map.getDirection()) {
       this.displayStats()
@@ -47,11 +52,11 @@ export class FooterDirections extends DefaultControl {
       $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 50)
     }
   }
-  
+
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------
-  
+
   private _timeParser (value: number): string {
     value = Math.round(value)
     if (value > 59) {

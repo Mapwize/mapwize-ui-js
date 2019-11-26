@@ -56,7 +56,7 @@ export class FooterManager {
     if (this._selected && !this._map.headerManager.isInDirectionMode()) {
       const venue = this._map.getVenue()
       if (venue && venue._id === this._selected.venueId) {
-        return this.showSelection().catch(() => null ).then(() => {
+        return this.showSelection().catch(() => null).then(() => {
           return this.selectionFooter.setSelected(this._selected)
         })
       } else {
@@ -79,12 +79,16 @@ export class FooterManager {
   }
 
   public showDirection (): Promise<void> {
-    if (this._map.getDirection() && !this._map.hasControl(this.directionFooter)) {
-      this._map.removeControl(this.venueFooter)
-      this._map.removeControl(this.selectionFooter)
+    if (this._map.getDirection()) {
+      if (!this._map.hasControl(this.directionFooter)) {
+        this._map.removeControl(this.venueFooter)
+        this._map.removeControl(this.selectionFooter)
 
-      this.directionFooter.setFloorSelector()
-      this._map.addControl(this.directionFooter)
+        this.directionFooter.setFloorSelector()
+        this._map.addControl(this.directionFooter)
+      } else {
+        this.directionFooter.displayStats()
+      }
       return Promise.resolve()
     }
     return Promise.reject()

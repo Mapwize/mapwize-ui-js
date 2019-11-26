@@ -26,37 +26,37 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   mapInstance.on('resize', () => {
     mapSizeChange(mapInstance)
   })
-  
+
   mapInstance.uiOptions = options
-  
+
   mapInstance.headerManager = new HeaderManager(mapInstance, options)
   mapInstance.footerManager = new FooterManager(mapInstance, options)
-  
+
   if (options.locationControl) {
     mapInstance.locationControl = new LocationControl(options.locationControlOptions)
     mapInstance.addControl(mapInstance.locationControl, isString(options.locationControl) ? options.locationControl : undefined)
   }
-  
+
   if (options.floorControl) {
     mapInstance.floorControl = new FloorControl(set(options.floorControlOptions, 'mainColor', options.mainColor))
     mapInstance.addControl(mapInstance.floorControl, isString(options.floorControl) ? options.floorControl : undefined)
   }
-  
+
   if (options.navigationControl) {
     mapInstance.navigationControl = new NavigationControl(options.navigationControlOptions)
     mapInstance.addControl(mapInstance.navigationControl, isString(options.navigationControl) ? options.navigationControl : undefined)
   }
-  
+
   attachMethods(mapInstance)
-  
+
   mapInstance.headerManager.showSearch()
-  
+
   if (options.centerOnPlaceId) {
     mapInstance.setSelected(options.centerOnPlaceId)
   } else if (options.direction) {
     mapInstance.headerManager.displayDirection(options.direction)
   }
-  
+
   return mapInstance
 }
 
@@ -67,11 +67,11 @@ const buildUIComponent = (mapInstance: any, options: any) => {
 *      It can be created using the global `map` method.
 * @hideconstructor
 */
-const constructor = (container: string|HTMLElement, options: any): any => {
+const constructor = (container: string | HTMLElement, options: any): any => {
   const defaultOptions: any = {
     container,
   }
-  
+
   const containerSelector: any = isString(container) ? '#' + container : container
   $(containerSelector).addClass('mapwizeui')
 
@@ -79,7 +79,7 @@ const constructor = (container: string|HTMLElement, options: any): any => {
     const venueId = options.direction.from.venueId || options.direction.to.venueId
     options.centerOnVenueId = venueId
   }
-  
+
   return map(defaults(options, defaultOptions))
 }
 
@@ -112,7 +112,7 @@ const constructor = (container: string|HTMLElement, options: any): any => {
 *           MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
 *      </script>
 */
-const createMap = (container: string|HTMLElement, options?: any) => {
+const createMap = (container: string | HTMLElement, options?: any) => {
   if (isString(container) && !options) {
     options = { apiKey: container }
     container = 'mapwize'
@@ -120,7 +120,7 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     options = container
     container = options.container || 'mapwize'
   }
-  
+
   options = defaults(options, {
     apiKey: null,
     apiUrl: null,
@@ -131,7 +131,7 @@ const createMap = (container: string|HTMLElement, options?: any) => {
     floorControlOptions: {},
 
     hideMenu: false,
-    
+
     locale: 'en',
 
     locationControl: true,
@@ -153,22 +153,22 @@ const createMap = (container: string|HTMLElement, options?: any) => {
 
     unit: 'm',
   })
-  
+
   if (!apiKey(options.apiKey)) {
     return Promise.reject(new Error('Missing "apiKey" in options'))
   }
-  
+
   set(options, 'mapwizeAttribution', get(options, 'mapwizeAttribution', 'bottom-right'))
-  
+
   locale(options.locale)
-  set(options, 'preferredLanguage', options.locale)
-  
+  set(options, 'preferredLanguage', options.preferredLanguage || options.locale)
+
   unit(options.unit)
-  
+
   if (options.apiUrl) {
     apiUrl(options.apiUrl)
   }
-  
+
   return constructor(container, options).then((mapInstance: any) => buildUIComponent(mapInstance, options))
 }
 

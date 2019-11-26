@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, indexOf, isArray, isFinite, template } from 'lodash'
+import { compact, filter, forEach, get, indexOf, isArray, isFinite, set, template } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -12,21 +12,25 @@ import { translate } from '../../translate'
 import { getIcon, getMainFroms, getMainSearches, getTranslation } from '../../utils'
 
 export class SearchResults extends DefaultControl {
-  
+
+  private userLocationCallback: (searchResult: any, universe?: any) => void
+
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
-    
+
     this._container = $(resultsHtml)
+
+    this.listen('click', '#mwz-use-user-location', this._clickOnUserLocation.bind(this))
   }
   public remove (): void {
     return null
   }
-  
+
   public getDefaultPosition (): string {
     return 'top-left'
   }
-  
-  public setResults (results: string|any[], clickOnResultCallback: (searchResult: any, universe?: any) => void) {
+
+  public setResults (results: string | any[], clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string) {
     if (results === 'mainSearches') {
       this._showMainSearchIfAny(clickOnResultCallback)
     } else if (results === 'mainFroms') {
@@ -38,8 +42,10 @@ export class SearchResults extends DefaultControl {
         }
       })
     }
+
+    this._showUserLocationButtonIfPossible(focusedField, clickOnResultCallback)
   }
-  
+
   public showLoading () {
     this._container.find('#mwz-search-loading').show()
   }
@@ -52,19 +58,36 @@ export class SearchResults extends DefaultControl {
       // need to refresh 'on floor' string in search results
     }
   }
-  
+
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------
-  
+
+  private _clickOnUserLocation () {
+    if (this.userLocationCallback) {
+      this.userLocationCallback({ objectClass: 'userLocation' })
+    }
+  }
+
+  private _showUserLocationButtonIfPossible (focusedField: string, clickOnResultCallback: (searchResult: any, universe?: any) => void) {
+    const userLocation = this.map.getUserLocation()
+    if (focusedField === 'from' && userLocation && isFinite(userLocation.floor)) {
+      this._container.find('#mwz-use-user-location').show().find('button').text(translate('use_current_location'))
+      this.userLocationCallback = clickOnResultCallback
+    } else {
+      this._container.find('#mwz-use-user-location').hide()
+      this.userLocationCallback = null
+    }
+  }
+
   private _showMainSearchIfAny (onClick: (searchResult: any, universe?: any) => void) {
     const venue = this.map.getVenue()
     const resultContainer = this._container.find('#mwz-search-results-container')
     resultContainer.html('')
-    
+
     if (venue.mainSearches.length) {
       this.showLoading()
-      
+
       getMainSearches(venue.mainSearches).then((mainSearches: any[]) => {
         resultContainer.html('')
         forEach(compact(mainSearches), (mainSearch: any) => {
@@ -78,10 +101,10 @@ export class SearchResults extends DefaultControl {
     const venue = this.map.getVenue()
     const resultContainer = this._container.find('#mwz-search-results-container')
     resultContainer.html('')
-    
+
     if (venue.mainFroms.length) {
       this.showLoading()
-      
+
       getMainFroms(venue.mainFroms).then((mainFroms: any[]) => {
         resultContainer.html('')
         forEach(compact(mainFroms), (mainFrom: any) => {
@@ -95,11 +118,11 @@ export class SearchResults extends DefaultControl {
     const venue = this.map.getVenue()
     const lang = this.map.getLanguage() || this.map.getPreferredLanguage()
     const resultContainer = this._container.find('#mwz-search-results-container')
-    
+
     let [query, mapwize] = results
-    
+
     resultContainer.html('')
-    
+
     if (venue && mapwize.length) {
       mapwize = this._resultsByUniverse(mapwize)
       const currentUniverse = this.map.getUniverse()
@@ -122,7 +145,7 @@ export class SearchResults extends DefaultControl {
       })
     }
   }
-  
+
   private _mapwizeObjectResults (mwzObject: any, onClick: (clickedResult: any) => void) {
     const lang = this.map.getLanguage() || this.map.getPreferredLanguage()
     const options = {
@@ -154,7 +177,7 @@ export class SearchResults extends DefaultControl {
       const resultInUniverse = filter(mwzResults, (result) => {
         return indexOf(result.universes, universe._id) !== -1
       })
-      
+
       if (resultInUniverse.length) {
         resultsByUniverse.push({
           results: resultInUniverse,

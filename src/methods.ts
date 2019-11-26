@@ -15,13 +15,6 @@ const attachMethods = (mapInstance: any) => {
   }
   mapInstance.on('mapwize:click', onMapClick)
 
-  const onDirectionStart = (e: any): void => {
-    // mapInstance.searchDirections.show()
-    // mapInstance.searchDirections.setFrom(from)
-    // mapInstance.searchDirections.setTo(to)
-  }
-  mapInstance.on('mapwize:directionstart', onDirectionStart)
-
   mapInstance.hasControl = (control: DefaultControl): boolean => {
     return control.isOnMap
   }
@@ -46,7 +39,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setSearchMode = (): Promise<void> => {
     return mapInstance.headerManager.showSearch()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -75,7 +68,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getFrom = (): any => {
     return mapInstance.headerManager.getFrom()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -102,7 +95,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getTo = (): any => {
     return mapInstance.headerManager.getTo()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -122,7 +115,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.setMode = (modeId: string): void => {
     return mapInstance.headerManager.setMode(modeId)
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -148,7 +141,7 @@ const attachMethods = (mapInstance: any) => {
     }
     return mapInstance.footerManager.setSelected(mwzElement)
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -158,7 +151,7 @@ const attachMethods = (mapInstance: any) => {
   */
   mapInstance.setLocale = (newLocale: string): void => {
     const currentLocal = locale(newLocale)
-    
+
     mapInstance.setPreferredLanguage(currentLocal)
     mapInstance.headerManager.refreshLocale()
     // mapInstance.footerManager.refreshLocale()
@@ -183,7 +176,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getLocales = (): string[] => {
     return getLocales()
   }
-  
+
   /**
   * @instance
   * @memberof Map
@@ -215,7 +208,7 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.getUnits = (): string[] => {
     return getUnits()
   }
-  
+
   const mapRemoveSave = mapInstance.remove.bind(mapInstance)
   /**
   * @instance
@@ -226,11 +219,11 @@ const attachMethods = (mapInstance: any) => {
   mapInstance.remove = (): void => {
     mapInstance.headerManager.remove()
     mapInstance.footerManager.remove()
-    
+
     mapInstance.off('mapwize:click', onMapClick)
     mapInstance.off('mapwize:directionstart', onDirectionStart)
     $(mapInstance.getContainer()).removeClass('mapwizeui')
-    
+
     mapRemoveSave()
   }
 }

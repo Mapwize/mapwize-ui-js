@@ -15,49 +15,49 @@ const templateButtonMode = template(require('./templates/button-mode.html'))
 const modeButtonWidth = 64
 
 export class DirectionBar extends DefaultControl {
-  
+
   private _hideSearchResultsTimeout: any
-  
+
   private _from: any
   // private _waypoints: Array<any>
   private _to: any
   private _modes: any
   private _mode: any
-  
+
   private _options: any
-  
+
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
-   
+
     this._options = options
-    
+
     this._container = $(directionsHtml)
     this._from = null
     // this._waypoints = []
     this._to = null
     this._options = options
-    
+
     this.listen('click', '#mwz-close-button', this._closeButtonClick.bind(this))
     this.listen('click', '#mwz-reverse-button', this._reverseButtonClick.bind(this))
-    
+
     this.listen('click', '.mwz-mode-button', this._modeButtonClick.bind(this))
     this.listen('click', '.mwz-next-mode', this._nextModesClick.bind(this))
     this.listen('click', '.mwz-previous-mode', this._previousModesClick.bind(this))
-    
+
     this.listen('focus', '#mwz-mapwize-search-from', this._fromFocus.bind(this))
     this.listen('keyup', '#mwz-mapwize-search-from', this._fromKeyup.bind(this))
     this.listen('blur', '#mwz-mapwize-search-from', this._fromBlur.bind(this))
-    
+
     this.listen('focus', '#mwz-mapwize-search-to', this._toFocus.bind(this))
     this.listen('keyup', '#mwz-mapwize-search-to', this._toKeyup.bind(this))
     this.listen('blur', '#mwz-mapwize-search-to', this._toBlur.bind(this))
-    
+
     if (this._options.mainColor) {
       const rgbColor = hexToRgb(this._options.mainColor)
       const sheet = document.createElement('style')
       let styleHtml = ''
       styleHtml += '.mwz-mode-button-selected {background-color: rgba(' + rgbColor.r + ', ' + rgbColor.g + ', ' + rgbColor.b + ', 0.1) !important;}'
-      
+
       sheet.innerHTML = styleHtml
       document.body.appendChild(sheet)
     }
@@ -65,24 +65,24 @@ export class DirectionBar extends DefaultControl {
     this._onModesChanges = this._onModesChanges.bind(this)
     this._onClick = this._onClick.bind(this)
   }
-  
+
   public onAdd (mapInstance: any) {
     this._map = mapInstance
     this.isOnMap = true
-    
+
     this._map.on('mapwize:modeschange', this._onModesChanges)
     this._map.on('mapwize:click', this._onClick)
-    
+
     this._setAvailablesModes(this._map.getModes())
     this._displayDirection()
 
     setTimeout(() => {
       this._updateFieldFocus()
     }, 100)
-    
+
     return this._container.get(0)
   }
-  
+
   public onRemove () {
     if (this._map) {
       this._map.off('mapwize:modeschange', this._onModesChanges)
@@ -93,18 +93,18 @@ export class DirectionBar extends DefaultControl {
     this._map = undefined
     this.isOnMap = false
   }
-  
+
   public remove (): void {
     return null
   }
-  
+
   public getDefaultPosition (): string {
     return 'top-left'
   }
-  
+
   public setFrom (from: any, updateFocus = true): void {
     this._from = from
-    
+
     const fromDisplay = this._getDisplay(this._from)
     this._container.find('#mwz-mapwize-search-from').val(fromDisplay)
     this._updateFieldsPlaceholder()
@@ -118,16 +118,16 @@ export class DirectionBar extends DefaultControl {
   // public setWaypoints(waypoints: Array<any>): any {}
   public setTo (to: any, updateFocus = true): void {
     this._to = to
-    
+
     const toDisplay = this._getDisplay(this._to)
     this._container.find('#mwz-mapwize-search-to').val(toDisplay)
-    
+
     if (updateFocus) {
       this._updateFieldFocus()
     }
     this._displayDirection()
   }
-  
+
   public getMode (): any {
     return this._mode
   }
@@ -144,15 +144,14 @@ export class DirectionBar extends DefaultControl {
     if (this._map) {
       this._container.find('#mwz-mapwize-search-from').val(this._getDisplay(this._from))
       this._container.find('#mwz-mapwize-search-to').val(this._getDisplay(this._to))
-      
-      this._updateFieldsPlaceholder()
     }
+    this._updateFieldsPlaceholder()
   }
-  
+
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------
-  
+
   private _closeButtonClick (e: JQueryEventObject): void {
     this._clear()
     this._map.headerManager.closeButtonClick()
@@ -169,7 +168,7 @@ export class DirectionBar extends DefaultControl {
     }
     this.setFrom(null, false) // theses two lines avoid double direction calculation
     this.setTo(null, false)
-    
+
     this.setFrom(oldTo, false)
     this.setTo(oldFrom)
   }
@@ -212,7 +211,7 @@ export class DirectionBar extends DefaultControl {
       }
     }
   }
-  
+
   private _fromFocus (e: JQueryEventObject): void {
     this._container.find('#mwz-mapwize-search-from').select()
     this._fromKeyup(e)
@@ -221,23 +220,21 @@ export class DirectionBar extends DefaultControl {
   private _fromKeyup (e: JQueryEventObject): void {
     const target = $(e.target)
     const searchString: string = target.val().toString()
-    
+
     if (searchString) {
       const options = searchOptions(this._map, this._map.getVenue(), 'from')
-      this._map.headerManager.search(searchString, options, this._clickOnFromResult.bind(this))
+      this._map.headerManager.search(searchString, options, this._clickOnFromResult.bind(this), 'from')
     } else {
-      this._map.headerManager.showSearchResults('mainFroms', this._clickOnFromResult.bind(this))
+      this._map.headerManager.showSearchResults('mainFroms', this._clickOnFromResult.bind(this), 'from')
     }
   }
   private _fromBlur (e: JQueryEventObject): void {
     this._hideSearchResultsTimeout = setTimeout(() => {
       this.setFrom(this._from, !!this._from)
-      if (this._map) {
-        this._map.headerManager.hideSearchResults()
-      }
+      this.map.headerManager.hideSearchResults()
     }, 500)
   }
-  
+
   private _toFocus (e: JQueryEventObject): void {
     this._container.find('#mwz-mapwize-search-to').select()
     this._toKeyup(e)
@@ -246,36 +243,34 @@ export class DirectionBar extends DefaultControl {
   private _toKeyup (e: JQueryEventObject): void {
     const target = $(e.target)
     const searchString: string = target.val().toString()
-    
+
     if (searchString) {
       const options = searchOptions(this._map, this._map.getVenue(), 'to')
-      this._map.headerManager.search(searchString, options, this._clickOnToResult.bind(this))
+      this._map.headerManager.search(searchString, options, this._clickOnToResult.bind(this), 'to')
     } else {
-      this._map.headerManager.showSearchResults('mainSearches', this._clickOnToResult.bind(this))
+      this._map.headerManager.showSearchResults('mainSearches', this._clickOnToResult.bind(this), 'to')
     }
   }
   private _toBlur (e: JQueryEventObject): void {
     this._hideSearchResultsTimeout = setTimeout(() => {
       this.setTo(this._to, !!this._to)
-      if (this._map) {
-        this._map.headerManager.hideSearchResults()
-      }
+      this.map.headerManager.hideSearchResults()
     }, 500)
   }
-  
+
   private _clickOnFromResult (searchResult: any, universe?: any): void {
     this.setFrom(searchResult)
   }
   private _clickOnToResult (searchResult: any, universe?: any): void {
     this.setTo(searchResult)
   }
-  
+
   private _clear (): void {
     this.setFrom(null, false)
     // this.setWaypoints([])
     this.setTo(null, false)
   }
-  
+
   private _getDisplay (o: any): string {
     if (o) {
       const lang = this.map.getLanguage()
@@ -285,13 +280,15 @@ export class DirectionBar extends DefaultControl {
         } else {
           return translate('empty_title')
         }
+      } else if (o.objectClass === 'userLocation') {
+        return translate('current_location')
       } else {
         return translate('coordinates')
       }
     }
     return ''
   }
-  
+
   private _onModesChanges (e: any): void {
     this._setAvailablesModes(e.modes)
   }
@@ -310,20 +307,20 @@ export class DirectionBar extends DefaultControl {
       }
     }
   }
-  
+
   private _setAvailablesModes (modes: any) {
     this._container.find('.mwz-mode-icons').empty()
     this._modes = keyBy(map(modes, (mode: any, index: number) => set(mode, 'index', index)), '_id')
-    
+
     modes.forEach((mode: any, i: number) => {
       let selected = ''
       let icon = get(icons, mode.type)
-      
+
       if (this._mode && mode._id === this._mode._id) {
         selected = ' mwz-mode-button-selected'
         icon = replaceColorInBase64svg(icon.split(',')[1], this._options.mainColor || '#C51586')
       }
-      
+
       const button = templateButtonMode({
         icon,
         modeId: mode._id,
@@ -332,25 +329,25 @@ export class DirectionBar extends DefaultControl {
       })
       this._container.find('.mwz-mode-icons').append(button)
     })
-    
+
     if (!this._mode || !this._modes[this._mode._id]) {
       this._setSelectedMode(first(modes))
     } else {
       this._ensureSelectedModeIsVisible()
     }
-    
+
     this._updateArrowDisplayForModes(0)
   }
   private _updateArrowDisplayForModes (position: any) {
     const base64PrevouousMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
     const base64NextMode = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4='
-    
+
     let numberOfmodeToDisplay = 4
-    
+
     if ($(this.map._container).hasClass('mwz-small')) {
       numberOfmodeToDisplay = 3
     }
-    
+
     const endScroll = (this._container.find('.mwz-mode-icons button').length - numberOfmodeToDisplay) * 64
     if (this._container.find('.mwz-mode-icons button').length - numberOfmodeToDisplay <= 0) {
       this._container.find('.mwz-previous-mode').hide()
@@ -372,23 +369,23 @@ export class DirectionBar extends DefaultControl {
       this._container.find('#' + this._mode._id).removeClass('mwz-mode-button-selected')
       this._container.find('#' + this._mode._id + ' img').attr('src', get(icons, this._mode.type))
     }
-    
+
     this._mode = mode
     this._container.find('#' + this._mode._id).addClass('mwz-mode-button-selected')
     this._container.find('#' + this._mode._id + ' img').attr('src', replaceColorInBase64svg(get(icons, this._mode.type).split(',')[1], this._options.mainColor || '#C51586'))
-    
+
     this._ensureSelectedModeIsVisible()
     this._displayDirection()
   }
   private _ensureSelectedModeIsVisible () {
     const currentScroll = this._container.find('.mwz-mode-icons').scrollLeft()
     const buttonOffset = (this._mode.index - 1) * modeButtonWidth
-    
+
     let visibleZone = currentScroll + 4 * modeButtonWidth
     if ($(this.map._container).hasClass('mwz-small')) {
       visibleZone = currentScroll + 3 * modeButtonWidth
     }
-    
+
     if (!inRange(buttonOffset, currentScroll, visibleZone)) {
       this._setModeScroll(buttonOffset + modeButtonWidth)
     }
@@ -398,17 +395,17 @@ export class DirectionBar extends DefaultControl {
       this._updateArrowDisplayForModes(scrollValue)
     })
   }
-  
+
   private _displayDirection (options?: any) {
     if (this._map) {
       this._map.removeMarkers()
-    
+
       const from = this._extractQuery(this._from)
       const to = this._extractQuery(this._to)
-      
+
       if (from && to) {
         this._container.find('#mwz-alert-no-direction').hide()
-        
+
         Api.getDirection(this._options.onDirectionQueryWillBeSent({
           from,
           modeId: this._mode ? this._mode._id : null,
@@ -426,7 +423,7 @@ export class DirectionBar extends DefaultControl {
       }
     }
   }
-  
+
   private _extractQuery (o: any): any {
     if (isObject(o)) {
       const venue = this._map.getVenue()
@@ -441,13 +438,13 @@ export class DirectionBar extends DefaultControl {
         return { placeId: get(o, '_id') }
       } else if (get(o, 'objectClass') === 'placeList') {
         return { placeListId: get(o, '_id') }
-      } else if (get(o, 'objectClass') === 'userPosition') {
-        const userPosition = this.map.getUserPosition()
+      } else if (get(o, 'objectClass') === 'userLocation') {
+        const userLocation = this._map.getUserLocation()
         return {
-          floor: userPosition.floor,
-          lat: latitude(userPosition),
-          lon: longitude(userPosition),
-          venueId: userPosition.venueId || venue._id,
+          floor: userLocation.floor,
+          lat: latitude(userLocation),
+          lon: longitude(userLocation),
+          venueId: venue._id,
         }
       } else if (isFinite(latitude(o)) && isFinite(longitude(o))) {
         return {
@@ -460,7 +457,7 @@ export class DirectionBar extends DefaultControl {
     }
     return null
   }
-  
+
   private _promoteDirectionPlaces (direction: any) {
     const placesToPromote = []
     if (direction.from.placeId) {
