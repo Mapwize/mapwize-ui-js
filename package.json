@@ -46,6 +46,7 @@
     "css-loader": "3.2.0",
     "docdash": "1.1.1",
     "generate-json-webpack-plugin": "0.3.1",
+    "glob": "7.1.6",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "3.2.0",
     "http-server": "0.11.1",
