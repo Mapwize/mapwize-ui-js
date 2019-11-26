@@ -440,8 +440,6 @@ export class DirectionBar extends DefaultControl {
         return { placeListId: get(o, '_id') }
       } else if (get(o, 'objectClass') === 'userLocation') {
         const userLocation = this._map.getUserLocation()
-        console.log('userLocation', userLocation);
-
         return {
           floor: userLocation.floor,
           lat: latitude(userLocation),
