@@ -2,16 +2,16 @@
 
 import { defaults } from 'lodash'
 
-const followUserModeStates = {
+const followUserModeStates: any = {
+  heading: 'FOLLOW_USER_AND_HEADING',
+  noLocation: null,
   off: 'NONE',
   on: 'FOLLOW_USER',
-  heading: 'FOLLOW_USER_AND_HEADING',
-  noLocation: null
 }
 const defaultOptions = {
   class: { // Default classes added on elements
-    container: 'mwz-ctrl-location'
-  }
+    container: 'mwz-ctrl-location',
+  },
 }
 
 class LocationControl {
@@ -23,55 +23,55 @@ class LocationControl {
 
   constructor (options: any) {
     this._options = defaults(options, defaultOptions)
-    
+
     this._container = document.createElement('div')
     this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group ' + this._options.class.container
     this._container.style.overflow = 'auto'
-    this._container.addEventListener('contextmenu', e => e.preventDefault())
-    
+    this._container.addEventListener('contextmenu', (e: any) => e.preventDefault())
+
     this._locationButton = document.createElement('button')
     this._locationButton.className = 'mapboxgl-ctrl-icon'
     this._locationButton.addEventListener('click', this._onFollowUserModeClick.bind(this))
-    
+
     this._container.appendChild(this._locationButton)
-    
+
     this._onFollowUserModeChange({})
   }
-  
-  onAdd (map: any) {
+
+  public onAdd (map: any): HTMLElement {
     this._map = map
-    
+
     this._onFollowUserModeChange = this._onFollowUserModeChange.bind(this)
     this._map.on('mapwize:followusermodechange', this._onFollowUserModeChange)
 
     return this._container
   }
 
-  onRemove () {
+  public onRemove (): void {
     this._container.parentNode.removeChild(this._container)
-    
+
     this._map.off('mapwize:followusermodechange', this._onFollowUserModeChange)
-    
+
     this._map = undefined
   }
-  
-  getDefaultPosition () {
+
+  public getDefaultPosition (): string {
     return 'bottom-right'
   }
-  
-  _onFollowUserModeClick () {
+
+  private _onFollowUserModeClick (): void {
     if (this._map.getFollowUserMode() === followUserModeStates.on) {
       if (this._map.getUserHeading()) {
-        this._map.setFollowUserMode(followUserModeStates.heading)
+        this._map.setFollowUserMode(followUserModeStates.heading).catch((): void => null)
       } else {
-        this._map.setFollowUserMode(followUserModeStates.off)
+        this._map.setFollowUserMode(followUserModeStates.off).catch((): void => null)
       }
     } else {
-      this._map.setFollowUserMode(followUserModeStates.on)
+      this._map.setFollowUserMode(followUserModeStates.on).catch((): void => null)
     }
   }
-  
-  _onFollowUserModeChange (e: any) {
+
+  private _onFollowUserModeChange (e: any): void {
     if (e.mode === followUserModeStates.off) {
       this._locationButton.className = 'mapboxgl-ctrl-icon mwz-follow-off'
     } else if (e.mode === followUserModeStates.on) {
@@ -82,7 +82,7 @@ class LocationControl {
       this._locationButton.className = 'mapboxgl-ctrl-icon mwz-follow-null'
     }
   }
-  
+
 }
 
 export { LocationControl as default }

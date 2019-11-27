@@ -8,7 +8,7 @@ module.exports = merge(common, {
   plugins: [
     new GenerateJsonPlugin('package.json', {
       name: 'mapwize-ui',
-      version: require('./package.json').version,
+      version: require('./package.json').version + '-dev',
       description: 'Mapwize ui Javascript SDK',
       main: 'mapwizeui.js',
       author: 'Mapwize',

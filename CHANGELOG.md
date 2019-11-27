@@ -1,5 +1,14 @@
 # Mapwize UI Changelog
 
+## 2.1.0
+
+- Upgrade mapwize js sdk to 4.1.0
+- Upgrade dependencies
+- Fix: Update coordinates if click on map while searching for a direction
+- Feat: Add tooltips on search bar buttons
+- Feat: Ability to choose search result with keyboard
+- Feat: Ability to use user location for directions
+
 ## 2.0.0
 
 - Upgrade mapwize js sdk to 4.0.1
