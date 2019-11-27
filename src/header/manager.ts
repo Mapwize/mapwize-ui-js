@@ -150,6 +150,18 @@ export class HeaderManager {
     })
   }
 
+  public upArrow (): any {
+    this.searchResults.upArrow()
+  }
+
+  public downArrow (): any {
+    this.searchResults.downArrow()
+  }
+
+  public enterKeyup (): any {
+    this.searchResults.enterKeyup()
+  }
+
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------
