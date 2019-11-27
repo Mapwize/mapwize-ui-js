@@ -234,6 +234,7 @@ export class DirectionBar extends DefaultControl {
         this._map.headerManager.search(searchString, options, this._clickOnFromResult.bind(this), 'from')
       } else {
         this._map.headerManager.showSearchResults('mainFroms', this._clickOnFromResult.bind(this), 'from')
+        this.setFrom(null, false)
       }
     }
   }
@@ -265,6 +266,7 @@ export class DirectionBar extends DefaultControl {
         this._map.headerManager.search(searchString, options, this._clickOnToResult.bind(this), 'to')
       } else {
         this._map.headerManager.showSearchResults('mainSearches', this._clickOnToResult.bind(this), 'to')
+        this.setTo(null, false)
       }
     }
   }
