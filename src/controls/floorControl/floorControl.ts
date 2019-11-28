@@ -105,10 +105,33 @@ export class FloorControl {
   }
 
   public displayTooltip (direction: any) {
+    this.clearTooltip()
     if (direction.from.floor !== direction.to.floor) {
-      this.setIcon(direction.from.floor, floor.from)
-      this.setIcon(direction.to.floor, floor.to)
+      this.setIcon(direction.from.floor, floor.FROM)
+      this.setIcon(direction.to.floor, floor.TO)
+      this.setArrow(direction)
     }
+
+  }
+
+  public setArrow (direction: any) {
+
+    const img = document.createElement('IMG')
+    const toFloor = direction.to.floor
+    const fromFloor = direction.from.floor
+
+    const arrowPosition = (((((toFloor - fromFloor) - 1) * floor.PIXEL_FLOOR) - 1) * -1) + ((toFloor - fromFloor) - 2) * 8
+
+    img.setAttribute('class', 'mwz-floor-arrow')
+    img.setAttribute('style', 'margin-top: ' + arrowPosition + 'px;')
+
+    if (fromFloor > toFloor) {
+      img.setAttribute('src', floor.ARROW_DOWN)
+    } else {
+      img.setAttribute('src', floor.ARROW_UP)
+    }
+
+    this._container.querySelector('#mwz-floor-button-' + fromFloor).before(img)
   }
 
   public setIcon (floors: number, path: any) {
