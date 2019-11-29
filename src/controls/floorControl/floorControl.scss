@@ -18,15 +18,34 @@
 
   .mwz-floor-tooltip{
     position: absolute;
-    left: -20px;
+    left: -26px;
     margin-top: 15px;
     width: 15px;
   }
 
+  .mwz-circle{
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .mwz-bubble{
+    width: 50px;
+    left: -45px;
+    margin-top: -2px;
+    position: absolute;
+    z-index: -1;
+  }
+
   .mwz-floor-arrow{
     position: absolute;
-    left: -20px;
-    width: 15px;
+    left: -34px;
+    background: white;
+    width: 32px;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
   }
   
   .mwz-floor-button {

@@ -105,11 +105,21 @@ export class FloorControl {
   }
 
   public displayTooltip (direction: any) {
+    const toFloor = direction.to.floor
+    const fromFloor = direction.from.floor
+
     this.clearTooltip()
-    if (direction.from.floor !== direction.to.floor) {
-      this.setIcon(direction.from.floor, floor.FROM)
-      this.setIcon(direction.to.floor, floor.TO)
-      this.setArrow(direction)
+
+    if (fromFloor !== toFloor) {
+      this.setIcon(fromFloor, floor.BUBBLE, 'mwz-bubble')
+      this.setIcon(fromFloor, floor.FROM, 'mwz-floor-tooltip')
+
+      this.setIcon(toFloor, floor.BUBBLE, 'mwz-bubble')
+      this.setIcon(toFloor, floor.TO, 'mwz-floor-tooltip')
+
+      if (toFloor - fromFloor !== 1 && toFloor - fromFloor !== -1) {
+        this.setArrow(direction)
+      }
     }
 
   }
@@ -120,11 +130,10 @@ export class FloorControl {
     const toFloor = direction.to.floor
     const fromFloor = direction.from.floor
 
-    const arrowPosition = (((((toFloor - fromFloor) - 1) * floor.PIXEL_FLOOR) - 1) * -1) + ((toFloor - fromFloor) - 2) * 8
+    const arrowPosition = (((((toFloor - fromFloor) - 1) * floor.PIXEL_FLOOR) - 1) * -1) + ((toFloor - fromFloor) - 2) * 8 - 10
 
     img.setAttribute('class', 'mwz-floor-arrow')
     img.setAttribute('style', 'margin-top: ' + arrowPosition + 'px;')
-
     if (fromFloor > toFloor) {
       img.setAttribute('src', floor.ARROW_DOWN)
     } else {
@@ -134,10 +143,10 @@ export class FloorControl {
     this._container.querySelector('#mwz-floor-button-' + fromFloor).before(img)
   }
 
-  public setIcon (floors: number, path: any) {
+  public setIcon (floors: number, path: any, cls: string) {
     const img = document.createElement('IMG')
 
-    img.setAttribute('class', 'mwz-floor-tooltip')
+    img.setAttribute('class', cls)
     img.setAttribute('src', path)
 
     this._container.querySelector('#mwz-floor-button-' + floors).before(img)
