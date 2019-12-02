@@ -79,17 +79,11 @@ The html element need to be correctly formated and need to be sized in css.
 
 #### `options`
 
-The following parameters are available for map initialization:
+In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/latest/), the following parameters are available for map initialization:
 
 - `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
 - `apiUrl` (optional, string, default: null) to change the server URL, if you have a dedicated Mapwize server.
 - `container` (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
-- `centerOnVenue` (optional, string|object, default: null) to center on a venue at start. Options takes either a venueId or a venue object.
-- `centerOnPlace` (optional, string|object, default: null) to center on a place at start. Options takes either a placeId or a place object.
-- `mapboxOptions` (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
-- `mapwizeOptions` (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
-- `restrictContentToVenue` (optional, string, default: null) to show only the related venue on the map. Builder takes a venue id.
-- `restrictContentToOrganization` (optional, string, default: null) to show only the venues of that organization on the map. Builder takes an organization id.
 - `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 - `hideMenu` (optional, boolean, default: false) to hide menu bar.
@@ -101,8 +95,8 @@ The following parameters are available for map initialization:
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
 |---:|:---------------:|:-----------------------------:|:--------------------------:|:-----------------------:|
-|html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
-|js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
+|html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>` | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
+|js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)` | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
 #### Methods
 
