@@ -1,11 +1,11 @@
 import * as $ from 'jquery'
-import { isEmpty, isFunction } from 'lodash'
+import { find, isEmpty, isFunction } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 
 import uiConfig from '../../config'
 import { DefaultControl } from '../../control'
-import { getIcon, getTranslation } from '../../utils'
+import { getDefaultFloorForPlaces, getIcon, getPlacesInPlaceList, getTranslation } from '../../utils'
 
 export class FooterSelection extends DefaultControl {
 
@@ -49,6 +49,7 @@ export class FooterSelection extends DefaultControl {
     this.map.removeMarkers()
 
     if (element) {
+      this._centerOnSelectedElement(element)
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
@@ -67,14 +68,25 @@ export class FooterSelection extends DefaultControl {
   // ---------------------------------------
 
   private _footerClick (e: JQueryEventObject): void {
-    const placeId = this.map.getSelected()._id
-    this.map.centerOnPlace(placeId)
+    this._centerOnSelectedElement(this.map.getSelected())
   }
   private _directionButtonClick (e: JQueryEventObject): void {
     e.stopPropagation()
     this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
 
     this._map.headerManager.showDirection()
+  }
+
+  private _centerOnSelectedElement (element: any): void {
+    const currentZoom = this.map.getZoom()
+
+    if (element.objectClass === 'placeList') {
+      getPlacesInPlaceList(element.objectID).then((places) => {
+        this.map.centerOnVenue(element.venueId, { floor: getDefaultFloorForPlaces(places, this._map.getFloor()) })
+      })
+    } else {
+      this.map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+    }
   }
 
   private _informationButtonClick (e: JQueryEventObject): void {

@@ -171,8 +171,6 @@ export class SearchBar extends DefaultControl {
         return this.map.centerOnVenue(searchResult._id)
       } else if (searchResult.objectClass === 'place') {
         return this.map.centerOnPlace(searchResult._id)
-      } else if (searchResult.objectClass === 'placeList') {
-        return this.map.centerOnVenue(searchResult.venueId)
       }
     } else if (searchResult.geometry) {
       if (searchResult.geometry.bounds) {

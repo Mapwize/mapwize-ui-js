@@ -42,14 +42,27 @@ const rgbToHex = (rgb: any): string => {
 
 const getIcon = (o: any) => {
     return get(o, 'cache["30"]', false)
-    || get(o, 'style.markerUrl', false)
-    || get(o, 'placeType.style.markerUrl', false)
-    || get(o, 'icon', false)
-    || uiConfig.DEFAULT_PLACE_ICON
+        || get(o, 'style.markerUrl', false)
+        || get(o, 'placeType.style.markerUrl', false)
+        || get(o, 'icon', false)
+        || uiConfig.DEFAULT_PLACE_ICON
 }
 
 const getPlaceList = (placeListId: string): Promise<any> => {
     return $.get(apiUrl() + '/v1/placeList/' + placeListId + '?api_key=' + apiKey(), {}, null, 'json')
+}
+
+const getDefaultFloorForPlaces = (places: any, currentFloor: number): number => {
+    const place = find(places, ['floor', currentFloor])
+    if (!place) {
+        return currentFloor
+    }
+    return place.floor
+}
+
+const getPlacesInPlaceList = (placeListId: string): Promise<any> => {
+    const url = Api.buildUrl(apiUrl(), '/v1/placeLists/' + placeListId + '/places')
+    return Api.promiseGET(url)
 }
 
 const getPlace = (placeId: string): Promise<any> => {
@@ -98,6 +111,6 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     return 'data:image/svg+xml;base64,' + decoded
 }
 
-export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace }
+export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace, getPlacesInPlaceList, getDefaultFloorForPlaces }
 export { addClass, removeClass }
 export { hexToRgb, rgbToHex }

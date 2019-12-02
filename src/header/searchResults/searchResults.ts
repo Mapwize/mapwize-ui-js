@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, indexOf, isArray, isFinite, set, template } from 'lodash'
+import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -233,12 +233,11 @@ export class SearchResults extends DefaultControl {
       title: getTranslation(mwzObject, lang, 'title'),
     }
     let templated = null
-
     if (mwzObject.objectClass === 'venue') {
       templated = templateVenue(options)
     } else if (mwzObject.objectClass === 'place') {
       templated = templatePlace(options)
-    } else if (mwzObject.objectClass === 'placeList') {
+    } else if (mwzObject.objectClass === 'placeList' && mwzObject.placeIds.length > 0) {
       templated = templatePlaceList(options)
     }
 
