@@ -415,7 +415,7 @@ export class DirectionBar extends DefaultControl {
     })
   }
 
-  private _displayDirection (options?: any) {
+  private _displayDirection (options = {}) {
     if (this._map) {
       this._map.removeMarkers()
 
