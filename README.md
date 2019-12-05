@@ -84,12 +84,12 @@ The following parameters are available for map initialization:
 - `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
 - `apiUrl` (optional, string, default: null) to change the server URL, if you have a dedicated Mapwize server.
 - `container` (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
-- `centerOnVenue` (optional, string|object, default: null) to center on a venue at start. Options takes either a venueId or a venue object.
-- `centerOnPlace` (optional, string|object, default: null) to center on a place at start. Options takes either a placeId or a place object.
+- `centerOnVenueId` (optional, string|object, default: null) to center on a venue at start. Options takes either a venueId or a venue object.
+- `centerOnPlaceId` (optional, string|object, default: null) to center on a place at start. Options takes either a placeId or a place object.
 - `mapboxOptions` (optional, object, default: {}) to pass Mapbox options to the map, see [Mapbox options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
 - `mapwizeOptions` (optional, object, default: {}) to pass Mapwize options to the map, see [Mapwize options](https://docs.mapwize.io/developers/js/sdk/latest/#map-constructor)
-- `restrictContentToVenue` (optional, string, default: null) to show only the related venue on the map. Builder takes a venue id.
-- `restrictContentToOrganization` (optional, string, default: null) to show only the venues of that organization on the map. Builder takes an organization id.
+- `restrictContentToVenueId` (optional, string, default: null) to show only the related venue on the map. Builder takes a venue id.
+- `restrictContentToOrganizationId` (optional, string, default: null) to show only the venues of that organization on the map. Builder takes an organization id.
 - `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 - `hideMenu` (optional, boolean, default: false) to hide menu bar.
@@ -208,7 +208,7 @@ To have the map centered on a venue at start up:
 ```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
-  centerOnVenue: 'YOUR_VENUE_ID'
+  centerOnVenueId: 'YOUR_VENUE_ID'
 }
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
@@ -226,7 +226,7 @@ To have the map centered on a place with the place selected at start up:
 ```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
-  centerOnPlace: 'YOUR_PLACE_ID'
+  centerOnPlaceId: 'YOUR_PLACE_ID'
 }
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
