@@ -52,7 +52,7 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   mapInstance.headerManager.showSearch()
 
   if (options.centerOnPlaceId) {
-    mapInstance.setSelected(options.centerOnPlaceId)
+    mapInstance.setSelected(options.centerOnPlaceId, false)
   } else if (options.direction) {
     mapInstance.headerManager.displayDirection(options.direction)
   }

@@ -51,19 +51,20 @@ export class FooterManager {
   public getSelected (): any {
     return this._selected
   }
-  public setSelected (elem: any): Promise<void> {
-    this._selected = elem
+  public setSelected (element: any, centerOnElement: boolean = true): Promise<void> {
+    this._selected = element
     if (this._selected && !this._map.headerManager.isInDirectionMode()) {
-      const venue = this._map.getVenue()
-      if (venue && venue._id === this._selected.venueId) {
+      let centerPromise = Promise.resolve(null)
+      if (centerOnElement) {
+        const currentZoom = this._map.getZoom()
+        centerPromise = this._map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+      }
+
+      return centerPromise.then(() => {
         return this.showSelection().catch(() => null).then(() => {
           return this.selectionFooter.setSelected(this._selected)
         })
-      } else {
-        return this._map.centerOnPlace(this._selected._id).then(() => {
-          return this.selectionFooter.setSelected(this._selected)
-        })
-      }
+      })
     }
     return this.selectionFooter.setSelected(null)
   }
