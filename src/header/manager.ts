@@ -179,6 +179,9 @@ export class HeaderManager {
         this.showDirection()
       } else {
         this._map.removeDirection()
+        this.directionBar.setFrom(null, false)
+        this.directionBar.setTo(null, false)
+
       }
     }
   }
