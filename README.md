@@ -202,7 +202,7 @@ To have the map centered on a venue at start up:
 ```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
-  centerOnVenue: 'YOUR_VENUE_ID'
+  centerOnVenueId: 'YOUR_VENUE_ID'
 }
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
@@ -220,7 +220,7 @@ To have the map centered on a place with the place selected at start up:
 ```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
-  centerOnPlace: 'YOUR_PLACE_ID'
+  centerOnPlaceId: 'YOUR_PLACE_ID'
 }
 MapwizeUI.map(options).then(map => {
   console.log('Mapwize map and ui are ready to be used')
