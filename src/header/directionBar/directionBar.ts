@@ -296,6 +296,7 @@ export class DirectionBar extends DefaultControl {
     this.setFrom(null, false)
     // this.setWaypoints([])
     this.setTo(null, false)
+    this._map.floorControl.clearTooltip()
   }
 
   private _getDisplay (o: any): string {
@@ -439,6 +440,7 @@ export class DirectionBar extends DefaultControl {
           to,
         })).then((direction: any) => {
           const transformedDirection = this._options.onDirectionWillBeDisplayed(direction, options)
+          this._map.floorControl.displayTooltip(direction)
           this._map.setDirection(transformedDirection.direction, transformedDirection.options)
           this._promoteDirectionPlaces(transformedDirection.direction)
           this._map.addMarker(transformedDirection.direction.to)
