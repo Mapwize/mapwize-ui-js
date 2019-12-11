@@ -11,9 +11,12 @@ export class FooterSelection extends DefaultControl {
   private _selectedHeight: number
   private _options: any
 
+  private _markerReferences: any[]
+
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
     this._options = options
+    this._markerReferences = []
 
     this._selectedHeight = 0
 
@@ -35,7 +38,12 @@ export class FooterSelection extends DefaultControl {
   }
 
   public setSelected (element: any): Promise<void> {
-    this.map.removeMarkers()
+    if (this._markerReferences.length) {
+      this._markerReferences.forEach((marker: any): void => {
+        this.map.removeMarker(marker)
+      })
+      this._markerReferences = []
+    }
 
     if (element) {
       const currentZoom = this.map.getZoom()
@@ -142,10 +150,14 @@ export class FooterSelection extends DefaultControl {
   }
   private _promoteSelectedElement (element: any): void {
     if (element.objectClass === 'place') {
-      this.map.addMarkerOnPlace(element).catch((): void => null)
+      this.map.addMarkerOnPlace(element).then((marker: any): void => {
+        this._markerReferences = [marker]
+      }).catch((): void => null)
       this.map.setPromotedPlaces([element]).catch((): void => null)
     } else if (element.objectClass === 'placeList') {
-      this.map.addMarkerOnPlaceList(element).catch((): void => null)
+      this.map.addMarkerOnPlaceList(element).then((markers: any[]): void => {
+        this._markerReferences = markers
+      }).catch((): void => null)
       this.map.setPromotedPlaces(element.placeIds).catch((): void => null)
     }
   }

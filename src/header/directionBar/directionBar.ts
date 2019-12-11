@@ -25,6 +25,8 @@ export class DirectionBar extends DefaultControl {
   private _modes: any
   private _mode: any
 
+  private _markerReference: any
+
   private _options: any
 
   constructor (mapInstance: any, options: any) {
@@ -415,9 +417,16 @@ export class DirectionBar extends DefaultControl {
     })
   }
 
-  private _displayDirection (options?: any) {
+  private _removeCurrentMarker (): void {
+    if (this._markerReference) {
+      this._map.removeMarker(this._markerReference)
+      this._markerReference = null
+    }
+  }
+
+  private _displayDirection (options = {}) {
     if (this._map) {
-      this._map.removeMarkers()
+      this._removeCurrentMarker()
 
       const from = this._extractQuery(this._from)
       const to = this._extractQuery(this._to)
@@ -433,7 +442,10 @@ export class DirectionBar extends DefaultControl {
           const transformedDirection = this._options.onDirectionWillBeDisplayed(direction, options)
           this._map.setDirection(transformedDirection.direction, transformedDirection.options)
           this._promoteDirectionPlaces(transformedDirection.direction)
-          this._map.addMarker(transformedDirection.direction.to)
+          this._map.addMarker(transformedDirection.direction.to).then((marker: any) => {
+            this._removeCurrentMarker()
+            this._markerReference = marker
+          })
         }).catch(() => {
           this._container.find('#mwz-alert-no-direction').show()
         })
