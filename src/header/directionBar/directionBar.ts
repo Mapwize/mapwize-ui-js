@@ -215,6 +215,9 @@ export class DirectionBar extends DefaultControl {
 
   private _fromFocus (e: JQueryEventObject): void {
     this._container.find('#mwz-mapwize-search-from').select()
+    if (this._options.mainColor) {
+      this._container.find('#mwz-mapwize-search-from').css('border-color', this._options.mainColor)
+    }
     this._fromKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }
@@ -239,6 +242,7 @@ export class DirectionBar extends DefaultControl {
     }
   }
   private _fromBlur (e: JQueryEventObject): void {
+    this._container.find('#mwz-mapwize-search-from').css('border-color', '')
     this._hideSearchResultsTimeout = setTimeout(() => {
       this.setFrom(this._from, !!this._from)
       this.map.headerManager.hideSearchResults()
@@ -247,6 +251,9 @@ export class DirectionBar extends DefaultControl {
 
   private _toFocus (e: JQueryEventObject): void {
     this._container.find('#mwz-mapwize-search-to').select()
+    if (this._options.mainColor) {
+      this._container.find('#mwz-mapwize-search-to').css('border-color', this._options.mainColor)
+    }
     this._toKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }
@@ -271,6 +278,7 @@ export class DirectionBar extends DefaultControl {
     }
   }
   private _toBlur (e: JQueryEventObject): void {
+    this._container.find('#mwz-mapwize-search-to').css('border-color', '')
     this._hideSearchResultsTimeout = setTimeout(() => {
       this.setTo(this._to, !!this._to)
       this.map.headerManager.hideSearchResults()
@@ -415,7 +423,7 @@ export class DirectionBar extends DefaultControl {
     })
   }
 
-  private _displayDirection (options?: any) {
+  private _displayDirection (options = {}) {
     if (this._map) {
       this._map.removeMarkers()
 

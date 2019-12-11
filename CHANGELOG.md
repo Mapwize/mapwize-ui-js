@@ -1,5 +1,13 @@
 # Mapwize UI Changelog
 
+## 2.2.0
+
+- Fix documentation
+- Fix: remove direction when venue change
+- Fix: centerOnPlaceId option
+- Feat: add border on selected field in direction
+- Feat: add tooltips on header (for menu and direction button)
+
 ## 2.1.0
 
 - Upgrade mapwize js sdk to 4.1.0

@@ -38,8 +38,6 @@ export class FooterSelection extends DefaultControl {
     this.map.removeMarkers()
 
     if (element) {
-      const currentZoom = this.map.getZoom()
-      this.map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {

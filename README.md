@@ -6,7 +6,7 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `2.1.0` uses Mapwize SDK version `4.1.0`.
+MapwizeUI version `2.2.0` uses Mapwize SDK version `4.1.0`.
 For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/).
 
 ## Description
@@ -48,7 +48,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.1.0"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.2.0"></script>
 ```
 
 ### Manual
@@ -79,7 +79,7 @@ The html element need to be correctly formated and need to be sized in css.
 
 #### `options`
 
-The following parameters are available for map initialization:
+In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/latest/), the following parameters are available for map initialization:
 
 - `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
 - `apiUrl` (optional, string, default: null) to change the server URL, if you have a dedicated Mapwize server.
@@ -101,8 +101,8 @@ The following parameters are available for map initialization:
 #### Parameters usage
 |    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
 |---:|:---------------:|:-----------------------------:|:--------------------------:|:-----------------------:|
-|html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>`    | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
-|js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)`      | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
+|html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>` | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
+|js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)` | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
 #### Methods
 

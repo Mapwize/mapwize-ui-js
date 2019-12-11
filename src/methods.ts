@@ -130,16 +130,17 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Set the currently selected place or placeList
   * @function setSelected
-  * @param  {object} mwzElement
+  * @param {object} mwzElement
+  * @param {boolean} centerOnElement=true 
   */
-  mapInstance.setSelected = (mwzElement: any): Promise<void> => {
+  mapInstance.setSelected = (mwzElement: any, centerOnElement: boolean = true): Promise<void> => {
     if (isString(mwzElement)) {
       return getPlace(mwzElement).then((place: any) => {
         place.objectClass = 'place'
-        return mapInstance.footerManager.setSelected(place)
+        return mapInstance.footerManager.setSelected(place, centerOnElement)
       })
     }
-    return mapInstance.footerManager.setSelected(mwzElement)
+    return mapInstance.footerManager.setSelected(mwzElement, centerOnElement)
   }
 
   /**

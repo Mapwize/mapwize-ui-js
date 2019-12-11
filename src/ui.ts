@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { defaults, get, isObject, isString, noop, set } from 'lodash'
+import { defaults, get, isObject, isString, set } from 'lodash'
 import { apiKey, apiUrl, map } from 'mapwize'
 
 import uiConfig from './config'
@@ -52,7 +52,7 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   mapInstance.headerManager.showSearch()
 
   if (options.centerOnPlaceId) {
-    mapInstance.setSelected(options.centerOnPlaceId)
+    mapInstance.setSelected(options.centerOnPlaceId, false)
   } else if (options.direction) {
     mapInstance.headerManager.displayDirection(options.direction)
   }
@@ -88,7 +88,8 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @desc Create the Mapwize View with the map and all related UI. Options for configuring the UI are available. 
 *    Mapwize and Mapbox options for the display of the map can also be provided. Please note that all UI options have the priority on the map options.
 * @function map
-* @param  {string | HTMLElement} container (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
+* @param {string | HTMLElement} container (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
+* @param {object} [options]
 * @param {string} [options.apiKey=null] (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
 * @param {string} [options.apiUrl=null] (optional, string, default: 'https://api.mapwize.io') to change the server URL, if you have a dedicated Mapwize server.
 * @param {string} [options.locale=en] (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
@@ -109,10 +110,10 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
 *      <div id="mapwize"></div>
 *      <script>
-*           MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
+*           MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE', {})
 *      </script>
 */
-const createMap = (container: string | HTMLElement, options?: any) => {
+const createMap = (container: string | HTMLElement, options?: any): Promise<any> => {
   if (isString(container) && !options) {
     options = { apiKey: container }
     container = 'mapwize'
