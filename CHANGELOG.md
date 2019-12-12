@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.2.1
+
+- Upgrade dependencies
+- Upgrade mapwize to 4.1.1
+
 ## 2.2.0
 
 - Fix documentation
