@@ -1,0 +1,13 @@
+{
+  "search_placeholder_global": "Zoeken in Mapwize",
+  "search_placeholder_venue": "Zoeken in <%= venue %>",
+  "entering_in_venue": "Binnenkomen in <%= venue %>",
+  "choose_starting_or_click_point": "Kies startpunt, of klik op de kaart...",
+  "choose_destination_or_click_point": "Kies bestemming, of klik op de kaart...",
+  "choose_destination": "Kies bestemming...",
+  "on_floor": "Op de vloer<%= floor %>",
+  "coordinates": "Coördinaten",
+  "current_location": "Huidige locatie",
+  "use_current_location": "Gebruik mijn huidige locatie",
+  "empty_title": "Lege titel"
+}

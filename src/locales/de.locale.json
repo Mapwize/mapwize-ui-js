@@ -1,0 +1,13 @@
+{
+  "search_placeholder_global": "Suchen in Mapwize",
+  "search_placeholder_venue": "Suchen in <%= venue %>",
+  "entering_in_venue": "Betreten <%= venue %>",
+  "choose_starting_or_click_point": "Wählen Sie den Startpunkt oder klicken Sie auf die Karte...",
+  "choose_destination_or_click_point": "Wählen Sie die Bestimmung, oder klicken Sie auf die Karte...",
+  "choose_destination": "Wählen Sie die Bestimmung...",
+  "on_floor": "Am Stock <%= floor %>",
+  "coordinates": "Koordinaten",
+  "current_location": "Aktueller Standort",
+  "use_current_location": "Nutzt mein aktuellen Standort",
+  "empty_title": "Leere Titel"
+}
