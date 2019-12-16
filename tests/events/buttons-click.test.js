@@ -12,7 +12,7 @@ mwzDescribe(testSuites, function () {
       $('#mwz-menu-button').click();
     }).catch(function (e) { callbackTest(e); });
   })
-  
+
   mwzTest('Information button', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
@@ -24,7 +24,7 @@ mwzDescribe(testSuites, function () {
       map.on('mapwize:venueenter', function () {
         setTimeout(function () {
           $('#mwz-footer-selection').click();
-        }, 100);
+        }, 1000);
       })
     }).catch(function (e) { callbackTest(e); });
   })
