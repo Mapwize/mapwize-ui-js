@@ -6,14 +6,15 @@ function mwzDescribe (testSuites, fn) {
   })
 }
 
-function mwzTest(name, evaluateFn) {
+function mwzTest (name, evaluateFn) {
   it(name, function () {
+    this.retries(2)
     browser.url('http://localhost:8888/tests/core/index.html')
     browser.waitUntil(function () {
       return browser.execute(function () {
         return document.readyState === 'complete' && MapwizeUI;
       })
-    })
+    }, 20000, 'Unable to load page after 20 seconds')
     browser.setTimeout({
       'script': 60000
     });
@@ -56,17 +57,17 @@ function roundCoordinates (coords) {
 function isSameCoordinates (expected, found) {
   var isSameLatitude = true
   var isSameLongitude = true
-  
+
   expected = roundCoordinates(expected)
   found = roundCoordinates(found)
-  
+
   if (latitude(found) !== latitude(expected)) {
     isSameLatitude = false
   }
   if (longitude(found) !== longitude(expected)) {
     isSameLongitude = false
   }
-  
+
   if (isSameLongitude === false && isSameLatitude === false) {
     return 'Latitude expected: ' + latitude(expected) + ' found: ' + latitude(found) + ' and longitude expected: ' + longitude(expected) + ' found: ' + longitude(found)
   } else if (isSameLongitude === false) {
