@@ -72,6 +72,8 @@ export class FooterVenue extends DefaultControl {
       universeWillChange,
       universes: venue.accessibleUniverses,
     }))
+
+    this._container.find('#mwz-language-button, #mwz-universe-button').dropdown('update')
   }
 
   private _onLanguageItemClick (e: JQueryEventObject) {
