@@ -11,9 +11,11 @@ const defaultOptions = {
     loadingFloor: 'mwz-loading',
     selectedFloor: 'mwz-selectedFloor',
   },
-  minHeight: 53, // Min size of floor selector
+  maxHeight: 508, // Min size of floor selector
+  minHeight: 64, // Min size of floor selector
   sizes: { // Size of others control to calcul floor control max height
-    navigationControl: 100, // 90 + margin 10
+    mapwizeAttribution: 30, // 21 in reality
+    navigationControl: 140, // 130 + margin 10
     userLocationControl: 50, // 40 + margin 10
   },
   spaces: {
@@ -48,12 +50,12 @@ export class FloorControl {
       let styleHtml = ''
       styleHtml += '.mwz-ctrl-floors .mwz-floor-button.mwz-selectedFloor, .mwz-ctrl-floors .mwz-floor-button.mwz-selectedFloor:hover { background-color: ' + this._options.mainColor + ' !important; }'
       styleHtml += '.mwz-ctrl-floors .mwz-floor-button.mwz-loading::before { background-image: linear-gradient(' + this._options.mainColor + ', ' + this._options.mainColor + '), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff) !important; }'
-      
+
       sheet.innerHTML = styleHtml
       document.body.appendChild(sheet)
     }
   }
-  
+
   public onAdd (map: any): any {
     this._map = map
 
@@ -61,12 +63,14 @@ export class FloorControl {
     this._onFloorWillChange = this._onFloorWillChange.bind(this)
     this._onFloorChange = this._onFloorChange.bind(this)
     this._onFloorsChange = this._onFloorsChange.bind(this)
-    
+    this._onMapResize = this._onMapResize.bind(this)
+
     this._map.on('mapwize:marginschange', this._onMarginsChange)
     this._map.on('mapwize:floorwillchange', this._onFloorWillChange)
     this._map.on('mapwize:floorchange', this._onFloorChange)
     this._map.on('mapwize:floorschange', this._onFloorsChange)
-    
+    this._map.on('resize', this._onMapResize)
+
     return this._container
   }
 
@@ -77,13 +81,14 @@ export class FloorControl {
     this._map.off('mapwize:floorwillchange', this._onFloorWillChange)
     this._map.off('mapwize:floorchange', this._onFloorChange)
     this._map.off('mapwize:floorschange', this._onFloorsChange)
+    this._map.off('resize', this._onMapResize)
     this._map = undefined
   }
-  
+
   public getDefaultPosition (): string {
     return 'bottom-right'
   }
-  
+
   public resize () {
     const margins = this._map._margins.get()
     let maxHeight = (
@@ -91,37 +96,41 @@ export class FloorControl {
       margins.bottom - // Margin bottom
       margins.top - // Margin top
       (this._map.navigationControl ? this._options.sizes.navigationControl : 0) - // Navigation control height if any + control margin
-      (this._map.userLocationControl ? this._options.sizes.userLocationControl : 0) - // Location control if any + control margin
+      (this._map.locationControl ? this._options.sizes.userLocationControl : 0) - // Location control if any + control margin
+      (this._map.mapwizeAttribution ? this._options.sizes.mapwizeAttribution : 30) - // mapwize attribution control
       this._options.spaces.bottom - // Floor control margin
       this._options.spaces.top // Margin between top controls and bottom controls
     )
-    
+
     if (maxHeight < this._options.minHeight) {
       maxHeight = this._options.minHeight
     }
-    
+    if (maxHeight > this._options.maxHeight) {
+      maxHeight = this._options.maxHeight
+    }
+
     this._container.style.maxHeight = maxHeight + 'px'
   }
-  
+
   private _createButton (floorDisplay: string, className: string, container: HTMLElement): HTMLButtonElement {
     const button = document.createElement('button')
-    
+
     button.type = 'button'
     button.className = className
     button.innerHTML = floorDisplay
     button.title = floorDisplay
-    
+
     container.appendChild(button)
-    
+
     return button
   }
-  
+
   private _addEventOnButton (link: HTMLButtonFloorElement, floor: FloorNumber) {
     link.addEventListener('click', () => {
       this._map.setFloor(floor)
     })
   }
-  
+
   private _selectFloor (floor: FloorNumber) {
     forEach(this.buttons, (button: HTMLButtonFloorElement) => {
       let className = removeClass(button.className, this._options.class.selectedFloor)
@@ -136,7 +145,7 @@ export class FloorControl {
   private _onMarginsChange (e: MWZEvent) {
     this.resize()
   }
-  
+
   private _onFloorWillChange (e: MWZEvent) {
     forEach(this.buttons, (button: HTMLButtonFloorElement) => {
       if (button.floor === e.to) {
@@ -150,10 +159,10 @@ export class FloorControl {
   private _onFloorChange (e: MWZEvent) {
     this._selectFloor(e.floor)
   }
-  
+
   private _onFloorsChange (data: MWZEvent) {
     const container = this._container
-    
+
     container.innerHTML = ''
     this.buttons = []
 
@@ -166,7 +175,7 @@ export class FloorControl {
     } else {
       container.style.display = 'none'
     }
-    
+
     forEach(data.floors, (floor: FloorObject) => {
       let classBtn = this._options.class.button
       // #TODO Add something on floor wich have direction
@@ -176,17 +185,21 @@ export class FloorControl {
       if (floor.number === data.floor) {
         classBtn = addClass(classBtn, this._options.class.selectedFloor)
       }
-      
+
       const button: HTMLButtonFloorElement = this._createButton(floor.name, classBtn, container)
-      
+
       button.id = 'mwz-floor-button-' + floor.number
       button.floor = floor.number
-      
+
       this._addEventOnButton(button, floor.number)
       this.buttons.push(button)
     })
-    
+
     // In case we have changed the number of floors
+    this.resize()
+  }
+
+  private _onMapResize () {
     this.resize()
   }
 }
