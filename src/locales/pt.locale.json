@@ -1,6 +1,7 @@
 {
   "search_placeholder_global": "Pesquisar no Mapwize",
   "search_placeholder_venue": "Pesquisar no <%= venue %>",
+  "search_no_result": "Nenhum resultado encontrado",
   "entering_in_venue": "A entrar no  <%= venue %>",
   "choose_starting_or_click_point": "Escolha o ponto de partida ou clique no mapa ...",
   "choose_destination_or_click_point": "Escolha o destino ou clique no mapa ...",
