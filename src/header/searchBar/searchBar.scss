@@ -49,6 +49,8 @@
   }
 
   .mwz-search {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     input {
       border-top: none;
       border-left: none;
@@ -89,6 +91,13 @@
     }
     .mwz-directions:hover .mwz-directions-tooltip, .mwz-menu:hover .mwz-menu-tooltip {
       visibility: hidden;
+    }
+
+    .mwz-search {
+      padding: 0;
+      input {
+        padding: 0;
       }
+    }
   }
 }
