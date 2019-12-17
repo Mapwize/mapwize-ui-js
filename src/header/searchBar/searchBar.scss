@@ -77,6 +77,16 @@
 
     padding-left: 12px;
   }
+
+  #mwz-back-button{
+    img{
+      width: 18px;
+    }
+  }
+  #mwz-back-button-container{
+    width: 50px;
+    display: none;
+  }
 }
 
 &.mwz-small {
@@ -101,14 +111,3 @@
     }
   }
 }
-#mwz-back-button-container{
-  width: 50px;
-  display: none;
-}
-
-#mwz-back-button{
-  img{
-    width: 18px !important;
-  }
-}
-
