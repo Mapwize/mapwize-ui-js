@@ -72,6 +72,20 @@ export class SearchBar extends DefaultControl {
     }
   }
 
+  public showBackButton () {
+    if ($(this.map._container).hasClass('mwz-small')) {
+      this._container.find('#mwz-menu-button-container').hide()
+      this._container.find('#mwz-back-button-container').show()
+    }
+  }
+
+  public hideBackButton () {
+    if ($(this.map._container).hasClass('mwz-small')) {
+      this._container.find('#mwz-menu-button-container').show()
+      this._container.find('#mwz-back-button-container').hide()
+    }
+  }
+
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------

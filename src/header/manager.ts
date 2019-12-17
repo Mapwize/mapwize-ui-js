@@ -96,12 +96,14 @@ export class HeaderManager {
   }
 
   public showSearchResults (results: string | any[], clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
+    this.searchBar.showBackButton()
     this.searchResults.setResults(results, clickOnResultCallback, focusedField)
     if (!this._map.hasControl(this.searchResults)) {
       this._map.addControl(this.searchResults)
     }
   }
   public hideSearchResults (): void {
+    this.searchBar.hideBackButton()
     this._map.removeControl(this.searchResults)
   }
 
