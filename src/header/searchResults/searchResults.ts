@@ -186,22 +186,32 @@ export class SearchResults extends DefaultControl {
       mapwize = this._resultsByUniverse(mapwize)
       const currentUniverse = this.map.getUniverse()
       forEach(mapwize, (resultsByUniverse: any) => {
-        // display universe header only if needed (see maps condition)
-        if (mapwize.length > 1 || get(resultsByUniverse, 'universe._id') !== currentUniverse._id) {
-          resultContainer.append($('<li class="list-group-item list-group-item-secondary">' + get(resultsByUniverse, 'universe.name') + '</li>'))
-        }
+        const setOfResultsForUniverse: any[] = []
         forEach(resultsByUniverse.results, (mwzResult: any) => {
           if (getTranslation(mwzResult, lang, 'title')) {
-            resultContainer.append(this._mapwizeObjectResults(mwzResult, onClick(resultsByUniverse.universe)))
+            setOfResultsForUniverse.push(this._mapwizeObjectResults(mwzResult, onClick(resultsByUniverse.universe)))
           }
         })
+
+        if (setOfResultsForUniverse.length) {
+          if (mapwize.length > 1 || get(resultsByUniverse, 'universe._id') !== currentUniverse._id) {
+            resultContainer.append($('<li class="list-group-item list-group-item-secondary">' + get(resultsByUniverse, 'universe.name') + '</li>'))
+          }
+          resultContainer.append(setOfResultsForUniverse)
+        }
       })
     } else {
+      let isEmptyResultSet = true
       forEach(mapwize, (mwzResult: any) => {
         if (getTranslation(mwzResult, lang, 'title')) {
           resultContainer.append(this._mapwizeObjectResults(mwzResult, onClick(null)))
+          isEmptyResultSet = false
         }
       })
+
+      if (isEmptyResultSet) {
+        resultContainer.append($('<li class="list-group-item">' + translate('search_no_result') + '</li>'))
+      }
     }
   }
 

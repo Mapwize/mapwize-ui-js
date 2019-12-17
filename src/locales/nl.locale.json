@@ -1,6 +1,7 @@
 {
   "search_placeholder_global": "Zoeken in Mapwize",
   "search_placeholder_venue": "Zoeken in <%= venue %>",
+  "search_no_result": "Sorry, geen resultaat gevonden",
   "entering_in_venue": "Binnenkomen in <%= venue %>",
   "choose_starting_or_click_point": "Kies startpunt, of klik op de kaart...",
   "choose_destination_or_click_point": "Kies bestemming, of klik op de kaart...",
