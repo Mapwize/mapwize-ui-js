@@ -49,6 +49,8 @@
   }
 
   .mwz-search {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     input {
       border-top: none;
       border-left: none;
@@ -90,12 +92,12 @@
     .mwz-directions:hover .mwz-directions-tooltip, .mwz-menu:hover .mwz-menu-tooltip {
       visibility: hidden;
     }
-    .form-control{
-      padding: 0 !important;
-    }
-    .px-2{
-     padding-right: 0 !important;
-     padding-left: 0 !important;
+
+    .mwz-search {
+      padding: 0;
+      input {
+        padding: 0;
+      }
     }
   }
 }
