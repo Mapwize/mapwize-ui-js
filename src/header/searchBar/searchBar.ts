@@ -72,6 +72,20 @@ export class SearchBar extends DefaultControl {
     }
   }
 
+  public showBackButton () {
+    if ($(this.map._container).hasClass('mwz-small')) {
+      this._container.find('#mwz-menu-button-container').hide()
+      this._container.find('#mwz-back-button-container').show()
+    }
+  }
+
+  public hideBackButton () {
+    if ($(this.map._container).hasClass('mwz-small')) {
+      this._container.find('#mwz-menu-button-container').show()
+      this._container.find('#mwz-back-button-container').hide()
+    }
+  }
+
   // ---------------------------------------
   // Privates methods
   // ---------------------------------------
@@ -82,6 +96,7 @@ export class SearchBar extends DefaultControl {
     }
   }
   private _directionButtonClick (e: JQueryEventObject): void {
+    this.hideBackButton()
     $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
     this._map.headerManager.showDirection()
   }

@@ -85,6 +85,9 @@ export class HeaderManager {
   public isInDirectionMode (): boolean {
     return this._map.hasControl(this.directionBar)
   }
+  public isSearchResultDisplayed (): boolean {
+    return this._map.hasControl(this.searchResults)
+  }
 
   public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
     this.searchResults.showLoading()
@@ -96,12 +99,16 @@ export class HeaderManager {
   }
 
   public showSearchResults (results: string | any[], clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
+    if (!this.isInDirectionMode()) {
+      this.searchBar.showBackButton()
+    }
     this.searchResults.setResults(results, clickOnResultCallback, focusedField)
     if (!this._map.hasControl(this.searchResults)) {
       this._map.addControl(this.searchResults)
     }
   }
   public hideSearchResults (): void {
+    this.searchBar.hideBackButton()
     this._map.removeControl(this.searchResults)
   }
 

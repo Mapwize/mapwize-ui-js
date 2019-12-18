@@ -1,6 +1,7 @@
 {
   "search_placeholder_global": "Search in Mapwize",
   "search_placeholder_venue": "Search in <%= venue %>",
+  "search_no_result": "Sorry, no result found",
   "entering_in_venue": "Entering in <%= venue %>",
   "choose_starting_or_click_point": "Choose starting point, or click on the map...",
   "choose_destination_or_click_point": "Choose destination, or click on the map...",
