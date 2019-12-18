@@ -85,6 +85,9 @@ export class HeaderManager {
   public isInDirectionMode (): boolean {
     return this._map.hasControl(this.directionBar)
   }
+  public isSearchResultDisplayed (): boolean {
+    return this._map.hasControl(this.searchResults)
+  }
 
   public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
     this.searchResults.showLoading()
