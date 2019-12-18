@@ -24,6 +24,10 @@ export class SearchResults extends DefaultControl {
     this._container = $(resultsHtml)
 
     this.listen('click', '#mwz-use-user-location', this._clickOnUserLocation.bind(this))
+
+    if (options.mainColor) {
+      this._container.find('.mwz-progress-bar').css('background-color', options.mainColor)
+    }
   }
   public remove (): void {
     return null
