@@ -74,8 +74,18 @@
   .mwz-entering {
     color: rgb(73, 80, 87);
     font-size: 16px;
-    
+
     padding-left: 12px;
+  }
+
+  #mwz-back-button{
+    img{
+      width: 18px;
+    }
+  }
+  #mwz-back-button-container{
+    width: 50px;
+    display: none;
   }
 }
 
