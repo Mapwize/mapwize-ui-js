@@ -1,5 +1,15 @@
 # Mapwize UI Changelog
 
+## 2.3.0
+
+- Feat: Display no result message if there is no search result
+- Improvement: Display back button instead of menu button in mobile mode when search results are displayed
+- Improvement: reduce search input margins on mobile
+- Fix: selection card alignement
+- Fix: display of language and universe selector
+- Fix: floor selector size change depend of map size
+- Fix: search loading bar now match with mainColor
+
 ## 2.2.3
 
 - Add support for DE, NL and PT
