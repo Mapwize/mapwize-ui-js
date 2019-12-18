@@ -84,6 +84,7 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 - `apiKey` (required) key to authorize access to the Mapwize API. Find your key on [Mapwize Studio](https://studio.mapwize.io).
 - `apiUrl` (optional, string, default: null) to change the server URL, if you have a dedicated Mapwize server.
 - `container` (optional, string|HTMLElement, default: null) same as `container` param, default is: `mapwize`
+- `shouldShowInformationButtonFor` (optional, function, default: function (selected) { return false; }) display information button when a place is selected. Take selected element as parameter, must return a boolean
 - `onInformationButtonClick` (optional, function) callback called when you click on the footer when a place is selected
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 - `hideMenu` (optional, boolean, default: false) to hide menu bar.

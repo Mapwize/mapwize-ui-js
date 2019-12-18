@@ -149,6 +149,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     onMenuButtonClick: () => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any) => ({ searchString, searchOptions }),
     onSearchResultWillBeDisplayed: (results: any) => results,
+    shouldShowInformationButtonFor: (element: any) => false,
 
     preferredLanguage: 'en',
 
