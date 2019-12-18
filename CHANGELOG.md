@@ -7,8 +7,8 @@
 - Improvement: reduce search input margins on mobile
 - Fix: selection card alignement
 - Fix: display of language and universe selector
-- Fix: floor selector size change depend of map size
-- Fix: search loading bar now match with mainColor
+- Fix: floor selector size changes depending on map size
+- Fix: search loading bar now matches mainColor
 
 ## 2.2.3
 
