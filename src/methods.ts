@@ -155,7 +155,8 @@ const attachMethods = (mapInstance: any) => {
 
     mapInstance.setPreferredLanguage(currentLocal)
     mapInstance.headerManager.refreshLocale()
-    // mapInstance.footerManager.refreshLocale()
+    mapInstance.footerManager.refreshLocale()
+    mapInstance.navigationControl.refreshLocale()
   }
   /**
   * @instance

@@ -10,5 +10,13 @@
   "coordinates": "Coordinates",
   "current_location": "Current location",
   "use_current_location": "Use my current location",
-  "empty_title": "Empty title"
+  "empty_title": "Empty title",
+  "menu": "Menu",
+  "directions": "Directions",
+  "zoom_in": "Zoom in",
+  "zoom_out": "Zoom out",
+  "reset_bearing_to_north": "Reset bearing to north",
+  "use_ctrl": "Use ctrl+drag to rotate the map",
+  "change_venue_language": "Change venue language",
+  "change_venue_universe": "Change venue universe"
 }

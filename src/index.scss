@@ -7,3 +7,9 @@
     @import "./footer";
     @import "./controls";
 }
+.tooltip{
+    font-size: .76rem;
+    .arrow{
+        display: none;
+      }
+}
