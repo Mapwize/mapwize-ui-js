@@ -104,6 +104,8 @@ export class SearchBar extends DefaultControl {
   private _searchFocus (e: JQueryEventObject): void {
     if (this._map.getVenue()) {
       this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
+    } else if ((!this._map.getVenue() && !this._map.getDirection())) {
+      this._map.headerManager.search(' ', searchOptions(this._map, this._map.getVenue(), 'search'), this._clickOnSearchResult.bind(this))
     }
     clearTimeout(this._hideSearchResultsTimeout)
   }
@@ -122,6 +124,8 @@ export class SearchBar extends DefaultControl {
         this._map.headerManager.search(searchString, searchOptions(this._map, this._map.getVenue(), 'search'), this._clickOnSearchResult.bind(this))
       } else if (this._map.getVenue()) {
         this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
+      } else if ((!this._map.getVenue() && !this._map.getDirection())) {
+        this._map.headerManager.search(' ', searchOptions(this._map, this._map.getVenue(), 'search'), this._clickOnSearchResult.bind(this))
       } else {
         this._map.headerManager.hideSearchResults()
       }
