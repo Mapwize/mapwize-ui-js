@@ -19,6 +19,7 @@ export class FooterSelection extends DefaultControl {
 
     this._container = $(selectionHtml)
 
+    this.listen('click', '#mwz-footer-selection', this._footerClick.bind(this))
     this.listen('click', '#mwz-footer-directions-button', this._directionButtonClick.bind(this))
     this.listen('click', '#mwz-footer-informations-button', this._informationButtonClick.bind(this))
 
@@ -56,6 +57,10 @@ export class FooterSelection extends DefaultControl {
   // Privates methods
   // ---------------------------------------
 
+  private _footerClick (e: JQueryEventObject): void {
+    const placeId = this.map.getSelected()._id
+    this.map.centerOnPlace(placeId)
+  }
   private _directionButtonClick (e: JQueryEventObject): void {
     e.stopPropagation()
     this._container.find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
