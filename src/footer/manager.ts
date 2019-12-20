@@ -1,5 +1,4 @@
 import { set } from 'lodash'
-
 import { FooterDirections, FooterSelection, FooterVenue } from './'
 
 export class FooterManager {
@@ -149,6 +148,9 @@ export class FooterManager {
     this._map.removeControl(this.directionFooter)
   }
   private _onDirectionStart (): void {
+    if (this._map.floorControl) {
+      this._map.floorControl.resize()
+    }
     this.showDirection().catch(() => null)
   }
   private _onDirectionStop (): void {

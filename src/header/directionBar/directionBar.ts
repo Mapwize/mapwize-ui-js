@@ -4,7 +4,7 @@ import { Api } from 'mapwize'
 
 const directionsHtml = require('./directionBar.html')
 
-import { icons } from '../../config'
+import { icons, uiConfig } from '../../config'
 import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
@@ -155,8 +155,11 @@ export class DirectionBar extends DefaultControl {
 
   private _closeButtonClick (e: JQueryEventObject): void {
     this._clear()
-    this._map.headerManager.closeButtonClick()
+    this.map.headerManager.closeButtonClick()
     $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+    if (this.map.floorControl) {
+      this.map.floorControl.resize()
+    }
   }
   private _reverseButtonClick (e: JQueryEventObject): void {
     let oldFrom = null
@@ -186,7 +189,7 @@ export class DirectionBar extends DefaultControl {
     this._setModeScroll(element.scrollLeft() - this._getScrollSize())
   }
   private _getScrollSize () {
-    return ($(this.map._container).hasClass('mwz-small') ? 3 : 4) * modeButtonWidth
+    return ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS) ? 3 : 4) * modeButtonWidth
   }
 
   private _updateFieldsPlaceholder (): void {
@@ -371,7 +374,7 @@ export class DirectionBar extends DefaultControl {
 
     let numberOfmodeToDisplay = 4
 
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       numberOfmodeToDisplay = 3
     }
 
@@ -409,7 +412,7 @@ export class DirectionBar extends DefaultControl {
     const buttonOffset = (this._mode.index - 1) * modeButtonWidth
 
     let visibleZone = currentScroll + 4 * modeButtonWidth
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       visibleZone = currentScroll + 3 * modeButtonWidth
     }
 

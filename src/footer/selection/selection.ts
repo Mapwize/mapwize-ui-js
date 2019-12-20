@@ -3,6 +3,7 @@ import { isEmpty, isFunction } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 
+import uiConfig from '../../config'
 import { DefaultControl } from '../../control'
 import { getIcon, getTranslation } from '../../utils'
 
@@ -78,7 +79,7 @@ export class FooterSelection extends DefaultControl {
     this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
 
     let padding = 38
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       padding = 0
     }
 
@@ -140,8 +141,7 @@ export class FooterSelection extends DefaultControl {
     }, 250, () => {
       this._container.find('.mwz-details').css('max-height', 120)
     })
-
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', selected_height)
     }
 
