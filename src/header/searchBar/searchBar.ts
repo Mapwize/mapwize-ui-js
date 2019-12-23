@@ -130,7 +130,7 @@ export class SearchBar extends DefaultControl {
   private _searchBlur (e: JQueryEventObject): void {
     this._hideSearchResultsTimeout = setTimeout(() => {
       this._container.find('#mwz-mapwize-search').val('')
-      this._map.headerManager.hideSearchResults()
+      this.map.headerManager.hideSearchResults()
     }, 500)
   }
 
