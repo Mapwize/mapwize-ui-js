@@ -104,7 +104,7 @@
       }
 
       function setDirectionMode() {
-        mapwizeMap.setDirectionMode().catch(() => null)
+        mapwizeMap.setDirectionMode().catch(function() {return null})
       }
       function getModes() {
         console.log(mapwizeMap.getModes())
@@ -141,13 +141,13 @@
       }
 
       function setFrom() {
-        MapwizeUI.Api.getPlace(mapwizePlaceId).then(place => {
+        MapwizeUI.Api.getPlace(mapwizePlaceId).then(function(place) {
           place.objectClass = 'place'
           mapwizeMap.setFrom(place)
         })
       }
       function setTo() {
-        MapwizeUI.Api.getPlace(receptionPlaceId).then(place => {
+        MapwizeUI.Api.getPlace(receptionPlaceId).then(function(place) {
           place.objectClass = 'place'
           mapwizeMap.setTo(place)
         })
