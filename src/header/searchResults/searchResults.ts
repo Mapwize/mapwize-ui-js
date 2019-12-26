@@ -7,7 +7,6 @@ const templateVenue = template(require('./templates/venue.html'))
 const templatePlace = template(require('./templates/place.html'))
 const templatePlaceList = template(require('./templates/placeList.html'))
 
-import { ITEMPIXEL, ITEMSTOSCROLL } from '../../constants'
 import { DefaultControl } from '../../control'
 import { translate } from '../../translate'
 import { getIcon, getMainFroms, getMainSearches, getTranslation } from '../../utils'
@@ -88,9 +87,10 @@ export class SearchResults extends DefaultControl {
 
     this._container.find(pastItemSelected).removeClass('mwz-item-selected')
     this._container.find(nextItemToSelect).addClass('mwz-item-selected')
-    this.setScroll()
 
+    this.setScroll(this._container.find(nextItemToSelect))
   }
+
 
   public downArrow () {
     const searchResults = this._container.find('#mwz-search-results-container a')
@@ -107,19 +107,24 @@ export class SearchResults extends DefaultControl {
 
     this._container.find(pastItemSelected).removeClass('mwz-item-selected')
     this._container.find(nextItemToSelect).addClass('mwz-item-selected')
-    this.setScroll()
+
+    this.setScroll(this._container.find(nextItemToSelect))
   }
 
-  public setScroll () {
-    const searchResultContainer = this._container.find('#mwz-search-results-container li')
-    let itemPixel = ITEMPIXEL
+  public setScroll (item: JQuery<HTMLElement>) {
+    const container = this._container
 
-    if (searchResultContainer.length > 0) {
-      itemPixel = itemPixel + 10
+    const containerHeight = container.height()
+    const containerTop = container.scrollTop()
+
+    const itemTop = this._container.find(item).offset().top - container.offset().top
+    const itemBottom = itemTop + this._container.find(item).height()
+
+    const itemIsFullyVisible = (itemTop >= 0 && itemBottom <= containerHeight)
+
+    if (!itemIsFullyVisible) {
+      container.animate({ scrollTop: itemTop + containerTop }, 250)
     }
-
-    const scrollPixel = ((ITEMSTOSCROLL - 1) * itemPixel) * Math.floor(itemSelected / ITEMSTOSCROLL)
-    $(this.map._container).find('#mwz-search-results').animate({ scrollTop: scrollPixel }, 250)
   }
 
   // ---------------------------------------
