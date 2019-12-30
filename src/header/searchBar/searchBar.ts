@@ -102,9 +102,7 @@ export class SearchBar extends DefaultControl {
   }
 
   private _searchFocus (e: JQueryEventObject): void {
-    if (this._map.getVenue()) {
-      this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
-    }
+    this._searchKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }
   private _searchKeyup (e: JQueryEventObject): void {
@@ -123,7 +121,7 @@ export class SearchBar extends DefaultControl {
       } else if (this._map.getVenue()) {
         this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
       } else {
-        this._map.headerManager.hideSearchResults()
+        this._map.headerManager.search(' ', searchOptions(this._map, null, 'search'), this._clickOnSearchResult.bind(this))
       }
     }
   }
