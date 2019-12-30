@@ -126,8 +126,6 @@ export class SearchBar extends DefaultControl {
         this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
       } else {
         this._map.headerManager.search(' ', searchOptions(this._map, null, 'search'), this._clickOnSearchResult.bind(this))
-      } else {
-        this._map.headerManager.hideSearchResults()
       }
     }
   }
