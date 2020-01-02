@@ -71,7 +71,7 @@ export class FooterSelection extends DefaultControl {
     $(this._container).find('.mwz-close-details').removeClass('d-none').addClass('d-block')
     $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
 
-    let padding = 20
+    let padding = 38
     if ($(this.map._container).hasClass('mwz-small')) {
       padding = 0
     }
