@@ -69,6 +69,8 @@ export class FooterSelection extends DefaultControl {
   }
 
   private _informationButtonClick (e: JQueryEventObject): void {
+    e.stopPropagation()
+
     if (isFunction(this._options.onInformationButtonClick)) {
       this._options.onInformationButtonClick(this._map.getSelected())
     }
