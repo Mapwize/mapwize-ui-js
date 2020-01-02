@@ -7,6 +7,7 @@ const outOfVenueHtml = require('./templates/outOfVenue.html')
 const enteringInVenueHtml = require('./templates/enteringInVenue.html')
 const inVenueHtml = require('./templates/inVenue.html')
 
+import uiConfig from '../../config'
 import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
@@ -73,14 +74,14 @@ export class SearchBar extends DefaultControl {
   }
 
   public showBackButton () {
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       this._container.find('#mwz-menu-button-container').hide()
       this._container.find('#mwz-back-button-container').show()
     }
   }
 
   public hideBackButton () {
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       this._container.find('#mwz-menu-button-container').show()
       this._container.find('#mwz-back-button-container').hide()
     }
