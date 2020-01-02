@@ -146,7 +146,6 @@ export class FooterManager {
     this._map.removeControl(this.venueFooter)
     this._map.removeControl(this.selectionFooter)
     this._map.removeControl(this.directionFooter)
-    this.selectionFooter.initializeMapBoxControls()
   }
   private _onDirectionStart (): void {
     if (this._map.floorControl) {

@@ -37,6 +37,10 @@ export class FooterSelection extends DefaultControl {
     return null
   }
 
+  public onRemove () {
+    this.initializeMapBoxControls()
+  }
+
   public getDefaultPosition (): string {
     return 'bottom-left'
   }
