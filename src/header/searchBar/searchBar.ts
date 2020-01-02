@@ -1,17 +1,15 @@
 import * as $ from 'jquery'
 import { isFunction, template } from 'lodash'
 
-import { translate } from '../../translate'
-import { uiConfig } from '../../config'
-
 const outOfVenueHtml = require('./templates/outOfVenue.html')
 const enteringInVenueHtml = require('./templates/enteringInVenue.html')
 const inVenueHtml = require('./templates/inVenue.html')
 
-import uiConfig from '../../config'
+import { uiConfig } from '../../config'
 import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
+import { translate } from '../../translate'
 import { getTranslation } from '../../utils'
 
 const OUT_OF_VENUE = 0
