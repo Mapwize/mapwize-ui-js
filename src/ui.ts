@@ -95,7 +95,6 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {string} [options.locale=en] (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
 * @param {string} [options.unit=m] (optional, string, default: m) the ui measurement unit. 'm' and 'ft' are supported.
 * @param {string} [options.mainColor=null] (optional, string, default: null) the main color for the interface as hexadecimal string.
-* @param {boolean} [options.hideMenu=false] (optional, boolean, default: false) to hide menu bar.
 * @param {boolean} [options.floorControl=true] (optional, boolean, default: true) if the floor control should be displayed.
 * @param {object} [options.floorControlOptions=null] 
 * @param {boolean} [options.navigationControl=true]  (optional, boolean, default: true) if the navigation control should be displayed.
@@ -103,8 +102,10 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {boolean} [options.locationControl=true]  (optional, boolean, default: true) if the user location control should be displayed.
 * @param {object} [options.locationControlOptions=null]
 * @param {object} [options.direction=null] (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
-* @param {function} [options.onInformationButtonClick]
-* @param {function} [options.onMenuButtonClick]
+* @param {function} [options.shouldShowInformationButtonFor] (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean. If this is not defined, the information button is never shown by default.
+* @param {function} [options.onInformationButtonClick]  (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
+* @param {boolean} [options.hideMenu=false] (optional, boolean, default: false) to hide menu bar.
+* @param {function} [options.onMenuButtonClick]  (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 * @returns {Promise.<Object>}
 * @example
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
@@ -149,6 +150,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     onMenuButtonClick: () => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any) => ({ searchString, searchOptions }),
     onSearchResultWillBeDisplayed: (results: any) => results,
+    shouldShowInformationButtonFor: (element: any) => false,
 
     preferredLanguage: 'en',
 
