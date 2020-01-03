@@ -10,5 +10,13 @@
   "coordinates": "Coördinaten",
   "current_location": "Huidige locatie",
   "use_current_location": "Gebruik mijn huidige locatie",
-  "empty_title": "Lege titel"
+  "empty_title": "Lege titel",
+  "menu": "Menu",
+  "directions": "Richtingen",
+  "zoom_in": "Schaal vergroten",
+  "zoom_out": "Schaal verkleinen",
+  "reset_bearing_to_north": "Zet de peiling terug naar het noorden",
+  "use_ctrl": "Gebruik Ctrl+Bewegen om de kaart te draaien",
+  "change_venue_language": "Taal van de plaats wijzigen",
+  "change_venue_universe": "Universum van de plaats wijzigen"
 }

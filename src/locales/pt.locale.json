@@ -10,5 +10,13 @@
   "coordinates": "Coordenadas",
   "current_location": "Localizaçao atual",
   "use_current_location": "Utilizar a minha localizaçao atual",
-  "empty_title": "Titulo vazio"
+  "empty_title": "Empty title",
+  "menu": "Menu",
+  "directions": "Direções",
+  "zoom_in": "Aumentar o zoom",
+  "zoom_out": "Diminuir o zoom",
+  "reset_bearing_to_north": "Orientar em direção ao norte",
+  "use_ctrl": "Utilize ctrl+arrastar para orientar o mapa",
+  "change_venue_language": "Alterar a lingua",
+  "change_venue_universe": "Alterar a visualisation"
 }

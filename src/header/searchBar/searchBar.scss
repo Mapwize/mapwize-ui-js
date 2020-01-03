@@ -13,8 +13,7 @@
   pointer-events: auto;
   
   transition: margin-top 0.15s ease-in-out, margin-left 0.15s ease-in-out, width 0.15s ease-in-out;
-  overflow: auto;
-  
+
   .mwz-menu, .mwz-directions {
     img {
       width: 25px;
@@ -28,26 +27,7 @@
       line-height: inherit;
     }
   }
-  .mwz-directions-tooltip, .mwz-menu-tooltip {
-    visibility: hidden;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    position: absolute;
-    padding: 0px 5px 0px 5px;
-    z-index: 1;
-  }
 
-  .mwz-directions:hover .mwz-directions-tooltip, .mwz-menu:hover .mwz-menu-tooltip {
-    visibility: visible;
-  }
-  .mwz-directions-tooltip {
-    margin: 50px 0px 0px -60px;
-  }
-  .mwz-menu-tooltip {
-    margin: 50px 0px 0px -45px;
-  }
 
   .mwz-search {
     padding-left: 0.5rem;

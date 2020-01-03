@@ -10,5 +10,13 @@
   "coordinates": "Koordinaten",
   "current_location": "Aktueller Standort",
   "use_current_location": "Nutzt mein aktuellen Standort",
-  "empty_title": "Leere Titel"
+  "empty_title": "Leere Titel",
+  "menu": "Menü",
+  "directions": "Richtungen",
+  "zoom_in": "Vergrößern",
+  "zoom_out": "Verkleinern",
+  "reset_bearing_to_north": "Nach Norden ausrichten",
+  "use_ctrl": "Nutzen Sie die Tasten Strg + Bewegen um die Karte auszurichten",
+  "change_venue_language": "Sprache des Veranstaltungsortes ändern",
+  "change_venue_universe": "Universum des Veranstaltungsortes ändern"
 }

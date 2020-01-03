@@ -116,6 +116,10 @@ export class FooterManager {
     return Promise.reject()
   }
 
+  public refreshLocale (): any {
+    this.venueFooter.refreshLocale()
+  }
+
   private _onClick (e: any): void {
     if (this._map.getVenue() && !this._map.headerManager.isInDirectionMode()) {
       if (e.place) {
