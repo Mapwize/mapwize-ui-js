@@ -93,11 +93,16 @@ export class FloorControl {
 
   public resize () {
     const margins = this._map._margins.get()
+    let footerHeight = 0
 
     if ($(this._map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS) && this._map.headerManager.isInDirectionMode()) {
       margins.top = 45
     } else {
       margins.top = 0
+    }
+
+    if (this._map.getSelected()) {
+      footerHeight = $(this._map._container).find('#mwz-footer-selection').height()
     }
 
     let maxHeight = (
@@ -108,7 +113,8 @@ export class FloorControl {
       (this._map.locationControl ? this._options.sizes.userLocationControl : 0) - // Location control if any + control margin
       (this._map.mapwizeAttribution ? this._options.sizes.mapwizeAttribution : 30) - // mapwize attribution control
       this._options.spaces.bottom - // Floor control margin
-      this._options.spaces.top // Margin between top controls and bottom controls
+      this._options.spaces.top - // Margin between top controls and bottom controls
+      footerHeight // Footer height
     )
     if (maxHeight < this._options.minHeight) {
       maxHeight = this._options.minHeight
