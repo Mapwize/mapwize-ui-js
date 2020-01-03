@@ -38,6 +38,10 @@ export class FooterSelection extends DefaultControl {
   }
 
   public onRemove () {
+    this._container.remove()
+    this._map = undefined
+    this.isOnMap = false
+
     this.initializeMapBoxControls()
   }
 
@@ -49,7 +53,6 @@ export class FooterSelection extends DefaultControl {
     this.map.removeMarkers()
 
     if (element) {
-      this._centerOnSelectedElement(element)
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
