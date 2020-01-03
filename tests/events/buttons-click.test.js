@@ -23,7 +23,9 @@ mwzDescribe(testSuites, function () {
     }).then(function (map) {
       map.on('mapwize:venueenter', function () {
         setTimeout(function () {
-          $('#mwz-footer-selection').click();
+          map.setSelected(MAPWIZEPLACEID).then(function () {
+            $('#mwz-footer-informations-button').click()
+          })
         }, 1000);
       })
     }).catch(function (e) { callbackTest(e); });
