@@ -37,6 +37,10 @@ export class FooterSelection extends DefaultControl {
     return null
   }
 
+  public onRemove () {
+    this.initializeMapBoxControls()
+  }
+
   public getDefaultPosition (): string {
     return 'bottom-left'
   }
@@ -48,10 +52,14 @@ export class FooterSelection extends DefaultControl {
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
-      $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+      this.initializeMapBoxControls()
       this.map.setPromotedPlaces([])
     }
     return Promise.resolve()
+  }
+
+  public initializeMapBoxControls (): void {
+    $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
   }
 
   // ---------------------------------------
