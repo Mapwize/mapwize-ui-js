@@ -2,8 +2,8 @@
 
 ## 2.4.0
 
-- Feat: placeLists are now selectable
 - Feat: Update selection card to display direction and information buttons (#80)
+- Improve: visibility of placeLists in search (#53)
 - Improve: alignment of universe and language selectors (#93)
 - Improve: Display available venues when search is empty (#83)
 - Fix: Prevent direction display errors from being silent (#96)
