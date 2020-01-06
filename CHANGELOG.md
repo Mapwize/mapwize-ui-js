@@ -1,5 +1,17 @@
 # Mapwize UI Changelog
 
+## 2.4.0
+
+- Feat: placeLists are now selectable
+- Feat: Update selection card to display direction and information buttons (#80)
+- Improve: alignment of universe and language selectors (#93)
+- Improve: Display available venues when search is empty (#83)
+- Fix: Prevent direction display errors from being silent (#96)
+- Fix: icons on IE11 (#95)
+- Fix: extension of place card with details (#97)
+- Fix: floor selector height (#88)
+- Fix: keyboard scrolling in search results (#94)
+
 ## 2.3.0
 
 - Feat: Display no result message if there is no search result
