@@ -1,8 +1,8 @@
 import * as $ from 'jquery'
 import { find, template } from 'lodash'
 
-import { translate } from '../../translate'
 import { uiConfig } from '../../config'
+import { translate } from '../../translate'
 
 const venueTemplate = template(require('./venue.html'))
 

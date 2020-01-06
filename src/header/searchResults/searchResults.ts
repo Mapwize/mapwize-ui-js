@@ -91,7 +91,6 @@ export class SearchResults extends DefaultControl {
     this.setScroll(this._container.find(nextItemToSelect))
   }
 
-
   public downArrow () {
     const searchResults = this._container.find('#mwz-search-results-container a')
     const pastItemSelected = searchResults[itemSelected - 1]
@@ -187,7 +186,7 @@ export class SearchResults extends DefaultControl {
     const lang = this.map.getLanguage() || this.map.getPreferredLanguage()
     const resultContainer = this._container.find('#mwz-search-results-container')
 
-    let [query, mapwize] = results
+    let mapwize = results[1]
 
     resultContainer.html('')
 
