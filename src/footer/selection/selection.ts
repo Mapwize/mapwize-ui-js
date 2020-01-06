@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { find, isEmpty, isFunction } from 'lodash'
+import { isEmpty, isFunction } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 

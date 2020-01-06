@@ -1,6 +1,5 @@
-import * as $ from 'jquery'
-import { find, get, isFinite, map, pull, replace, set, uniq } from 'lodash'
-import { Api, apiKey, apiUrl } from 'mapwize'
+import { find, first, get, isFinite, map, pull, replace, set, uniq } from 'lodash'
+import { Api, apiUrl } from 'mapwize'
 
 import uiConfig from './config'
 
@@ -49,20 +48,20 @@ const getIcon = (o: any) => {
 }
 
 const getPlaceList = (placeListId: string): Promise<any> => {
-    return $.get(apiUrl() + '/v1/placeList/' + placeListId + '?api_key=' + apiKey(), {}, null, 'json')
-}
-
-const getDefaultFloorForPlaces = (places: any, currentFloor: number): number => {
-    const place = find(places, ['floor', currentFloor])
-    if (!place) {
-        return currentFloor
-    }
-    return place.floor
+    const url = Api.buildUrl(apiUrl(), '/v1/placeLists/' + placeListId)
+    return Api.promiseGET(url)
 }
 
 const getPlacesInPlaceList = (placeListId: string): Promise<any> => {
     const url = Api.buildUrl(apiUrl(), '/v1/placeLists/' + placeListId + '/places')
     return Api.promiseGET(url)
+}
+
+const getDefaultFloorForPlaces = (places: any[], currentFloor: number): number => {
+    if (!places.length || find(places, { floor: currentFloor })) {
+        return currentFloor
+    }
+    return first(places).floor
 }
 
 const getPlace = (placeId: string): Promise<any> => {
