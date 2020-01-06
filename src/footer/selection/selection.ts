@@ -166,7 +166,9 @@ export class FooterSelection extends DefaultControl {
       this._container.find('#mwz-footer-informations-button').hide()
     }
 
-    this.map.floorControl.resize()
+    if (this.map.floorControl) {
+      this.map.floorControl.resize()
+    }
   }
   private _promoteSelectedElement (element: any): void {
     if (element.objectClass === 'place') {
