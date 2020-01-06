@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, indexOf, isArray, isFinite, set, template } from 'lodash'
+import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -90,7 +90,6 @@ export class SearchResults extends DefaultControl {
 
     this.setScroll(this._container.find(nextItemToSelect))
   }
-
 
   public downArrow () {
     const searchResults = this._container.find('#mwz-search-results-container a')
@@ -187,7 +186,7 @@ export class SearchResults extends DefaultControl {
     const lang = this.map.getLanguage() || this.map.getPreferredLanguage()
     const resultContainer = this._container.find('#mwz-search-results-container')
 
-    let [query, mapwize] = results
+    let mapwize = results[1]
 
     resultContainer.html('')
 
@@ -233,12 +232,11 @@ export class SearchResults extends DefaultControl {
       title: getTranslation(mwzObject, lang, 'title'),
     }
     let templated = null
-
     if (mwzObject.objectClass === 'venue') {
       templated = templateVenue(options)
     } else if (mwzObject.objectClass === 'place') {
       templated = templatePlace(options)
-    } else if (mwzObject.objectClass === 'placeList') {
+    } else if (mwzObject.objectClass === 'placeList' && mwzObject.placeIds.length > 0) {
       templated = templatePlaceList(options)
     }
 

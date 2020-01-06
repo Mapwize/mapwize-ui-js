@@ -144,13 +144,13 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     navigationControl: true,
     navigationControlOptions: {},
 
-    onDirectionQueryWillBeSent: (query: any) => query,
-    onDirectionWillBeDisplayed: (direction: any, directionOptions: any) => ({ direction, options: directionOptions }),
-    onInformationButtonClick: () => null,
-    onMenuButtonClick: () => null,
-    onSearchQueryWillBeSent: (searchString: string, searchOptions: any) => ({ searchString, searchOptions }),
-    onSearchResultWillBeDisplayed: (results: any) => results,
-    shouldShowInformationButtonFor: (element: any) => false,
+    onDirectionQueryWillBeSent: (query: any): any => query,
+    onDirectionWillBeDisplayed: (direction: any, directionOptions: any): any => ({ direction, options: directionOptions }),
+    onInformationButtonClick: (): void => null,
+    onMenuButtonClick: (): void => null,
+    onSearchQueryWillBeSent: (searchString: string, searchOptions: any): any => ({ searchString, searchOptions }),
+    onSearchResultWillBeDisplayed: (results: any): any => results,
+    shouldShowInformationButtonFor: (element: any): boolean => false,
 
     preferredLanguage: 'en',
 

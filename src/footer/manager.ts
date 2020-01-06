@@ -56,7 +56,11 @@ export class FooterManager {
       let centerPromise = Promise.resolve(null)
       if (centerOnElement) {
         const currentZoom = this._map.getZoom()
-        centerPromise = this._map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+        if (element.objectClass === 'placeList') {
+          centerPromise = this._map.centerOnVenue(element.venue)
+        } else {
+          centerPromise = this._map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+        }
       }
 
       return centerPromise.then(() => {

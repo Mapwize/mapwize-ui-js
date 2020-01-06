@@ -1,7 +1,8 @@
 import * as $ from 'jquery'
 import { defaults } from 'lodash'
-import { translate } from '../../translate'
+
 import { uiConfig } from '../../config'
+import { translate } from '../../translate'
 
 type Options = {
   showCompass?: boolean,
@@ -48,12 +49,10 @@ class NavigationControl {
       this._compassArrow.className = 'mapboxgl-ctrl-compass-arrow'
       this._compass.appendChild(this._compassArrow)
     }
-
-    this.refreshLocale()
   }
 
   public refreshLocale () {
-    if (!$("#mapwize").hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
+    if (!$(this._map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       setTimeout(() => {
         const container = $(this._container)
         container.find('.mapboxgl-ctrl-zoom-in').attr('data-original-title', translate('zoom_in'))
@@ -80,6 +79,8 @@ class NavigationControl {
       this._map.on('rotate', this._onBearingChange)
       this._onBearingChange()
     }
+
+    this.refreshLocale()
     return this._container
   }
 
