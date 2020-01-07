@@ -1,6 +1,8 @@
 
+import * as $ from 'jquery'
 import { defaults, forEach } from 'lodash'
 
+import uiConfig from '../../config'
 import { addClass, removeClass } from '../../utils'
 
 const defaultOptions = {
@@ -11,7 +13,7 @@ const defaultOptions = {
     loadingFloor: 'mwz-loading',
     selectedFloor: 'mwz-selectedFloor',
   },
-  maxHeight: 508, // Min size of floor selector
+  maxHeight: 508, // Max size of floor selector
   minHeight: 64, // Min size of floor selector
   sizes: { // Size of others control to calcul floor control max height
     mapwizeAttribution: 30, // 21 in reality
@@ -91,6 +93,18 @@ export class FloorControl {
 
   public resize () {
     const margins = this._map._margins.get()
+    let footerHeight = 0
+
+    if ($(this._map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS) && this._map.headerManager.isInDirectionMode()) {
+      margins.top = 45
+    } else {
+      margins.top = 0
+    }
+
+    if ($(this._map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS) && this._map.getSelected()) {
+      footerHeight = $(this._map._container).find('#mwz-footer-selection').height()
+    }
+
     let maxHeight = (
       this._map.getSize().y - // Map height
       margins.bottom - // Margin bottom
@@ -99,16 +113,15 @@ export class FloorControl {
       (this._map.locationControl ? this._options.sizes.userLocationControl : 0) - // Location control if any + control margin
       (this._map.mapwizeAttribution ? this._options.sizes.mapwizeAttribution : 30) - // mapwize attribution control
       this._options.spaces.bottom - // Floor control margin
-      this._options.spaces.top // Margin between top controls and bottom controls
+      this._options.spaces.top - // Margin between top controls and bottom controls
+      footerHeight // Footer height
     )
-
     if (maxHeight < this._options.minHeight) {
       maxHeight = this._options.minHeight
     }
     if (maxHeight > this._options.maxHeight) {
       maxHeight = this._options.maxHeight
     }
-
     this._container.style.maxHeight = maxHeight + 'px'
   }
 

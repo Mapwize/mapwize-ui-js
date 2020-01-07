@@ -3,8 +3,9 @@ import { isEmpty, isFunction } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 
+import uiConfig from '../../config'
 import { DefaultControl } from '../../control'
-import { getIcon, getTranslation } from '../../utils'
+import { getDefaultFloorForPlaces, getIcon, getPlacesInPlaceList, getTranslation } from '../../utils'
 
 export class FooterSelection extends DefaultControl {
 
@@ -21,13 +22,27 @@ export class FooterSelection extends DefaultControl {
 
     this.listen('click', '#mwz-footer-selection', this._footerClick.bind(this))
     this.listen('click', '#mwz-footer-directions-button', this._directionButtonClick.bind(this))
+    this.listen('click', '#mwz-footer-informations-button', this._informationButtonClick.bind(this))
 
     this.listen('click', '#mwz-footer-selection .mwz-open-details', this._onOpenDetailsClick.bind(this))
     this.listen('click', '#mwz-footer-selection .mwz-close-details', this._onCloseDetailsClick.bind(this))
+
+    if (options.mainColor) {
+      this._container.find('#mwz-footer-directions-button').css('background', options.mainColor)
+      this._container.find('.mwz-icon-information').css('background', options.mainColor)
+    }
   }
 
   public remove (): void {
     return null
+  }
+
+  public onRemove () {
+    this._container.remove()
+    this._map = undefined
+    this.isOnMap = false
+
+    this.initializeMapBoxControls()
   }
 
   public getDefaultPosition (): string {
@@ -41,10 +56,18 @@ export class FooterSelection extends DefaultControl {
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
     } else {
-      $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+      this.initializeMapBoxControls()
       this.map.setPromotedPlaces([])
+
+      if (this.map.floorControl) {
+        this.map.floorControl.resize()
+      }
     }
     return Promise.resolve()
+  }
+
+  public initializeMapBoxControls (): void {
+    $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
   }
 
   // ---------------------------------------
@@ -52,9 +75,7 @@ export class FooterSelection extends DefaultControl {
   // ---------------------------------------
 
   private _footerClick (e: JQueryEventObject): void {
-    if (isFunction(this._options.onInformationButtonClick)) {
-      this._options.onInformationButtonClick(this._map.getSelected())
-    }
+    this._centerOnSelectedElement(this.map.getSelected())
   }
   private _directionButtonClick (e: JQueryEventObject): void {
     e.stopPropagation()
@@ -63,21 +84,41 @@ export class FooterSelection extends DefaultControl {
     this._map.headerManager.showDirection()
   }
 
+  private _centerOnSelectedElement (element: any): void {
+    const currentZoom = this.map.getZoom()
+
+    if (element.objectClass === 'placeList') {
+      getPlacesInPlaceList(element.objectID).then((places) => {
+        this.map.centerOnVenue(element.venueId, { floor: getDefaultFloorForPlaces(places, this._map.getFloor()) })
+      })
+    } else {
+      this.map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+    }
+  }
+
+  private _informationButtonClick (e: JQueryEventObject): void {
+    e.stopPropagation()
+
+    if (isFunction(this._options.onInformationButtonClick)) {
+      this._options.onInformationButtonClick(this._map.getSelected())
+    }
+  }
+
   private _onOpenDetailsClick (e: JQueryEventObject): void {
     e.stopPropagation()
 
     this._container.addClass('mwz-opened-details')
 
-    $(this._container).find('.mwz-close-details').removeClass('d-none').addClass('d-block')
-    $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+    this._container.find('.mwz-close-details').removeClass('d-none').addClass('d-block')
+    this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
 
-    let padding = 20
-    if ($(this.map._container).hasClass('mwz-small')) {
+    let padding = 38
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       padding = 0
     }
 
-    $(this._container).find('.mwz-details').css('max-height', (this.map.getSize().y - padding - $(this._container).find('.mwz-selection-header').height()))
-    $(this._container).animate({
+    this._container.find('.mwz-details').css('max-height', (this.map.getSize().y - padding - this._container.find('.mwz-selection-header').height()))
+    this._container.animate({
       height: (this.map.getSize().y - padding),
     }, 250)
   }
@@ -86,56 +127,66 @@ export class FooterSelection extends DefaultControl {
 
     this._container.removeClass('mwz-opened-details')
 
-    $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-    $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+    this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
+    this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
 
-    $(this._container).animate({
+    this._container.animate({
       height: this._selectedHeight,
     }, 250, () => {
-      $(this._container).find('.mwz-details').css('max-height', 120)
+      this._container.find('.mwz-details').css('max-height', 120)
     })
   }
 
   private _displaySelectedElementInformations (element: any): void {
-    const lastHeight = $(this._container).css('height')
+    const lastHeight = this._container.css('height')
 
-    $(this._container).addClass('invisible')
-    $(this._container).css('height', 'auto')
+    this._container.addClass('invisible')
+    this._container.css('height', 'auto')
 
     const lang = this.map.getLanguage()
-    $(this._container).find('.mwz-title').text(getTranslation(element, lang, 'title'))
-    $(this._container).find('.mwz-subtitle').text(getTranslation(element, lang, 'subTitle'))
-    $(this._container).find('.mwz-icon img').attr('src', getIcon(element))
+    this._container.find('.mwz-title').text(getTranslation(element, lang, 'title'))
+    this._container.find('.mwz-subtitle').text(getTranslation(element, lang, 'subTitle'))
+    this._container.find('.mwz-icon img').attr('src', getIcon(element))
 
     const details = getTranslation(element, lang, 'details')
     if (!isEmpty(details)) {
-      $(this._container).find('.mwz-details').html(details)
+      this._container.find('.mwz-details').html(details)
     } else {
-      $(this._container).find('.mwz-details').html('')
-      $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-details').html('')
+      this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
     }
 
-    const selected_height = $(this._container).height()
-    this._selectedHeight = selected_height < 170 ? selected_height : 170
+    const selected_height = this._container.height()
+    this._selectedHeight = selected_height < 240 ? selected_height : 240
 
-    if (selected_height >= 170) {
-      $(this._container).find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-      $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+    if (selected_height >= 240) {
+      this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
+      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
     } else {
-      $(this._container).find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      $(this._container).find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
     }
 
-    $(this._container).css('height', lastHeight)
-    $(this._container).removeClass('invisible')
-    $(this._container).animate({
+    this._container.css('height', lastHeight)
+    this._container.removeClass('invisible')
+    this._container.animate({
       height: this._selectedHeight,
     }, 250, () => {
-      $(this._container).find('.mwz-details').css('max-height', 120)
+      this._container.find('.mwz-details').css('max-height', 120)
     })
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', selected_height)
+    }
+
+    if (isFunction(this._options.shouldShowInformationButtonFor) && this._options.shouldShowInformationButtonFor(element)) {
+      this._container.find('#mwz-footer-informations-button').show()
+    } else {
+      this._container.find('#mwz-footer-informations-button').hide()
+    }
+
+    if (this.map.floorControl) {
+      this.map.floorControl.resize()
     }
   }
   private _promoteSelectedElement (element: any): void {

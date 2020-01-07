@@ -155,7 +155,8 @@ const attachMethods = (mapInstance: any) => {
 
     mapInstance.setPreferredLanguage(currentLocal)
     mapInstance.headerManager.refreshLocale()
-    // mapInstance.footerManager.refreshLocale()
+    mapInstance.footerManager.refreshLocale()
+    mapInstance.navigationControl.refreshLocale()
   }
   /**
   * @instance
@@ -222,7 +223,6 @@ const attachMethods = (mapInstance: any) => {
     mapInstance.footerManager.remove()
 
     mapInstance.off('mapwize:click', onMapClick)
-    mapInstance.off('mapwize:directionstart', onDirectionStart)
     $(mapInstance.getContainer()).removeClass('mapwizeui')
 
     mapRemoveSave()

@@ -8,6 +8,53 @@
   
   pointer-events: auto;
   
+  .mwz-directions-button{
+    background: #C51586;
+    border-radius: 20px;
+    color: white;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 12.5px;
+    font-size: 14px;
+    width: 125px;
+
+    img{
+      width:20px;
+      margin-right: 10px;
+    }
+  }
+
+  .mwz-informations-button{
+    border-radius: 20px;
+    color: grey;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 12.5px;
+    font-size: 14px;
+    width: 140px;
+    border: solid 1px;
+    padding-bottom: 7px;
+    padding-top: 6px;
+  }
+
+  .mwz-icon-information{
+    background: #C51586;
+    padding: 2px 9px 2px 9px;
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .mwz-directions-button:hover, .mwz-informations-button:hover, .mwz-informations-button:focus{
+    text-decoration: none;
+  }
+  .mwz-subtitle{
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+  }
   .mwz-selection-header {
     // width: 100%;
 
@@ -53,6 +100,7 @@
     max-height: 120px;
     overflow: auto;
     padding-left: 12.5px;
+    padding-right: 12.5px;
     
     h4 {
       font-size: 1.2rem;

@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, indexOf, isArray, isFinite, set, template } from 'lodash'
+import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -7,7 +7,6 @@ const templateVenue = template(require('./templates/venue.html'))
 const templatePlace = template(require('./templates/place.html'))
 const templatePlaceList = template(require('./templates/placeList.html'))
 
-import { ITEMPIXEL, ITEMSTOSCROLL } from '../../constants'
 import { DefaultControl } from '../../control'
 import { translate } from '../../translate'
 import { getIcon, getMainFroms, getMainSearches, getTranslation } from '../../utils'
@@ -88,8 +87,8 @@ export class SearchResults extends DefaultControl {
 
     this._container.find(pastItemSelected).removeClass('mwz-item-selected')
     this._container.find(nextItemToSelect).addClass('mwz-item-selected')
-    this.setScroll()
 
+    this.setScroll(this._container.find(nextItemToSelect))
   }
 
   public downArrow () {
@@ -107,19 +106,24 @@ export class SearchResults extends DefaultControl {
 
     this._container.find(pastItemSelected).removeClass('mwz-item-selected')
     this._container.find(nextItemToSelect).addClass('mwz-item-selected')
-    this.setScroll()
+
+    this.setScroll(this._container.find(nextItemToSelect))
   }
 
-  public setScroll () {
-    const searchResultContainer = this._container.find('#mwz-search-results-container li')
-    let itemPixel = ITEMPIXEL
+  public setScroll (item: JQuery<HTMLElement>) {
+    const container = this._container
 
-    if (searchResultContainer.length > 0) {
-      itemPixel = itemPixel + 10
+    const containerHeight = container.height()
+    const containerTop = container.scrollTop()
+
+    const itemTop = this._container.find(item).offset().top - container.offset().top
+    const itemBottom = itemTop + this._container.find(item).height()
+
+    const itemIsFullyVisible = (itemTop >= 0 && itemBottom <= containerHeight)
+
+    if (!itemIsFullyVisible) {
+      container.animate({ scrollTop: itemTop + containerTop }, 250)
     }
-
-    const scrollPixel = ((ITEMSTOSCROLL - 1) * itemPixel) * Math.floor(itemSelected / ITEMSTOSCROLL)
-    $(this.map._container).find('#mwz-search-results').animate({ scrollTop: scrollPixel }, 250)
   }
 
   // ---------------------------------------
@@ -182,7 +186,7 @@ export class SearchResults extends DefaultControl {
     const lang = this.map.getLanguage() || this.map.getPreferredLanguage()
     const resultContainer = this._container.find('#mwz-search-results-container')
 
-    let [query, mapwize] = results
+    let mapwize = results[1]
 
     resultContainer.html('')
 
@@ -228,12 +232,11 @@ export class SearchResults extends DefaultControl {
       title: getTranslation(mwzObject, lang, 'title'),
     }
     let templated = null
-
     if (mwzObject.objectClass === 'venue') {
       templated = templateVenue(options)
     } else if (mwzObject.objectClass === 'place') {
       templated = templatePlace(options)
-    } else if (mwzObject.objectClass === 'placeList') {
+    } else if (mwzObject.objectClass === 'placeList' && mwzObject.placeIds.length > 0) {
       templated = templatePlaceList(options)
     }
 

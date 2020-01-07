@@ -7,3 +7,13 @@
     @import "./footer";
     @import "./controls";
 }
+.tooltip{
+    font-size: .76rem;
+    .arrow{
+        display: none;
+      }
+}
+.bs-tooltip-top{
+    margin-top: 85px;
+    padding: 0;
+}

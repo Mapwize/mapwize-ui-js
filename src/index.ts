@@ -3,6 +3,7 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
 import 'bootstrap/js/dist/dropdown'
+import 'bootstrap/js/dist/tooltip'
 import './index.scss'
 
 import { Api, apiKey, apiUrl, Cache, config } from 'mapwize'

@@ -12,6 +12,9 @@
   
   pointer-events: auto;
   
+  .form-control{
+    padding: 0.375rem 0;
+  }
   .mwz-mode-icons{
     display: flex;
     overflow-x: hidden;
@@ -31,7 +34,7 @@
     }
     
     .mwz-icon {
-      padding: 15px;
+      padding: 10px;
       
       img {
         width: 15px;
@@ -117,6 +120,9 @@
 
     border-radius: 0 0 8px 8px;
     
+    .mwz-icon {
+    padding: 0 10px 0 0;
+    }
     .mwz-modes-line{
       max-width: 192px !important;
     }

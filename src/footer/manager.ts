@@ -1,5 +1,4 @@
 import { set } from 'lodash'
-
 import { FooterDirections, FooterSelection, FooterVenue } from './'
 
 export class FooterManager {
@@ -57,7 +56,11 @@ export class FooterManager {
       let centerPromise = Promise.resolve(null)
       if (centerOnElement) {
         const currentZoom = this._map.getZoom()
-        centerPromise = this._map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+        if (element.objectClass === 'placeList') {
+          centerPromise = this._map.centerOnVenue(element.venue)
+        } else {
+          centerPromise = this._map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+        }
       }
 
       return centerPromise.then(() => {
@@ -117,6 +120,10 @@ export class FooterManager {
     return Promise.reject()
   }
 
+  public refreshLocale (): any {
+    this.venueFooter.refreshLocale()
+  }
+
   private _onClick (e: any): void {
     if (this._map.getVenue() && !this._map.headerManager.isInDirectionMode()) {
       if (e.place) {
@@ -149,6 +156,9 @@ export class FooterManager {
     this._map.removeControl(this.directionFooter)
   }
   private _onDirectionStart (): void {
+    if (this._map.floorControl) {
+      this._map.floorControl.resize()
+    }
     this.showDirection().catch(() => null)
   }
   private _onDirectionStop (): void {

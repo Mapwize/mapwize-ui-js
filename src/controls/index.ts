@@ -1,5 +1,5 @@
 import FloorControl from './floorControl/floorControl'
-import NavigationControl from './navigationControl/navigationControl'
 import LocationControl from './locationControl/locationControl'
+import NavigationControl from './navigationControl/navigationControl'
 
 export { FloorControl, NavigationControl, LocationControl }

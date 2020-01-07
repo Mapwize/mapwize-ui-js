@@ -1,15 +1,15 @@
 import * as $ from 'jquery'
 import { isFunction, template } from 'lodash'
 
-import { translate } from '../../translate'
-
 const outOfVenueHtml = require('./templates/outOfVenue.html')
 const enteringInVenueHtml = require('./templates/enteringInVenue.html')
 const inVenueHtml = require('./templates/inVenue.html')
 
+import { uiConfig } from '../../config'
 import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
+import { translate } from '../../translate'
 import { getTranslation } from '../../utils'
 
 const OUT_OF_VENUE = 0
@@ -39,6 +39,13 @@ export class SearchBar extends DefaultControl {
     this.leaveVenue()
   }
 
+  public onAdd (mapInstance: any) {
+    this._map = mapInstance
+    this.isOnMap = true
+    this.refreshTooltips()
+    return this._container.get(0)
+  }
+
   public getDefaultPosition (): string {
     return 'top-left'
   }
@@ -54,8 +61,10 @@ export class SearchBar extends DefaultControl {
   public enteredIn (venue: any): void {
     this._currentVenueState = IN_VENUE
     this._container.html(template(inVenueHtml)({ hide_menu: this._options.hideMenu, search_in: translate('search_placeholder_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
+    this.refreshTooltips()
   }
   public leaveVenue (): void {
+    this.refreshTooltips()
     this._currentVenueState = OUT_OF_VENUE
     this._container.html(template(outOfVenueHtml)({ hide_menu: this._options.hideMenu, search_in: translate('search_placeholder_global') }))
   }
@@ -66,6 +75,7 @@ export class SearchBar extends DefaultControl {
         this.enteringIn(this._map.getVenue())
       } else if (this._currentVenueState === IN_VENUE) {
         this.enteredIn(this._map.getVenue())
+        this.refreshTooltips()
       } else {
         this.leaveVenue()
       }
@@ -73,16 +83,26 @@ export class SearchBar extends DefaultControl {
   }
 
   public showBackButton () {
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       this._container.find('#mwz-menu-button-container').hide()
       this._container.find('#mwz-back-button-container').show()
     }
   }
 
   public hideBackButton () {
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       this._container.find('#mwz-menu-button-container').show()
       this._container.find('#mwz-back-button-container').hide()
+    }
+  }
+
+  public refreshTooltips () {
+    if (!$(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
+      setTimeout(() => {
+        this._container.find('#mwz-menu-button').attr('data-original-title', translate('menu'))
+        this._container.find('#mwz-header-directions-button').attr('data-original-title', translate('directions'))
+        this._container.find('[data-toggle="tooltip"]').tooltip({ trigger: 'hover' })
+      }, 1000)
     }
   }
 
@@ -96,15 +116,14 @@ export class SearchBar extends DefaultControl {
     }
   }
   private _directionButtonClick (e: JQueryEventObject): void {
+    this._container.find('#mwz-header-directions-button').tooltip('hide')
     this.hideBackButton()
     $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
     this._map.headerManager.showDirection()
   }
 
   private _searchFocus (e: JQueryEventObject): void {
-    if (this._map.getVenue()) {
-      this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
-    }
+    this._searchKeyup(e)
     clearTimeout(this._hideSearchResultsTimeout)
   }
   private _searchKeyup (e: JQueryEventObject): void {
@@ -123,14 +142,14 @@ export class SearchBar extends DefaultControl {
       } else if (this._map.getVenue()) {
         this._map.headerManager.showSearchResults('mainSearches', this._clickOnSearchResult.bind(this))
       } else {
-        this._map.headerManager.hideSearchResults()
+        this._map.headerManager.search(' ', searchOptions(this._map, null, 'search'), this._clickOnSearchResult.bind(this))
       }
     }
   }
   private _searchBlur (e: JQueryEventObject): void {
     this._hideSearchResultsTimeout = setTimeout(() => {
       this._container.find('#mwz-mapwize-search').val('')
-      this._map.headerManager.hideSearchResults()
+      this.map.headerManager.hideSearchResults()
     }, 500)
   }
 
@@ -152,8 +171,6 @@ export class SearchBar extends DefaultControl {
         return this.map.centerOnVenue(searchResult._id)
       } else if (searchResult.objectClass === 'place') {
         return this.map.centerOnPlace(searchResult._id)
-      } else if (searchResult.objectClass === 'placeList') {
-        return this.map.centerOnVenue(searchResult.venueId)
       }
     } else if (searchResult.geometry) {
       if (searchResult.geometry.bounds) {

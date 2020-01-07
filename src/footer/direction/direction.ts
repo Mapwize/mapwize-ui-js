@@ -3,7 +3,7 @@ import { get } from 'lodash'
 
 const directionsHtml = require('./direction.html')
 
-import { icons } from '../../config'
+import { icons, uiConfig } from '../../config'
 import { DefaultControl } from '../../control'
 import { unit } from '../../measure'
 
@@ -48,7 +48,7 @@ export class FooterDirections extends DefaultControl {
   }
 
   public setFloorSelector () {
-    if ($(this.map._container).hasClass('mwz-small')) {
+    if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 50)
     }
   }
