@@ -58,6 +58,10 @@ export class FooterSelection extends DefaultControl {
     } else {
       this.initializeMapBoxControls()
       this.map.setPromotedPlaces([])
+
+      if (this.map.floorControl) {
+        this.map.floorControl.resize()
+      }
     }
     return Promise.resolve()
   }

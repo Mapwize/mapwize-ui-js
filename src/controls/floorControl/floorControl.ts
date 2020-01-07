@@ -101,7 +101,7 @@ export class FloorControl {
       margins.top = 0
     }
 
-    if (this._map.getSelected()) {
+    if ($(this._map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS) && this._map.getSelected()) {
       footerHeight = $(this._map._container).find('#mwz-footer-selection').height()
     }
 
