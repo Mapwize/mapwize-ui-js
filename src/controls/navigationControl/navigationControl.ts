@@ -23,21 +23,22 @@ class NavigationControl {
   private _zoomInButton: HTMLElement
   private _zoomOutButton: HTMLElement
   private _compass: HTMLElement
-  private _compassArrow: HTMLElement
+  private _compassIcon: HTMLElement
 
   constructor (options: Options) {
     this.options = defaults(options, defaultOptions)
 
     this._container = document.createElement('div')
     this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group mwz-ctrl-navigation'
+    this._container.addEventListener('contextmenu', (e) => e.preventDefault())
 
     if (this.options.showZoom) {
-      this._zoomInButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in', '+', (e) => this._map.zoomIn({}, { originalEvent: e }))
-      this._zoomOutButton = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out', '-', (e) => this._map.zoomOut({}, { originalEvent: e }))
+      this._zoomInButton = this._createButton('mapboxgl-ctrl-zoom-in', '+', (e) => this._map.zoomIn({}, { originalEvent: e }))
+      this._zoomOutButton = this._createButton('mapboxgl-ctrl-zoom-out', '-', (e) => this._map.zoomOut({}, { originalEvent: e }))
     }
 
     if (this.options.showCompass) {
-      this._compass = this._createButton('mapboxgl-ctrl-icon mapboxgl-ctrl-compass', '', (e) => {
+      this._compass = this._createButton('mapboxgl-ctrl-compass', '', (e) => {
         if (this.options.visualizePitch) {
           this._map.resetNorthPitch({}, { originalEvent: e })
         } else {
@@ -45,9 +46,8 @@ class NavigationControl {
         }
       })
 
-      this._compassArrow = document.createElement('span')
-      this._compassArrow.className = 'mapboxgl-ctrl-compass-arrow'
-      this._compass.appendChild(this._compassArrow)
+      this._compassIcon = this._createSpan('mapboxgl-ctrl-icon', '', this._compass)
+      this._compassIcon.setAttribute('aria-hidden', true)
     }
   }
 
@@ -111,7 +111,7 @@ class NavigationControl {
       `scale(${1 / Math.pow(Math.cos(this._map.transform.pitch * (Math.PI / 180)), 0.5)}) rotateX(${this._map.transform.pitch}deg) rotateZ(${this._map.transform.angle * (180 / Math.PI)}deg)` :
       `rotate(${this._map.transform.angle * (180 / Math.PI)}deg)`
 
-    this._compassArrow.style.transform = rotate
+    this._compassIcon.style.transform = rotate
   }
 
   private _updateZoomButtons () {
@@ -128,17 +128,25 @@ class NavigationControl {
     }
   }
 
-  private _createButton (className: string, html: string, fn: (e: any) => any) {
+  private _createButton (className: string, content: string, fn: (e: any) => any): any {
     const a = document.createElement('button')
     a.className = className
+    a.innerHTML = content
     a.type = 'button'
-    a.innerHTML = html
     a.setAttribute('data-toggle', 'tooltip')
     a.setAttribute('data-placement', 'left')
     a.setAttribute('data-html', 'true')
     a.addEventListener('click', fn)
     this._container.appendChild(a)
     return a
+  }
+
+  private _createSpan (classes: string, content: string, container: any): any {
+    const span = document.createElement('span')
+    span.className = classes
+    span.innerHTML = content
+    container.appendChild(span)
+    return span
   }
 }
 

@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 2.4.1
+
+- Fix: navigation control broken due to changes in mapbox sdk
+
 ## 2.4.0
 
 - Feat: Update selection card to display direction and information buttons (#80)
