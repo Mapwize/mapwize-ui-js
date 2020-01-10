@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.4.2
+
+- Fix: tooltips must be placed inside map container to avoid css collision when integrated
+- Introduce scss lint in project to improve components stability
+
 ## 2.4.1
 
 - Fix: navigation control broken due to changes in mapbox sdk
