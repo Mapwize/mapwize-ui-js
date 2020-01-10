@@ -1,29 +1,30 @@
 #mwz-footer-directions {
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: $controls-box-shadow;
+
   height: 50px;
-  width: 400px;
-  
+
   margin-bottom: 10px;
   margin-left: 10px;
-  border-radius: 8px;
-  
-  background-color:  white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-  
+
   pointer-events: auto;
-  
-  .mwz-time, .mwz-distance {
-    img {
-      width: 25px;
-      
-      margin-right: 5px;
-    }
-    
+
+  width: 400px;
+
+  .mwz-time,
+  .mwz-distance {
     padding: 10px;
-    
+
+    img {
+      margin-right: 5px;
+      width: 25px;
+    }
+
     span {
       font-size: 20px;
       line-height: 25px;
-      
+
       vertical-align: middle;
     }
   }
@@ -31,9 +32,9 @@
 
 &.mwz-small {
   #mwz-footer-directions {
-    margin-left: 0;
-    margin-bottom: 0;
     border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+    margin-left: 0;
     width: 100%;
   }
 }

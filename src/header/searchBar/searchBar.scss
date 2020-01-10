@@ -1,57 +1,52 @@
 #mwz-search-bar {
+  background-color: $white;
   border-radius: 8px;
-  
+  box-shadow: $controls-box-shadow;
   height: 50px;
-  width: 400px;
-  
-  margin-top: 10px;
   margin-left: 10px;
-  
-  background-color:  white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-  
+  margin-top: 10px;
   pointer-events: auto;
-  
-  transition: margin-top 0.15s ease-in-out, margin-left 0.15s ease-in-out, width 0.15s ease-in-out;
+  transition: margin-top .15s ease-in-out, margin-left .15s ease-in-out, width .15s ease-in-out;
+  width: 400px;
 
-  .mwz-menu, .mwz-directions {
+  .mwz-menu,
+  .mwz-directions {
     img {
-      width: 25px;
       height: 25px;
+      width: 25px;
     }
-    
+
     button {
-      padding: 12.5px;
       border: none;
       border-radius: unset;
       line-height: inherit;
+      padding: 12.5px;
     }
   }
 
-
   .mwz-search {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+
     input {
-      border-top: none;
-      border-left: none;
-      border-right: none;
       border-bottom: none;
+      border-left: none;
       border-radius: unset;
-      
+      border-right: none;
+      border-top: none;
       box-shadow: none;
-      
+
       &:focus {
-        box-shadow: none;
         border-color: #93979b;
+        box-shadow: none;
       }
-      
+
       &::placeholder {
         color: #BABABA;
       }
     }
   }
-  
+
   .mwz-entering {
     color: rgb(73, 80, 87);
     font-size: 16px;
@@ -59,14 +54,15 @@
     padding-left: 12px;
   }
 
-  #mwz-back-button{
-    img{
+  #mwz-back-button {
+    img {
       width: 18px;
     }
   }
-  #mwz-back-button-container{
-    width: 50px;
+
+  #mwz-back-button-container {
     display: none;
+    width: 50px;
   }
 }
 
@@ -80,12 +76,15 @@
     .btn-link:hover {
       background-color: transparent !important;
     }
-    .mwz-directions:hover .mwz-directions-tooltip, .mwz-menu:hover .mwz-menu-tooltip {
+
+    .mwz-directions:hover .mwz-directions-tooltip,
+    .mwz-menu:hover .mwz-menu-tooltip {
       visibility: hidden;
     }
 
     .mwz-search {
       padding: 0;
+
       input {
         padding: 0;
       }

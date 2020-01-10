@@ -1,112 +1,120 @@
 #mwz-footer-selection {
-  width: 400px;
+  background-color: $white;
   border-radius: 8px;
+  box-shadow: $controls-box-shadow;
   margin-bottom: 28px;
   margin-left: 10px;
-  background-color:  white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-  
   pointer-events: auto;
-  
-  .mwz-directions-button{
-    background: #C51586;
+  width: 400px;
+
+  .mwz-directions-button {
+    background: $mapwize-color;
     border-radius: 20px;
-    color: white;
-    margin-bottom: 10px;
-    margin-top: 5px;
-    margin-left: 12.5px;
+    color: $white;
     font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 12.5px;
+    margin-top: 5px;
     width: 125px;
 
-    img{
-      width:20px;
+    &:hover {
+      text-decoration: none;
+    }
+
+    img {
       margin-right: 10px;
+      width: 20px;
     }
   }
 
-  .mwz-informations-button{
+  .mwz-informations-button {
+    border: solid 1px;
     border-radius: 20px;
     color: grey;
-    margin-bottom: 10px;
-    margin-top: 5px;
-    margin-left: 12.5px;
     font-size: 14px;
-    width: 140px;
-    border: solid 1px;
+    margin-bottom: 10px;
+    margin-left: 12.5px;
+    margin-top: 5px;
     padding-bottom: 7px;
     padding-top: 6px;
+    width: 140px;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
   }
 
-  .mwz-icon-information{
-    background: #C51586;
-    padding: 2px 9px 2px 9px;
-    color: white;
+  .mwz-icon-information {
+    background: $mapwize-color;
     border-radius: 50%;
+    color: $white;
+    display: inline-block;
     font-size: 11px;
     font-weight: bold;
-    display: inline-block;
     margin-right: 10px;
+    padding: 2px 9px;
   }
-  
-  .mwz-directions-button:hover, .mwz-informations-button:hover, .mwz-informations-button:focus{
-    text-decoration: none;
-  }
-  .mwz-subtitle{
+
+  .mwz-subtitle {
     padding-left: 12.5px;
     padding-right: 12.5px;
   }
+
   .mwz-selection-header {
     // width: 100%;
 
     .mwz-icon {
       padding: 12.5px;
     }
-    
+
     .mwz-data {
       overflow: hidden;
-      
+
       .mwz-title {
         font-size: 1.2em;
       }
     }
-    
+
     .mwz-directions {
       button {
-        padding: 12.5px;
         border: none;
         border-radius: unset;
         line-height: inherit;
+        padding: 12.5px;
       }
     }
-    .mwz-icon, .mwz-directions {
+
+    .mwz-icon,
+    .mwz-directions {
       img {
-        width: 25px;
         height: 25px;
+        width: 25px;
       }
     }
   }
-  
-  .mwz-open-details, .mwz-close-details {
+
+  .mwz-open-details,
+  .mwz-close-details {
     padding: 10px;
-    
+
     img {
-      width: 20px;
       height: 20px;
+      width: 20px;
     }
-    
   }
-  
+
   .mwz-details {
     max-height: 120px;
     overflow: auto;
     padding-left: 12.5px;
     padding-right: 12.5px;
-    
+
     h4 {
       font-size: 1.2rem;
     }
   }
-  
+
   &.mwz-opened-details {
     height: 100%;
   }
@@ -114,9 +122,9 @@
 
 &.mwz-small {
   #mwz-footer-selection {
-    margin-left: 0;
-    margin-bottom: 0;
     border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+    margin-left: 0;
     width: 100%;
   }
 }
