@@ -1,26 +1,25 @@
 #mwz-search-results {
-  max-height: 50vh;
-  width: 400px;
-  
-  overflow: auto;
+  background-color: $white;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  margin-top: -8px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .2), 0 0 0 rgba(0, 0, 0, .02);
   margin-left: 10px;
-  background-color:  white;
-  pointer-events: auto;
+  margin-top: -8px;
+  max-height: 50vh;
+  overflow: auto;
   padding-top: 5px !important;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 0 0px rgba(0, 0, 0, 0.02);
-  
+  pointer-events: auto;
+  width: 400px;
+
   .mwz-search-result-icon {
     padding-right: 12.5px;
-    
+
     img {
-      width: 25px;
       height: 25px;
+      width: 25px;
     }
   }
-  
+
   .mwz-search-result-infos {
     .mwz-search-result-title {
       font-size: 1.2em;
@@ -31,16 +30,15 @@
     background: gainsboro;
   }
 
-  .mwz-progress-bar{
-    background-color: #C51586;
+  .mwz-progress-bar {
+    background-color: $mapwize-color;
   }
 }
 
 &.mwz-small {
   #mwz-search-results {
-    margin-left: 0;
-    width: 95% ;
     margin-left: 2.5%;
+    width: 95%;
     // height: 100%;
   }
 

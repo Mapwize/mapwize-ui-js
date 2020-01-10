@@ -5,111 +5,107 @@
 }
 
 .mwz-ctrl-floors {
-  position: relative;
-  right: -5px;
-  
+  background: transparent;
+
   border-radius: 0;
   box-shadow: none !important;
-  
-  background: transparent;
-  
+
   padding: 5px;
 
+  position: relative;
+  right: -5px;
+
   .mwz-floor-button {
-    box-sizing: border-box;
-    position: relative;
-    z-index: 0;
-    
-    min-width: 40px;
-    height: 40px;
-    
+    background: $white;
+
     border: none;
-    
     border-radius: $button-border-radius;
-    
-    background: #fff;
+
     box-shadow: $controls-box-shadow;
-    width: 100%;
+    box-sizing: border-box;
+
+    height: 40px;
+    min-width: 40px;
+
+    overflow: hidden;
+
     padding-left: 5px;
     padding-right: 5px;
-    
-    overflow: hidden;
-    
-    -webkit-transition: background-color .5s ease;
-    -moz-transition: background-color .5s ease;
-    -ms-transition: background-color .5s ease;
-    -o-transition: background-color .5s ease;
+
+    position: relative;
+
     transition: background-color .5s ease;
-    
+
+    width: 100%;
+
+    z-index: 0;
+
     &:hover {
-      background-color: #eee;
+      background-color: $light-grey;
       color: inherit;
     }
 
     &:focus {
       box-shadow: $controls-box-shadow;
-      
+
       &:first-child {
         border-radius: $button-border-radius;
       }
+
       &:last-child {
         border-radius: $button-border-radius;
       }
     }
-    
-    &.mwz-selectedFloor, &.mwz-selectedFloor:hover {
-      background-color: #C51586;
-      color: #fff;
+
+    &.mwz-selectedFloor,
+    &.mwz-selectedFloor:hover {
+      background-color: $mapwize-color;
+      color: $white;
     }
-    
+
     &::after {
       box-sizing: border-box;
       content: '';
-      position: absolute;
-      z-index: -1;
-      
-      left: 0;
-      top: 0;
-      width: 100%;
       height: 100%;
-      
-      -webkit-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
-      -moz-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
-      -ms-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
-      -o-transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+      left: 0;
+      position: absolute;
+      top: 0;
       transition: left .5s ease, top .5s ease, width .5s ease, height .5s ease;
+      width: 100%;
+      z-index: -1;
     }
-    
+
     &.mwz-loading {
       &::before {
-        box-sizing: border-box;
-        content: '';
-        position: absolute;
-        z-index: -2;
-        left: -50%;
-        top: -50%;
-        width: 200%;
-        height: 200%;
+        animation: rotate 1s ease-in-out infinite;
+
         background-color: #399953;
+        background-image: linear-gradient($mapwize-color, $mapwize-color), linear-gradient($white, $white), linear-gradient($white, $white), linear-gradient($white, $white);
+        background-position: 0 0, 100% 0, 100% 100%, 0 100%;
         background-repeat: no-repeat;
         background-size: 50% 50%, 50% 50%;
-        background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-        background-image: linear-gradient(#C51586, #C51586), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff);
-        animation: rotate 1s ease-in-out infinite;
+
+        box-sizing: border-box;
+        content: '';
+        height: 200%;
+        left: -50%;
+        position: absolute;
+        top: -50%;
+        width: 200%;
+        z-index: -2;
       }
-      
+
       &::after {
+        background: $white;
+        border-radius: 20px;
+        height: calc(100% - 6px);
         left: 3px;
         top: 3px;
         width: calc(100% - 6px);
-        height: calc(100% - 6px);
-        
-        background: white;
-        border-radius: 20px;
       }
     }
   }
-  
+
   > .mwz-floor-button + .mwz-floor-button {
     margin-top: 4px;
   }
