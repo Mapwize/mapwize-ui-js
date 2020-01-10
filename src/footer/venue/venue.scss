@@ -1,79 +1,77 @@
 #mwz-footer-venue {
   height: 50px;
-  max-width: 400px;
   margin-bottom: 28px;
   margin-left: 10px;
+  max-width: 400px;
   pointer-events: auto;
-  
+
   .mwz-separator {
     width: 10px;
   }
+
   .dropdown {
     &.mwz-language-dropdown {
       min-width: 69px;
     }
+
     &.mwz-universe-dropdown {
       min-width: 150px;
     }
+
     &.show {
       > .dropdown-toggle {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        box-shadow:0 3px 4px rgba(0, 0, 0, 0.2)
+        box-shadow: 0 3px 4px rgba(0, 0, 0, .2);
       }
     }
-    
+
     > .dropdown-toggle {
-      background-color: #FFFFFF;
-      color:#495057;
+      background-color: $white;
       border: none;
-      text-align: left;
-      
-      width: 100%;
-      
-      padding: 6px 10px 6px 6px;
-      
       border-radius: 25px;
-      
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
-      
+      box-shadow: $controls-box-shadow;
+      color: #495057;
+      padding: 6px 10px 6px 6px;
+      text-align: left;
+      width: 100%;
+
       .dropdown-toggle-text {
         position: relative;
         top: 2px;
       }
-      
+
       > .mwz-icon {
-        width: 30px;
         height: 30px;
+        width: 30px;
       }
+
       &::after {
-        display:none;
+        display: none;
       }
     }
-    
+
     > .dropdown-menu {
-      max-height: 400px;
-      min-width: 0rem;
-      
-      overflow: auto;
-      
+      border: none;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-      border-top-right-radius: 20px;
       border-top-left-radius: 20px;
-      border: none;
+      border-top-right-radius: 20px;
+      box-shadow: $controls-box-shadow;
       cursor: default;
       margin-bottom: 0;
+      max-height: 400px;
+      min-width: 0;
+      overflow: auto;
       top: 1px !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
       z-index: -1;
 
       .dropdown-item {
-        padding: 0.5rem 1.6rem;
+        padding: .5rem 1.6rem;
         white-space: normal;
-        
+
         &:hover {
-          background-color:#efefef;
+          background-color: $light-grey;
         }
       }
     }
@@ -84,26 +82,27 @@
   #mwz-footer-venue {
     margin-bottom: 28px;
     max-width: 75%;
-    
+
     .dropdown {
       &.mwz-language-dropdown {
         min-width: 0;
       }
+
       &.mwz-universe-dropdown {
         min-width: 0;
       }
-      
+
       > .dropdown-toggle {
         padding: 6px;
-        
+
         .dropdown-toggle-text {
           display: none;
         }
       }
+
       > .dropdown-menu {
-        max-height: 300px !important;
-        
         border-bottom-right-radius: 20px;
+        max-height: 300px !important;
       }
     }
   }

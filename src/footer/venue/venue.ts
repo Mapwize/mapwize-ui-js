@@ -66,7 +66,7 @@ export class FooterVenue extends DefaultControl {
     if (!$(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       this._container.find('#mwz-language-button').attr('data-original-title', translate('change_venue_language'))
       this._container.find('#mwz-universe-button').attr('data-original-title', translate('change_venue_universe'))
-      this._container.find('#mwz-universe-button, #mwz-language-button').tooltip()
+      this._container.find('#mwz-universe-button, #mwz-language-button').tooltip({ container: this.map._container })
     }
   }
   // ---------------------------------------

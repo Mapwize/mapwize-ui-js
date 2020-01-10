@@ -1,129 +1,131 @@
 #mwz-search-direction {
-  
+  background-color: $white;
   border-radius: 8px;
-  
-  width: 400px;
-  
-  margin-top: 10px;
+  box-shadow: $controls-box-shadow;
   margin-left: 10px;
-  
-  background-color:  white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
-  
+  margin-top: 10px;
   pointer-events: auto;
-  
-  .form-control{
-    padding: 0.375rem 0;
+  width: 400px;
+
+  .form-control {
+    padding: .375rem 0;
   }
-  .mwz-mode-icons{
+
+  .mwz-mode-icons {
     display: flex;
     overflow-x: hidden;
   }
+
   .mwz-close-button {
     width: 18px !important;
   }
+
   .mwz-search-line {
     height: 50px;
     margin-bottom: 0;
-    
+
     .mwz-venue-name {
       color: rgb(73, 80, 87);
       font-size: 16px;
-      
       padding-left: 12px;
     }
-    
+
     .mwz-icon {
       padding: 10px;
-      
+
       img {
         width: 15px;
       }
     }
+
     .mwz-padding {
       padding: 21px;
     }
+
     .mwz-button-icon {
       button {
         border: none;
+
         img {
           width: 20px;
         }
       }
     }
-    
+
     .mwz-empty {
       width: 50px;
     }
-    
+
     .mwz-back {
       img {
         width: 20px;
       }
     }
-    
+
     .mwz-search {
       input {
-        border-top: none;
         border-left: none;
-        border-right: none;
         border-radius: unset;
-        
+        border-right: none;
+        border-top: none;
         box-shadow: none;
-        
+
         &:focus {
+          border-color: $mapwize-color;
           box-shadow: none;
-          border-color: #C51586;
         }
       }
     }
   }
-  
+
   #mwz-reverse-button {
     margin-top: -35px;
   }
-  
+
   .mwz-modes-line {
     height: 54px;
-    max-width: 256px;
     margin: 0 auto;
-    
+    max-width: 256px;
+
     .mwz-mode-button-selected {
-      background-color: rgba(197, 21, 134, 0.1);
+      background-color: rgba(197, 21, 134, .1);
     }
+
     .mwz-mode-button {
-      padding: 2px 22px 2px 22px;
       border-radius: 30px !important;
+      padding: 2px 22px;
     }
+
     .mwz-button-icon {
       button {
         border: none;
+
         img {
           width: 20px;
         }
       }
     }
   }
-  
+
   #mwz-alert-no-direction {
-    display: none;
     border-radius: 0;
-    
+    display: none;
     margin-bottom: 0;
   }
 }
+
 &.mwz-small {
   #mwz-search-direction {
+    border-radius: 0 0 8px 8px;
     margin-left: 0;
     margin-top: 0;
     width: 100%;
 
-    border-radius: 0 0 8px 8px;
-    
     .mwz-icon {
-    padding: 0 10px 0 0;
+      padding: 0 10px 0 0;
     }
-    .mwz-modes-line{
+
+    .mwz-modes-line {
       max-width: 192px !important;
     }
   }
