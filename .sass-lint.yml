@@ -87,7 +87,7 @@ rules:
   space-after-comma: 1
   space-before-colon: 1
   space-after-colon: 1
-  space-before-brace: 1
+  space-before-brace: 2
   space-before-bang: 1
   space-after-bang: 1
   space-between-parens: 1
