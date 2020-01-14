@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { isEmpty, isFunction, isString } from 'lodash'
+import { isEmpty, isString, map } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 
@@ -9,6 +9,7 @@ import { callOptionnalFn, getDefaultFloorForPlaces, getIcon, getPlacesInPlaceLis
 
 export class FooterSelection extends DefaultControl {
 
+  private _selectedElement: any
   private _selectedHeight: number
   private _options: any
 
@@ -52,10 +53,22 @@ export class FooterSelection extends DefaultControl {
   public setSelected (element: any): Promise<void> {
     this.map.removeMarkers()
 
+    this._selectedElement = element
+
     if (element) {
-      this._displaySelectedElementInformations(element)
-      this._promoteSelectedElement(element)
-      callOptionnalFn(this._options.onSelectedChange, [element])
+      let additionnalDatasPromise = Promise.resolve()
+
+      if (element.objectClass === 'placeList') {
+        additionnalDatasPromise = getPlacesInPlaceList(element.objectID).then((places) => {
+          element.places = places
+        })
+      }
+
+      return additionnalDatasPromise.then(() => {
+        this._displaySelectedElementInformations(element)
+        this._promoteSelectedElement(element)
+        callOptionnalFn(this._options.onSelectedChange, [element])
+      })
     } else {
       this.initializeMapBoxControls()
       this.map.setPromotedPlaces([])
@@ -77,7 +90,7 @@ export class FooterSelection extends DefaultControl {
   // ---------------------------------------
 
   private _footerClick (e: JQueryEventObject): void {
-    this._centerOnSelectedElement(this.map.getSelected())
+    this._centerOnSelectedElement(this._selectedElement)
   }
   private _directionButtonClick (e: JQueryEventObject): void {
     e.stopPropagation()
@@ -90,9 +103,7 @@ export class FooterSelection extends DefaultControl {
     const currentZoom = this.map.getZoom()
 
     if (element.objectClass === 'placeList') {
-      getPlacesInPlaceList(element.objectID).then((places) => {
-        this.map.centerOnVenue(element.venueId, { floor: getDefaultFloorForPlaces(places, this._map.getFloor()) })
-      })
+      this.map.centerOnVenue(element.venueId, { floor: getDefaultFloorForPlaces(element.places, this._map.getFloor()) })
     } else {
       this.map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
     }
@@ -198,8 +209,10 @@ export class FooterSelection extends DefaultControl {
       this.map.addMarkerOnPlace(element).catch((): void => null)
       this.map.setPromotedPlaces([element]).catch((): void => null)
     } else if (element.objectClass === 'placeList') {
-      this.map.addMarkerOnPlaceList(element).catch((): void => null)
-      this.map.setPromotedPlaces(element.placeIds).catch((): void => null)
+      Promise.all(map(element.places, (place: any) => {
+        return this.map.addMarkerOnPlace(place)
+      }))
+      this.map.setPromotedPlaces(element.places).catch((): void => null)
     }
   }
 }
