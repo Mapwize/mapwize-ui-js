@@ -7,6 +7,58 @@
   pointer-events: auto;
   width: 400px;
 
+  .mwz-selection-header {
+    // width: 100%;
+
+    .mwz-icon {
+      padding: 12.5px;
+
+      img {
+        height: 25px;
+        width: 25px;
+      }
+    }
+
+    .mwz-data {
+      overflow: hidden;
+
+      .mwz-title {
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  .mwz-subtitle {
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+  }
+
+  .mwz-open-details,
+  .mwz-close-details {
+    padding: 10px;
+
+    img {
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  .mwz-details {
+    max-height: 120px;
+    overflow: auto;
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+
+    h4 {
+      font-size: 1.2rem;
+    }
+  }
+
+  &.mwz-opened-details {
+    height: 100%;
+  }
+
+
   .mwz-directions-button {
     background: $mapwize-color;
     border-radius: 20px;
@@ -43,80 +95,17 @@
     &:focus {
       text-decoration: none;
     }
-  }
 
-  .mwz-icon-information {
-    background: $mapwize-color;
-    border-radius: 50%;
-    color: $white;
-    display: inline-block;
-    font-size: 11px;
-    font-weight: bold;
-    margin-right: 10px;
-    padding: 2px 9px;
-  }
-
-  .mwz-subtitle {
-    padding-left: 12.5px;
-    padding-right: 12.5px;
-  }
-
-  .mwz-selection-header {
-    // width: 100%;
-
-    .mwz-icon {
-      padding: 12.5px;
+    .mwz-icon-information {
+      background: $mapwize-color;
+      border-radius: 50%;
+      color: $white;
+      display: inline-block;
+      font-size: 11px;
+      font-weight: bold;
+      margin-right: 10px;
+      padding: 2px 9px;
     }
-
-    .mwz-data {
-      overflow: hidden;
-
-      .mwz-title {
-        font-size: 1.2em;
-      }
-    }
-
-    .mwz-directions {
-      button {
-        border: none;
-        border-radius: unset;
-        line-height: inherit;
-        padding: 12.5px;
-      }
-    }
-
-    .mwz-icon,
-    .mwz-directions {
-      img {
-        height: 25px;
-        width: 25px;
-      }
-    }
-  }
-
-  .mwz-open-details,
-  .mwz-close-details {
-    padding: 10px;
-
-    img {
-      height: 20px;
-      width: 20px;
-    }
-  }
-
-  .mwz-details {
-    max-height: 120px;
-    overflow: auto;
-    padding-left: 12.5px;
-    padding-right: 12.5px;
-
-    h4 {
-      font-size: 1.2rem;
-    }
-  }
-
-  &.mwz-opened-details {
-    height: 100%;
   }
 }
 
