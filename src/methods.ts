@@ -1,8 +1,8 @@
 import * as $ from 'jquery'
-import { isString } from 'lodash'
+import { isString, set } from 'lodash'
 import { getUnits, unit } from './measure'
 import { getLocales, locale } from './translate'
-import { getPlace } from './utils'
+import { getPlace, getPlaceList } from './utils'
 
 import { DefaultControl } from './control'
 
@@ -130,14 +130,17 @@ const attachMethods = (mapInstance: any) => {
   * @memberof Map
   * @desc Set the currently selected place or placeList
   * @function setSelected
-  * @param {object} mwzElement
+  * @param {object|string} mwzElement must be either an object (place or placeList) or a id (place or placeList). Use `null` to unselect element
   * @param {boolean} centerOnElement=true 
   */
   mapInstance.setSelected = (mwzElement: any, centerOnElement: boolean = true): Promise<void> => {
     if (isString(mwzElement)) {
-      return getPlace(mwzElement).then((place: any) => {
-        place.objectClass = 'place'
-        return mapInstance.footerManager.setSelected(place, centerOnElement)
+      return getPlace(mwzElement).then((place: any) => set(place, 'objectClass', 'place')).catch(() => {
+        return getPlaceList(mwzElement).then((placeList: any) => set(placeList, 'objectClass', 'placeList')).catch(() => {
+          return Promise.reject(new Error('String parameter must be either a place id or a placeList id'))
+        })
+      }).then((element: any) => {
+        return mapInstance.footerManager.setSelected(element, centerOnElement)
       })
     }
     return mapInstance.footerManager.setSelected(mwzElement, centerOnElement)

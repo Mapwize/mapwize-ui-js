@@ -117,7 +117,7 @@ const callOptionnalFn = (fn: () => void, params: any[]): any => {
     return false
 }
 
-export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace, getPlacesInPlaceList, getDefaultFloorForPlaces }
+export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace, getPlacesInPlaceList, getDefaultFloorForPlaces, getPlaceList }
 export { addClass, removeClass }
 export { hexToRgb, rgbToHex }
 export { callOptionnalFn }
