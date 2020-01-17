@@ -129,8 +129,8 @@ export class FloorControl {
     const container = $(this._container)
     const item = container.find('.mwz-selectedFloor')
 
-    const containerHeight = $(container).height()
-    const containerTop = $(container).scrollTop()
+    const containerHeight = container.height()
+    const containerTop = container.scrollTop()
 
     const itemTop = container.find(item).offset().top - container.offset().top
     const itemBottom = itemTop + container.find(item).height()
