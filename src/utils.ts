@@ -1,4 +1,4 @@
-import { find, first, get, isFinite, map, pull, replace, set, uniq } from 'lodash'
+import { find, first, get, isFinite, map, pull, replace, set, uniq, isFunction } from 'lodash'
 import { Api, apiUrl } from 'mapwize'
 
 import uiConfig from './config'
@@ -110,6 +110,14 @@ const replaceColorInBase64svg = (svg: string, toColor: string) => {
     return 'data:image/svg+xml;base64,' + decoded
 }
 
+const callOptionnalFn = (fn: () => void, params: any[]): any => {
+    if (isFunction(fn)) {
+        return fn.apply(null, params)
+    }
+    return false
+}
+
 export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace, getPlacesInPlaceList, getDefaultFloorForPlaces }
 export { addClass, removeClass }
 export { hexToRgb, rgbToHex }
+export { callOptionnalFn }

@@ -5,7 +5,7 @@ const selectionHtml = require('./selection.html')
 
 import uiConfig from '../../config'
 import { DefaultControl } from '../../control'
-import { getDefaultFloorForPlaces, getIcon, getPlacesInPlaceList, getTranslation } from '../../utils'
+import { callOptionnalFn, getDefaultFloorForPlaces, getIcon, getPlacesInPlaceList, getTranslation } from '../../utils'
 
 export class FooterSelection extends DefaultControl {
 
@@ -55,11 +55,11 @@ export class FooterSelection extends DefaultControl {
     if (element) {
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
-      this._options.onPlaceSelectedChange(element)
+      callOptionnalFn(this._options.onPlaceSelectedChange, [element])
     } else {
       this.initializeMapBoxControls()
       this.map.setPromotedPlaces([])
-      this._options.onPlaceSelectedChange(null)
+      callOptionnalFn(this._options.onPlaceSelectedChange, [null])
 
       if (this.map.floorControl) {
         this.map.floorControl.resize()
@@ -101,9 +101,7 @@ export class FooterSelection extends DefaultControl {
   private _informationButtonClick (e: JQueryEventObject): void {
     e.stopPropagation()
 
-    if (isFunction(this._options.onInformationButtonClick)) {
-      this._options.onInformationButtonClick(this._map.getSelected())
-    }
+    callOptionnalFn(this._options.onInformationButtonClick, [this._map.getSelected()])
   }
 
   private _onOpenDetailsClick (e: JQueryEventObject): void {
@@ -181,7 +179,7 @@ export class FooterSelection extends DefaultControl {
       $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', selected_height)
     }
 
-    if (isFunction(this._options.shouldShowInformationButtonFor) && this._options.shouldShowInformationButtonFor(element)) {
+    if (callOptionnalFn(this._options.shouldShowInformationButtonFor, [element])) {
       this._container.find('#mwz-footer-informations-button').show()
     } else {
       this._container.find('#mwz-footer-informations-button').hide()
