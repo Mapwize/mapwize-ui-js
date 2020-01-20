@@ -8,7 +8,7 @@ mwzDescribe(testSuites, function () {
       shouldShowInformationButtonFor: function () { return false; }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID).then(function () {
-        setTimeout(() => {
+        setTimeout(function () {
           if ($('#mapwize').find('#mwz-footer-informations-button').is(':visible')) {
             callbackTest('Information button should not be visible');
           } else {
@@ -25,7 +25,7 @@ mwzDescribe(testSuites, function () {
       shouldShowInformationButtonFor: function () { return true; }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID).then(function () {
-        setTimeout(() => {
+        setTimeout(function () {
           if (!$('#mapwize').find('#mwz-footer-informations-button').is(':visible')) {
             callbackTest('Information button should be visible');
           } else {
@@ -43,7 +43,7 @@ mwzDescribe(testSuites, function () {
       shouldShowInformationButtonFor: function () { return informationButtonContent; }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID).then(function () {
-        setTimeout(() => {
+        setTimeout(function () {
           var button = $('#mapwize').find('#mwz-footer-informations-button');
           if (!button.is(':visible')) {
             callbackTest('Information button should not be visible');
