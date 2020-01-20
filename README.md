@@ -48,7 +48,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.4.2"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.4.3"></script>
 ```
 
 ### Manual
