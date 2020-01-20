@@ -90,7 +90,7 @@
             // onSearchResultWillBeDisplayed: function (results) { return results; },
             shouldShowInformationButtonFor: function (e) {
               console.log('shouldShowInformationButtonFor', e)
-              return true
+              return '<span class="mwz-icon-information">i</span> ' + e.name
             },
             onInformationButtonClick: function (e) {
               console.log('onInformationButtonClick', e)

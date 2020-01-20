@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { isEmpty, isFunction } from 'lodash'
+import { isEmpty, isFunction, isString } from 'lodash'
 
 const selectionHtml = require('./selection.html')
 
@@ -157,6 +157,16 @@ export class FooterSelection extends DefaultControl {
       this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
     }
 
+    const informationButton = callOptionnalFn(this._options.shouldShowInformationButtonFor, [element])
+
+    if (isString(informationButton) && !isEmpty(informationButton)) {
+      this._container.find('#mwz-footer-informations-button').html(informationButton).show()
+    } else if (informationButton) {
+      this._container.find('#mwz-footer-informations-button').html('<span class="mwz-icon-information">i</span> Informations').show()
+    } else {
+      this._container.find('#mwz-footer-informations-button').hide()
+    }
+
     const selected_height = this._container.height()
     this._selectedHeight = selected_height < 240 ? selected_height : 240
 
@@ -177,12 +187,6 @@ export class FooterSelection extends DefaultControl {
     })
     if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
       $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', selected_height)
-    }
-
-    if (callOptionnalFn(this._options.shouldShowInformationButtonFor, [element])) {
-      this._container.find('#mwz-footer-informations-button').show()
-    } else {
-      this._container.find('#mwz-footer-informations-button').hide()
     }
 
     if (this.map.floorControl) {
