@@ -125,6 +125,23 @@ export class FloorControl {
     this._container.style.maxHeight = maxHeight + 'px'
   }
 
+  private _setScroll () {
+    const container = $(this._container)
+    const item = container.find('.mwz-selectedFloor')
+
+    const containerHeight = container.height()
+    const containerTop = container.scrollTop()
+
+    const itemTop = container.find(item).offset().top - container.offset().top
+    const itemBottom = itemTop + container.find(item).height()
+
+    const itemIsFullyVisible = (itemTop >= 0 && itemBottom <= containerHeight)
+
+    if (!itemIsFullyVisible) {
+      container.animate({ scrollTop: itemTop + containerTop - (containerHeight / 2) }, 250)
+    }
+  }
+
   private _createButton (floorDisplay: string, className: string, container: HTMLElement): HTMLButtonElement {
     const button = document.createElement('button')
 
@@ -153,6 +170,7 @@ export class FloorControl {
       }
       button.className = className
     })
+    this._setScroll()
   }
 
   private _onMarginsChange (e: MWZEvent) {
