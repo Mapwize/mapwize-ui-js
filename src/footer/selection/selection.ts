@@ -55,11 +55,11 @@ export class FooterSelection extends DefaultControl {
     if (element) {
       this._displaySelectedElementInformations(element)
       this._promoteSelectedElement(element)
-      callOptionnalFn(this._options.onSelectionChange, [element])
+      callOptionnalFn(this._options.onSelectedChange, [element])
     } else {
       this.initializeMapBoxControls()
       this.map.setPromotedPlaces([])
-      callOptionnalFn(this._options.onSelectionChange, [null])
+      callOptionnalFn(this._options.onSelectedChange, [null])
 
       if (this.map.floorControl) {
         this.map.floorControl.resize()

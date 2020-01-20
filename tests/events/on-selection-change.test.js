@@ -6,13 +6,13 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onSelectionChange: function (e) {
+      onSelectedChange: function (e) {
         if (!e) {
-          callbackTest('onSelectionChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e)
+          callbackTest('onSelectedChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e)
         } else if (e._id === MAPWIZEPLACEID) {
           callbackTest(null);
         } else {
-          callbackTest('onSelectionChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
+          callbackTest('onSelectedChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
         }
       }
     }).catch(function (e) { callbackTest(e); });
@@ -21,13 +21,13 @@ mwzDescribe(testSuites, function () {
   mwzTest('with setSelected (id) method', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
-      onSelectionChange: function (e) {
+      onSelectedChange: function (e) {
         if (!e) {
-          callbackTest('onSelectionChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e)
+          callbackTest('onSelectedChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e)
         } else if (e._id === MAPWIZEPLACEID) {
           callbackTest(null);
         } else {
-          callbackTest('onSelectionChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
+          callbackTest('onSelectedChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
         }
       }
     }).then(function (map) {
@@ -39,13 +39,13 @@ mwzDescribe(testSuites, function () {
     var map = null;
     MapwizeUI.map({
       apiKey: APIKEY,
-      onSelectionChange: function (e) {
+      onSelectedChange: function (e) {
         if (!e) {
           callbackTest(null)
         } else if (e._id === MAPWIZEPLACEID) {
           map.setSelected(null)
         } else {
-          callbackTest('onSelectionChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
+          callbackTest('onSelectedChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
         }
       }
     }).then(function (mapInstance) {
