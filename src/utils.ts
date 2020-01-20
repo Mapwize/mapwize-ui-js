@@ -1,4 +1,4 @@
-import { find, first, get, isFinite, map, pull, replace, set, uniq, isFunction } from 'lodash'
+import { find, first, get, isFinite, isFunction, map, pull, replace, set, uniq } from 'lodash'
 import { Api, apiUrl } from 'mapwize'
 
 import uiConfig from './config'
