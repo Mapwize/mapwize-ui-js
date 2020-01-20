@@ -125,7 +125,7 @@ export class FloorControl {
     this._container.style.maxHeight = maxHeight + 'px'
   }
 
-  public setScroll () {
+  private _setScroll () {
     const container = $(this._container)
     const item = container.find('.mwz-selectedFloor')
 
@@ -138,7 +138,7 @@ export class FloorControl {
     const itemIsFullyVisible = (itemTop >= 0 && itemBottom <= containerHeight)
 
     if (!itemIsFullyVisible) {
-      container.animate({ scrollTop: itemTop + containerTop }, 250)
+      container.animate({ scrollTop: itemTop + containerTop - (containerHeight / 2) }, 250)
     }
   }
 
@@ -170,6 +170,7 @@ export class FloorControl {
       }
       button.className = className
     })
+    this._setScroll()
   }
 
   private _onMarginsChange (e: MWZEvent) {
@@ -188,7 +189,6 @@ export class FloorControl {
 
   private _onFloorChange (e: MWZEvent) {
     this._selectFloor(e.floor)
-    this.setScroll()
   }
 
   private _onFloorsChange (data: MWZEvent) {
