@@ -59,7 +59,7 @@ export class FooterSelection extends DefaultControl {
       let additionnalDatasPromise = Promise.resolve()
 
       if (element.objectClass === 'placeList') {
-        additionnalDatasPromise = getPlacesInPlaceList(element.objectID).then((places) => {
+        additionnalDatasPromise = getPlacesInPlaceList(element._id).then((places) => {
           element.places = places
         })
       }
