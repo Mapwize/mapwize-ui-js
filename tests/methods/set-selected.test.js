@@ -6,7 +6,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       onSelectedChange: function (e) {
-        if (e._id === MAPWIZEPLACEID) {
+        if (e._id !== MAPWIZEPLACEID) {
           callbackTest('Selected element must be mapwize place. Found id: ' + e._id)
         } else {
           callbackTest(null)
@@ -21,7 +21,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       onSelectedChange: function (e) {
-        if (e._id === BATHROOMPLACELISTID) {
+        if (e._id !== BATHROOMPLACELISTID) {
           callbackTest('Selected element must be bathroom placeList. Found id: ' + e._id)
         } else {
           callbackTest(null)
@@ -37,7 +37,7 @@ mwzDescribe(testSuites, function () {
       apiKey: APIKEY,
     }).then(function (map) {
       return map.setSelected('5d08d8a8efe1d200128092g8').then(function () {
-        callbackTest('setSelected must failed with unexisting id')
+        callbackTest('setSelected must fail with unexisting id')
       }).catch(function () {
         callbackTest(null)
       })
