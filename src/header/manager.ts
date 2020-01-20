@@ -1,7 +1,7 @@
 import { isFinite, set } from 'lodash'
 
 import { search } from '../search'
-import { getPlace } from '../utils'
+import { callOptionnalFn, getPlace } from '../utils'
 import { DirectionBar, SearchBar, SearchResults } from './'
 
 export class HeaderManager {
@@ -91,10 +91,10 @@ export class HeaderManager {
 
   public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
     this.searchResults.showLoading()
-    const transformedSearchQuery = this._options.onSearchQueryWillBeSent(searchString, searchOptions)
+    const transformedSearchQuery = callOptionnalFn(this._options.onSearchQueryWillBeSent, [searchString, searchOptions])
     search(transformedSearchQuery.searchString, transformedSearchQuery.searchOptions).then((searchResults: any) => {
       this.searchResults.hideLoading()
-      this.showSearchResults(this._options.onSearchResultWillBeDisplayed(searchResults), clickOnResultCallback, focusedField)
+      this.showSearchResults(callOptionnalFn(this._options.onSearchResultWillBeDisplayed, [searchResults]), clickOnResultCallback, focusedField)
     })
   }
 

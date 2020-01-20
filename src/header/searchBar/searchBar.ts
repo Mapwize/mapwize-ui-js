@@ -10,7 +10,7 @@ import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
 import { translate } from '../../translate'
-import { getTranslation } from '../../utils'
+import { callOptionnalFn, getTranslation } from '../../utils'
 
 const OUT_OF_VENUE = 0
 const ENTERING_IN_VENUE = 1
@@ -111,9 +111,7 @@ export class SearchBar extends DefaultControl {
   // ---------------------------------------
 
   private _menuButtonClick (e: JQueryEventObject): void {
-    if (isFunction(this._options.onMenuButtonClick)) {
-      this._options.onMenuButtonClick(e)
-    }
+    callOptionnalFn(this._options.onMenuButtonClick, [e])
   }
   private _directionButtonClick (e: JQueryEventObject): void {
     this._container.find('#mwz-header-directions-button').tooltip('hide')

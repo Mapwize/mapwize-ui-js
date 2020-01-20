@@ -9,7 +9,7 @@ import { DOWNARROW, ENTER, UPARROW } from '../../constants'
 import { DefaultControl } from '../../control'
 import { searchOptions } from '../../search'
 import { translate } from '../../translate'
-import { getTranslation, hexToRgb, latitude, longitude, replaceColorInBase64svg } from '../../utils'
+import { callOptionnalFn, getTranslation, hexToRgb, latitude, longitude, replaceColorInBase64svg } from '../../utils'
 
 const templateButtonMode = template(require('./templates/button-mode.html'))
 
@@ -436,16 +436,16 @@ export class DirectionBar extends DefaultControl {
       if (from && to) {
         this._container.find('#mwz-alert-no-direction').hide()
 
-        Api.getDirection(this._options.onDirectionQueryWillBeSent({
+        Api.getDirection(callOptionnalFn(this._options.onDirectionQueryWillBeSent, [{
           from,
           modeId: this._mode ? this._mode._id : null,
           to,
-        })).catch((): void => {
+        }])).catch((): void => {
           this._container.find('#mwz-alert-no-direction').show()
           return null
         }).then((direction: any) => {
           if (direction) {
-            const transformedDirection = this._options.onDirectionWillBeDisplayed(direction, options)
+            const transformedDirection = callOptionnalFn(this._options.onDirectionWillBeDisplayed, [direction, options])
             this._map.setDirection(transformedDirection.direction, transformedDirection.options)
             this._promoteDirectionPlaces(transformedDirection.direction)
             this._map.addMarker(transformedDirection.direction.to)
