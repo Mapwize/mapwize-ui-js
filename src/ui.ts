@@ -102,8 +102,9 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {boolean} [options.locationControl=true]  (optional, boolean, default: true) if the user location control should be displayed.
 * @param {object} [options.locationControlOptions=null]
 * @param {object} [options.direction=null] (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
-* @param {function} [options.shouldShowInformationButtonFor] (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean. If this is not defined, the information button is never shown by default.
+* @param {function} [options.shouldShowInformationButtonFor] (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean or a html string to change button content. If this is not defined, the information button is never shown by default.
 * @param {function} [options.onInformationButtonClick]  (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
+* @param {function} [options.onSelectedChange]  (optional, function) Callback called when a place or placeList is selected or unselected. The selected place or placeList is provided as parameter
 * @param {boolean} [options.hideMenu=false] (optional, boolean, default: false) to hide menu bar.
 * @param {function} [options.onMenuButtonClick]  (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 * @returns {Promise.<Object>}
@@ -150,6 +151,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     onMenuButtonClick: (): void => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any): any => ({ searchString, searchOptions }),
     onSearchResultWillBeDisplayed: (results: any): any => results,
+    onSelectedChange: (): void => null,
     shouldShowInformationButtonFor: (element: any): boolean => false,
 
     preferredLanguage: 'en',

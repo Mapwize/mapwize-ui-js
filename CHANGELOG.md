@@ -1,5 +1,14 @@
 # Mapwize UI Changelog
 
+## 2.4.3
+
+- Improvement: Scroll floor control to display current floor (#116)
+- Improvement: Custom information button (#112)
+- Improvement: Support placeList ID in setSelected method (#114)
+- Improvement: Reducing number of requests when selecting a placeList (#113)
+- Feat: Add selected change event (#115)
+- upgrade dependencies (#117)
+
 ## 2.4.2
 
 - Fix: tooltips must be placed inside map container to avoid css collision when integrated

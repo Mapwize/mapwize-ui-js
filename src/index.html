@@ -90,7 +90,7 @@
             // onSearchResultWillBeDisplayed: function (results) { return results; },
             shouldShowInformationButtonFor: function (e) {
               console.log('shouldShowInformationButtonFor', e)
-              return true
+              return '<span class="mwz-icon-information">i</span> ' + e.name
             },
             onInformationButtonClick: function (e) {
               console.log('onInformationButtonClick', e)
@@ -99,6 +99,9 @@
             onMenuButtonClick: function (e) {
               console.log('onMenuButtonClick')
               alert('onMenuButtonClick')
+            },
+            onSelectedChange: function (e) {
+              console.log('onSelectedChange', e)
             }
           }).then(function (instance) {
             console.log('MAP LOADED')
