@@ -180,8 +180,7 @@ export class FooterSelection extends DefaultControl {
 
     const selected_height = this._container.height()
     this._selectedHeight = selected_height < 240 ? selected_height : 240
-
-    if (selected_height >= 240) {
+    if (selected_height >= 220) {
       this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
       this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
     } else {
