@@ -158,7 +158,7 @@ export class SearchResults extends DefaultControl {
       getMainSearches(venue.mainSearches).then((mainSearches: any[]) => {
         resultContainer.html('')
         forEach(compact(mainSearches), (mainSearch: any) => {
-          resultContainer.append(this._mapwizeObjectResults(mainSearch, (mwzObject, analytics) => onClick(mwzObject, null, analytics), { channel: 3 }))
+          resultContainer.append(this._mapwizeObjectResults(mainSearch, (mwzObject, analytics) => onClick(mwzObject, null, analytics), { channel: 'mainSearches' }))
         })
         this.hideLoading()
       })
@@ -197,7 +197,7 @@ export class SearchResults extends DefaultControl {
         const setOfResultsForUniverse: any[] = []
         forEach(resultsByUniverse.results, (mwzResult: any) => {
           if (getTranslation(mwzResult, lang, 'title')) {
-            setOfResultsForUniverse.push(this._mapwizeObjectResults(mwzResult, onClick(resultsByUniverse.universe), { channel: 2, searchQuery: results[0] }))
+            setOfResultsForUniverse.push(this._mapwizeObjectResults(mwzResult, onClick(resultsByUniverse.universe), { channel: 'search', searchQuery: results[0] }))
           }
         })
 

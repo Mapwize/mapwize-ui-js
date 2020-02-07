@@ -127,7 +127,7 @@ export class FooterManager {
   private _onClick (e: any): void {
     if (this._map.getVenue() && !this._map.headerManager.isInDirectionMode()) {
       if (e.place) {
-        this.setSelected(set(e.place, 'objectClass', 'place'), true, { channel: 1 })
+        this.setSelected(set(e.place, 'objectClass', 'place'), true, { channel: 'click' })
       } else {
         this.showVenue().catch(() => null)
         this.setSelected(null)
