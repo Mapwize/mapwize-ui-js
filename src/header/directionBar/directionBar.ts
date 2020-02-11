@@ -202,10 +202,10 @@ export class DirectionBar extends DefaultControl {
     }
   }
   private _updateFieldFocus (): void {
-    if (!this._from) {
-      this._container.find('#mwz-mapwize-search-from').focus()
-    } else if (!this._to) {
+    if (!this._to) {
       this._container.find('#mwz-mapwize-search-to').focus()
+    } else if (!this._from) {
+      this._container.find('#mwz-mapwize-search-from').focus()
     } else {
       if (this._container.find('#mwz-mapwize-search-from').is(':focus')) {
         this._container.find('#mwz-mapwize-search-from').blur()
@@ -324,16 +324,16 @@ export class DirectionBar extends DefaultControl {
   }
   private _onClick (e: any): void {
     if (e.place) {
-      if (!this._from) {
-        this.setFrom(set(e.place, 'objectClass', 'place'))
-      } else if (!this._to) {
+      if (!this._to) {
         this.setTo(set(e.place, 'objectClass', 'place'))
+      } else if (!this._from) {
+        this.setFrom(set(e.place, 'objectClass', 'place'))
       }
     } else {
-      if (!this._from) {
-        this.setFrom({ longitude: e.lngLat.lng, latitude: e.lngLat.lat, floor: e.floor })
-      } else if (!this._to) {
+      if (!this._to) {
         this.setTo({ longitude: e.lngLat.lng, latitude: e.lngLat.lat, floor: e.floor })
+      } else if (!this._to) {
+        this.setFrom({ longitude: e.lngLat.lng, latitude: e.lngLat.lat, floor: e.floor })
       }
     }
   }
