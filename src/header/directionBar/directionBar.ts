@@ -154,7 +154,12 @@ export class DirectionBar extends DefaultControl {
   // ---------------------------------------
 
   private _closeButtonClick (e: JQueryEventObject): void {
-    this._clear()
+    if (this._to) {
+      this.setFrom(null, false)
+      this.map.setSelected(this._to._id)
+    } else {
+      this._clear()
+    }
     this.map.headerManager.closeButtonClick()
     $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
     if (this.map.floorControl) {
