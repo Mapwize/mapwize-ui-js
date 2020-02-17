@@ -100,12 +100,20 @@
               console.log('onMenuButtonClick')
               alert('onMenuButtonClick')
             },
-            onSelectedChange: function (e) {
-              console.log('onSelectedChange', e)
+            onSelectedChange: function (selectedObject, analytics) {
+              console.log('onSelectedChange', selectedObject, analytics)
             }
           }).then(function (instance) {
             console.log('MAP LOADED')
             mapwizeMap = instance
+
+            mapwizeMap.on('mapwize:directionstart', function (e) {console.log('directionstart', e)} );
+            mapwizeMap.on('mapwize:venueenter', function (e) {console.log('venueenter', e)} );
+            mapwizeMap.on('mapwize:floorchange', function (e) {console.log('floorchange', e)} );
+            mapwizeMap.on('mapwize:universechange', function (e) {console.log('universechange', e)} );
+            mapwizeMap.on('mapwize:languagechange', function (e) {console.log('languagechange', e)} );
+            mapwizeMap.on('mapwize:venueexit', function (e) {console.log('venueexit', e)} );
+
           })
         })
       }
