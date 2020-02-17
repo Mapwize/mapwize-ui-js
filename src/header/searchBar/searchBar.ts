@@ -151,9 +151,9 @@ export class SearchBar extends DefaultControl {
     }, 500)
   }
 
-  private _clickOnSearchResult (searchResult: any, universe?: any): void {
+  private _clickOnSearchResult (searchResult: any, universe?: any, analytics: any = null): void {
     if (this._map.getVenue()) {
-      this._map.footerManager.setSelected(searchResult)
+      this._map.footerManager.setSelected(searchResult, true, analytics)
     }
     this._centerOnSearchResult(searchResult, universe)
   }

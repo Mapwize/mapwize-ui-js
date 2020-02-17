@@ -68,7 +68,13 @@ MapwizeUI.map(options: Object)
 MapwizeUI.map(container: String, options: Object)
 ```
 
-The `map` method return a Promise that is resolved when the map and the UI are ready
+The `map` method return a Promise that is resolved when the map and the UI are ready with the `mapwizeMap` instance as parameter.
+
+```typescript
+MapwizeUI.map(apiKey: String).then(function (instance) {
+	mapwizeMap = instance
+})
+```
 
 ### Map parameters
 
@@ -87,6 +93,7 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 - `shouldShowInformationButtonFor` (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean. If this is not defined, the information button is never shown by default.
 - `onInformationButtonClick` (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
+- `onSelectedChange`  (optional, function) callback called when the selected element (place or placeList) changes. The function is called with 2 parameters: the selectedObject and some analytics details. selectedObject is null when nothing is selected anymore. View the analytics section for details about the analytics parameter.
 - `hideMenu` (optional, boolean, default: false) to hide menu bar.
 - `mainColor` (optional, string, default: null) the main color for the interface as hexadecimal string.
 - `direction`  (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
@@ -99,7 +106,7 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 |html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>` | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
 |js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)` | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
-#### Methods
+## Methods
 
 ##### `locale(newLocale: string): string`
 
@@ -182,6 +189,8 @@ Signature: `(): void`
 Parameters: there is no param   
 Return: there is no return value
 
+## Examples
+
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
@@ -248,3 +257,40 @@ Please note that if you are using this `index.html` outside of a the Webpack env
 ```
 
 or using the CDN as explained in the installation section.
+
+## Analytics
+
+Mapwize SDK and Mapwize UI do __not__ have analytics trackers built in. This means that Mapwize does not know how maps are used in your applications, which we believe is a good thing for privacy. This also means that Mapwize is not able to provide you with analytics metrics and that, if you want any, you will have to intrument your code with your own analytics tracker.
+
+Events and callbacks from Mapwize SDK and Mapwize UI can be used to detect changes in the interface and trigger tracking events. We believe using the following events would make sense:
+
+- `venueEnter` 
+- `venueExit`
+- `floorChange`
+- `universeChange`
+- `languageChange`
+- `onSelectedChange`
+- `directionstart`
+
+The `onSelectedChange` is a Mapwize UI map option, triggered when the selected place or placeList changes. The `analytics` parameter provides details about the origin of the selection. If the selection comes from the user, `analytics` is an object. The `channel` key can be 'click' when a place was clicked on the map, 'search' when the selection is the result of a search or 'mainSearches' when the selection is the result of selecting one of the default element in the search menu. When `channel == 'search'`, `searchQuery` gives the search string used to find the object the user selected. If the selection comes from the `setSelected` method, `analytics` is null.
+
+This example shows how to listen to the events:
+
+```typescript
+MapwizeUI.map({
+	apiKey: apiKey,
+	onSelectedChange: function (selectedObject, analytics) {
+	  console.log('onSelectedChange', selectedObject, analytics)
+	}
+}).then(function (instance) {
+	console.log('MAP LOADED')
+	mapwizeMap = instance
+	        
+	mapwizeMap.on('mapwize:directionstart', function (e) {console.log('directionstart', e)} );
+	mapwizeMap.on('mapwize:venueenter', function (e) {console.log('venueenter', e)} );
+	mapwizeMap.on('mapwize:floorchange', function (e) {console.log('floorchange', e)} );
+	mapwizeMap.on('mapwize:universechange', function (e) {console.log('universechange', e)} );
+	mapwizeMap.on('mapwize:languagechange', function (e) {console.log('languagechange', e)} );
+	mapwizeMap.on('mapwize:venueexit', function (e) {console.log('venueexit', e)} );
+})
+```
