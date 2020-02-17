@@ -128,17 +128,18 @@ export class FloorControl {
   private _setScroll () {
     const container = $(this._container)
     const item = container.find('.mwz-selectedFloor')
+    if (item.length) {
+      const containerHeight = container.height()
+      const containerTop = container.scrollTop()
 
-    const containerHeight = container.height()
-    const containerTop = container.scrollTop()
+      const itemTop = item.offset().top - container.offset().top
+      const itemBottom = itemTop + item.height()
 
-    const itemTop = container.find(item).offset().top - container.offset().top
-    const itemBottom = itemTop + container.find(item).height()
+      const itemIsFullyVisible = (itemTop >= 0 && itemBottom <= containerHeight)
 
-    const itemIsFullyVisible = (itemTop >= 0 && itemBottom <= containerHeight)
-
-    if (!itemIsFullyVisible) {
-      container.animate({ scrollTop: itemTop + containerTop - (containerHeight / 2) }, 250)
+      if (!itemIsFullyVisible) {
+        container.animate({ scrollTop: itemTop + containerTop - (containerHeight / 2) }, 250)
+      }
     }
   }
 
