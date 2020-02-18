@@ -13,9 +13,12 @@ export class FooterSelection extends DefaultControl {
   private _selectedHeight: number
   private _options: any
 
+  private _markerReferences: any[]
+
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
     this._options = options
+    this._markerReferences = []
 
     this._selectedHeight = 0
 
@@ -51,7 +54,12 @@ export class FooterSelection extends DefaultControl {
   }
 
   public setSelected (element: any, analytics: any = null): Promise<void> {
-    this.map.removeMarkers()
+    if (this._markerReferences.length) {
+      this._markerReferences.forEach((markerPromise: any): void => {
+        markerPromise.then((marker: any): void => this.map.removeMarker(marker))
+      })
+      this._markerReferences = []
+    }
 
     this._selectedElement = element
 
@@ -205,12 +213,12 @@ export class FooterSelection extends DefaultControl {
   }
   private _promoteSelectedElement (element: any): void {
     if (element.objectClass === 'place') {
-      this.map.addMarkerOnPlace(element).catch((): void => null)
+      this._markerReferences = [this.map.addMarkerOnPlace(element).catch((): void => null)]
       this.map.setPromotedPlaces([element]).catch((): void => null)
     } else if (element.objectClass === 'placeList') {
-      Promise.all(map(element.places, (place: any) => {
+      this._markerReferences = map(element.places, (place: any) => {
         return this.map.addMarkerOnPlace(place)
-      }))
+      })
       this.map.setPromotedPlaces(element.places).catch((): void => null)
     }
   }
