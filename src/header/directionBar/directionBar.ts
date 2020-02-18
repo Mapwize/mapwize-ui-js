@@ -432,7 +432,7 @@ export class DirectionBar extends DefaultControl {
 
   private _removeCurrentMarker (): void {
     if (this._markerReference) {
-      this._markerReference.then((marker: any): void => this._map.removeMarker(marker))
+      this._markerReference.then((marker: any): void => this.map.removeMarker(marker))
       this._markerReference = null
     }
   }
@@ -511,6 +511,6 @@ export class DirectionBar extends DefaultControl {
     if (direction.to.placeId) {
       placesToPromote.push(direction.to.placeId)
     }
-    this._map.addPromotedPlaces(placesToPromote)
+    this._map.setPromotedPlaces(placesToPromote)
   }
 }

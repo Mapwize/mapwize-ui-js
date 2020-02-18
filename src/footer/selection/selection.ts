@@ -53,7 +53,7 @@ export class FooterSelection extends DefaultControl {
     return 'bottom-left'
   }
 
-  public setSelected (element: any): Promise<void> {
+  public setSelected (element: any, analytics: any = null): Promise<void> {
     if (this._markerReferences.length) {
       this._markerReferences.forEach((markerPromise: any): void => {
         markerPromise.then((marker: any): void => this.map.removeMarker(marker))
