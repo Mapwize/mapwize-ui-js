@@ -1,7 +1,7 @@
 import * as $ from 'jquery'
-import { find, template } from 'lodash'
+import { find, forEach, template } from 'lodash'
 
-import { uiConfig } from '../../config'
+import { languages, uiConfig } from '../../config'
 import { translate } from '../../translate'
 
 const venueTemplate = template(require('./venue.html'))
@@ -76,10 +76,18 @@ export class FooterVenue extends DefaultControl {
   private _initializeControl (universeWillChange = false) {
     const venue = this._map.getVenue()
 
+    const venueLanguages: string[] = []
+    const venueCurrentLanguage = find(languages, ['code', this.map.getLanguage()]).name
+
+    forEach(venue.supportedLanguages, (language) => {
+      const languageName = find(languages, ['code', language]).name
+      venueLanguages.push(languageName)
+    })
+
     this._container.html(venueTemplate({
-      currentLanguage: this.map.getLanguage(),
+      currentLanguage: venueCurrentLanguage,
       currentUniverse: this.map.getUniverse(),
-      languages: venue.supportedLanguages,
+      languages: venueLanguages,
       universeWillChange,
       universes: venue.accessibleUniverses,
     }))
@@ -90,7 +98,8 @@ export class FooterVenue extends DefaultControl {
   }
 
   private _onLanguageItemClick (e: JQueryEventObject) {
-    const selectedLanguage = $(e.currentTarget).data('language')
+    let selectedLanguage = $(e.currentTarget).data('language')
+    selectedLanguage = find(languages, ['name', selectedLanguage]).code
     this.map.setLanguage(selectedLanguage)
   }
   private _onUniverseItemClick (e: JQueryEventObject) {
