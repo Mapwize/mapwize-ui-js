@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 2.4.4
+
+- Fix: Cannot read property 'top' of undefined (#122)
+- Improvement: Select the to when exiting directions (#125)
+- Adding onSelectedChange and documentation regarding analytics (#123)
+
 ## 2.4.3
 
 - Improvement: Scroll floor control to display current floor (#116)
