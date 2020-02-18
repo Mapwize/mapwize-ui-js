@@ -44,9 +44,12 @@ export class HeaderManager {
     this.searchBar.remove()
   }
 
-  public closeButtonClick (): void {
+  public closeButtonClick (to: any): void {
     this.showSearch()
-    this._map.footerManager.showVenue().catch((): void => null)
+    if (to && to.objectClass === 'place') {
+      return this._map.footerManager.setSelected(to)
+    }
+    return this._map.footerManager.showVenue().catch((): void => null)
   }
 
   public showSearch (): Promise<void> {

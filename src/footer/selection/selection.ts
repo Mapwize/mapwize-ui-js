@@ -50,7 +50,7 @@ export class FooterSelection extends DefaultControl {
     return 'bottom-left'
   }
 
-  public setSelected (element: any): Promise<void> {
+  public setSelected (element: any, analytics: any = null): Promise<void> {
     this.map.removeMarkers()
 
     this._selectedElement = element
@@ -67,7 +67,7 @@ export class FooterSelection extends DefaultControl {
       return additionnalDatasPromise.then(() => {
         this._displaySelectedElementInformations(element)
         this._promoteSelectedElement(element)
-        callOptionnalFn(this._options.onSelectedChange, [element])
+        callOptionnalFn(this._options.onSelectedChange, [element, analytics])
       })
     } else {
       this.initializeMapBoxControls()

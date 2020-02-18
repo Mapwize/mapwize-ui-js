@@ -50,7 +50,7 @@ export class FooterManager {
   public getSelected (): any {
     return this._selected
   }
-  public setSelected (element: any, centerOnElement: boolean = true): Promise<void> {
+  public setSelected (element: any, centerOnElement: boolean = true, analytics: any = null): Promise<void> {
     this._selected = element
     if (this._selected && !this._map.headerManager.isInDirectionMode()) {
       let centerPromise = Promise.resolve(null)
@@ -65,7 +65,7 @@ export class FooterManager {
 
       return centerPromise.then(() => {
         return this.showSelection().catch(() => null).then(() => {
-          return this.selectionFooter.setSelected(this._selected)
+          return this.selectionFooter.setSelected(this._selected, analytics)
         })
       })
     }
@@ -127,7 +127,7 @@ export class FooterManager {
   private _onClick (e: any): void {
     if (this._map.getVenue() && !this._map.headerManager.isInDirectionMode()) {
       if (e.place) {
-        this.setSelected(set(e.place, 'objectClass', 'place'))
+        this.setSelected(set(e.place, 'objectClass', 'place'), true, { channel: 'click' })
       } else {
         this.showVenue().catch(() => null)
         this.setSelected(null)
