@@ -1,5 +1,12 @@
 # Mapwize UI Changelog
 
+## 2.4.5
+
+- Fix: arrow display in selection details (#121)
+- Fix: selection and direction modules only remove their own markers (#126)
+- Refactor: Use language name instead of language abbreviations in venue language selector (#129)
+- Upgrade dependencies
+
 ## 2.4.4
 
 - Fix: Cannot read property 'top' of undefined (#122)
