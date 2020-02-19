@@ -76,11 +76,11 @@ export class FooterVenue extends DefaultControl {
   private _initializeControl (universeWillChange = false) {
     const venue = this._map.getVenue()
 
-    const venueLanguages: string[] = []
+    const venueLanguages: object[] = []
     const venueCurrentLanguage = find(languages, ['code', this.map.getLanguage()]).name
 
     forEach(venue.supportedLanguages, (language) => {
-      const languageName = find(languages, ['code', language]).name
+      const languageName = find(languages, ['code', language])
       venueLanguages.push(languageName)
     })
 
@@ -98,8 +98,7 @@ export class FooterVenue extends DefaultControl {
   }
 
   private _onLanguageItemClick (e: JQueryEventObject) {
-    let selectedLanguage = $(e.currentTarget).data('language')
-    selectedLanguage = find(languages, ['name', selectedLanguage]).code
+    const selectedLanguage = $(e.currentTarget).data('language')
     this.map.setLanguage(selectedLanguage)
   }
   private _onUniverseItemClick (e: JQueryEventObject) {

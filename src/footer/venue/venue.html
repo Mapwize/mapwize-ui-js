@@ -8,7 +8,7 @@
     </button>
     <div class="dropdown-menu mwz-language-dropdown-menu" aria-labelledby="mwz-language-button">
       <% _.forEach(languages, function (language) { %><a class="dropdown-item mwz-language-item"
-        data-language="<%- language %>"><%- language %></a><% }); %>
+        data-language="<%- language.code %>"><%- language.name %></a><% }); %>
     </div>
   </div><% } %>
 
