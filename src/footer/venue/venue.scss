@@ -11,7 +11,7 @@
 
   .dropdown {
     &.mwz-language-dropdown {
-      min-width: 69px;
+      min-width: 135px;
     }
 
     &.mwz-universe-dropdown {
@@ -61,7 +61,7 @@
       cursor: default;
       margin-bottom: 0;
       max-height: 400px;
-      min-width: 0;
+      min-width: 135px;
       overflow: auto;
       top: 1px !important;
       z-index: -1;

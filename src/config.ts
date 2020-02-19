@@ -29,5 +29,87 @@ const icons = {
   TRUCK: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzAuMDggMTcwLjA4Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LnN0MXtmaWxsOiMwMDAwMDB9PC9zdHlsZT48L2RlZnM+PHRpdGxlPnRydWNrPC90aXRsZT48ZyBpZD0iVHJ1Y2siPjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0xMzIuNjUsMTIzLjExaDBhMywzLDAsMCwwLDMtM1YyNS42NWEzLDMsMCwwLDAtMy0zSDM3LjQzYTMsMywwLDAsMC0zLDNWMTIwLjFhMywzLDAsMCwwLDMsM2gzLjc2YTMsMywwLDAsMCwzLTNWNjYuNTNjMC03Ljc0LDUuMy0xMy4zMSwxNS0xMy4zMWg1Mi45YzEwLjYsMCwxNC42NCw1LjksMTQuNiwxMy4yMiwwLDkuODgtLjA3LDQzLjQzLS4wNyw1My42N2EzLDMsMCwwLDAsMywzWiIvPjxyZWN0IGNsYXNzPSJzdDEiIHg9IjQ2LjE2IiB5PSI1NS4zNCIgd2lkdGg9Ijc4LjciIGhlaWdodD0iODAuNDkiIHJ4PSI5LjM5IiByeT0iOS4zOSIvPjxyZWN0IGNsYXNzPSJzdDEiIHg9IjQ3LjkxIiB5PSIxMjQuNTgiIHdpZHRoPSIxNS4zNCIgaGVpZ2h0PSIyMi44NiIgcng9IjQuNDciIHJ5PSI0LjQ3Ii8+PHJlY3QgY2xhc3M9InN0MSIgeD0iMTA4LjA0IiB5PSIxMjQuNTgiIHdpZHRoPSIxNS4zNCIgaGVpZ2h0PSIyMi44NiIgcng9IjQuNDciIHJ5PSI0LjQ3Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSI1Mi4zNyIgeT0iNjkuOSIgd2lkdGg9IjY2LjI2IiBoZWlnaHQ9IjI1Ljg2Ii8+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSI1OC42NSIgY3k9IjExMy43NCIgcj0iNy42NyIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iMTEyLjE1IiBjeT0iMTEzLjc0IiByPSI3LjY3Ii8+PC9nPjwvc3ZnPg==',
   WALK: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48c3R5bGUgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB0eXBlPSJ0ZXh0L2NzcyI+LnN0MXtmaWxsOiMwMDAwMDA7fTwvc3R5bGU+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgyNHYyNEgweiIvPjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0xMy41IDUuNWMxLjEgMCAyLS45IDItMnMtLjktMi0yLTItMiAuOS0yIDIgLjkgMiAyIDJ6TTkuOCA4LjlMNyAyM2gyLjFsMS44LTggMi4xIDJ2Nmgydi03LjVsLTIuMS0yIC42LTNDMTQuOCAxMiAxNi44IDEzIDE5IDEzdi0yYy0xLjkgMC0zLjUtMS00LjMtMi40bC0xLTEuNmMtLjQtLjYtMS0xLTEuNy0xLS4zIDAtLjUuMS0uOC4xTDYgOC4zVjEzaDJWOS42bDEuOC0uNyIvPjwvc3ZnPg==',
 }
+const languages = [
+  {
+    code: 'da',
+    name: 'Dansk'
+  },
+  {
+    code: 'nl',
+    name: 'Nederlands'
+  },
+  {
+    code: 'hu',
+    name: 'Magyar'
+  },
+  {
+    code: 'es',
+    name: 'Español'
+  },
+  {
+    code: 'fr',
+    name: 'Français'
+  },
+  {
+    code: 'en',
+    name: 'English'
+  },
+  {
+    code: 'fi',
+    name: 'Suomi'
+  },
+  {
+    code: 'ru',
+    name: 'Pусский язык'
+  },
+  {
+    code: 'zh',
+    name: '中文'
+  },
+  {
+    code: 'pt',
+    name: 'Português'
+  },
+  {
+    code: 'it',
+    name: 'Italiano'
+  },
+  {
+    code: 'no',
+    name: 'Norsk'
+  },
+  {
+    code: 'ja',
+    name: '日本語'
+  },
+  {
+    code: 'ar',
+    name: 'العربية'
+  },
+  {
+    code: 'sv',
+    name: 'Svenska'
+  },
+  {
+    code: 'tr',
+    name: 'Türkçe'
+  },
+  {
+    code: 'ko',
+    name: '한국어'
+  },
+  {
+    code: 'ca',
+    name: 'català'
+  },
+  {
+    code: 'et',
+    name: 'Eesti'
+  },
+  {
+    code: 'zf',
+    name: '正體字'
+  },
+]
 
-export { uiConfig as default, uiConfig, icons }
+export { uiConfig as default, uiConfig, icons, languages }
