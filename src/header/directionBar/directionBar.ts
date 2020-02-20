@@ -104,29 +104,33 @@ export class DirectionBar extends DefaultControl {
   }
 
   public setFrom (from: any, updateFocus = true): void {
-    this._from = from
+    if (this._from !== from) {
+      this._from = from
 
-    const fromDisplay = this._getDisplay(this._from)
-    this._container.find('#mwz-mapwize-search-from').val(fromDisplay)
-    this._updateFieldsPlaceholder()
+      const fromDisplay = this._getDisplay(this._from)
+      this._container.find('#mwz-mapwize-search-from').val(fromDisplay)
+      this._updateFieldsPlaceholder()
 
-    if (updateFocus) {
-      this._updateFieldFocus()
+      if (updateFocus) {
+        this._updateFieldFocus()
+      }
+      this._displayDirection()
     }
-    this._displayDirection()
   }
   // public setWaypoint(index: number, waypoint: any): any {}
   // public setWaypoints(waypoints: Array<any>): any {}
   public setTo (to: any, updateFocus = true): void {
-    this._to = to
+    if (this._to !== to) {
+      this._to = to
 
-    const toDisplay = this._getDisplay(this._to)
-    this._container.find('#mwz-mapwize-search-to').val(toDisplay)
+      const toDisplay = this._getDisplay(this._to)
+      this._container.find('#mwz-mapwize-search-to').val(toDisplay)
 
-    if (updateFocus) {
-      this._updateFieldFocus()
+      if (updateFocus) {
+        this._updateFieldFocus()
+      }
+      this._displayDirection()
     }
-    this._displayDirection()
   }
 
   public getMode (): any {
