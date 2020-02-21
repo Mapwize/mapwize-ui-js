@@ -203,7 +203,7 @@ export class SearchResults extends DefaultControl {
 
         if (setOfResultsForUniverse.length) {
           if (mapwize.length > 1 || get(resultsByUniverse, 'universe._id') !== currentUniverse._id) {
-            resultContainer.append($('<li class="list-group-item list-group-item-secondary">' + get(resultsByUniverse, 'universe.name') + '</li>'))
+            resultContainer.append($('<li class="mwz-list-group-item mwz-list-group-item-secondary">' + get(resultsByUniverse, 'universe.name') + '</li>'))
           }
           resultContainer.append(setOfResultsForUniverse)
         }
@@ -218,7 +218,7 @@ export class SearchResults extends DefaultControl {
       })
 
       if (isEmptyResultSet) {
-        resultContainer.append($('<li class="list-group-item">' + translate('search_no_result') + '</li>'))
+        resultContainer.append($('<li class="mwz-list-group-item">' + translate('search_no_result') + '</li>'))
       }
     }
   }
