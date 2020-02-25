@@ -26,6 +26,7 @@ exports.config = {
     'browserstack.local': true,
     'browserstack.networkLogs': true,
     'browserstack.console': 'errors',
+    'browserstack.autoWait': 0,
     'project': 'mapwize-ui-js',
     // 'browserstack.debug': true
   },
