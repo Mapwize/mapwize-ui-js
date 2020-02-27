@@ -13,9 +13,12 @@ export class FooterSelection extends DefaultControl {
   private _selectedHeight: number
   private _options: any
 
+  private _markerReferences: any[]
+
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
     this._options = options
+    this._markerReferences = []
 
     this._selectedHeight = 0
 
@@ -51,7 +54,12 @@ export class FooterSelection extends DefaultControl {
   }
 
   public setSelected (element: any, analytics: any = null): Promise<void> {
-    this.map.removeMarkers()
+    if (this._markerReferences.length) {
+      this._markerReferences.forEach((markerPromise: any): void => {
+        markerPromise.then((marker: any): void => this.map.removeMarker(marker))
+      })
+      this._markerReferences = []
+    }
 
     this._selectedElement = element
 
@@ -120,8 +128,8 @@ export class FooterSelection extends DefaultControl {
 
     this._container.addClass('mwz-opened-details')
 
-    this._container.find('.mwz-close-details').removeClass('d-none').addClass('d-block')
-    this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+    this._container.find('.mwz-close-details').removeClass('mwz-d-none').addClass('mwz-d-block')
+    this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
 
     let padding = 38
     if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
@@ -138,8 +146,8 @@ export class FooterSelection extends DefaultControl {
 
     this._container.removeClass('mwz-opened-details')
 
-    this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-    this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+    this._container.find('.mwz-open-details').removeClass('mwz-d-none').addClass('mwz-d-block')
+    this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
 
     this._container.animate({
       height: this._selectedHeight,
@@ -164,8 +172,8 @@ export class FooterSelection extends DefaultControl {
       this._container.find('.mwz-details').html(details)
     } else {
       this._container.find('.mwz-details').html('')
-      this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
+      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     }
 
     const informationButton = callOptionnalFn(this._options.shouldShowInformationButtonFor, [element])
@@ -180,13 +188,12 @@ export class FooterSelection extends DefaultControl {
 
     const selected_height = this._container.height()
     this._selectedHeight = selected_height < 240 ? selected_height : 240
-
-    if (selected_height >= 240) {
-      this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+    if (this._container.find('.mwz-details').get(0).scrollHeight > this._container.find('.mwz-details').height()) {
+      this._container.find('.mwz-open-details').removeClass('mwz-d-none').addClass('mwz-d-block')
+      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     } else {
-      this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
+      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     }
 
     this._container.css('height', lastHeight)
@@ -206,12 +213,12 @@ export class FooterSelection extends DefaultControl {
   }
   private _promoteSelectedElement (element: any): void {
     if (element.objectClass === 'place') {
-      this.map.addMarkerOnPlace(element).catch((): void => null)
+      this._markerReferences = [this.map.addMarkerOnPlace(element).catch((): void => null)]
       this.map.setPromotedPlaces([element]).catch((): void => null)
     } else if (element.objectClass === 'placeList') {
-      Promise.all(map(element.places, (place: any) => {
+      this._markerReferences = map(element.places, (place: any) => {
         return this.map.addMarkerOnPlace(place)
-      }))
+      })
       this.map.setPromotedPlaces(element.places).catch((): void => null)
     }
   }

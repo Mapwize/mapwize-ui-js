@@ -1,50 +1,64 @@
 <div id="mwz-search-direction">
-  <div class="mwz-search-line d-flex align-items-center">
+  <div class="mwz-search-line mwz-d-flex mwz-align-items-center">
     <div class="mwz-button-icon">
-      <button type="button" id="mwz-close-button" class="btn btn-link">
-        <img class="mwz-close-button" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTYuNjcgMGwyLjgzIDIuODI5LTkuMzM5IDkuMTc1IDkuMzM5IDkuMTY3LTIuODMgMi44MjktMTIuMTctMTEuOTk2eiIvPjwvc3ZnPg==" alt="Directions" />
+      <button type="button" id="mwz-close-button" class="mwz-btn mwz-btn-link">
+        <img class="mwz-close-button"
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTYuNjcgMGwyLjgzIDIuODI5LTkuMzM5IDkuMTc1IDkuMzM5IDkuMTY3LTIuODMgMi44MjktMTIuMTctMTEuOTk2eiIvPjwvc3ZnPg=="
+          alt="Directions" />
       </button>
     </div>
     <div class="mwz-icon text-secondary">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAAFGklEQVR4Ae2bA7TtOhCG59q2zZ7T3fzzbNu2bdu2bdtYera5dG2bx3jGTTvdbZP2ql+Wi8mflaQzkynl5OSkA9ev2HIBuYBcQC4gF7B2CPCGqAPUlXhFF8Av81XqAG8Iraq4rXAIP4vpXB/eMJ2fxcFuK1qVwFZ4kcu4PkYr4+ewFa0CNMLB/CvXJ2y/qgOpEa0serfAKTyZ680aJuGU/s0pe7yNMMmg45oIbyPKlMZ8FWq53l5DLV9FjSkbSvrge6633/B9SR9KH7UjLwrtRiV/iMtxnNoNG7gD+jd3W7kDvI3UbjhWXYkPuCpUxCK1I6UL78s1IdPgXezJLUOfb6n25ndCpl+1OoDSAyeLhstxu9ubIuL2xu2oEIahDqekNvqoCx413MM9Yr+tB9/P1cESeF+yj9paMPcmD6KE8CC8KUykrcku7gBeHGCohs8mQ3Bm4IpYVDqQ7OG0xpggI962ZAFvW14S8PbRTmuyBT/pN4Bp7jCyRMHBtAAJT9ib/f6XTy70IosUegV5VVZWQv/mPNU3+gvlhWuwoBf6JEyx4ObhPN9rq3h9SgFe3/+dxrnGcVbA7nM4pQSO9G8UhrEbLvKNyfMUjOYw4EX+kaeggst4Kv+E59U+UaYDnvdJuNDIbcZsrfsVqieForrww1wmhJEPqy5FF3O59tQsAzdbHerrxPVFBF+MZaG+6jJcHN4hvt73zCGUFHygvWxx2Iws7YAvIvn9X5R2CBHQTnfX8T4lw+mou87q/LB8ECZGDl0mhuWH+ALdYXE6UhJwrL59DmsjGu2MabGir2kl3UhgWBtUavcfk0zAq9pr3pDzE/xD/JSKPB35DT2rl0zAAu01B4l33pQoBr6RBNSB2r3zKD5qpC/MaBe69cVv5VIM57XXQyeMMN5C8RUJ8MOJMxGPkAC+Mt5K9f0YNwl7VVMuSyygzGkqCLhRs35tfAFvRNsJvJ1MckHeToL1Y7Q7X6diFDW1hTBWD5gIwIPCsGxR7MnYAqQIAB8bCfhY+KoPtC+gsyBgjJGAMdKH0bqAwc0EU8uNBCyjQAY3y0wAlhoJWJqZAMmTx1gjAWOlqMK6AAwWBHxqJOBTKcS3LiDbbZS3jC1Ah1/XTB2X5YcMx2nWXzN2JfgW0ZVYnoIrcbO2Aq+LL+DwqM4cHkos4OGozpw6LEV3uqRbYne6qxQXJ3KndXheygHNTVEDGiygeAjL+M2QI+9fYgv4oXcLEsCbhktYcGlDgnqnO0+NF9RzZ/k0Qs+RqqMpCcM7+WbieSRSGMrj7aRV1PmJ0yo6/KGeauV2YYkt/jpS978NT2zp6WR8QEnBwVwfZz92muLiIgFmGS52mobavNb3zEEmNRGz4iZ3S7qFJXf1dJaO6okK8+SucXq9d4v/pdfL/06v7x0lvc7P+exdZHrAsSi7Aw4+3GdrvtsqhSOmdKp7vI3sHzEJh3w8L41DPp7nszPVSi2Xt236x6yqp9VjVh08HfQtLTjWuj8yqFwTT1ksNeDRfgO8xM4Iqa2x1GqpgZBoWhRY7HEaGcKnc41Q7GEXtXmm5TabZ1vwdG+WBU8G4BTUiSVntxV6pV9yZow6gKtXv6I/PY0Spezy2L/KLt1W8cousQOlD/fFt6tf4avuZl+daelxXvwtuHk42Ub5vTpVdtnSp5E6cPX8AUL3Zl7k8ri/oFjzNW05fOqw1fInIB132J+/Yb3q6/grtn/Dyn+EywXkAnIBuYBcQE5Ozm/NeKRjSbjrjAAAAABJRU5ErkJggg==" alt="From" />
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAAFGklEQVR4Ae2bA7TtOhCG59q2zZ7T3fzzbNu2bdu2bdtYera5dG2bx3jGTTvdbZP2ql+Wi8mflaQzkynl5OSkA9ev2HIBuYBcQC4gF7B2CPCGqAPUlXhFF8Av81XqAG8Iraq4rXAIP4vpXB/eMJ2fxcFuK1qVwFZ4kcu4PkYr4+ewFa0CNMLB/CvXJ2y/qgOpEa0serfAKTyZ680aJuGU/s0pe7yNMMmg45oIbyPKlMZ8FWq53l5DLV9FjSkbSvrge6633/B9SR9KH7UjLwrtRiV/iMtxnNoNG7gD+jd3W7kDvI3UbjhWXYkPuCpUxCK1I6UL78s1IdPgXezJLUOfb6n25ndCpl+1OoDSAyeLhstxu9ubIuL2xu2oEIahDqekNvqoCx413MM9Yr+tB9/P1cESeF+yj9paMPcmD6KE8CC8KUykrcku7gBeHGCohs8mQ3Bm4IpYVDqQ7OG0xpggI962ZAFvW14S8PbRTmuyBT/pN4Bp7jCyRMHBtAAJT9ib/f6XTy70IosUegV5VVZWQv/mPNU3+gvlhWuwoBf6JEyx4ObhPN9rq3h9SgFe3/+dxrnGcVbA7nM4pQSO9G8UhrEbLvKNyfMUjOYw4EX+kaeggst4Kv+E59U+UaYDnvdJuNDIbcZsrfsVqieForrww1wmhJEPqy5FF3O59tQsAzdbHerrxPVFBF+MZaG+6jJcHN4hvt73zCGUFHygvWxx2Iws7YAvIvn9X5R2CBHQTnfX8T4lw+mou87q/LB8ECZGDl0mhuWH+ALdYXE6UhJwrL59DmsjGu2MabGir2kl3UhgWBtUavcfk0zAq9pr3pDzE/xD/JSKPB35DT2rl0zAAu01B4l33pQoBr6RBNSB2r3zKD5qpC/MaBe69cVv5VIM57XXQyeMMN5C8RUJ8MOJMxGPkAC+Mt5K9f0YNwl7VVMuSyygzGkqCLhRs35tfAFvRNsJvJ1MckHeToL1Y7Q7X6diFDW1hTBWD5gIwIPCsGxR7MnYAqQIAB8bCfhY+KoPtC+gsyBgjJGAMdKH0bqAwc0EU8uNBCyjQAY3y0wAlhoJWJqZAMmTx1gjAWOlqMK6AAwWBHxqJOBTKcS3LiDbbZS3jC1Ah1/XTB2X5YcMx2nWXzN2JfgW0ZVYnoIrcbO2Aq+LL+DwqM4cHkos4OGozpw6LEV3uqRbYne6qxQXJ3KndXheygHNTVEDGiygeAjL+M2QI+9fYgv4oXcLEsCbhktYcGlDgnqnO0+NF9RzZ/k0Qs+RqqMpCcM7+WbieSRSGMrj7aRV1PmJ0yo6/KGeauV2YYkt/jpS978NT2zp6WR8QEnBwVwfZz92muLiIgFmGS52mobavNb3zEEmNRGz4iZ3S7qFJXf1dJaO6okK8+SucXq9d4v/pdfL/06v7x0lvc7P+exdZHrAsSi7Aw4+3GdrvtsqhSOmdKp7vI3sHzEJh3w8L41DPp7nszPVSi2Xt236x6yqp9VjVh08HfQtLTjWuj8yqFwTT1ksNeDRfgO8xM4Iqa2x1GqpgZBoWhRY7HEaGcKnc41Q7GEXtXmm5TabZ1vwdG+WBU8G4BTUiSVntxV6pV9yZow6gKtXv6I/PY0Spezy2L/KLt1W8cousQOlD/fFt6tf4avuZl+daelxXvwtuHk42Ub5vTpVdtnSp5E6cPX8AUL3Zl7k8ri/oFjzNW05fOqw1fInIB132J+/Yb3q6/grtn/Dyn+EywXkAnIBuYBcQE5Ozm/NeKRjSbjrjAAAAABJRU5ErkJggg=="
+        alt="From" />
     </div>
-    <div class="mwz-search flex-grow-1">
-      <input type="text" class="form-control" id="mwz-mapwize-search-from" placeholder="Choose starting point, or click on the map..." autocomplete="off" />
+    <div class="mwz-search mwz-flex-grow-1">
+      <input type="text" class="mwz-form-control" id="mwz-mapwize-search-from"
+        placeholder="Choose starting point, or click on the map..." autocomplete="off" />
     </div>
     <div class="mwz-padding"></div>
   </div>
 
-  <label class="mwz-search-line d-flex align-items-center">
+  <label class="mwz-search-line mwz-d-flex mwz-align-items-center">
     <div class="mwz-padding"></div>
     <div class="mwz-icon text-secondary">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAADJklEQVR4AezZA6wkSxQG4P/ZtrWYpG9mus4fP4bPXm+0tm1Ga8b2xlpGa9u2zet7e+2dqZ65XdU1SX8nTio5fw1KiFYikUgkEvxGWnKqrJAKBrdLyrlSpkhLqQe31XtBteZOBtlLtqk23vNwkfcq+/AkgxB1nH3Sr8Al6VfUAJ5jkEeduTHiZbgh48lBBvmXHMx4iJ/8yVIGBVap/Il4STupYVB43RjdCfFRbRjUvVQbxMP/Wz/74T4F/2/YxxRLGURUpUxZX7K4i0GEtaveC7BJjWIQbclI2FPymZRHHqC85DPYIpMYRF8yyd6up9REAF5u+BpskC4MzJR0gQ2yKVQ7h2W8+tF/80b9JON5ONSYzTDP+1DfiFyR//AUHvSU/CdX9CNT78A0aaL/P1EZPIHv6/+7pAlM40Tt3qYjspAODvwTyTxNE4fwNLJ5WndykHkwjfs0LQxGDjJYE38/TNMeHQU5ZJRm9DmYJrW5W6j3OnKo97puaw3TWGoyAEthmm5Jyijk4Pu65Q+mcYOmhUHIgYM0ozfANJmj/Rt9Ftk8y0O5R8tcmCZjC1/IVEfdWBlr4R5Iv5Wg4Ako+q2EhXui9PthNnP859HNHP8Js5njuzBPNobbTnOC+oHv8t3w22nZCBtkpL4Vpw/2vm8qgO/DDjloZP4PwhYZbCTAYNiSeodVkQeo8t6GPTIr8vmfBZvUD1EHUD/CLi6NdP6XwTb5JdIAv8A+WRNZgHWIg/o1sgXsN8SD8yMJsABxkXqsrnP71VIPGk6/FMhkxKnhazxRpwAnvFcRL9WoTstXI2jFfMzX3IS6gJ+ztMDX4c/hBulZ0Pz3hDOe4rq8A2zAU3CHpFmZV/uVKgO3qKH5BFBD4ZynZW3Y9mUtnoZ7+A3LQgUo4zdwE1uECtAC7pKZuvZlJlzG57gqZ4BVfA5uK/lMzmed/QvpT+E+/q45eblPJj9x/qegaDwjix4LsATPoHh4bz/yGnbIexvFhan7P2Y5zxSKD79j2Z2V9zsUJ/7Oqhv1O4oX+7IvXJBIJBjYLbcCJAGSAEmAJEASIJG4vmEJRsEoGAUAvFKa18Rc8u4AAAAASUVORK5CYII=" alt="To" />
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAADJklEQVR4AezZA6wkSxQG4P/ZtrWYpG9mus4fP4bPXm+0tm1Ga8b2xlpGa9u2zet7e+2dqZ65XdU1SX8nTio5fw1KiFYikUgkEvxGWnKqrJAKBrdLyrlSpkhLqQe31XtBteZOBtlLtqk23vNwkfcq+/AkgxB1nH3Sr8Al6VfUAJ5jkEeduTHiZbgh48lBBvmXHMx4iJ/8yVIGBVap/Il4STupYVB43RjdCfFRbRjUvVQbxMP/Wz/74T4F/2/YxxRLGURUpUxZX7K4i0GEtaveC7BJjWIQbclI2FPymZRHHqC85DPYIpMYRF8yyd6up9REAF5u+BpskC4MzJR0gQ2yKVQ7h2W8+tF/80b9JON5ONSYzTDP+1DfiFyR//AUHvSU/CdX9CNT78A0aaL/P1EZPIHv6/+7pAlM40Tt3qYjspAODvwTyTxNE4fwNLJ5WndykHkwjfs0LQxGDjJYE38/TNMeHQU5ZJRm9DmYJrW5W6j3OnKo97puaw3TWGoyAEthmm5Jyijk4Pu65Q+mcYOmhUHIgYM0ozfANJmj/Rt9Ftk8y0O5R8tcmCZjC1/IVEfdWBlr4R5Iv5Wg4Ako+q2EhXui9PthNnP859HNHP8Js5njuzBPNobbTnOC+oHv8t3w22nZCBtkpL4Vpw/2vm8qgO/DDjloZP4PwhYZbCTAYNiSeodVkQeo8t6GPTIr8vmfBZvUD1EHUD/CLi6NdP6XwTb5JdIAv8A+WRNZgHWIg/o1sgXsN8SD8yMJsABxkXqsrnP71VIPGk6/FMhkxKnhazxRpwAnvFcRL9WoTstXI2jFfMzX3IS6gJ+ztMDX4c/hBulZ0Pz3hDOe4rq8A2zAU3CHpFmZV/uVKgO3qKH5BFBD4ZynZW3Y9mUtnoZ7+A3LQgUo4zdwE1uECtAC7pKZuvZlJlzG57gqZ4BVfA5uK/lMzmed/QvpT+E+/q45eblPJj9x/qegaDwjix4LsATPoHh4bz/yGnbIexvFhan7P2Y5zxSKD79j2Z2V9zsUJ/7Oqhv1O4oX+7IvXJBIJBjYLbcCJAGSAEmAJEASIJG4vmEJRsEoGAUAvFKa18Rc8u4AAAAASUVORK5CYII="
+        alt="To" />
     </div>
-    <div class="mwz-search flex-grow-1">
-      <input type="text" class="form-control" id="mwz-mapwize-search-to" placeholder="Choose destination..." autocomplete="off" />
+    <div class="mwz-search mwz-flex-grow-1">
+      <input type="text" class="mwz-form-control" id="mwz-mapwize-search-to" placeholder="Choose destination..."
+        autocomplete="off" />
     </div>
     <div class="mwz-button-icon">
-      <button type="button" id="mwz-reverse-button" class="btn btn-link">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAA60lEQVRYCe2WQQrCQAxFq3gR8RouPEdP4kYQXLjwHF5LT9G1JuCHOCWTOoyjhV8oaZPJzOO1dNp1PGZmYFHA+zA9Jf2mfXy5HKd+myFQ5J+GaCgyENX5DkWGVsGAjdT7zJhDUrvK/S3JVb+9yIy6XUTnufrKmQkjqKYw4PSgPJgdGr8ZU6ijs5hC6iP2YJ22sjSg9k47YPDONYHaToRpCpUypWYAg9jEFKAimMlQ0YcRC+biWoqDnPYjeTINNq9pHX839bfL6v/Er9nVCI6P1uDmCm1epCHPDPI0BBNepCHPDPJ/ZwhgjLMx8ARPo0UTRXPlXQAAAABJRU5ErkJggg==" alt="Reverse" />
+      <button type="button" id="mwz-reverse-button" class="mwz-btn mwz-btn-link">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAA60lEQVRYCe2WQQrCQAxFq3gR8RouPEdP4kYQXLjwHF5LT9G1JuCHOCWTOoyjhV8oaZPJzOO1dNp1PGZmYFHA+zA9Jf2mfXy5HKd+myFQ5J+GaCgyENX5DkWGVsGAjdT7zJhDUrvK/S3JVb+9yIy6XUTnufrKmQkjqKYw4PSgPJgdGr8ZU6ijs5hC6iP2YJ22sjSg9k47YPDONYHaToRpCpUypWYAg9jEFKAimMlQ0YcRC+biWoqDnPYjeTINNq9pHX839bfL6v/Er9nVCI6P1uDmCm1epCHPDPI0BBNepCHPDPJ/ZwhgjLMx8ARPo0UTRXPlXQAAAABJRU5ErkJggg=="
+          alt="Reverse" />
       </button>
     </div>
   </label>
-  
-  <div class="mwz-search-line d-flex align-items-center">
+
+  <div class="mwz-search-line mwz-d-flex mwz-align-items-center">
     <div class="mwz-padding"></div>
-    <button type="button" class="btn btn-link mwz-previous-mode">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4=" alt="Previous" />
+    <button type="button" class="mwz-btn mwz-btn-link mwz-previous-mode">
+      <img
+        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgICAgIDxzdHlsZSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHR5cGU9InRleHQvY3NzIj4uc3Qxe2ZpbGw6IzAwMDAwMDt9PC9zdHlsZT4gICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE1LjQxIDE2LjU5TDEwLjgzIDEybDQuNTgtNC41OUwxNCA2bC02IDYgNiA2IDEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4="
+        alt="Previous" />
     </button>
-    <div class="mwz-search flex-grow-1">
-      <div class="mwz-modes-line d-flex justify-content-center align-items-center">
+    <div class="mwz-search mwz-flex-grow-1">
+      <div class="mwz-modes-line mwz-d-flex mwz-justify-content-center mwz-align-items-center">
         <div class="mwz-mode-icons"></div>
       </div>
     </div>
-    <button type="button" class="btn btn-link mwz-next-mode">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4=" alt="Next" />
+    <button type="button" class="mwz-btn mwz-btn-link mwz-next-mode">
+      <img
+        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4gICAgPHN0eWxlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdHlwZT0idGV4dC9jc3MiPi5zdDF7ZmlsbDojMDAwMDAwO308L3N0eWxlPiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNOC41OSAxNi41OUwxMy4xNyAxMiA4LjU5IDcuNDEgMTAgNmw2IDYtNiA2LTEuNDEtMS40MXoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48L3N2Zz4="
+        alt="Next" />
     </button>
   </div>
-  
-  <div id="mwz-alert-no-direction" class="alert alert-danger" role="alert" role="alert">
+
+  <div id="mwz-alert-no-direction" class="mwz-alert mwz-alert-danger" role="alert" role="alert">
     Oops, looks like we can’t find a way for you to get there!
   </div>
 </div>
