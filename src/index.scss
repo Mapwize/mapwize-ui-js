@@ -1,21 +1,20 @@
 // START OF FILE
 .mapwizeui { // Nothing before this line
   @import 'custom';
-  @import '~bootstrap/scss/bootstrap';
 
   @import './header';
   @import './footer';
   @import './controls';
 
-  .tooltip {
+  .mwz-tooltip {
     font-size: .76rem;
 
-    .arrow {
+    .mwz-arrow {
       display: none;
     }
   }
 
-  .bs-tooltip-top {
+  .mwz-bs-tooltip-top {
     margin-top: 85px;
     padding: 0;
   }

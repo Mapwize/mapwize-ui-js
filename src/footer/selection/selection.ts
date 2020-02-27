@@ -128,8 +128,8 @@ export class FooterSelection extends DefaultControl {
 
     this._container.addClass('mwz-opened-details')
 
-    this._container.find('.mwz-close-details').removeClass('d-none').addClass('d-block')
-    this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
+    this._container.find('.mwz-close-details').removeClass('mwz-d-none').addClass('mwz-d-block')
+    this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
 
     let padding = 38
     if ($(this.map._container).hasClass(uiConfig.SMALL_SCREEN_CLASS)) {
@@ -146,8 +146,8 @@ export class FooterSelection extends DefaultControl {
 
     this._container.removeClass('mwz-opened-details')
 
-    this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-    this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+    this._container.find('.mwz-open-details').removeClass('mwz-d-none').addClass('mwz-d-block')
+    this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
 
     this._container.animate({
       height: this._selectedHeight,
@@ -172,8 +172,8 @@ export class FooterSelection extends DefaultControl {
       this._container.find('.mwz-details').html(details)
     } else {
       this._container.find('.mwz-details').html('')
-      this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
+      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     }
 
     const informationButton = callOptionnalFn(this._options.shouldShowInformationButtonFor, [element])
@@ -189,11 +189,11 @@ export class FooterSelection extends DefaultControl {
     const selected_height = this._container.height()
     this._selectedHeight = selected_height < 240 ? selected_height : 240
     if (this._container.find('.mwz-details').get(0).scrollHeight > this._container.find('.mwz-details').height()) {
-      this._container.find('.mwz-open-details').removeClass('d-none').addClass('d-block')
-      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-open-details').removeClass('mwz-d-none').addClass('mwz-d-block')
+      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     } else {
-      this._container.find('.mwz-open-details').removeClass('d-block').addClass('d-none')
-      this._container.find('.mwz-close-details').removeClass('d-block').addClass('d-none')
+      this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
+      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     }
 
     this._container.css('height', lastHeight)

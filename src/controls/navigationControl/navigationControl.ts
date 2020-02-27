@@ -47,7 +47,7 @@ class NavigationControl {
       })
 
       this._compassIcon = this._createSpan('mapboxgl-ctrl-icon', '', this._compass)
-      this._compassIcon.setAttribute('aria-hidden', true)
+      this._compassIcon.setAttribute('aria-hidden', 'true')
     }
   }
 
@@ -58,7 +58,7 @@ class NavigationControl {
         container.find('.mapboxgl-ctrl-zoom-in').attr('data-original-title', translate('zoom_in'))
         container.find('.mapboxgl-ctrl-zoom-out').attr('data-original-title', translate('zoom_out'))
         container.find('.mapboxgl-ctrl-compass').attr('data-original-title', translate('reset_bearing_to_north') + '<br>' + translate('use_ctrl'))
-        container.find('[data-toggle="tooltip"]').tooltip({ trigger: 'hover', container: this._map._container })
+        container.find('[data-toggle="mwz-tooltip"]').tooltip({ trigger: 'hover', container: this._map._container })
       }, 1000)
     }
   }
@@ -133,7 +133,7 @@ class NavigationControl {
     a.className = className
     a.innerHTML = content
     a.type = 'button'
-    a.setAttribute('data-toggle', 'tooltip')
+    a.setAttribute('data-toggle', 'mwz-tooltip')
     a.setAttribute('data-placement', 'left')
     a.setAttribute('data-html', 'true')
     a.addEventListener('click', fn)
