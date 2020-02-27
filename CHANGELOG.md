@@ -4,6 +4,9 @@
 
 - Fix: arrow display in selection details (#121)
 - Fix: selection and direction modules only remove their own markers (#126)
+- Fix: timeout error when running Browserstack tests (#134)
+- Fix: mapwize:directionstart event triggered twice (#132)
+- Fix: bootstrap encapsulation to avoid css and js collision (#133)
 - Refactor: Use language name instead of language abbreviations in venue language selector (#129)
 - Upgrade dependencies
 
