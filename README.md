@@ -6,7 +6,7 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `2.4.5` uses Mapwize SDK version `4.2.2`.
+MapwizeUI version `2.4.5` uses Mapwize SDK version `4.2.3`.
 For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/).
 
 ## Description
