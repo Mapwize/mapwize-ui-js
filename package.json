@@ -19,7 +19,8 @@
     "test-browserstack": "concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/browserstack.conf.js\"",
     "test-browserstack-build": "npm run build && concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/browserstack.conf.js\"",
     "integrate": "webpack --watch --config webpack.integrate.js",
-    "docs": "jsdoc -c ./jsdoc.conf"
+    "docs": "jsdoc -c ./jsdoc.conf",
+    "support": "echo \"const regex = $(browserslist-useragent-regexp 'defaults or Chrome > 48 or Firefox > 67 and not OperaMini all and not Edge < 18 and not Safari < 10.1' --allowHigherVersions)\nexport { regex as default }\" > ./src/support.ts"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
@@ -39,6 +40,7 @@
     "autoprefixer": "9.7.4",
     "babel-loader": "8.0.6",
     "babel-preset-minify": "0.5.1",
+    "browserslist-useragent-regexp": "2.0.1",
     "browserstack-local": "1.4.5",
     "chromedriver": "80.0.1",
     "clean-webpack-plugin": "3.0.0",
