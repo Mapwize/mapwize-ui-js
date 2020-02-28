@@ -11,15 +11,15 @@ module.exports = {
     'os': 'OS X',
     'os_version': 'High Sierra',
     'browser': 'Chrome',
-    'browser_version': '63.0',
-    'browserName': 'MacOS High Sierra - Chrome 63.0',
+    'browser_version': '80.0',
+    'browserName': 'MacOS High Sierra - Chrome 80.0',
   }, {
     // Latest Safari - Mac
     'os': 'OS X',
     'os_version': 'Catalina',
     'browser': 'Safari',
-    'browser_version': '12.0',
-    'browserName': 'MacOS Catalina - Safari 12.0',
+    'browser_version': '13.0',
+    'browserName': 'MacOS Catalina - Safari 13.0',
   }, {
     // Oldest Safari - Mac
     'os': 'OS X',
@@ -39,8 +39,8 @@ module.exports = {
     'os': 'Windows',
     'os_version': '8',
     'browser': 'Chrome',
-    'browser_version': '63.0',
-    'browserName': 'Windows 8 - Chrome 63.0',
+    'browser_version': '80.0',
+    'browserName': 'Windows 8 - Chrome 80.0',
   }, {
     // Latest Firefox - Windows
     'os': 'Windows',
@@ -53,8 +53,8 @@ module.exports = {
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Firefox',
-    'browser_version': '68.0',
-    'browserName': 'Windows 10 - Firefox 68.0',
+    'browser_version': '73.0',
+    'browserName': 'Windows 10 - Firefox 73.0',
   }, {
     // Latest Edge - Windows
     'os': 'Windows',
