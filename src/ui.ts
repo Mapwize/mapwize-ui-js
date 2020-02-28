@@ -126,6 +126,10 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     container = options.container || 'mapwize'
   }
 
+  if (options.locale && !options.preferredLanguage) {
+    set(options, 'preferredLanguage', options.locale)
+  }
+
   options = defaults(options, {
     apiKey: null,
     apiUrl: null,
@@ -168,7 +172,6 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
   set(options, 'mapwizeAttribution', get(options, 'mapwizeAttribution', 'bottom-right'))
 
   locale(options.locale)
-  set(options, 'preferredLanguage', options.preferredLanguage || options.locale)
 
   unit(options.unit)
 
