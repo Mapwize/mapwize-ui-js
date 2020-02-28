@@ -4,57 +4,57 @@ module.exports = {
     'os': 'OS X',
     'os_version': 'Catalina',
     'browser': 'Chrome',
-    'browser_version': '78.0',
-    'browserName': 'MacOS Catalina - Chrome 78.0',
+    'browser_version': '63.0',
+    'browserName': 'MacOS Catalina - Chrome 63.0',
   }, {
     // Oldest Chrome - Mac
     'os': 'OS X',
     'os_version': 'High Sierra',
     'browser': 'Chrome',
-    'browser_version': '78.0',
-    'browserName': 'MacOS High Sierra - Chrome 78.0',
+    'browser_version': '63.0',
+    'browserName': 'MacOS High Sierra - Chrome 63.0',
   }, {
     // Latest Safari - Mac
     'os': 'OS X',
     'os_version': 'Catalina',
     'browser': 'Safari',
-    'browser_version': '13.0',
-    'browserName': 'MacOS Catalina - Safari 13.0',
+    'browser_version': '12.0',
+    'browserName': 'MacOS Catalina - Safari 12.0',
   }, {
     // Oldest Safari - Mac
     'os': 'OS X',
     'os_version': 'Sierra',
     'browser': 'Safari',
-    'browser_version': '13.0',
-    'browserName': 'MacOS Sierra - Safari 13.0',
+    'browser_version': '12.0',
+    'browserName': 'MacOS Sierra - Safari 12.0',
   }, {
     // Latest Chrome - Windows
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Chrome',
-    'browser_version': '78.0',
-    'browserName': 'Windows 10 - Chrome 78.0',
+    'browser_version': '63.0',
+    'browserName': 'Windows 10 - Chrome 63.0',
   }, {
     // Oldest Chrome - Windows
     'os': 'Windows',
     'os_version': '8',
     'browser': 'Chrome',
-    'browser_version': '78.0',
-    'browserName': 'Windows 8 - Chrome 78.0',
+    'browser_version': '63.0',
+    'browserName': 'Windows 8 - Chrome 63.0',
   }, {
     // Latest Firefox - Windows
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Firefox',
-    'browser_version': '70.0',
-    'browserName': 'Windows 10 - Firefox 70.0',
+    'browser_version': '68.0',
+    'browserName': 'Windows 10 - Firefox 68.0',
   }, {
     // Oldest Firefox - Windows
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Firefox',
-    'browser_version': '70.0',
-    'browserName': 'Windows 10 - Firefox 70.0',
+    'browser_version': '68.0',
+    'browserName': 'Windows 10 - Firefox 68.0',
   }, {
     // Latest Edge - Windows
     'os': 'Windows',
