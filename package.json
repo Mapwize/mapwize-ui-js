@@ -10,17 +10,17 @@
     "url": "https://github.com/Mapwize/mapwize-ui-js"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "npm run support && webpack --config webpack.prod.js",
     "dist": "npm ci && npm run build",
-    "start": "webpack-dev-server --config webpack.dev.js",
+    "start": "npm run support && webpack-dev-server --config webpack.dev.js",
     "analyze": "webpack --config webpack.analyze.js",
     "test": "concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/local.conf.js\"",
     "test-build": "npm run build && concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/local.conf.js\"",
     "test-browserstack": "concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/browserstack.conf.js\"",
     "test-browserstack-build": "npm run build && concurrently --kill-others --success=first \"http-server ./ -p 8888 > /dev/null 2>&1\" \"wdio tests/conf/browserstack.conf.js\"",
-    "integrate": "webpack --watch --config webpack.integrate.js",
+    "integrate": "npm run support && webpack --watch --config webpack.integrate.js",
     "docs": "jsdoc -c ./jsdoc.conf",
-    "support": "echo \"const regex = $(browserslist-useragent-regexp 'defaults or Chrome > 48 or Firefox > 67 and not OperaMini all and not Edge < 18 and not Safari < 10.1' --allowHigherVersions)\nexport { regex as default }\" > ./src/support.ts"
+    "support": "echo \"const regex = $(browserslist-useragent-regexp 'ios > 11, and_chr > 62, and_ff > 67, and_uc > 12, samsung > 9, chrome > 62, firefox > 67, edge > 16, ie 11, safari > 11' --allowHigherVersions)\nexport { regex as default }\" > ./src/support.ts"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
