@@ -121,7 +121,7 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 const createMap = (container: string | HTMLElement, options?: any): Promise<any> => {
 
   if (!isBrowserSupported.test(navigator.userAgent)) {
-    return Promise.reject(new Error('Your browser is not supported. Please use a more recent one to view Mapwize Indoor Maps.'))
+    return Promise.reject(new Error('Your browser is not supported. Please use a more recent one to view Mapwize UI.'))
   }
 
   if (isString(container) && !options) {
