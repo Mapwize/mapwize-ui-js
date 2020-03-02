@@ -4,15 +4,15 @@ module.exports = {
     'os': 'OS X',
     'os_version': 'Catalina',
     'browser': 'Chrome',
-    'browser_version': '63.0',
-    'browserName': 'MacOS Catalina - Chrome 63.0',
+    'browser_version': '80.0',
+    'browserName': 'MacOS Catalina - Chrome 80.0',
   }, {
     // Oldest Chrome - Mac
     'os': 'OS X',
     'os_version': 'High Sierra',
     'browser': 'Chrome',
-    'browser_version': '80.0',
-    'browserName': 'MacOS High Sierra - Chrome 80.0',
+    'browser_version': '63.0',
+    'browserName': 'MacOS High Sierra - Chrome 63.0',
   }, {
     // Latest Safari - Mac
     'os': 'OS X',
@@ -32,31 +32,38 @@ module.exports = {
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Chrome',
-    'browser_version': '63.0',
-    'browserName': 'Windows 10 - Chrome 63.0',
+    'browser_version': '80.0',
+    'browserName': 'Windows 10 - Chrome 80.0',
   }, {
     // Oldest Chrome - Windows
     'os': 'Windows',
     'os_version': '8',
     'browser': 'Chrome',
-    'browser_version': '80.0',
-    'browserName': 'Windows 8 - Chrome 80.0',
+    'browser_version': '63.0',
+    'browserName': 'Windows 8 - Chrome 63.0',
   }, {
     // Latest Firefox - Windows
+    'os': 'Windows',
+    'os_version': '10',
+    'browser': 'Firefox',
+    'browser_version': '74.0',
+    'browserName': 'Windows 10 - Firefox 74.0',
+  }, {
+    // Oldest Firefox - Windows
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Firefox',
     'browser_version': '68.0',
     'browserName': 'Windows 10 - Firefox 68.0',
   }, {
-    // Oldest Firefox - Windows
+    // Latest Edge - Windows
     'os': 'Windows',
     'os_version': '10',
-    'browser': 'Firefox',
-    'browser_version': '73.0',
-    'browserName': 'Windows 10 - Firefox 73.0',
+    'browser': 'Edge',
+    'browser_version': '80.0',
+    'browserName': 'Windows 10 - Edge 80.0',
   }, {
-    // Latest Edge - Windows
+    // Oldest Edge - Windows
     'os': 'Windows',
     'os_version': '10',
     'browser': 'Edge',
