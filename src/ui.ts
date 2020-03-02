@@ -63,6 +63,15 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   return mapInstance
 }
 
+const isSupported = () => {
+  console.log(navigator.userAgent);
+
+  if (navigator && navigator.userAgent) {
+    return isBrowserSupported.test(navigator.userAgent)
+  }
+  return true
+}
+
 /**
 * @class Map
 * @augments external:MapwizeSDK_Map
@@ -120,10 +129,6 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 */
 const createMap = (container: string | HTMLElement, options?: any): Promise<any> => {
 
-  if (navigator && navigator.userAgent && !isBrowserSupported.test(navigator.userAgent)) {
-    return Promise.reject(new Error('Your browser is not supported. Please use a more recent one to view Mapwize UI.'))
-  }
-
   if (isString(container) && !options) {
     options = { apiKey: container }
     container = 'mapwize'
@@ -168,8 +173,14 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
 
     preferredLanguage: 'en',
 
+    skipBrowserSupportCheck: false,
+
     unit: 'm',
   })
+
+  if (!options.skipBrowserSupportCheck && !isSupported()) {
+    return Promise.reject(new Error('Your browser is not supported. Please use a more recent one to view Mapwize UI.'))
+  }
 
   if (!apiKey(options.apiKey)) {
     return Promise.reject(new Error('Missing "apiKey" in options'))
