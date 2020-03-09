@@ -23,7 +23,7 @@ const uiVersion = {
   mapwize: version,
   mapwizeUI: packageJson.version,
 }
-console.log('Mapwize ui v' + packageJson.version)
+console.log('Mapwize UI v' + packageJson.version)
 
 export { map as default }
 export { map, uiConfig, config, apiKey, apiUrl }
