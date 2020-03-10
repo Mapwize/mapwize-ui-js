@@ -6,7 +6,7 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `2.4.5` uses Mapwize SDK version `4.2.3`.
+MapwizeUI version `2.4.6` uses Mapwize SDK version `4.2.4`.
 For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/).
 
 ## Description
@@ -48,7 +48,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.4.5"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.4.6"></script>
 ```
 
 ### Manual
@@ -123,15 +123,15 @@ Return: the current ui locale or the new passed locale if valid
 
 Get the list of supported locales by the user interface
 
-Signature: `(): Array<string>`   
-Parameters: there is no param   
+Signature: `(): Array<string>`
+Parameters: there is no param
 Return: the list of supported locales by the user interface
 
 ##### `unit(newUnit: string): string`
 
 Change the ui measurement unit if param `newUnit` is provided
 
-Signature: `(newUnit: string): string`   
+Signature: `(newUnit: string): string`
 Parameters:
 - `newUnit`(optional, string, default: null) the new measurement unit to set (need to be in `map.getUnits()` array)
 
@@ -141,23 +141,23 @@ Return: the current ui measurement unit or the new passed measurement unit if va
 
 Get the list of supported measurement units by the user interface
 
-Signature: `(): Array<string>`   
-Parameters: there is no param   
+Signature: `(): Array<string>`
+Parameters: there is no param
 Return: the list of supported measurement units by the user interface
 
 ##### `setDirectionMode(): void`
 
 Enable direction mode for the ui, this shows the two search fields for from and to
 
-Signature: `(): void`   
-Parameters: there is no param   
+Signature: `(): void`
+Parameters: there is no param
 Return: there is no return value
 
 ##### `setFrom(from: any): void`
 
 Set the from field of direction module
 
-Signature: `(from: any): void`   
+Signature: `(from: any): void`
 Parameters:
 - `from` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { objectClass: 'userPosition' }, { latitude, longitude, floor, venueId }
 
@@ -167,7 +167,7 @@ Return: there is no return value
 
 Set the to field of direction module
 
-Signature: `(to: any): void`   
+Signature: `(to: any): void`
 Parameters:
 - `to` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { latitude, longitude, floor, venueId }
 
@@ -177,16 +177,16 @@ Return: there is no return value
 
 Get the current direction object if any
 
-Signature: `(): any`   
-Parameters: there is no param   
+Signature: `(): any`
+Parameters: there is no param
 Return: the current direction object if any
 
 ##### `destroy(): void`
 
 Destroy the map and all its components
 
-Signature: `(): void`    
-Parameters: there is no param   
+Signature: `(): void`
+Parameters: there is no param
 Return: there is no return value
 
 ## Examples
@@ -197,6 +197,7 @@ Return: there is no return value
 <style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
+
 ```javascript
 MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
 ```
@@ -209,6 +210,7 @@ To have the map centered on a venue at start up:
 <style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
+
 ```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
@@ -227,6 +229,7 @@ To have the map centered on a place with the place selected at start up:
 <style> #mapwize { width: 400px; height: 400px; } </style>
 <div id="mapwize"></div>
 ```
+
 ```javascript
 var options = {
   apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
@@ -241,7 +244,7 @@ MapwizeUI.map(options).then(map => {
 
 The `src/index.html` file shows how to quickly add Mapwize UI to an HTML page.
 
-The only thing you need to get started is a Mapwize api key. 
+The only thing you need to get started is a Mapwize api key.
 You can get your key by signing up for a free account at [mapwize.io](https://www.mapwize.io).
 
 Once you have your API key, copy it to `index.html` in the map options and run the app using
@@ -264,7 +267,7 @@ Mapwize SDK and Mapwize UI do __not__ have analytics trackers built in. This mea
 
 Events and callbacks from Mapwize SDK and Mapwize UI can be used to detect changes in the interface and trigger tracking events. We believe using the following events would make sense:
 
-- `venueEnter` 
+- `venueEnter`
 - `venueExit`
 - `floorChange`
 - `universeChange`
