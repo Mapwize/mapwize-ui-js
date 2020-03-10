@@ -17,7 +17,7 @@ mwzDescribe(testSuites, function () {
           callbackTest('Zoom expected: 20, retrives: ' + map.getZoom() + '\nBearing expected: 50, retrives: ' + map.getBearing() + '\nPitch expected: 53, retrives: ' + map.getPitch())
         }
       }
-    }).then(mapInstance => {
+    }).then(function (mapInstance) {
       map = mapInstance
     }).catch(function (e) { callbackTest(e); });
   })
@@ -37,7 +37,7 @@ mwzDescribe(testSuites, function () {
           callbackTest('Zoom expected: 19, retrives: ' + map.getZoom() + '\nBearing expected: 0, retrives: ' + map.getBearing() + '\nPitch expected: 0, retrives: ' + map.getPitch())
         }
       }
-    }).then(mapInstance => {
+    }).then(function (mapInstance) {
       map = mapInstance
     }).catch(function (e) { callbackTest(e); });
   })
