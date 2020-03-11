@@ -317,3 +317,5 @@ Add translations in a new language
 - Run `npm run dist` commands in your terminal
 - Copy the file `dist/mapwizeui.js` in your project
 - Import `mapwizeui.js` module in your project
+
+Or do a pull request and we take care of the merger to master
