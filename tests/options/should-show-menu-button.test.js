@@ -8,7 +8,19 @@ mwzDescribe(testSuites, function () {
       onMenuButtonClick: function (e) {
       },
     }).then(function (map) {
-      if ($('#mwz-menu-button').length == 0) {
+      if ($('#mwz-menu-button').length !== 1) {
+        callbackTest('#mwz-menu-button does not exist when onMenuButtonClick function is set')
+      } else {
+        callbackTest(null)
+      }
+    }).catch(function (e) { callbackTest(e) })
+  })
+
+  mwzTest('enu button hidden by default ', function (callbackTest) {
+    MapwizeUI.map({
+      apiKey: APIKEY,
+    }).then(function (map) {
+      if ($('#mwz-menu-button').length !== 0) {
         callbackTest('#mwz-menu-button does not exist when onMenuButtonClick function is set')
       } else {
         callbackTest(null)
