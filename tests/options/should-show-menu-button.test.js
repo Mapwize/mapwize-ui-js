@@ -9,7 +9,7 @@ mwzDescribe(testSuites, function () {
       },
     }).then(function (map) {
       if ($('#mwz-menu-button').length !== 1) {
-        callbackTest('#mwz-menu-button does not exist when onMenuButtonClick function is set')
+        callbackTest('#mwz-menu-button should exist when onMenuButtonClick function is set')
       } else {
         callbackTest(null)
       }
@@ -21,7 +21,7 @@ mwzDescribe(testSuites, function () {
       apiKey: APIKEY,
     }).then(function (map) {
       if ($('#mwz-menu-button').length !== 0) {
-        callbackTest('#mwz-menu-button does not exist when onMenuButtonClick function is set')
+        callbackTest('#mwz-menu-button should not exist when onMenuButtonClick function is not set')
       } else {
         callbackTest(null)
       }
