@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 2.4.6
+
+- Feat: adding pre-selection hook onElementWillBeSelected
+- Fix: setting locale as preferredLanguage by default
+- Logging version in console to simplify debugging
+
 ## 2.4.5
 
 - Fix: arrow display in selection details (#121)

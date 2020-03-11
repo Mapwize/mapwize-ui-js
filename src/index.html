@@ -82,6 +82,7 @@
             // restrictContentToOrganizationId: '',
             // restrictContentToVenueId: euratechnologieVenueId,
             restrictContentToVenueIds: [euratechnologieVenueId, demoVenueId],
+            locale: 'fr',
             // mainColor: '#fca903',
             // hideMenu: true,
             // onDirectionQueryWillBeSent: function (query) { return query; },
@@ -92,6 +93,9 @@
               console.log('shouldShowInformationButtonFor', e)
               return '<span class="mwz-icon-information">i</span> ' + e.name
             },
+            // onElementWillBeSelected: function (e) {
+            //   return { pitch: 50, bearing: 50, zoom: 20, centerOnElement: true }
+            // },
             onInformationButtonClick: function (e) {
               console.log('onInformationButtonClick', e)
               alert('onInformationButtonClick ' + e.name)

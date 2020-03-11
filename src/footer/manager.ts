@@ -1,9 +1,11 @@
 import { set } from 'lodash'
 import { FooterDirections, FooterSelection, FooterVenue } from './'
+import { callOptionnalFn } from '../utils'
 
 export class FooterManager {
 
   private _map: any
+  private _options: any
 
   private _selected: any
 
@@ -13,6 +15,7 @@ export class FooterManager {
 
   constructor (mapInstance: any, options: any) {
     this._map = mapInstance
+    this._options = options
 
     this.venueFooter = new FooterVenue(mapInstance)
     this.selectionFooter = new FooterSelection(mapInstance, options)
@@ -53,13 +56,15 @@ export class FooterManager {
   public setSelected (element: any, centerOnElement: boolean = true, analytics: any = null): Promise<void> {
     this._selected = element
     if (this._selected && !this._map.headerManager.isInDirectionMode()) {
+      const currentZoom = this._map.getZoom()
+      const options = callOptionnalFn(this._options.onElementWillBeSelected, [this._selected, { zoom: currentZoom > 19 ? currentZoom : 19, centerOnElement }])
+
       let centerPromise = Promise.resolve(null)
-      if (centerOnElement) {
-        const currentZoom = this._map.getZoom()
+      if (options.centerOnElement) {
         if (element.objectClass === 'placeList') {
-          centerPromise = this._map.centerOnVenue(element.venue)
+          centerPromise = this._map.centerOnVenue(element.venue, options)
         } else {
-          centerPromise = this._map.centerOnPlace(element._id, { zoom: currentZoom > 19 ? currentZoom : 19 })
+          centerPromise = this._map.centerOnPlace(element._id, options)
         }
       }
 

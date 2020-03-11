@@ -126,6 +126,10 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     container = options.container || 'mapwize'
   }
 
+  if (options.locale && !options.preferredLanguage) {
+    set(options, 'preferredLanguage', options.locale)
+  }
+
   options = defaults(options, {
     apiKey: null,
     apiUrl: null,
@@ -149,6 +153,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
 
     onDirectionQueryWillBeSent: (query: any): any => query,
     onDirectionWillBeDisplayed: (direction: any, directionOptions: any): any => ({ direction, options: directionOptions }),
+    onElementWillBeSelected: (element: any, options: any): any => options,
     onInformationButtonClick: (): void => null,
     onMenuButtonClick: (): void => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any): any => ({ searchString, searchOptions }),
@@ -168,7 +173,6 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
   set(options, 'mapwizeAttribution', get(options, 'mapwizeAttribution', 'bottom-right'))
 
   locale(options.locale)
-  set(options, 'preferredLanguage', options.preferredLanguage || options.locale)
 
   unit(options.unit)
 
