@@ -107,7 +107,6 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {function} [options.shouldShowInformationButtonFor] (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean or a html string to change button content. If this is not defined, the information button is never shown by default.
 * @param {function} [options.onInformationButtonClick]  (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
 * @param {function} [options.onSelectedChange]  (optional, function) Callback called when a place or placeList is selected or unselected. The selected place or placeList is provided as parameter
-* @param {boolean} [options.hideMenu=false] (optional, boolean, default: false) to hide menu bar.
 * @param {function} [options.onMenuButtonClick]  (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 * @returns {Promise.<Object>}
 * @example
@@ -138,8 +137,6 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
 
     floorControl: true,
     floorControlOptions: {},
-
-    hideMenu: false,
 
     locale: 'en',
 
