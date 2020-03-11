@@ -94,7 +94,6 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 - `onInformationButtonClick` (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 - `onSelectedChange`  (optional, function) callback called when the selected element (place or placeList) changes. The function is called with 2 parameters: the selectedObject and some analytics details. selectedObject is null when nothing is selected anymore. View the analytics section for details about the analytics parameter.
-- `hideMenu` (optional, boolean, default: false) to hide menu bar.
 - `mainColor` (optional, string, default: null) the main color for the interface as hexadecimal string.
 - `direction`  (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
 - `locale` (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
