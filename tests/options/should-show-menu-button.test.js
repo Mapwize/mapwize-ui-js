@@ -16,7 +16,7 @@ mwzDescribe(testSuites, function () {
     }).catch(function (e) { callbackTest(e) })
   })
 
-  mwzTest('enu button hidden by default ', function (callbackTest) {
+  mwzTest('menu button hidden by default ', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY,
     }).then(function (map) {
