@@ -297,3 +297,23 @@ MapwizeUI.map({
 	mapwizeMap.on('mapwize:venueexit', function (e) {console.log('venueexit', e)} );
 })
 ```
+
+## Translations
+Change the strings of a language
+
+- Go to the folder `src/locales/` in your project
+- Open for example `en.locale.json` file if you want to change english strings
+- Replace value of json key and save file
+- Run `npm run dist` commands in your terminal
+- Copy the file `dist/mapwizeui.js` in your project
+- Import `mapwizeui.js` module in your project
+
+Add translations in a new language
+
+- Go to the folder `src/locales/` in your project
+- Copy and paste one of the files
+- Rename the file you just pasted with name languageCode.locale.json example `it.locale.json` for italian language
+- Replace value of json key and save file
+- Run `npm run dist` commands in your terminal
+- Copy the file `dist/mapwizeui.js` in your project
+- Import `mapwizeui.js` module in your project
