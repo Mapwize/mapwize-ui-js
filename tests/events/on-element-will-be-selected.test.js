@@ -11,7 +11,7 @@ mwzDescribe(testSuites, function () {
         return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true }
       },
       onSelectedChange: function (selectedObject, analytics) {
-        setTimeout(() => {
+        setTimeout(function () {
           if (map.getBearing() == 50 && map.getPitch() == 53 && map.getZoom() == 20) {
             callbackTest(null)
           } else {
