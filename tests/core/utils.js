@@ -18,12 +18,18 @@ function mwzTest (name, evaluateFn) {
     browser.setTimeout({
       'script': 60000
     });
-    var error = browser.executeAsync(evaluateFn)
-    if (error != null) {
-      if (_.isString(error)) {
-        error = new Error(error)
+
+    var testResult = browser.executeAsync(evaluateFn)
+
+    if (testResult) {
+      if (_.isObject(testResult)) {
+        testResult = tools[testResult.fnName].apply(null, testResult.args)
+        if (testResult) {
+          throw new Error(testResult)
+        }
+      } else {
+        throw new Error(testResult)
       }
-      throw error;
     }
   });
 }
@@ -97,6 +103,13 @@ function isSamePosition (expectedCoordinates, foundCoordinates, expectedFloor, f
     return floorError
   }
   return null
+}
+
+
+var tools = {
+  isSamePosition: isSamePosition,
+  isSameFloor: isSameFloor,
+  isSameCoordinates: isSameCoordinates
 }
 
 module.exports = {

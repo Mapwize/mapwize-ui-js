@@ -17,13 +17,13 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
+      shouldShowInformationButtonFor: function () { return true; },
       onInformationButtonClick: function (e) {
         callbackTest(null);
-      }
-    }).then(function (map) {
-      map.on('mapwize:venueenter', function () {
+      },
+      onSelectedChange: function () {
         $('#mwz-footer-informations-button').click()
-      })
+      }
     }).catch(function (e) { callbackTest(e); });
   })
 })
