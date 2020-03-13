@@ -8,7 +8,7 @@ mwzDescribe(testSuites, function () {
       locationControl: true
     }).then(function (map) {
       if ($('.mwz-ctrl-location').length !== 1) {
-        callbackTest('.mwz-ctrl-location should exist when locationControl is set')
+        callbackTest('.mwz-ctrl-location should exist when locationControl is true')
       } else {
         callbackTest(null)
       }
@@ -17,11 +17,10 @@ mwzDescribe(testSuites, function () {
 
   mwzTest('location control button hidden by default ', function (callbackTest) {
     MapwizeUI.map({
-      apiKey: APIKEY,
-      locationControl: false
+      apiKey: APIKEY
     }).then(function (map) {
       if ($('.mwz-ctrl-location').length !== 0) {
-        callbackTest('.mwz-ctrl-location should not exist when locationControl is not set')
+        callbackTest('.mwz-ctrl-location should not exist when locationControl is false')
       } else {
         callbackTest(null)
       }
