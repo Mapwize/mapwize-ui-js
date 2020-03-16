@@ -51,7 +51,7 @@ You use the CDN url directly in your HTML page
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@2.4.6"></script>
 ```
 
-### Manual
+### Compile Mapwize UI
 
 - Clone the Github repository
 - Run `npm run dist` commands in your terminal
@@ -107,38 +107,37 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 
 ## Methods
 
-##### `locale(newLocale: string): string`
+##### `setLocale(newLocale: string): string`
 
-Change the ui locale if param `newLocale` is provided.
-Also set the map preferred language.
+Change the ui locale if param `newLocale` is provided. Also sets the map preferred language.
 
 Signature: `(newLocale: string): string`
 Parameters:
-- `newLocale`(optional, string, default: null) the new locale to set (need to be in `map.getLocales()` array)
+- `newLocale`(optional, string, default: null) the new locale to use (needs to be in `map.getLocales()` array)
 
-Return: the current ui locale or the new passed locale if valid
+Return: the new locale, or the previous one if newLocale is not valid
 
 ##### `getLocales(): Array<string>`
 
-Get the list of supported locales by the user interface
+Get the list of supported locales for the user interface
 
 Signature: `(): Array<string>`
 Parameters: there is no param
 Return: the list of supported locales by the user interface
 
-##### `unit(newUnit: string): string`
+##### `setUnit(newUnit: string): string`
 
-Change the ui measurement unit if param `newUnit` is provided
+Change the UI measurement unit
 
 Signature: `(newUnit: string): string`
 Parameters:
-- `newUnit`(optional, string, default: null) the new measurement unit to set (need to be in `map.getUnits()` array)
+- `newUnit`(optional, string, default: null) the new measurement unit to use (needs to be in `map.getUnits()` array)
 
-Return: the current ui measurement unit or the new passed measurement unit if valid
+Return: the new measurement unit, or the previous one if newUnit is not valid
 
 ##### `getUnits(): Array<string>`
 
-Get the list of supported measurement units by the user interface
+Get the list of supported measurement units for the user interface
 
 Signature: `(): Array<string>`
 Parameters: there is no param
@@ -296,3 +295,21 @@ MapwizeUI.map({
 	mapwizeMap.on('mapwize:venueexit', function (e) {console.log('venueexit', e)} );
 })
 ```
+
+## Locales
+
+The user inerface can be displayed in different languages using Locales. The `locale` options as well as the `setLocale` and `getLocales` methods decribed above allow you to control the language used.
+
+In the compiled version of Mapwize UI available on NPM, only the locales present in this repository are available.
+
+Would you like to add a language? Don't hesitate to make a pull request and we'll be happy to merge!
+
+If you would like to manage the locales on your own, you'll have to modify the source files and recompile Mapwize UI:
+
+- Clone the repository
+- Go to the `src/locales/` folder
+- Edit the srings for the existing locales in the files like `en.locale.json` while keeping the keys unchanged.
+- Add a new locale by adding a file like `LOCALE_CODE.locale.json` with a 2 letter locale code. Make sure to copy all keys from another locale.
+- Run `npm run dist` commands in your terminal
+- Copy the file `dist/mapwizeui.js` in your project
+- Import `mapwizeui.js` module in your project
