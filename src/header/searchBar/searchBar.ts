@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { isNull, template } from 'lodash'
+import { isFunction, template } from 'lodash'
 
 const outOfVenueHtml = require('./templates/outOfVenue.html')
 const enteringInVenueHtml = require('./templates/enteringInVenue.html')
@@ -30,7 +30,7 @@ export class SearchBar extends DefaultControl {
     this._options = options
     this._container = $('<div />')
 
-    if (isNull(this._options.onMenuButtonClick())) {
+    if (!isFunction(this._options.onMenuButtonClick)) {
       this._hideMenu = true
     } else {
       this._hideMenu = false
