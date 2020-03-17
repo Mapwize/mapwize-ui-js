@@ -214,6 +214,17 @@ const attachMethods = (mapInstance: any) => {
     return getUnits()
   }
 
+  /**
+  * @instance
+  * @memberof Map
+  * @desc Get hash url.
+  * @function getHash
+  * @returns {object}
+  */
+  mapInstance.getHash = (): any => {
+    return mapInstance.hashService.getHash()
+  }
+
   const mapRemoveSave = mapInstance.remove.bind(mapInstance)
   /**
   * @instance

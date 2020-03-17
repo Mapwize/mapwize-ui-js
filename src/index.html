@@ -83,6 +83,7 @@
             // restrictContentToVenueId: euratechnologieVenueId,
             restrictContentToVenueIds: [euratechnologieVenueId, demoVenueId],
             locale: 'fr',
+            // urlHash: '/f/p/euratechnologies/accueil/t/p/euratechnologies/espace_vip',
             // locationControl: true,
             // mainColor: '#fca903',
             // onDirectionQueryWillBeSent: function (query) { return query; },
@@ -99,6 +100,9 @@
             onInformationButtonClick: function (e) {
               console.log('onInformationButtonClick', e)
               alert('onInformationButtonClick ' + e.name)
+            },
+            onHashChange: function (hash, queryParams) {
+              console.log('onHashChange', hash, queryParams)
             },
             onMenuButtonClick: function (e) {
               console.log('onMenuButtonClick')
