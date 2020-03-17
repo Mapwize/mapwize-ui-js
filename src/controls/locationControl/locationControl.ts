@@ -63,7 +63,7 @@ class LocationControl {
 
   private _onFollowUserModeClick (): void {
     if (!this._map.getUserLocation()) {
-      this._options.onFollowButtonClickWithoutLocation()
+      return this._options.onFollowButtonClickWithoutLocation()
     }
 
     if (this._map.getFollowUserMode() === followUserModeStates.on) {
