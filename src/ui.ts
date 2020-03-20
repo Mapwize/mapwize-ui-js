@@ -33,7 +33,7 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   mapInstance.footerManager = new FooterManager(mapInstance, options)
 
   if (options.locationControl) {
-    mapInstance.locationControl = new LocationControl(options.locationControlOptions)
+    mapInstance.locationControl = new LocationControl(options)
     mapInstance.addControl(mapInstance.locationControl, isString(options.locationControl) ? options.locationControl : undefined)
   }
 
@@ -108,6 +108,7 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {function} [options.onInformationButtonClick]  (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
 * @param {function} [options.onSelectedChange]  (optional, function) Callback called when a place or placeList is selected or unselected. The selected place or placeList is provided as parameter
 * @param {function} [options.onMenuButtonClick]  (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
+* @param {function} [options.onFollowButtonClickWithoutLocation]  (optional, function) callback called when the user clicked on the follow button while no location has been set
 * @returns {Promise.<Object>}
 * @example
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
@@ -151,6 +152,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     onDirectionQueryWillBeSent: (query: any): any => query,
     onDirectionWillBeDisplayed: (direction: any, directionOptions: any): any => ({ direction, options: directionOptions }),
     onElementWillBeSelected: (element: any, options: any): any => options,
+    onFollowButtonClickWithoutLocation: (): void => null,
     onInformationButtonClick: (): void => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any): any => ({ searchString, searchOptions }),
     onSearchResultWillBeDisplayed: (results: any): any => results,

@@ -106,6 +106,9 @@
             },
             onSelectedChange: function (selectedObject, analytics) {
               console.log('onSelectedChange', selectedObject, analytics)
+            },
+            onFollowButtonClickWithoutLocation() {
+              alert('onFollowButtonClickWithoutLocation')
             }
           }).then(function (instance) {
             console.log('MAP LOADED')
