@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.4.7
+
+- Hotfix: upgrade mapwize dependencie to fix mapbox crash on windows in v1.8.0 (155)
+- Feat: Implement onFollowButtonClickWithoutLocation (#150)
+
 ## 2.4.6
 
 - Feat: adding pre-selection hook onElementWillBeSelected
