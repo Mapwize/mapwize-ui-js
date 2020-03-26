@@ -83,8 +83,8 @@
             // restrictContentToVenueId: euratechnologieVenueId,
             restrictContentToVenueIds: [euratechnologieVenueId, demoVenueId],
             locale: 'fr',
+            // locationControl: true,
             // mainColor: '#fca903',
-            // hideMenu: true,
             // onDirectionQueryWillBeSent: function (query) { return query; },
             // onDirectionWillBeDisplayed: function (direction, options) { return { direction: direction, options: options }; },
             // onSearchQueryWillBeSent: function (searchString, searchOptions) { return { searchString: searchString, searchOptions: searchOptions }; },
@@ -106,6 +106,9 @@
             },
             onSelectedChange: function (selectedObject, analytics) {
               console.log('onSelectedChange', selectedObject, analytics)
+            },
+            onFollowButtonClickWithoutLocation() {
+              alert('onFollowButtonClickWithoutLocation')
             }
           }).then(function (instance) {
             console.log('MAP LOADED')

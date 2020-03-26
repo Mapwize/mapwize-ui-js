@@ -18,14 +18,16 @@ class LocationControl {
 
   private _map: any
   private _options: any
+  private _defaultOptions: any
   private _container: HTMLElement
   private _locationButton: HTMLButtonElement
 
   constructor (options: any) {
-    this._options = defaults(options, defaultOptions)
+    this._options = options
+    this._defaultOptions = defaults(options.locationControlOptions, defaultOptions)
 
     this._container = document.createElement('div')
-    this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group ' + this._options.class.container
+    this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group ' + this._defaultOptions.class.container
     this._container.style.overflow = 'auto'
     this._container.addEventListener('contextmenu', (e: any) => e.preventDefault())
 
@@ -60,6 +62,10 @@ class LocationControl {
   }
 
   private _onFollowUserModeClick (): void {
+    if (!this._map.getUserLocation()) {
+      return this._options.onFollowButtonClickWithoutLocation()
+    }
+
     if (this._map.getFollowUserMode() === followUserModeStates.on) {
       if (this._map.getUserHeading()) {
         this._map.setFollowUserMode(followUserModeStates.heading).catch((): void => null)

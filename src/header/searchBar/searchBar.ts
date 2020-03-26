@@ -22,12 +22,19 @@ export class SearchBar extends DefaultControl {
 
   private _hideSearchResultsTimeout: any
   private _currentVenueState: number
+  private _hideMenu: boolean
 
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
 
     this._options = options
     this._container = $('<div />')
+
+    if (!isFunction(this._options.onMenuButtonClick)) {
+      this._hideMenu = true
+    } else {
+      this._hideMenu = false
+    }
 
     this.listen('click', '#mwz-menu-button', this._menuButtonClick.bind(this))
     this.listen('click', '#mwz-header-directions-button', this._directionButtonClick.bind(this))
@@ -56,17 +63,17 @@ export class SearchBar extends DefaultControl {
 
   public enteringIn (venue: any): void {
     this._currentVenueState = ENTERING_IN_VENUE
-    this._container.html(template(enteringInVenueHtml)({ hide_menu: this._options.hideMenu, entering_in: translate('entering_in_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
+    this._container.html(template(enteringInVenueHtml)({ hide_menu: this._hideMenu, entering_in: translate('entering_in_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
   }
   public enteredIn (venue: any): void {
     this._currentVenueState = IN_VENUE
-    this._container.html(template(inVenueHtml)({ hide_menu: this._options.hideMenu, search_in: translate('search_placeholder_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
+    this._container.html(template(inVenueHtml)({ hide_menu: this._hideMenu, search_in: translate('search_placeholder_venue', { venue: getTranslation(venue, this.map.getLanguageForVenue(venue._id), 'title') }) }))
     this.refreshTooltips()
   }
   public leaveVenue (): void {
     this.refreshTooltips()
     this._currentVenueState = OUT_OF_VENUE
-    this._container.html(template(outOfVenueHtml)({ hide_menu: this._options.hideMenu, search_in: translate('search_placeholder_global') }))
+    this._container.html(template(outOfVenueHtml)({ hide_menu: this._hideMenu, search_in: translate('search_placeholder_global') }))
   }
 
   public refreshLocale () {

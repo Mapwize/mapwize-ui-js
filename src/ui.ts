@@ -33,7 +33,7 @@ const buildUIComponent = (mapInstance: any, options: any) => {
   mapInstance.footerManager = new FooterManager(mapInstance, options)
 
   if (options.locationControl) {
-    mapInstance.locationControl = new LocationControl(options.locationControlOptions)
+    mapInstance.locationControl = new LocationControl(options)
     mapInstance.addControl(mapInstance.locationControl, isString(options.locationControl) ? options.locationControl : undefined)
   }
 
@@ -101,14 +101,14 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {object} [options.floorControlOptions=null] 
 * @param {boolean} [options.navigationControl=true]  (optional, boolean, default: true) if the navigation control should be displayed.
 * @param {object} [options.navigationControlOptions=null]
-* @param {boolean} [options.locationControl=true]  (optional, boolean, default: true) if the user location control should be displayed.
+* @param {boolean} [options.locationControl=false]  (optional, boolean, default: false) if the user location control should be displayed.
 * @param {object} [options.locationControlOptions=null]
 * @param {object} [options.direction=null] (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
 * @param {function} [options.shouldShowInformationButtonFor] (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean or a html string to change button content. If this is not defined, the information button is never shown by default.
 * @param {function} [options.onInformationButtonClick]  (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
 * @param {function} [options.onSelectedChange]  (optional, function) Callback called when a place or placeList is selected or unselected. The selected place or placeList is provided as parameter
-* @param {boolean} [options.hideMenu=false] (optional, boolean, default: false) to hide menu bar.
 * @param {function} [options.onMenuButtonClick]  (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
+* @param {function} [options.onFollowButtonClickWithoutLocation]  (optional, function) callback called when the user clicked on the follow button while no location has been set
 * @returns {Promise.<Object>}
 * @example
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
@@ -139,11 +139,9 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     floorControl: true,
     floorControlOptions: {},
 
-    hideMenu: false,
-
     locale: 'en',
 
-    locationControl: true,
+    locationControl: false,
     locationControlOptions: {},
 
     mainColor: null,
@@ -154,8 +152,8 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     onDirectionQueryWillBeSent: (query: any): any => query,
     onDirectionWillBeDisplayed: (direction: any, directionOptions: any): any => ({ direction, options: directionOptions }),
     onElementWillBeSelected: (element: any, options: any): any => options,
+    onFollowButtonClickWithoutLocation: (): void => null,
     onInformationButtonClick: (): void => null,
-    onMenuButtonClick: (): void => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any): any => ({ searchString, searchOptions }),
     onSearchResultWillBeDisplayed: (results: any): any => results,
     onSelectedChange: (): void => null,
