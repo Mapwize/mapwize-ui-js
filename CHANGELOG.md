@@ -2,16 +2,24 @@
 
 ## 2.4.7
 
-- Hotfix: upgrade mapwize dependencie to fix mapbox crash on windows in v1.8.0 (155)
-- Feat: Implement onFollowButtonClickWithoutLocation (#150)
+- Hotfix: upgrade Mapwize dependencie to fix Mapbox crash on Windows in v1.8.0 (#155)
+- Feat: implement onFollowButtonClickWithoutLocation (#150)
+- Feat: only display the menu if onMenuButtonClick is a defined function, `hideMenu` option removed (#144, #151)
+- Feat: hiding the locationControl by default (#146)
+- Feat: adding documentation on how to add locales (#149)
+- Fix: fix tests on all browsers
 
 ## 2.4.6
+
+__Bug on Windows fixed in 2.4.7__
 
 - Feat: adding pre-selection hook onElementWillBeSelected
 - Fix: setting locale as preferredLanguage by default
 - Logging version in console to simplify debugging
 
 ## 2.4.5
+
+__Bug on Windows fixed in 2.4.7__
 
 - Fix: arrow display in selection details (#121)
 - Fix: selection and direction modules only remove their own markers (#126)
