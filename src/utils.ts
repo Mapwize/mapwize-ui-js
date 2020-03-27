@@ -117,14 +117,7 @@ const callOptionnalFn = (fn: () => void, params: any[]): any => {
     return false
 }
 
-const round = (num: number, toRound?: number) => {
-    if (toRound) {
-        toRound = Math.pow(10, toRound)
-    }
-    return Math.round(num * toRound) / toRound
-}
-
-export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace, getPlacesInPlaceList, getDefaultFloorForPlaces, getPlaceList, round }
+export { getTranslation, getIcon, getMainSearches, getMainFroms, latitude, longitude, replaceColorInBase64svg, getPlace, getPlacesInPlaceList, getDefaultFloorForPlaces, getPlaceList }
 export { addClass, removeClass }
 export { hexToRgb, rgbToHex }
 export { callOptionnalFn }

@@ -55,8 +55,8 @@ function longitude (data) {
 
 function roundCoordinates (coords) {
   return {
-    latitude: Math.round(latitude(coords) * 100000000) / 100000000,
-    longitude: Math.round(longitude(coords) * 100000000) / 100000000
+    latitude: _.round(latitude(coords), 5),
+    longitude: _.round(longitude(coords), 5)
   }
 }
 

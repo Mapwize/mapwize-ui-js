@@ -5,13 +5,13 @@ import { apiKey, apiUrl, map } from 'mapwize'
 import uiConfig from './config'
 
 import { FooterManager } from './footer'
+import HashService from './hash'
 import { HeaderManager } from './header'
 import { unit } from './measure'
 import attachMethods from './methods'
 import { locale } from './translate'
 
 import { FloorControl, LocationControl, NavigationControl } from './controls'
-import HashService from './services/hash.service'
 
 import { Api, LngLatBounds } from 'mapwize'
 
@@ -198,20 +198,13 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
 
 const urlMustBeParsed = (url: any) => {
   if (url) {
-    return parseUrl(url)
+    return Api.parseUrl(url)
   } else {
     return Promise.resolve({})
   }
 }
 
-const parseUrl = (url: any) => {
-  return Api.parseUrl(url).catch((e: any) => { console.error(e); return {} })
-}
-
 const prepareMapOptions = (parsedUrl: any, mapOptions: any) => {
-
-  mapOptions.container = 'mapwize'
-
   if (parsedUrl.place) {
     mapOptions.centerOnPlaceId = parsedUrl.place._id
     mapOptions.zoom = parsedUrl.zoom

@@ -1,8 +1,9 @@
 'use strict'
 
-import { debounce, isEqual, isFinite, isFunction, pick, set } from 'lodash'
-import { callOptionnalFn, round } from '../utils'
+import { debounce, isEqual, isFinite, isFunction, pick, round, set } from 'lodash'
 import { Api } from 'mapwize'
+
+import { callOptionnalFn } from './utils'
 
 class HashService {
 
@@ -24,10 +25,7 @@ class HashService {
       this._onHashChange()
     }, 200)
 
-    if (isFunction(this._options.onHashChange)) {
-      this._attachEvents()
-    }
-
+    this._attachEvents()
   }
 
   public getHash () {
@@ -39,26 +37,34 @@ class HashService {
   }
 
   private _attachEvents () {
-    this._map.on('moveend', this._debouncedBundleHash)
-    this._map.on('mapwize:venueenter', this._debouncedBundleHash)
-    this._map.on('mapwize:venueexit', this._debouncedBundleHash)
-    this._map.on('mapwize:floorchange', this._debouncedBundleHash)
-    this._map.on('mapwize:click', this._debouncedBundleHash)
-    this._map.on('mapwize:universechange', this._debouncedBundleHash)
-    this._map.on('mapwize:languagechange', this._debouncedBundleHash)
+    if (isFunction(this._options.onHashChange)) {
+      this._map.on('moveend', this._debouncedBundleHash)
+      this._map.on('mapwize:venueenter', this._debouncedBundleHash)
+      this._map.on('mapwize:venueexit', this._debouncedBundleHash)
+      this._map.on('mapwize:floorchange', this._debouncedBundleHash)
+      this._map.on('mapwize:click', this._debouncedBundleHash)
+      this._map.on('mapwize:universechange', this._debouncedBundleHash)
+      this._map.on('mapwize:languagechange', this._debouncedBundleHash)
+    }
     this._map.on('mapwize:directionstart', (e: any) => {
-      this._getDatasNeededForDirections(e.direction).then(() => this._debouncedBundleHash())
+      this._getDatasNeededForDirections(e.direction).then(() => {
+        if (isFunction(this._options.onHashChange)) {
+          this._debouncedBundleHash()
+        }
+      })
     })
     this._map.on('mapwize:directionstop', () => {
       this._directionsDatas = null
-      this._debouncedBundleHash()
+      if (isFunction(this._options.onHashChange)) {
+        this._debouncedBundleHash()
+      }
     })
   }
 
   private _getDatasNeededForDirections (direction: any): Promise<any> {
     this._directionsDatas = {
       from: pick(direction.from, ['lat', 'lon', 'floor', 'venueId']),
-      to: pick(direction.to, ['lat', 'lon', 'floor', 'venueId'])
+      to: pick(direction.to, ['lat', 'lon', 'floor', 'venueId']),
     }
 
     let fromPromise = Promise.resolve()
@@ -86,7 +92,7 @@ class HashService {
 
   private _bundleHash () {
     let url = '/'
-    let queryParams: any = {}
+    const queryParams: any = {}
     const activeVenue = this._map.getVenue()
     if (activeVenue) {
       const selectedElement = this._map.getSelected()
@@ -170,7 +176,7 @@ class HashService {
 
     const hash = {
       hash: url,
-      queryParams
+      queryParams,
     }
 
     return hash
