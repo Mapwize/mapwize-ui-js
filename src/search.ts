@@ -36,10 +36,11 @@ const search = (searchString: string, options: any) => {
 
 const searchOptions = (map: any, venue?: any, focusOn?: string): any => {
   const options: any = {}
-  const universeId: any = map.getUniverse()._id
-
   options.venueId = venue ? venue._id : null
-  options.universeId = universeId ? universeId : null
+
+  if (venue) {
+    options.universeId = map.getUniverse()._id
+  }
 
   options.objectClass = options.venueId ? (focusOn === 'from' ? ['place'] : ['place', 'placeList']) : ['venue']
 
