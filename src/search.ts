@@ -6,9 +6,9 @@ let lastSearchSent: string = null
 
 const debouncedSearch = debounce((searchString: string, options: any, callback: (err: any, results: any[]) => void) => {
   lastSearchSent = searchString
-  
+
   options.query = searchString
-  
+
   return Promise.all([
     Promise.resolve(searchString),
     Api.search(options).then((mapwizeResults: any) => mapwizeResults.hits),
@@ -17,7 +17,7 @@ const debouncedSearch = debounce((searchString: string, options: any, callback: 
       callback(null, results)
     }
   })
-}, 250, { maxWait: 500})
+}, 250, { maxWait: 500 })
 
 const search = (searchString: string, options: any) => {
   return new Promise((resolve, reject) => {
@@ -26,20 +26,23 @@ const search = (searchString: string, options: any) => {
         resolve(results)
       })
     }
-    
+
     debouncedSearch.cancel()
     lastSearchSent = null
-    
+
     return reject('Empty search string')
   })
 }
 
 const searchOptions = (map: any, venue?: any, focusOn?: string): any => {
   const options: any = {}
-  
+  const universeId: any = map.getUniverse()._id
+
   options.venueId = venue ? venue._id : null
+  options.universeId = universeId ? universeId : null
+
   options.objectClass = options.venueId ? (focusOn === 'from' ? ['place'] : ['place', 'placeList']) : ['venue']
-  
+
   if (map._options.restrictContentToVenueId) {
     options.venueId = map._options.restrictContentToVenueId
   }
@@ -49,7 +52,7 @@ const searchOptions = (map: any, venue?: any, focusOn?: string): any => {
   if (map._options.restrictContentToOrganizationId) {
     options.organizationId = map._options.restrictContentToOrganizationId
   }
-  
+
   return options
 }
 
