@@ -18,5 +18,11 @@
     margin-top: 85px;
     padding: 0;
   }
+
+  @media print {
+    .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right, .mapboxgl-ctrl-bottom-left, .mwz-ctrl-location {
+        display: none;
+     }
+  }
 } // Nothing after this line
 // END OF FILE
