@@ -78,11 +78,12 @@
             apiKey: apiKey,
             // direction: direction,
             // centerOnPlaceId: mapwizePlaceId,
-            centerOnVenueId: euratechnologieVenueId,
+            // centerOnVenueId: euratechnologieVenueId,
             // restrictContentToOrganizationId: '',
             // restrictContentToVenueId: euratechnologieVenueId,
             restrictContentToVenueIds: [euratechnologieVenueId, demoVenueId],
             locale: 'fr',
+            urlHash: window.location.href.split('#')[1],
             // locationControl: true,
             // mainColor: '#fca903',
             // onDirectionQueryWillBeSent: function (query) { return query; },
@@ -99,6 +100,10 @@
             onInformationButtonClick: function (e) {
               console.log('onInformationButtonClick', e)
               alert('onInformationButtonClick ' + e.name)
+            },
+            onHashChange: function (hash, queryParams) {
+              console.log('onHashChange', hash, queryParams);
+              window.location.hash = '#' + hash + '?' + serialize(queryParams);
             },
             onMenuButtonClick: function (e) {
               console.log('onMenuButtonClick')
@@ -123,6 +128,16 @@
 
           })
         })
+      }
+
+      function serialize(obj) {
+        var strs = [];
+        for (const p in obj) {
+          if (obj.hasOwnProperty(p)) {
+            strs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+          }
+        }
+        return strs.join('&');
       }
 
       function setDirectionMode() {

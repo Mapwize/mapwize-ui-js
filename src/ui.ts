@@ -5,12 +5,15 @@ import { apiKey, apiUrl, map } from 'mapwize'
 import uiConfig from './config'
 
 import { FooterManager } from './footer'
+import HashService from './hash'
 import { HeaderManager } from './header'
 import { unit } from './measure'
 import attachMethods from './methods'
 import { locale } from './translate'
 
 import { FloorControl, LocationControl, NavigationControl } from './controls'
+
+import { Api, LngLatBounds } from 'mapwize'
 
 const mapSizeChange = (mapInstance: any) => {
   const mapSize = mapInstance.getSize()
@@ -36,6 +39,8 @@ const buildUIComponent = (mapInstance: any, options: any) => {
     mapInstance.locationControl = new LocationControl(options)
     mapInstance.addControl(mapInstance.locationControl, isString(options.locationControl) ? options.locationControl : undefined)
   }
+
+  mapInstance.hashService = new HashService(mapInstance, options)
 
   if (options.floorControl) {
     mapInstance.floorControl = new FloorControl(set(options.floorControlOptions, 'mainColor', options.mainColor))
@@ -109,6 +114,8 @@ const constructor = (container: string | HTMLElement, options: any): any => {
 * @param {function} [options.onSelectedChange]  (optional, function) Callback called when a place or placeList is selected or unselected. The selected place or placeList is provided as parameter
 * @param {function} [options.onMenuButtonClick]  (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
 * @param {function} [options.onFollowButtonClickWithoutLocation]  (optional, function) callback called when the user clicked on the follow button while no location has been set
+* @param {boolean} [options.urlHash=false]  (optional, boolean, default: false) if true, read the hash to init the map, and write the hash as the map is used.
+* @param {function} [options.onHashChange]  (optional, function) callback called when the hash map change.
 * @returns {Promise.<Object>}
 * @example
 *      <style> #mapwize { width: 400px; height: 400px; } </style>
@@ -149,6 +156,8 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     navigationControl: true,
     navigationControlOptions: {},
 
+    urlHash: false,
+
     onDirectionQueryWillBeSent: (query: any): any => query,
     onDirectionWillBeDisplayed: (direction: any, directionOptions: any): any => ({ direction, options: directionOptions }),
     onElementWillBeSelected: (element: any, options: any): any => options,
@@ -178,7 +187,75 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
     apiUrl(options.apiUrl)
   }
 
-  return constructor(container, options).then((mapInstance: any) => buildUIComponent(mapInstance, options))
+  return urlMustBeParsed(options.urlHash).then((parsedUrl: any) => {
+    options = prepareMapOptions(parsedUrl, options)
+    return constructor(container, options).then((mapInstance: any) => {
+      launchDirection(mapInstance, parsedUrl)
+      return buildUIComponent(mapInstance, options)
+    })
+  })
+}
+
+const urlMustBeParsed = (url: any) => {
+  if (url) {
+    return Api.parseUrl(url)
+  } else {
+    return Promise.resolve({})
+  }
+}
+
+const prepareMapOptions = (parsedUrl: any, mapOptions: any) => {
+  if (parsedUrl.place) {
+    mapOptions.centerOnPlaceId = parsedUrl.place._id
+    mapOptions.zoom = parsedUrl.zoom
+  } else if (parsedUrl.venue) {
+    mapOptions.centerOnVenueId = parsedUrl.venue._id
+    mapOptions.zoom = parsedUrl.zoom
+    const floorForVenue: any = {}
+    floorForVenue[parsedUrl.venue._id] = parsedUrl.floor
+    mapOptions.floorForVenue = floorForVenue
+  } else if (parsedUrl.bounds) {
+    const bounds = LngLatBounds.convert([
+      [parsedUrl.bounds[0][1], parsedUrl.bounds[0][0]], [parsedUrl.bounds[1][1], parsedUrl.bounds[1][0]]
+    ])
+
+    if (parsedUrl.zoom) {
+      mapOptions.center = bounds.getCenter()
+      mapOptions.zoom = parsedUrl.zoom
+    } else {
+      mapOptions.fitBoundsOptions = {}
+      mapOptions.fitBoundsOptions.duration = 0
+      mapOptions.bounds = bounds
+    }
+  }
+
+  if (parsedUrl.bearing) {
+    mapOptions.bearing = parsedUrl.bearing
+  }
+  if (parsedUrl.pitch) {
+    mapOptions.pitch = parsedUrl.pitch
+  }
+
+  return mapOptions
+}
+
+const launchDirection = (mapInstance: any, parsedUrl: any) => {
+  if (parsedUrl.type === 'direction') {
+    const waitUntilVenueEnter = (e: any) => {
+      mapInstance.setDirectionMode()
+      if (parsedUrl.modeId) {
+        mapInstance.setMode(parsedUrl.modeId)
+      }
+      let from = parsedUrl.from
+      if (from.objectClass === 'beacon') {
+        from = { objectClass: 'userLocation' }
+      }
+      mapInstance.setFrom(from)
+      mapInstance.setTo(parsedUrl.to)
+      mapInstance.off('mapwize:venueenter', waitUntilVenueEnter)
+    }
+    mapInstance.on('mapwize:venueenter', waitUntilVenueEnter)
+  }
 }
 
 export { createMap as map }
