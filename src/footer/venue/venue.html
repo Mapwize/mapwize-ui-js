@@ -8,14 +8,10 @@
       <span class="mwz-dropdown-toggle-text"><%= currentLanguage %></span>
     </button>
     <div class="mwz-dropdown-menu mwz-language-dropdown-menu" aria-labelledby="mwz-language-button">
-      <% _.forEach(languages, function (language) { 
-        if(currentLanguage == language.name){ %>
-      <a class="mwz-dropdown-item mwz-language-item mwz-item-selected"
+      <% _.forEach(languages, function (language) { %>
+      <a class="mwz-dropdown-item mwz-language-item <% if (currentLanguage == language.name) { %>mwz-item-selected<% } %>"
         data-language="<%- language.code %>"><%- language.name %></a>
-      <%}else{%>
-      <a class="mwz-dropdown-item mwz-language-item" data-language="<%- language.code %>"><%- language.name %></a>
-      <%
-      }}); %>
+      <% }) %>
     </div>
   </div><% } %>
 
@@ -29,13 +25,10 @@
       <span class="mwz-dropdown-toggle-text"><%= currentUniverse.name %></span>
     </button>
     <div class="mwz-dropdown-menu mwz-universe-dropdown-menu" aria-labelledby="mwz-universe-button">
-      <% _.forEach(universes, function (universe) {
-        if(universe.name == currentUniverse.name){%>
-      <a class="mwz-dropdown-item mwz-universe-item mwz-item-selected"
+      <% _.forEach(universes, function (universe) { %>
+      <a class="mwz-dropdown-item mwz-universe-item <% if (currentUniverse.name == universe.name) { %>mwz-item-selected<% } %>"
         data-universe="<%- universe._id %>"><%- universe.name %></a>
-      <%}else{%>
-      <a class="mwz-dropdown-item mwz-universe-item" data-universe="<%- universe._id %>"><%- universe.name %></a>
-      <%} }); %>
+      <% }) %>
     </div>
   </div><% } %>
 
