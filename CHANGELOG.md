@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 2.4.8
+
+- Improvement: hide map controls for print (#158)
+- Fix: directions search results must be limited to current universe (#157)
+- Fix: current language & current universe item selected not displayed (#153)
+
 ## 2.4.7
 
 - Hotfix: upgrade Mapwize dependencie to fix Mapbox crash on Windows in v1.8.0 (#155)

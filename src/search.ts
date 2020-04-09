@@ -38,7 +38,7 @@ const searchOptions = (map: any, venue?: any, focusOn?: string): any => {
   const options: any = {}
   options.venueId = venue ? venue._id : null
 
-  if (venue) {
+  if (focusOn === 'from' || focusOn === 'to') {
     options.universeId = map.getUniverse()._id
   }
 

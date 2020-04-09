@@ -9,7 +9,7 @@ exports.config = {
     runner: 'local',
     //
     // Override default path ('/wd/hub') for chromedriver service.
-    path: '/',
+    // path: '/',
     //
     // ==================
     // Specify Test Files
@@ -106,7 +106,14 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
+    services: [
+        ['chromedriver', {
+            path: '/wd/hub',
+            hostname: process.env.WEBDRIVER_HOSTNAME || 'localhost',
+            port: 4444
+        }]
+    ],
+
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
