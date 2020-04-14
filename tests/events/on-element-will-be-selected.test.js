@@ -7,8 +7,13 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (e) {
-        return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true }
+      onElementWillBeSelected: function (element, options) {
+        // return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
+        options.pitch = 53
+        options.bearing = 50
+        options.zoom = 20
+        options.centerOnElement = true;
+        return options
       },
       onSelectedChange: function (selectedObject, analytics) {
         setTimeout(function () {
@@ -29,8 +34,10 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (e) {
-        return { pitch: 54, bearing: 50, zoom: 12, centerOnElement: false }
+      onElementWillBeSelected: function (element, options) {
+        // return { pitch: 54, bearing: 50, zoom: 12, centerOnElement: false } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
+        options.centerOnElement = false
+        return options
       },
       onSelectedChange: function (selectedObject, analytics) {
         if (map.getBearing() == 0 && map.getPitch() == 0 && map.getZoom() == 19) {

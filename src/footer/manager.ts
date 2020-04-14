@@ -57,7 +57,11 @@ export class FooterManager {
     this._selected = element
     if (this._selected && !this._map.headerManager.isInDirectionMode()) {
       const currentZoom = this._map.getZoom()
-      const options = callOptionnalFn(this._options.onElementWillBeSelected, [this._selected, { zoom: currentZoom > 19 ? currentZoom : 19, centerOnElement }])
+      const options = callOptionnalFn(this._options.onElementWillBeSelected, [this._selected, {
+        centerOnElement,
+        template: this.selectionFooter.getTemplate(),
+        zoom: currentZoom > 19 ? currentZoom : 19,
+      }])
 
       let centerPromise = Promise.resolve(null)
       if (options.centerOnElement) {
@@ -70,7 +74,7 @@ export class FooterManager {
 
       return centerPromise.then(() => {
         return this.showSelection().catch(() => null).then(() => {
-          return this.selectionFooter.setSelected(this._selected, analytics)
+          return this.selectionFooter.setSelected(this._selected, options, analytics)
         })
       })
     }

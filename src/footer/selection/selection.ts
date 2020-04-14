@@ -1,7 +1,7 @@
 import * as $ from 'jquery'
-import { isEmpty, isString, map } from 'lodash'
+import { isEmpty, isString, map, template } from 'lodash'
 
-const selectionHtml = require('./selection.html')
+const selectionTemplateHtml = require('./selection.html')
 
 import uiConfig from '../../config'
 import { DefaultControl } from '../../control'
@@ -22,7 +22,7 @@ export class FooterSelection extends DefaultControl {
 
     this._selectedHeight = 0
 
-    this._container = $(selectionHtml)
+    this._container = $('<div id="mwz-footer-selection"></div>')
 
     this.listen('click', '#mwz-footer-selection', this._footerClick.bind(this))
     this.listen('click', '#mwz-footer-directions-button', this._directionButtonClick.bind(this))
@@ -53,7 +53,7 @@ export class FooterSelection extends DefaultControl {
     return 'bottom-left'
   }
 
-  public setSelected (element: any, analytics: any = null): Promise<void> {
+  public setSelected (element: any, options: any = {}, analytics: any = null): Promise<void> {
     if (this._markerReferences.length) {
       this._markerReferences.forEach((markerPromise: any): void => {
         markerPromise.then((marker: any): void => this.map.removeMarker(marker))
@@ -73,7 +73,7 @@ export class FooterSelection extends DefaultControl {
       }
 
       return additionnalDatasPromise.then(() => {
-        this._displaySelectedElementInformations(element)
+        this._displaySelectedElementInformations(element, options.template)
         this._promoteSelectedElement(element)
         callOptionnalFn(this._options.onSelectedChange, [element, analytics])
       })
@@ -91,6 +91,10 @@ export class FooterSelection extends DefaultControl {
 
   public initializeMapBoxControls (): void {
     $(this.map._container).find('.mapboxgl-ctrl-bottom-right').css('bottom', 0)
+  }
+
+  public getTemplate (): string {
+    return selectionTemplateHtml
   }
 
   // ---------------------------------------
@@ -156,47 +160,50 @@ export class FooterSelection extends DefaultControl {
     })
   }
 
-  private _displaySelectedElementInformations (element: any): void {
-    const lastHeight = this._container.css('height')
+  private _displaySelectedElementInformations (element: any, htmlTemplate: string): void {
+    const lastHeight = this._container.height()
 
     this._container.addClass('invisible')
     this._container.css('height', 'auto')
 
+    const templateVariables: any = {
+      element,
+      details: false,
+      informationButton: false
+    }
+
     const lang = this.map.getLanguage()
-    this._container.find('.mwz-title').text(getTranslation(element, lang, 'title'))
-    this._container.find('.mwz-subtitle').text(getTranslation(element, lang, 'subTitle'))
-    this._container.find('.mwz-icon img').attr('src', getIcon(element))
+    templateVariables.title = getTranslation(element, lang, 'title')
+    templateVariables.subtitle = getTranslation(element, lang, 'subTitle')
+    templateVariables.icon = getIcon(element)
 
     const details = getTranslation(element, lang, 'details')
     if (!isEmpty(details)) {
-      this._container.find('.mwz-details').html(details)
-    } else {
-      this._container.find('.mwz-details').html('')
-      this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
-      this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
+      templateVariables.details = details
     }
 
     const informationButton = callOptionnalFn(this._options.shouldShowInformationButtonFor, [element])
 
     if (isString(informationButton) && !isEmpty(informationButton)) {
-      this._container.find('#mwz-footer-informations-button').html(informationButton).show()
+      templateVariables.informationButton = informationButton
     } else if (informationButton) {
-      this._container.find('#mwz-footer-informations-button').html('<span class="mwz-icon-information">i</span> Informations').show()
-    } else {
-      this._container.find('#mwz-footer-informations-button').hide()
+      templateVariables.informationButton = '<span class="mwz-icon-information">i</span> Informations'
     }
 
+    this._container.html(template(htmlTemplate)(templateVariables))
+
     const selected_height = this._container.height()
+
     this._selectedHeight = selected_height < 240 ? selected_height : 240
-    if (this._container.find('.mwz-details').get(0).scrollHeight > this._container.find('.mwz-details').height()) {
+    if (templateVariables.details && this._container.find('.mwz-details').get(0).scrollHeight > this._container.find('.mwz-details').height()) {
       this._container.find('.mwz-open-details').removeClass('mwz-d-none').addClass('mwz-d-block')
       this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
-    } else {
+    } else if (templateVariables.details) {
       this._container.find('.mwz-open-details').removeClass('mwz-d-block').addClass('mwz-d-none')
       this._container.find('.mwz-close-details').removeClass('mwz-d-block').addClass('mwz-d-none')
     }
 
-    this._container.css('height', lastHeight)
+    this._container.css('height', lastHeight + 'px')
     this._container.removeClass('invisible')
     this._container.animate({
       height: this._selectedHeight,
