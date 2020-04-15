@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template } from 'lodash'
+import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template, uniqBy } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -190,7 +190,7 @@ export class SearchResults extends DefaultControl {
 
     resultContainer.html('')
 
-    if (venue && mapwize.length) {
+    if (venue && !this.map.headerManager.isInDirectionMode() && mapwize.length) {
       mapwize = this._resultsByUniverse(mapwize)
       const currentUniverse = this.map.getUniverse()
       forEach(mapwize, (resultsByUniverse: any) => {
@@ -248,7 +248,7 @@ export class SearchResults extends DefaultControl {
 
   private _resultsByUniverse (mwzResults: any[]) {
     const venue = this.map.getVenue()
-    const resultsByUniverse: any[] = []
+    let resultsByUniverse: any[] = []
     forEach(venue.accessibleUniverses, (universe: any) => {
       const resultInUniverse = filter(mwzResults, (result: any) => {
         return indexOf(result.universes, universe._id) !== -1
@@ -261,6 +261,11 @@ export class SearchResults extends DefaultControl {
         })
       }
     })
+
+    if (this.map.headerManager.isInDirectionMode()) {
+      resultsByUniverse = uniqBy(resultsByUniverse, 'results._id')
+    }
+
     return resultsByUniverse
   }
 }
