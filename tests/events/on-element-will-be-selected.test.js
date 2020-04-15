@@ -7,8 +7,13 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (e) {
-        return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true }
+      onElementWillBeSelected: function (element, options) {
+        // return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
+        options.pitch = 53
+        options.bearing = 50
+        options.zoom = 20
+        options.centerOnElement = true;
+        return options
       },
       onSelectedChange: function (selectedObject, analytics) {
         setTimeout(function () {
@@ -29,14 +34,37 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (e) {
-        return { pitch: 54, bearing: 50, zoom: 12, centerOnElement: false }
+      onElementWillBeSelected: function (element, options) {
+        // return { pitch: 54, bearing: 50, zoom: 12, centerOnElement: false } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
+        options.centerOnElement = false
+        return options
       },
       onSelectedChange: function (selectedObject, analytics) {
         if (map.getBearing() == 0 && map.getPitch() == 0 && map.getZoom() == 19) {
           callbackTest(null)
         } else {
           callbackTest('Zoom expected: 19, retrives: ' + map.getZoom() + '\nBearing expected: 0, retrives: ' + map.getBearing() + '\nPitch expected: 0, retrives: ' + map.getPitch())
+        }
+      }
+    }).then(function (mapInstance) {
+      map = mapInstance
+    }).catch(function (e) { callbackTest(e); });
+  })
+
+  mwzTest('with custom template', function (callbackTest) {
+    var map = null;
+    MapwizeUI.map({
+      apiKey: APIKEY,
+      centerOnPlaceId: MAPWIZEPLACEID,
+      onElementWillBeSelected: function (element, options) {
+        options.template = element.name
+        return options
+      },
+      onSelectedChange: function (selectedObject, analytics) {
+        if ($('#mwz-footer-selection').html() == selectedObject.name) {
+          callbackTest(null)
+        } else {
+          callbackTest('Custom template expected: ' + selectedObject.name + ', retrives: ' + $('#mwz-footer-selection').html())
         }
       }
     }).then(function (mapInstance) {

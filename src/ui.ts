@@ -151,7 +151,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
 
     onDirectionQueryWillBeSent: (query: any): any => query,
     onDirectionWillBeDisplayed: (direction: any, directionOptions: any): any => ({ direction, options: directionOptions }),
-    onElementWillBeSelected: (element: any, options: any): any => options,
+    onElementWillBeSelected: (element: any, opts: any): any => opts,
     onFollowButtonClickWithoutLocation: (): void => null,
     onInformationButtonClick: (): void => null,
     onSearchQueryWillBeSent: (searchString: string, searchOptions: any): any => ({ searchString, searchOptions }),
