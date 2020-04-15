@@ -51,7 +51,7 @@ mwzDescribe(testSuites, function () {
     }).catch(function (e) { callbackTest(e); });
   })
 
-  mwzTest('with center on element false', function (callbackTest) {
+  mwzTest('with custom template', function (callbackTest) {
     var map = null;
     MapwizeUI.map({
       apiKey: APIKEY,
