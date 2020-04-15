@@ -50,4 +50,25 @@ mwzDescribe(testSuites, function () {
       map = mapInstance
     }).catch(function (e) { callbackTest(e); });
   })
+
+  mwzTest('with center on element false', function (callbackTest) {
+    var map = null;
+    MapwizeUI.map({
+      apiKey: APIKEY,
+      centerOnPlaceId: MAPWIZEPLACEID,
+      onElementWillBeSelected: function (element, options) {
+        options.template = element.name
+        return options
+      },
+      onSelectedChange: function (selectedObject, analytics) {
+        if ($('#mwz-footer-selection').html() == selectedObject.name) {
+          callbackTest(null)
+        } else {
+          callbackTest('Custom template expected: ' + selectedObject.name + ', retrives: ' + $('#mwz-footer-selection').html())
+        }
+      }
+    }).then(function (mapInstance) {
+      map = mapInstance
+    }).catch(function (e) { callbackTest(e); });
+  })
 })
