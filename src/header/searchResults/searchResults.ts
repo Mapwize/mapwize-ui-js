@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template, uniqBy } from 'lodash'
+import { compact, filter, forEach, get, indexOf, isArray, isFinite, template } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -261,10 +261,6 @@ export class SearchResults extends DefaultControl {
         })
       }
     })
-
-    if (this.map.headerManager.isInDirectionMode()) {
-      resultsByUniverse = uniqBy(resultsByUniverse, 'results._id')
-    }
 
     return resultsByUniverse
   }
