@@ -248,7 +248,7 @@ export class SearchResults extends DefaultControl {
 
   private _resultsByUniverse (mwzResults: any[]) {
     const venue = this.map.getVenue()
-    let resultsByUniverse: any[] = []
+    const resultsByUniverse: any[] = []
     forEach(venue.accessibleUniverses, (universe: any) => {
       const resultInUniverse = filter(mwzResults, (result: any) => {
         return indexOf(result.universes, universe._id) !== -1
@@ -261,7 +261,6 @@ export class SearchResults extends DefaultControl {
         })
       }
     })
-
     return resultsByUniverse
   }
 }
