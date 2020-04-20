@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.4.9
+
+- Feat: option to use custom html template for element selection footer (#161)
+- Fix: directions search results must be limited to current universe (#162)
+
 ## 2.4.8
 
 - Feat: adding support for displaying layers and places only at given zoom levels (Mapwize SDK 4.2.6)

@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compact, filter, forEach, get, has, indexOf, isArray, isFinite, set, template } from 'lodash'
+import { compact, filter, forEach, get, indexOf, isArray, isFinite, template } from 'lodash'
 
 const resultsHtml = require('./searchResults.html')
 
@@ -190,7 +190,7 @@ export class SearchResults extends DefaultControl {
 
     resultContainer.html('')
 
-    if (venue && mapwize.length) {
+    if (venue && !this.map.headerManager.isInDirectionMode() && mapwize.length) {
       mapwize = this._resultsByUniverse(mapwize)
       const currentUniverse = this.map.getUniverse()
       forEach(mapwize, (resultsByUniverse: any) => {
