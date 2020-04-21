@@ -32,7 +32,7 @@ onElementWillBeSelected: function (element, options) { return options; }
 `onDirectionQueryWillBeSent` is called before a direction request is sent. The interceptor is a `function (query)` that should return `query`.
 
 ```
-onDirectionQueryWillBeSent: function (query) { return query; },
+onDirectionQueryWillBeSent: function (query) { return query; }
 ```
 
 ### onDirectionWillBeDisplayed
@@ -46,13 +46,19 @@ function (direction, options) { return { direction: direction, options: options 
 ### onSearchQueryWillBeSent
 
 ```
-function (searchString, searchOptions) { return { searchString: searchString, searchOptions: searchOptions }; },
+function (searchString, searchOptions, focusedField) { return { searchString: searchString, searchOptions: searchOptions }; }
+```
+
+### onReceiveSearchResults
+
+```
+function (results) { return results; }
 ```
 
 ### onSearchResultWillBeDisplayed
 
 ```
-function (results) { return results; },
+function (template, options, mwzObject) { return { template: template, options: options }; }
 ```
 
 ## Direction mode icons

@@ -1,5 +1,14 @@
 # Mapwize UI Changelog
 
+## 2.5.0
+
+- Feat: Add interceptor to use custom template in search results as `onSearchResultWillBeDisplayed`. See doc in README-advanced.md file
+- Improvement: add `focusedField` param to `onSearchQueryWillBeSent` interceptor
+
+### /!\ BREAKING CHANGES /!\
+
+- Move: `onSearchResultWillBeDisplayed` to `onReceiveSearchResults` without params change
+
 ## 2.4.9
 
 - Feat: option to use custom html template for element selection footer (#161)

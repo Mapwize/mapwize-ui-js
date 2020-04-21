@@ -3,24 +3,26 @@ import { compact, filter, forEach, get, indexOf, isArray, isFinite, template } f
 
 const resultsHtml = require('./searchResults.html')
 
-const templateVenue = template(require('./templates/venue.html'))
-const templatePlace = template(require('./templates/place.html'))
-const templatePlaceList = template(require('./templates/placeList.html'))
+const templateVenue = require('./templates/venue.html')
+const templatePlace = require('./templates/place.html')
+const templatePlaceList = require('./templates/placeList.html')
 
 import { DefaultControl } from '../../control'
 import { translate } from '../../translate'
-import { getIcon, getMainFroms, getMainSearches, getTranslation } from '../../utils'
+import { callOptionnalFn, getIcon, getMainFroms, getMainSearches, getTranslation } from '../../utils'
 
 let itemSelected: any
 
 export class SearchResults extends DefaultControl {
 
+  private _options: any
   private userLocationCallback: (searchResult: any, universe?: any) => void
 
   constructor (mapInstance: any, options: any) {
     super(mapInstance)
 
     this._container = $(resultsHtml)
+    this._options = options
 
     this.listen('click', '#mwz-use-user-location', this._clickOnUserLocation.bind(this))
 
@@ -231,14 +233,18 @@ export class SearchResults extends DefaultControl {
       subtitle: getTranslation(mwzObject, lang, 'subTitle'),
       title: getTranslation(mwzObject, lang, 'title'),
     }
-    let templated = null
+
+    let mwzTemplate = null
     if (mwzObject.objectClass === 'venue') {
-      templated = templateVenue(options)
+      mwzTemplate = templateVenue
     } else if (mwzObject.objectClass === 'place') {
-      templated = templatePlace(options)
-    } else if (mwzObject.objectClass === 'placeList' && mwzObject.placeIds.length > 0) {
-      templated = templatePlaceList(options)
+      mwzTemplate = templatePlace
+    } else if (mwzObject.objectClass === 'placeList') {
+      mwzTemplate = templatePlaceList
     }
+
+    const transformedResultTemplate = callOptionnalFn(this._options.onSearchResultWillBeDisplayed, [mwzTemplate, options, mwzObject])
+    const templated = template(transformedResultTemplate.template)(transformedResultTemplate.options)
 
     return $(templated).on('click', (e: any) => {
       e.preventDefault()
