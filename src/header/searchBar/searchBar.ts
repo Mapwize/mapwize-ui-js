@@ -159,23 +159,12 @@ export class SearchBar extends DefaultControl {
   }
 
   private _clickOnSearchResult (searchResult: any, universe?: any, analytics: any = null): void {
-    if (this._map.getVenue()) {
-      this._map.footerManager.setSelected(searchResult, true, analytics)
-    }
-    this._centerOnSearchResult(searchResult, universe)
-  }
-
-  private _centerOnSearchResult (searchResult: any, universe?: any): void {
     if (searchResult._id) {
-      const venue = this._map.getVenue()
-      if (universe && venue) {
-        this.map.setUniverseForVenue(universe._id, venue)
-      }
-
       if (searchResult.objectClass === 'venue') {
-        return this.map.centerOnVenue(searchResult._id)
-      } else if (searchResult.objectClass === 'place') {
-        return this.map.centerOnPlace(searchResult._id)
+        this.map.centerOnVenue(searchResult._id)
+      } else if (searchResult.objectClass === 'place' || searchResult.objectClass === 'placeList') {
+        this.map.setUniverseForVenue(universe._id, searchResult.venueId)
+        this._map.footerManager.setSelected(searchResult, true, analytics)
       }
     } else if (searchResult.geometry) {
       if (searchResult.geometry.bounds) {
