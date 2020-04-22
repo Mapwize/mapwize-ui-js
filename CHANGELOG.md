@@ -2,12 +2,35 @@
 
 ## 2.5.0
 
-- Feat: Add interceptor to use custom template in search results as `onSearchResultWillBeDisplayed`. See doc in README-advanced.md file
-- Improvement: add `focusedField` param to `onSearchQueryWillBeSent` interceptor
+- Feat: Add interceptor to use custom template in search results as `onObjectWillBeDisplayedInSearch`. See doc in README-advanced.md file
 
 ### /!\ BREAKING CHANGES /!\
 
-- Move: `onSearchResultWillBeDisplayed` to `onReceiveSearchResults` without params change
+Refactor interceptors:
+
+#### `onDirectionWillBeDisplayed`
+
+```typescript
+onDirectionWillBeDisplayed: (directionOptions: any, direction: any): any => directionOptions
+```
+
+#### `onElementWillBeSelected`
+
+```typescript
+onObjectWillBeSelected: (selectionOptions: any, mwzObject: any): any => selectionOptions
+```
+
+#### `onSearchQueryWillBeSent`
+
+```typescript
+onSearchQueryWillBeSent: (searchOptions: any, searchString: string, channel: string): any => searchOptions
+```
+
+#### `onSearchResultWillBeDisplayed`
+
+```typescript
+onSearchResultsWillBeDisplayed: (results: any): any => results
+```
 
 ## 2.4.9
 

@@ -243,8 +243,8 @@ export class SearchResults extends DefaultControl {
       mwzTemplate = templatePlaceList
     }
 
-    const transformedResultTemplate = callOptionnalFn(this._options.onSearchResultWillBeDisplayed, [mwzTemplate, options, mwzObject])
-    const templated = template(transformedResultTemplate.template)(transformedResultTemplate.options)
+    const transformedResultTemplate = callOptionnalFn(this._options.onObjectWillBeDisplayedInSearch, [{ html: mwzTemplate, options }, mwzObject])
+    const templated = template(transformedResultTemplate.html)(transformedResultTemplate.options)
 
     return $(templated).on('click', (e: any) => {
       e.preventDefault()

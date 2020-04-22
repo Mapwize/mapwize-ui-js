@@ -11,9 +11,9 @@ This file documents some more advanced features of Mapwize UI.
 
 Some interceptors can be defined as part of the creation options to override some standard values used by Mapwize UI.
 
-### onElementWillBeSelected
+### onObjectWillBeSelected
 
-`onElementWillBeSelected` is called before a place or a placeList gets selected, and before the `onSelectedChange` event. This interceptor is a `function (element, options)` where `element` is the place or placeList about to be selected and `options` are the following:
+`onObjectWillBeSelected` is called before a place or a placeList gets selected, and before the `onSelectedChange` event. This interceptor is a `function (options, mwzObject)` where `mwzObject` is the place or placeList about to be selected and `options` are the following:
 
 - `options.pitch`
 - `options.bearing`
@@ -24,7 +24,7 @@ Some interceptors can be defined as part of the creation options to override som
 The function should return `options`.
 
 ```
-onElementWillBeSelected: function (element, options) { return options; }
+onObjectWillBeSelected: function (options, mwzObject) { return options; }
 ```
 
 ### onDirectionQueryWillBeSent
@@ -37,28 +37,28 @@ onDirectionQueryWillBeSent: function (query) { return query; }
 
 ### onDirectionWillBeDisplayed
 
-`onDirectionWillBeDisplayed` is called before a direction is displayed. The interceptor is a `function (direction, options)` where `direction` is the direction object to be displayed and the `options` defines the changes in the UI. should return both `direction` and `options`
+`onDirectionWillBeDisplayed` is called before a direction is displayed. The interceptor is a `function (options, direction)` where `direction` is the direction object to be displayed and the `options` defines the changes in the UI. should return `options`
 
 ```
-function (direction, options) { return { direction: direction, options: options }; }
+function (options, direction) { return options; }
 ```
 
 ### onSearchQueryWillBeSent
 
 ```
-function (searchString, searchOptions, focusedField) { return { searchString: searchString, searchOptions: searchOptions }; }
+function (searchOptions, searchString, focusedField) { return searchOptions; }
 ```
 
-### onReceiveSearchResults
+### onSearchResultsWillBeDisplayed
 
 ```
 function (results) { return results; }
 ```
 
-### onSearchResultWillBeDisplayed
+### onObjectWillBeDisplayedInSearch
 
 ```
-function (template, options, mwzObject) { return { template: template, options: options }; }
+function (template, mwzObject) { return template; }
 ```
 
 ## Direction mode icons
