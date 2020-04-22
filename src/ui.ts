@@ -154,7 +154,7 @@ const createMap = (container: string | HTMLElement, options?: any): Promise<any>
 
     onObjectWillBeSelected: (selectionOptions: any, mwzObject: any): any => selectionOptions,
     onSelectedChange: (): void => null,
-    shouldShowInformationButtonFor: (element: any): boolean => false,
+    shouldShowInformationButtonFor: (mwzObject: any): boolean => false,
     onInformationButtonClick: (): void => null,
 
     onFollowButtonClickWithoutLocation: (): void => null,
