@@ -1,13 +1,13 @@
 const { mwzDescribe, mwzTest } = require('../core/utils')
 
-const testSuites = 'On element will be selected'
+const testSuites = 'On object will be selected'
 mwzDescribe(testSuites, function () {
   mwzTest('with center on element true', function (callbackTest) {
     var map = null;
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (options, element) {
+      onObjectWillBeSelected: function (options, mwzObject) {
         // return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
         options.pitch = 53
         options.bearing = 50
@@ -34,7 +34,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (options, element) {
+      onObjectWillBeSelected: function (options, mwzObject) {
         // return { pitch: 54, bearing: 50, zoom: 12, centerOnElement: false } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
         options.centerOnElement = false
         return options
@@ -56,8 +56,8 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (options, element) {
-        options.template = element.name
+      onObjectWillBeSelected: function (options, mwzObject) {
+        options.template = mwzObject.name
         return options
       },
       onSelectedChange: function (selectedObject, analytics) {
