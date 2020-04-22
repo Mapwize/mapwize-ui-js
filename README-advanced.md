@@ -11,9 +11,9 @@ This file documents some more advanced features of Mapwize UI.
 
 Some interceptors can be defined as part of the creation options to override some standard values used by Mapwize UI.
 
-### onElementWillBeSelected
+### onObjectWillBeSelected
 
-`onElementWillBeSelected` is called before a place or a placeList gets selected, and before the `onSelectedChange` event. This interceptor is a `function (element, options)` where `element` is the place or placeList about to be selected and `options` are the following:
+`onObjectWillBeSelected` is called before a place or a placeList gets selected, and before the `onSelectedChange` event. This interceptor is a `function (options, mwzObject)` where `mwzObject` is the place or placeList about to be selected and `options` are the following:
 
 - `options.pitch`
 - `options.bearing`
@@ -24,7 +24,7 @@ Some interceptors can be defined as part of the creation options to override som
 The function should return `options`.
 
 ```
-onElementWillBeSelected: function (element, options) { return options; }
+onObjectWillBeSelected: function (options, mwzObject) { return options; }
 ```
 
 ### onDirectionQueryWillBeSent
@@ -32,28 +32,35 @@ onElementWillBeSelected: function (element, options) { return options; }
 `onDirectionQueryWillBeSent` is called before a direction request is sent. The interceptor is a `function (query)` that should return `query`.
 
 ```
-onDirectionQueryWillBeSent: function (query) { return query; },
+onDirectionQueryWillBeSent: function (query) { return query; }
 ```
 
 ### onDirectionWillBeDisplayed
 
-`onDirectionWillBeDisplayed` is called before a direction is displayed. The interceptor is a `function (direction, options)` where `direction` is the direction object to be displayed and the `options` defines the changes in the UI. should return both `direction` and `options`
+`onDirectionWillBeDisplayed` is called before a direction is displayed. The interceptor is a `function (options, direction)` where `direction` is the direction object to be displayed and the `options` defines the changes in the UI. should return `options`
 
 ```
-function (direction, options) { return { direction: direction, options: options }; }
+function (options, direction) { return options; }
 ```
 
 ### onSearchQueryWillBeSent
 
 ```
-function (searchString, searchOptions) { return { searchString: searchString, searchOptions: searchOptions }; },
+function (searchOptions, searchString, channel) { return searchOptions; }
 ```
 
-### onSearchResultWillBeDisplayed
+### onSearchResultsWillBeDisplayed
 
 ```
-function (results) { return results; },
+function (results) { return results; }
 ```
+
+### onObjectWillBeDisplayedInSearch
+
+```
+function (template, mwzObject) { return template; }
+```
+`template` param is an object with `html` and `options` properties which will be used with [lodash templates](https://lodash.com/docs/4.17.15#template)
 
 ## Direction mode icons
 

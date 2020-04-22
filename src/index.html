@@ -86,22 +86,16 @@
             // locationControl: true,
             // mainColor: '#fca903',
             // onDirectionQueryWillBeSent: function (query) { return query; },
-            // onDirectionWillBeDisplayed: function (direction, options) { return { direction: direction, options: options }; },
-            // onSearchQueryWillBeSent: function (searchString, searchOptions) { return { searchString: searchString, searchOptions: searchOptions }; },
-            // onSearchResultWillBeDisplayed: function (results) { return results; },
+            // onDirectionWillBeDisplayed: function (options) { return options; },
+            // onSearchQueryWillBeSent: function (searchOptions) { return searchOptions; },
+            // onSearchResultsWillBeDisplayed: function (results) { return results; },
             shouldShowInformationButtonFor: function (e) {
               console.log('shouldShowInformationButtonFor', e)
               return '<span class="mwz-icon-information">i</span> ' + e.name
             },
-            onElementWillBeSelected: function (element, options) {
-              // return { pitch: 50, bearing: 50, zoom: 20, centerOnElement: true } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
-              // options.pitch = 50
-              // options.bearing = 50
-              // options.zoom = 20
-              // options.centerOnElement = true
-
-              if (haveCustomData(element)) {
-                options.template = customTemplate(element)
+            onObjectWillBeSelected: function (options, mwzObject) {
+              if (haveCustomData(mwzObject)) {
+                options.template = customTemplate(mwzObject)
               }
 
               return options;

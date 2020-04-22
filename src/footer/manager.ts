@@ -57,11 +57,11 @@ export class FooterManager {
     this._selected = element
     if (this._selected && !this._map.headerManager.isInDirectionMode()) {
       const currentZoom = this._map.getZoom()
-      const options = callOptionnalFn(this._options.onElementWillBeSelected, [this._selected, {
+      const options = callOptionnalFn(this._options.onObjectWillBeSelected, [{
         centerOnElement,
         template: this.selectionFooter.getTemplate(),
         zoom: currentZoom > 19 ? currentZoom : 19,
-      }])
+      }, this._selected])
 
       let centerPromise = Promise.resolve(null)
       if (options.centerOnElement) {

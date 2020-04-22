@@ -94,10 +94,10 @@ export class HeaderManager {
 
   public search (searchString: string, searchOptions: any, clickOnResultCallback: (searchResult: any, universe?: any) => void, focusedField: string): void {
     this.searchResults.showLoading()
-    const transformedSearchQuery = callOptionnalFn(this._options.onSearchQueryWillBeSent, [searchString, searchOptions])
-    search(transformedSearchQuery.searchString, transformedSearchQuery.searchOptions).then((searchResults: any) => {
+    const transformedSearchOptions = callOptionnalFn(this._options.onSearchQueryWillBeSent, [searchOptions, searchString, focusedField])
+    search(searchString, transformedSearchOptions).then((searchResults: any) => {
       this.searchResults.hideLoading()
-      this.showSearchResults(callOptionnalFn(this._options.onSearchResultWillBeDisplayed, [searchResults]), clickOnResultCallback, focusedField)
+      this.showSearchResults(callOptionnalFn(this._options.onSearchResultsWillBeDisplayed, [searchResults]), clickOnResultCallback, focusedField)
     })
   }
 

@@ -1,5 +1,37 @@
 # Mapwize UI Changelog
 
+## 2.5.0
+
+- Feat: Add interceptor to use custom template in search results as `onObjectWillBeDisplayedInSearch`. See doc in README-advanced.md file
+
+### /!\ BREAKING CHANGES /!\
+
+Refactor interceptors:
+
+#### `onDirectionWillBeDisplayed`
+
+```typescript
+onDirectionWillBeDisplayed: (directionOptions: any, direction: any): any => directionOptions
+```
+
+#### `onElementWillBeSelected`
+
+```typescript
+onObjectWillBeSelected: (selectionOptions: any, mwzObject: any): any => selectionOptions
+```
+
+#### `onSearchQueryWillBeSent`
+
+```typescript
+onSearchQueryWillBeSent: (searchOptions: any, searchString: string, channel: string): any => searchOptions
+```
+
+#### `onSearchResultWillBeDisplayed`
+
+```typescript
+onSearchResultsWillBeDisplayed: (results: any): any => results
+```
+
 ## 2.4.9
 
 - Feat: option to use custom html template for element selection footer (#161)
