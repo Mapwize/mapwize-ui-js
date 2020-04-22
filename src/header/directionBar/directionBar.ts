@@ -460,11 +460,11 @@ export class DirectionBar extends DefaultControl {
           return null
         }).then((direction: any) => {
           if (direction) {
-            const transformedDirection = callOptionnalFn(this._options.onDirectionWillBeDisplayed, [direction, options])
-            this._map.setDirection(transformedDirection.direction, transformedDirection.options)
-            this._promoteDirectionPlaces(transformedDirection.direction)
+            const transformedOptions = callOptionnalFn(this._options.onDirectionWillBeDisplayed, [options, direction])
+            this._map.setDirection(direction, transformedOptions)
+            this._promoteDirectionPlaces(direction)
             this._removeCurrentMarker()
-            this._markerReference = this._map.addMarker(transformedDirection.direction.to)
+            this._markerReference = this._map.addMarker(direction.to)
           }
         })
       } else if (this._map.getDirection()) {
