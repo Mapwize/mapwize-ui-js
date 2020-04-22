@@ -46,7 +46,7 @@ function (options, direction) { return options; }
 ### onSearchQueryWillBeSent
 
 ```
-function (searchOptions, searchString, focusedField) { return searchOptions; }
+function (searchOptions, searchString, channel) { return searchOptions; }
 ```
 
 ### onSearchResultsWillBeDisplayed
