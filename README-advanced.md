@@ -60,6 +60,7 @@ function (results) { return results; }
 ```
 function (template, mwzObject) { return template; }
 ```
+`template` param is an object with `html` and `options` properties which will be used with [lodash templates](https://lodash.com/docs/4.17.15#template)
 
 ## Direction mode icons
 

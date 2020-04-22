@@ -7,7 +7,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (element, options) {
+      onElementWillBeSelected: function (options, element) {
         // return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
         options.pitch = 53
         options.bearing = 50
@@ -34,7 +34,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (element, options) {
+      onElementWillBeSelected: function (options, element) {
         // return { pitch: 54, bearing: 50, zoom: 12, centerOnElement: false } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
         options.centerOnElement = false
         return options
@@ -56,7 +56,7 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
-      onElementWillBeSelected: function (element, options) {
+      onElementWillBeSelected: function (options, element) {
         options.template = element.name
         return options
       },
