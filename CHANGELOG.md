@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 2.5.1
+
+- Fix: place selection when `centerOnPlaceId` is provided
+- Fix: place selection when the selected object is in other venue
+- Upgrade mapwize gl to 4.2.7
+
 ## 2.5.0
 
 - Feat: Add interceptor to use custom template in search results as `onObjectWillBeDisplayedInSearch`. See doc in README-advanced.md file
