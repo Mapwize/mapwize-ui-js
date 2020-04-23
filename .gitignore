@@ -46,6 +46,8 @@ Thumbs.db
 
 # tests logs
 tests/report
+/all-logs
+/driver-logs
 browserstack.err
 local.log
 .gitsecret/keys/random_seed
