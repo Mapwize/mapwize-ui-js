@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 2.5.2
+
+- Fix: click on place search result outside venue
+
 ## 2.5.1
 
 - Fix: place selection when `centerOnPlaceId` is provided
