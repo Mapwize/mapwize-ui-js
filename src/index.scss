@@ -21,6 +21,7 @@
 
   @media print {
     -webkit-print-color-adjust: exact;
+    color-adjust: exact;
     .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right, .mapboxgl-ctrl-bottom-left, .mwz-ctrl-location {
         display: none;
      }
