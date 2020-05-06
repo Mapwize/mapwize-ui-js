@@ -103,6 +103,10 @@ const attachMethods = (mapInstance: any) => {
   * @function getMode
   */
   mapInstance.getMode = (): any => {
+    const direction = mapInstance.getDirection()
+    if (direction) {
+      return direction.mode
+    }
     return mapInstance.headerManager.getMode()
   }
   /**
