@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 2.5.3
+
+- Fix: getMode method return mode used by current direction (#174)
+- Upgrade mapwize gl to 4.2.8
+- Upgrade dependencies
+
 ## 2.5.2
 
 - Fix: click on place search result outside venue
