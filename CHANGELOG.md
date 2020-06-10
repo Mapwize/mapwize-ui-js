@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.5.4
+
+- Fix: fix search bar padding (#183)
+- Upgrade dependencies
+
 ## 2.5.3
 
 - Fix: getMode method return mode used by current direction (#174)
