@@ -23,10 +23,12 @@ module.exports = merge(common, {
       license: require('./package.json').license,
       repository: require('./package.json').repository
     }, null, 3),
-    new CopyWebpackPlugin([
-      { from: 'README.md', to: 'README.md' },
-      { from: 'CHANGELOG.md', to: 'CHANGELOG.md' }
-    ], {}),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'README.md', to: 'README.md' },
+        { from: 'CHANGELOG.md', to: 'CHANGELOG.md' }
+      ]
+    }),
     new LicenseWebpackPlugin({
       pattern: /.*/
     }),
