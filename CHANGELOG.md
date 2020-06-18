@@ -1,6 +1,12 @@
 # Mapwize UI Changelog
 
+## 2.5.5
+
+- Fix: broken bootstrap build due to version change
+
 ## 2.5.4
+
+__Bug fixed in 2.5.5__
 
 - Fix: fix search bar padding (#183)
 - Upgrade dependencies
