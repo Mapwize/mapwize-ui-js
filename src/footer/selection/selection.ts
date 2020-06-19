@@ -75,7 +75,9 @@ export class FooterSelection extends DefaultControl {
       return additionnalDatasPromise.then(() => {
         this._displaySelectedElementInformations(element, options.template)
         this._promoteSelectedElement(element)
-        callOptionnalFn(this._options.onSelectedChange, [element, analytics])
+        setTimeout(() => {
+          callOptionnalFn(this._options.onSelectedChange, [element, analytics])
+        }, 0)
       })
     } else {
       this.initializeMapBoxControls()

@@ -40,7 +40,7 @@ exports.config = {
   // Level of logging verbosity: trace | debug | info | warn | error | silent
   logLevel: 'warn',
   specs: ['./tests/**/*.tests.js'],
-  maxInstances: 2,
+  maxInstances: 1,
   outputDir: './tests/report',
 
   framework: 'mocha',
