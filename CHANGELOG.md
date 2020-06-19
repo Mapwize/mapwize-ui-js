@@ -3,6 +3,7 @@
 ## 2.5.6
 
 - Upgrade mapwize gl to 4.2.9
+- Upgrade dependencies
 
 ## 2.5.5
 
