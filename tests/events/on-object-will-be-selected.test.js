@@ -57,14 +57,14 @@ mwzDescribe(testSuites, function () {
       apiKey: APIKEY,
       centerOnPlaceId: MAPWIZEPLACEID,
       onObjectWillBeSelected: function (options, mwzObject) {
-        options.template = mwzObject.name
+        options.template = '<div>' + mwzObject.name + '</div>'
         return options
       },
       onSelectedChange: function (selectedObject, analytics) {
-        if ($('#mwz-footer-selection').html() == selectedObject.name) {
+        if ($('#mwz-footer-selection').text() == selectedObject.name) {
           callbackTest(null)
         } else {
-          callbackTest('Custom template expected: ' + selectedObject.name + ', retrives: ' + $('#mwz-footer-selection').html())
+          callbackTest('Custom template expected: ' + selectedObject.name + ', retrives: ' + $('#mwz-footer-selection').text())
         }
       }
     }).then(function (mapInstance) {
