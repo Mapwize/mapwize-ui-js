@@ -35,6 +35,10 @@ const languages = [
     name: 'Dansk'
   },
   {
+    code: 'de',
+    name: 'Deutsch'
+  },
+  {
     code: 'nl',
     name: 'Nederlands'
   },
