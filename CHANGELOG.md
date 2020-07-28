@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.5.8
+
+- Upgrade mapwize gl to 4.2.10
+- Upgrade dependencies
+
 ## 2.5.7
 
 - Fix: crash due to missing Deutsch translation support
