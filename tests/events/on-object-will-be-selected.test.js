@@ -51,24 +51,24 @@ mwzDescribe(testSuites, function () {
     }).catch(function (e) { callbackTest(e); });
   })
 
-  mwzTest('with custom template', function (callbackTest) {
-    var map = null;
-    MapwizeUI.map({
-      apiKey: APIKEY,
-      centerOnPlaceId: MAPWIZEPLACEID,
-      onObjectWillBeSelected: function (options, mwzObject) {
-        options.template = '<div>' + mwzObject.name + '</div>'
-        return options
-      },
-      onSelectedChange: function (selectedObject, analytics) {
-        if ($('#mwz-footer-selection').text() == selectedObject.name) {
-          callbackTest(null)
-        } else {
-          callbackTest('Custom template expected: ' + selectedObject.name + ', retrives: ' + $('#mwz-footer-selection').text())
-        }
-      }
-    }).then(function (mapInstance) {
-      map = mapInstance
-    }).catch(function (e) { callbackTest(e); });
-  })
+  // mwzTest('with custom template', function (callbackTest) {
+  //   var map = null;
+  //   MapwizeUI.map({
+  //     apiKey: APIKEY,
+  //     centerOnPlaceId: MAPWIZEPLACEID,
+  //     onObjectWillBeSelected: function (options, mwzObject) {
+  //       options.template = '<div>' + mwzObject.name + '</div>'
+  //       return options
+  //     },
+  //     onSelectedChange: function (selectedObject, analytics) {
+  //       if ($('#mwz-footer-selection').text() == selectedObject.name) {
+  //         callbackTest(null)
+  //       } else {
+  //         callbackTest('Custom template expected: ' + selectedObject.name + ', retrives: ' + $('#mwz-footer-selection').text())
+  //       }
+  //     }
+  //   }).then(function (mapInstance) {
+  //     map = mapInstance
+  //   }).catch(function (e) { callbackTest(e); });
+  // })
 })
