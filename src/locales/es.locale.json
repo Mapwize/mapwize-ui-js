@@ -1,0 +1,22 @@
+{
+  "search_placeholder_global": "Busca en Mapwize",
+  "search_placeholder_venue": "Busca en <%= venue %>",
+  "search_no_result": "Sin resultados",
+  "entering_in_venue": "Entra a <%= venue %>",
+  "choose_starting_or_click_point": "Elige el punto de partida o haz click en el mapa",
+  "choose_destination_or_click_point": "Elige el destino o haz click en el mapa",
+  "choose_destination": "Elige el destino",
+  "on_floor": "En el nivel <%= floor %>",
+  "coordinates": "Coordenadas",
+  "current_location": "Ubicación actual",
+  "use_current_location": "Usar mi ubicación actual",
+  "empty_title": "Título vacío",
+  "menu": "Menú",
+  "directions": "Indicaciones",
+  "zoom_in": "Agrandar",
+  "zoom_out": "Achicar",
+  "reset_bearing_to_north": "Resetear orientación al norte",
+  "use_ctrl": "Haz ctrl+girar el mapa",
+  "change_venue_language": "Cambiar el idioma",
+  "change_venue_universe": "Cambiar el universo"
+}

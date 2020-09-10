@@ -1,8 +1,8 @@
-const merge = require('webpack-merge')
-const common = require('./webpack.common.js')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { merge } = require( 'webpack-merge' )
+const common = require( './webpack.common.js' )
+const HtmlWebpackPlugin = require( 'html-webpack-plugin' )
 
-module.exports = merge(common, {
+module.exports = merge( common, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
@@ -11,23 +11,23 @@ module.exports = merge(common, {
   module: [],
   module: {
     noParse: /(mapwize)\.js$/,
-    rules: [{
+    rules: [ {
       test: /\.js$/,
       exclude: /node_modules\/mapwize/,
-      use: ["source-map-loader"],
+      use: [ "source-map-loader" ],
       enforce: "pre"
-    }]
+    } ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin( {
       title: 'Mapwize js',
       filename: 'index.html',
       template: './src/index.html'
-    })
+    } )
   ],
   optimization: {
     splitChunks: {
       chunks: 'all'
     }
   }
-})
+} )
