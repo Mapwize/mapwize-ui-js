@@ -1,5 +1,5 @@
-const path = require('path')
-const webpack = require('webpack')
+const path = require( 'path' )
+const webpack = require( 'webpack' )
 
 module.exports = {
   mode: 'development',
@@ -17,27 +17,27 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve( __dirname, 'dist' ),
     library: 'MapwizeUI',
     libraryTarget: 'umd'
   },
   module: {
     noParse: /(mapwize)\.js$/,
-    rules: [{
+    rules: [ {
       test: /bootstrap\/js\/dist\/(.*).js$/,
-      use: [{
-        loader: path.resolve('./bootstrap-js-loader.js')
-      }]
+      use: [ {
+        loader: path.resolve( './bootstrap-js-loader.js' )
+      } ]
     }, {
       test: /\.tsx?$/,
       exclude: /node_modules/,
       use: {
         loader: 'babel-loader',
         options: {
-          presets: [['@babel/preset-env', {
+          presets: [ [ '@babel/preset-env', {
             useBuiltIns: 'usage',
             corejs: { version: 3, proposals: true }
-          }], '@babel/preset-typescript']
+          } ], '@babel/preset-typescript' ]
         }
       }
     }, {
@@ -48,52 +48,56 @@ module.exports = {
       ]
     }, {
       test: /bootstrap-custom\.(scss)$/,
-      use: [{
+      use: [ {
         loader: 'style-loader', // inject CSS to page
       }, {
         loader: 'css-loader', // translates CSS into CommonJS modules
       }, {
-        loader: path.resolve('./bootstrap-css-loader.js')
+        loader: path.resolve( './bootstrap-css-loader.js' )
       }, {
         loader: 'postcss-loader', // Run post css actions
         options: {
-          plugins: function () { // post css plugins, can be exported to postcss.config.js
-            return [
-              require('precss'),
-              require('autoprefixer')
-            ];
+          postcssOptions: {
+            plugins: function () { // post css plugins, can be exported to postcss.config.js
+              return [
+                require( 'precss' ),
+                require( 'autoprefixer' )
+              ]
+            }
           }
         }
       }, {
         loader: 'sass-loader' // compiles Sass to CSS
-      }]
+      } ]
     }, {
       test: /\.(scss)$/,
       exclude: /bootstrap-custom\.(scss)$/,
-      use: [{
+      use: [ {
         loader: 'style-loader', // inject CSS to page
       }, {
         loader: 'css-loader', // translates CSS into CommonJS modules
       }, {
         loader: 'postcss-loader', // Run post css actions
         options: {
-          plugins: function () { // post css plugins, can be exported to postcss.config.js
-            return [
-              require('precss'),
-              require('autoprefixer')
-            ];
+          postcssOptions: {
+            plugins: function () { // post css plugins, can be exported to postcss.config.js
+              return [
+                require( 'precss' ),
+                require( 'autoprefixer' )
+              ]
+            }
           }
         }
       }, {
         loader: 'sass-loader' // compiles Sass to CSS
-      }]
+      } ]
     }, {
       test: /\.html$/,
       exclude: /(index\.html)/,
       loader: "html-loader"
-    }]
+    } ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: [ '.tsx', '.ts', '.js' ]
   }
 }
