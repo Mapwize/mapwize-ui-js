@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.5.9
+
+- Add es locale support
+- Upgrade dependencies
+
 ## 2.5.8
 
 - Upgrade mapwize gl to 4.2.10
