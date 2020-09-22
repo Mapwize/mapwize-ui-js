@@ -1,5 +1,5 @@
 {
-  "search_placeholder_global": "Zoeken in Mapwize",
+  "search_placeholder_global": "Een locatie zoeken...",
   "search_placeholder_venue": "Zoeken in <%= venue %>",
   "search_no_result": "Sorry, geen resultaat gevonden",
   "entering_in_venue": "Binnenkomen in <%= venue %>",
