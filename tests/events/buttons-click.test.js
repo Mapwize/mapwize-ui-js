@@ -9,8 +9,8 @@ mwzDescribe(testSuites, function () {
         callbackTest(null);
       }
     }).then(function (map) {
-      $('#mwz-menu-button').click();
-    }).catch(function (e) { callbackTest(e); });
+      $('#mwz-menu-button').trigger('click');
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   mwzTest('Information button', function (callbackTest) {
@@ -22,8 +22,8 @@ mwzDescribe(testSuites, function () {
         callbackTest(null);
       },
       onSelectedChange: function () {
-        $('#mwz-footer-informations-button').click()
+        $('#mwz-footer-informations-button').trigger('click');
       }
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 })
