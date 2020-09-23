@@ -15,7 +15,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID);
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   mwzTest('true', function (callbackTest) {
@@ -31,7 +31,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID)
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   mwzTest('html', function (callbackTest) {
@@ -51,6 +51,6 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID)
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 })

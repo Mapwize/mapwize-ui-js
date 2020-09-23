@@ -15,7 +15,7 @@ mwzDescribe(testSuites, function () {
           callbackTest('onSelectedChange expect place id: ' + MAPWIZEPLACEID + '. But found: ' + e._id)
         }
       }
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   mwzTest('with setSelected (id) method', function (callbackTest) {
@@ -32,7 +32,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       map.setSelected(MAPWIZEPLACEID)
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   mwzTest('with setSelected mapwize then null', function (callbackTest) {
@@ -51,6 +51,6 @@ mwzDescribe(testSuites, function () {
     }).then(function (mapInstance) {
       map = mapInstance;
       map.setSelected(MAPWIZEPLACEID)
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 })
