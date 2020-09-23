@@ -26,7 +26,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (mapInstance) {
       map = mapInstance
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   mwzTest('with center on element false', function (callbackTest) {
@@ -48,7 +48,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (mapInstance) {
       map = mapInstance
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 
   // mwzTest('with custom template', function (callbackTest) {
@@ -69,6 +69,6 @@ mwzDescribe(testSuites, function () {
   //     }
   //   }).then(function (mapInstance) {
   //     map = mapInstance
-  //   }).catch(function (e) { callbackTest(e); });
+  //   }).catch(function (e) { callbackTest(e.toString()); });
   // })
 })

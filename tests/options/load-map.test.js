@@ -7,6 +7,6 @@ mwzDescribe(testSuites, function () {
       apiKey: APIKEY
     }).then(function (map) {
       callbackTest(null);
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 })

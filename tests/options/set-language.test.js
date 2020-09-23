@@ -13,7 +13,7 @@ mwzDescribe(testSuites, function () {
       } else {
         callbackTest('Expect locale to be "fr", but found: ' + map.getLocale());
       }
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
   
   mwzTest('en', function(callbackTest) {
@@ -27,7 +27,7 @@ mwzDescribe(testSuites, function () {
       } else {
         callbackTest('Expect locale to be "en", but found: ' + map.getLocale());
       }
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
   
   mwzTest('null', function(callbackTest) {
@@ -42,6 +42,6 @@ mwzDescribe(testSuites, function () {
           callbackTest('Expect locale to be "en", but found: ' + map.getLocale());
         }
       })
-    }).catch(function (e) { callbackTest(e); });
+    }).catch(function (e) { callbackTest(e.toString()); });
   })
 })

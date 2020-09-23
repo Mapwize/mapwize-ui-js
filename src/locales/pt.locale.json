@@ -1,5 +1,5 @@
 {
-  "search_placeholder_global": "Pesquisar no Mapwize",
+  "search_placeholder_global": "Pesquisar no mapa",
   "search_placeholder_venue": "Pesquisar no <%= venue %>",
   "search_no_result": "Nenhum resultado encontrado",
   "entering_in_venue": "A entrar no  <%= venue %>",
