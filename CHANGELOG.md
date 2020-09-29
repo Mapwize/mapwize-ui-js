@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 2.6.1
+
+- Fix: missing translation system in direction component
+
 ## 2.6.0
 
 - Improve translations
