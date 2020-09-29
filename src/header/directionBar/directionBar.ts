@@ -2,7 +2,7 @@ import * as $ from 'jquery'
 import { first, get, has, inRange, isObject, keyBy, map, set, template } from 'lodash'
 import { Api } from 'mapwize'
 
-const directionsHtml = require('./directionBar.html')
+const directionsHtml = require('./templates/directionBar.html')
 
 import { icons, uiConfig } from '../../config'
 import { DOWNARROW, ENTER, UPARROW } from '../../constants'
@@ -34,7 +34,7 @@ export class DirectionBar extends DefaultControl {
 
     this._options = options
 
-    this._container = $(directionsHtml)
+    this._container = $('<div />')
     this._from = null
     // this._waypoints = []
     this._to = null
@@ -54,6 +54,8 @@ export class DirectionBar extends DefaultControl {
     this.listen('focus', '#mwz-mapwize-search-to', this._toFocus.bind(this))
     this.listen('keyup', '#mwz-mapwize-search-to', this._toKeyup.bind(this))
     this.listen('blur', '#mwz-mapwize-search-to', this._toBlur.bind(this))
+
+    this._container.html(template(directionsHtml)({ choose_starting_or_click_point: translate('choose_starting_or_click_point'), choose_destination: translate('choose_destination')  }))
 
     if (this._options.mainColor) {
       const rgbColor = hexToRgb(this._options.mainColor)

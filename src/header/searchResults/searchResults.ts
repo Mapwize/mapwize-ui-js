@@ -1,7 +1,7 @@
 import * as $ from 'jquery'
 import { compact, filter, forEach, get, indexOf, isArray, isFinite, template } from 'lodash'
 
-const resultsHtml = require('./searchResults.html')
+const resultsHtml = require('./templates/searchResults.html')
 
 const templateVenue = require('./templates/venue.html')
 const templatePlace = require('./templates/place.html')
