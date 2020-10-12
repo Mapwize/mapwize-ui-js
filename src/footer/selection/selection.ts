@@ -5,6 +5,7 @@ const selectionTemplateHtml = require('./selection.html')
 
 import uiConfig from '../../config'
 import { DefaultControl } from '../../control'
+import { translate } from '../../translate'
 import { callOptionnalFn, getDefaultFloorForPlaces, getIcon, getPlacesInPlaceList, getTranslation } from '../../utils'
 
 export class FooterSelection extends DefaultControl {
@@ -171,7 +172,8 @@ export class FooterSelection extends DefaultControl {
     const templateVariables: any = {
       element,
       details: false,
-      informationButton: false
+      informationButton: false,
+      directionsButton: translate('directions')
     }
 
     const lang = this.map.getLanguage()
@@ -189,7 +191,7 @@ export class FooterSelection extends DefaultControl {
     if (isString(informationButton) && !isEmpty(informationButton)) {
       templateVariables.informationButton = informationButton
     } else if (informationButton) {
-      templateVariables.informationButton = '<span class="mwz-icon-information">i</span> Informations'
+      templateVariables.informationButton = '<span class="mwz-icon-information">i</span> ' + translate('informations')
     }
 
     this._container.html(template(htmlTemplate)(templateVariables))
