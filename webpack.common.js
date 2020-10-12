@@ -1,23 +1,12 @@
 const path = require( 'path' )
-const webpack = require( 'webpack' )
 
 module.exports = {
   mode: 'development',
   entry: {
     mapwizeui: './src/index.ts'
   },
-  plugins: [
-    new webpack.NamedModulesPlugin()
-  ],
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    dns: 'empty'
-  },
+  plugins: [],
   output: {
-    filename: '[name].js',
-    path: path.resolve( __dirname, 'dist' ),
     library: 'MapwizeUI',
     libraryTarget: 'umd'
   },
