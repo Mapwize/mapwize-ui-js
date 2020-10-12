@@ -1,5 +1,12 @@
 # Mapwize UI Changelog
 
+## 2.6.2
+
+- Fix: add missing export of `Mapwize.isTelemetryEnabled`
+- Fix: missing translations on directions component
+- Improvement: Export `FloorControl`, `LocationControl` and `NavigationControl`
+- Upgrade dependencies
+
 ## 2.6.1
 
 - Fix: missing translation system in direction component
