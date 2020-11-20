@@ -108,7 +108,7 @@ export class SearchBar extends DefaultControl {
       setTimeout(() => {
         this._container.find('#mwz-menu-button').attr('data-original-title', translate('menu'))
         this._container.find('#mwz-header-directions-button').attr('data-original-title', translate('directions'))
-        this._container.find('[data-toggle="mwz-tooltip"]').tooltip({ trigger: 'hover', container: this.map._container })
+        this._container.find('[data-toggle="mwz-tooltip"]').tooltip({ trigger: 'hover', container: this.map._container, sanitize: false, sanitizeFn: content => content, popperConfig: {} })
       }, 1000)
     }
   }
