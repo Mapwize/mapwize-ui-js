@@ -58,7 +58,7 @@ class NavigationControl {
         container.find('.mapboxgl-ctrl-zoom-in').attr('data-original-title', translate('zoom_in'))
         container.find('.mapboxgl-ctrl-zoom-out').attr('data-original-title', translate('zoom_out'))
         container.find('.mapboxgl-ctrl-compass').attr('data-original-title', translate('reset_bearing_to_north') + '<br>' + translate('use_ctrl'))
-        container.find('[data-toggle="mwz-tooltip"]').tooltip({ trigger: 'hover', container: this._map._container })
+        container.find('[data-toggle="mwz-tooltip"]').tooltip({ trigger: 'hover', container: this._map._container, sanitize: false, sanitizeFn: content => content, popperConfig: {} })
       }, 1000)
     }
   }
