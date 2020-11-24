@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 2.6.3
+
+- Fix: broken integration inside latest angular applications 
+- Upgrade dependencies
+
 ## 2.6.2
 
 - Fix: add missing export of `Mapwize.isTelemetryEnabled`
