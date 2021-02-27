@@ -1,0 +1,117 @@
+.mwz-universe-selector {
+  pointer-events: all;
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  z-index: 2;
+  background-color: white;
+  width: 180px;
+  border-radius: 24px;
+  align-items: center;
+  justify-content: stretch;
+  margin-bottom: 32px;
+  margin-left: 8px;
+  overflow: visible;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
+  font-size: 15px;
+  cursor: pointer;
+
+  &.mwz-gone {
+    display: none;
+  }
+  &.mwz-expanded {
+    border-radius: 0 0 24px 24px;
+    z-index: 2;
+  }
+}
+
+.mwz-universe-selector-selected {
+  position: relative;
+  display: flex;
+  z-index: 20;
+  border-radius: 24px;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+
+.mwz-universe-selector-image {
+  position: relative;
+  bottom: 0;
+  margin: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.mwz-universe-selector-title {
+  margin-right: 16px;
+  flex: 1;
+}
+
+.mwz-universe-selector-list {
+  position: absolute;
+  left: 0px;
+  bottom: 48px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
+  width: 180px;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  z-index: 1;
+  border-bottom: 1px solid lightgray;
+
+  &.mwz-gone {
+    display: none;
+  }
+}
+
+.mwz-universe-selector-list-item {
+  text-align: center;
+  padding: 8px;
+
+  &:hover {
+    background-color: lightgray;
+  }
+}
+
+.mwz-small-screen {
+  .mwz-universe-selector {
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: 10;
+    width: 48px;
+    border-radius: 24px;
+    align-items: center;
+    justify-content: stretch;
+    overflow: visible;
+
+    &.mwz-gone {
+      display: none;
+    }
+
+    &.mwz-expanded {
+      border-radius: 0 0 24px 24px;
+      height: 60px;
+      align-items: center;
+      justify-content: stretch;
+
+      .mwz-universe-selector-selected {
+        height: 60px;
+      }
+    }
+  }
+
+  .mwz-universe-selector-list {
+    bottom: 60px;
+    border-radius: 24px 24px 24px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .mwz-universe-selector-title {
+    display: none;
+  }
+}

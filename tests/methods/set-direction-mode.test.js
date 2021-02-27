@@ -9,7 +9,7 @@ mwzDescribe(testSuites, function () {
       map.setDirectionMode().then(function () {
         callbackTest('Direction mode must not be setted outside venue')
       }).catch(function (e) { callbackTest(null) })
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
   
   // mwzTest('Must pass inside venue', function (callbackTest) {
@@ -21,9 +21,9 @@ mwzDescribe(testSuites, function () {
   //       map.setDirectionMode().then(function () {
   //         callbackTest(null)
   //       }).catch(function (e) {
-  //         callbackTest(e)
+  //         callbackTest(e.toString())
   //       })
   //     });
-  //   }).catch(function (e) { callbackTest(e) })
+  //   }).catch(function (e) { callbackTest(e.toString()) })
   // })
 })

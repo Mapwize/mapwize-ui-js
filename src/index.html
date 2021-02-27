@@ -3,11 +3,11 @@
 
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
   <style>
     body {
       margin: 0;
@@ -15,174 +15,113 @@
     }
 
     #mapwize {
-      /* position: absolute; top:0; bottom:0; left: 0; right: 0; */
+      position: absolute;
+      top: 0;
+      bottom: 200px;
+      left: 0;
+      right: 0;
+      /* width: 100%;
+      height: 100%; */
+    }
+
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
       width: 100%;
-      height: 800px;
+      display: flex;
+      flex-wrap: wrap;
     }
   </style>
 </head>
 
 <body>
   <div id="mapwize"></div>
-  <div class="d-flex">
-    <div>
-      <button class="btn btn-outline-secondary" onclick="getAllLocales()">Get all locales (console)</button>
-      <button class="btn btn-outline-secondary" onclick="setLocale('fr')">Set locale FR</button>
-      <button class="btn btn-outline-secondary" onclick="setLocale('en')">Set locale EN</button>
-      <button class="btn btn-outline-secondary" onclick="setLocale('es')">Set locale ES</button>
-      <button class="btn btn-outline-secondary" onclick="setLocale('pt')">Set locale PT</button>
-      <button class="btn btn-outline-secondary" onclick="setLocale('de')">Set locale DE</button>
-    </div>
-    <div>
-      <button class="btn btn-outline-secondary" onclick="getUnits()">Get all units (console)</button>
-      <button class="btn btn-outline-secondary" onclick="setMunit()">Set unit to meter</button>
-      <button class="btn btn-outline-secondary" onclick="setFunit()">Set unit to feet</button>
-    </div>
-    <div>
-      <button class="btn btn-outline-secondary" onclick="setDirectionMode()">Go to direction mode</button>
-      <button class="btn btn-outline-secondary" onclick="getModes()">Get all modes</button>
-      <button class="btn btn-outline-secondary" onclick="getMode()">Get current mode</button>
-      <button class="btn btn-outline-secondary" onclick="setMode()">Set mode to Accessible</button>
-      <button class="btn btn-outline-secondary" onclick="setFrom()">Set from mapwize</button>
-      <button class="btn btn-outline-secondary" onclick="setTo()">Set to reception</button>
-    </div>
-    <div>
-      <button class="btn btn-outline-secondary" onclick="getSelected()">Get selected place</button>
-      <button class="btn btn-outline-secondary" onclick="setSelected()">Select mapwize place</button>
-    </div>
+  <div class='buttons'>
+    <button onclick="getAllLocales()">Get all locales (console)</button>
+    <button onclick="setLocale('fr')">Set locale FR</button>
+    <button onclick="setLocale('en')">Set locale EN</button>
 
-    <div>
-      <button class="btn btn-outline-secondary" onclick="setUserLocation(3)">Set user location on mapwize</button>
-      <button class="btn btn-outline-secondary" onclick="setUserLocation(null)">Set user location without
-        floor</button>
-    </div>
-    <div>
-      <button class="btn btn-outline-secondary" onclick="remove()">Kill the map</button>
-    </div>
+    <button onclick="getUnits()">Get all units (console)</button>
+    <button onclick="setMunit()">Set unit to meter</button>
+    <button onclick="setFunit()">Set unit to feet</button>
+
+    <button onclick="showDirectionUI()">DirectionUI</button>
+    <button onclick="showDefaultUI()">DefaultUI</button>
+
+    <button onclick="getModes()">Get all modes</button>
+    <button onclick="getMode()">Get current mode</button>
+    <button onclick="setDirectionMode()">SetMode</button>
+    <button onclick="setFrom()">SetFrom</button>
+    <button onclick="setTo()">SetTo</button>
+
+    <button onclick="getSelected()">Get selected place</button>
+    <button onclick="selectPlace()">selectPlace</button>
+    <button onclick="selectPlacelist()">selectPlacelist</button>
+
+    <button onclick="setUserLocation(3)">Set user location on mapwize</button>
+    <button onclick="setUserLocation(null)">Set user location without floor</button>
+
+    <button onclick="remove()">Kill the map</button>
   </div>
-
   <script>
-    var mapwizeMap = null
-    var apiKey = '89a2695d7485fda885c96b405dcc8a25'
-    var modeId = '5da6bec9aefa100010c7df67'
-    var euratechnologieVenueId = '56b20714c3fa800b00d8f0b5'
-    var demoVenueId = '56c2ea3402275a0b00fb00ac'
-    var mapwizePlaceId = '5d08d8a4efe1d20012809ee5'
-    var receptionPlaceId = '569f8d7cb4d7200b003c32a1'
 
-    window.onload = function () {
-      MapwizeUI.apiKey( apiKey )
-      MapwizeUI.Api.getDirection( {
-        from: { placeId: receptionPlaceId },
-        to: { placeId: mapwizePlaceId }
-      } ).then( function ( direction ) {
-        MapwizeUI.map( { // Also works
-          // container: 'mapwize',  // Also works
-          apiKey: apiKey,
-          // direction: direction,
-          // centerOnPlaceId: mapwizePlaceId,
-          centerOnVenueId: euratechnologieVenueId,
-          // restrictContentToOrganizationId: '',
-          // restrictContentToVenueId: euratechnologieVenueId,
-          restrictContentToVenueIds: [ euratechnologieVenueId, demoVenueId ],
-          locale: 'fr',
-          // locationControl: true,
-          // mainColor: '#fca903',
-          // onDirectionQueryWillBeSent: function (query) { return query; },
-          // onDirectionWillBeDisplayed: function (options) { return options; },
-          // onSearchQueryWillBeSent: function (searchOptions) { return searchOptions; },
-          // onSearchResultsWillBeDisplayed: function (results) { return results; },
-          shouldShowInformationButtonFor: function ( e ) {
-            console.log( 'shouldShowInformationButtonFor', e )
-            return '<span class="mwz-icon-information">i</span> ' + e.name
-          },
-          onObjectWillBeSelected: function ( options, mwzObject ) {
-            if ( haveCustomData( mwzObject ) ) {
-              // options.template = customTemplate( mwzObject )
-            }
+    let mapInstance
 
-            return options;
-          },
-          onInformationButtonClick: function ( e ) {
-            console.log( 'onInformationButtonClick', e )
-            alert( 'onInformationButtonClick ' + e.name )
-          },
-          onMenuButtonClick: function ( e ) {
-            console.log( 'onMenuButtonClick' )
-            alert( 'onMenuButtonClick' )
-          },
-          onSelectedChange: function ( selectedObject, analytics ) {
-            console.log( 'onSelectedChange', selectedObject, analytics )
-          },
-          onFollowButtonClickWithoutLocation() {
-            alert( 'onFollowButtonClickWithoutLocation' )
-          }
-        } ).then( function ( instance ) {
-          console.log( 'MAP LOADED' )
-          mapwizeMap = instance
-
-          mapwizeMap.on( 'mapwize:directionstart', function ( e ) { console.log( 'directionstart', e ) } );
-          mapwizeMap.on( 'mapwize:venueenter', function ( e ) { console.log( 'venueenter', e ) } );
-          mapwizeMap.on( 'mapwize:floorchange', function ( e ) { console.log( 'floorchange', e ) } );
-          mapwizeMap.on( 'mapwize:universechange', function ( e ) { console.log( 'universechange', e ) } );
-          mapwizeMap.on( 'mapwize:languagechange', function ( e ) { console.log( 'languagechange', e ) } );
-          mapwizeMap.on( 'mapwize:venueexit', function ( e ) { console.log( 'venueexit', e ) } );
-
-          mapwizeMap.on( 'mapwize:error', function ( e ) { console.error( 'error:', e ) } )
-
-        } )
-      } )
-    }
-
-    function setDirectionMode() {
-      mapwizeMap.setDirectionMode().catch( function () { return null } )
-    }
-    function getModes() {
-      console.log( mapwizeMap.getModes() )
-    }
-    function getMode() {
-      console.log( mapwizeMap.getMode() )
-    }
-    function setMode() {
-      mapwizeMap.setMode( modeId )
-    }
-    function getSelected() {
-      console.log( mapwizeMap.getSelected() );
-    }
-    function setSelected() {
-      mapwizeMap.setSelected( mapwizePlaceId )
-    }
     function getAllLocales() {
-      console.log( mapwizeMap.getLocales() )
+      console.log( mapInstance.getLocales() )
     }
     function setLocale( local ) {
-      mapwizeMap.setLocale( local )
-    }
-    function getUnits() {
-      console.log( mapwizeMap.getUnits() )
-    }
-    function setMunit() {
-      mapwizeMap.setUnit( 'm' )
-    }
-    function setFunit() {
-      mapwizeMap.setUnit( 'ft' )
+      mapInstance.setLocale( local )
     }
 
-    function setFrom() {
-      MapwizeUI.Api.getPlace( mapwizePlaceId ).then( function ( place ) {
-        place.objectClass = 'place'
-        mapwizeMap.setFrom( place )
-      } )
+    function getUnits() {
+      console.log( mapInstance.getUnits() )
     }
-    function setTo() {
-      MapwizeUI.Api.getPlace( receptionPlaceId ).then( function ( place ) {
-        place.objectClass = 'place'
-        mapwizeMap.setTo( place )
-      } )
+    function setMunit() {
+      mapInstance.setUnit( 'm' )
+    }
+    function setFunit() {
+      mapInstance.setUnit( 'ft' )
+    }
+
+    function showDirectionUI() {
+      mapInstance.setDirectionMode()
+    }
+    function showDefaultUI() {
+      mapInstance.setSearchMode()
+    }
+    function getModes() {
+      console.log( mapInstance.getModes() )
+    }
+    function getMode() {
+      console.log( mapInstance.getMode() )
+    }
+    function setDirectionMode() {
+      mapInstance.setMode( '5e7a1d5fb5459e00166b5675' )
+    }
+
+    async function setFrom() {
+      let place = await MapwizeUI.Api.getPlace( '5cecfe6e3a98890016d6eff6' )
+      mapInstance.setFrom( { objectClass: 'place', ...place } )
+    }
+    async function setTo() {
+      let place = await MapwizeUI.Api.getPlace( '5cac6506af35300016a65929' )
+      mapInstance.setTo( { objectClass: 'place', ...place } )
+    }
+
+    function getSelected() {
+      console.log( mapInstance.getSelected() );
+    }
+    function selectPlace() {
+      mapInstance.setSelected( '5cecfe6e3a98890016d6eff6' )
+    }
+    function selectPlacelist() {
+      mapInstance.setSelected( '5728a351a3a26c0b0027d5cf' )
     }
 
     function setUserLocation( floor ) {
-      mapwizeMap.setUserLocation( {
+      mapInstance.setUserLocation( {
         latitude: 50.63262,
         longitude: 3.02045,
         floor: floor
@@ -190,26 +129,78 @@
     }
 
     function remove() {
-      mapwizeMap.remove()
+      mapInstance.remove()
     }
 
-    function haveCustomData( element ) {
-      return element.data && element.data.FirstName && element.data.LastName;
+    window.onload = function () {
+      var apiKey = 'MapwizeDevAPIKEY'
+      var mapwizePlaceId = '5d08d8a4efe1d20012809ee5'
+      var receptionPlaceId = '569f8d7cb4d7200b003c32a1'
+      var appleStoreId = '5cac6506af35300016a65929'
+
+      MapwizeUI.apiKey( apiKey )
+
+      MapwizeUI.Api.getDirection( {
+        from: { placeId: '5cecfe6e3a98890016d6eff6' },
+        to: { placeListId: '5728a351a3a26c0b0027d5cf' },
+        modeId: '5e7a1d5fb5459e00166b5675'
+      } ).then( function ( direction ) {
+        MapwizeUI.map( 'mapwize', {
+          preferredLanguage: 'fr',
+          unit: 'ft',
+          locationControl: true,
+          floorControl: true,
+          direction: direction,
+          centerOnPlaceId: appleStoreId,
+          shouldShowInformationButtonFor: () => true,
+          shouldMoveToSelectedObject: ( object, options ) => {
+            return {
+              ...options
+            }
+          },
+          onDetailsWillBeDisplayed: ( mwzObject, template ) => {
+            return template
+          },
+          onSelectedChange: ( mwzObject, analytics ) => {
+            console.log( mwzObject, analytics )
+          }
+          /*onSearchQueryWillBeSent: (params, query) => {
+            return {...params}
+          },
+          onSearchResultsWillBeDisplayed: (results) => {
+            return [results[0]]
+          },
+          onObjectWillBeDisplayedInSearch: (template, object) => {
+            template.style.backgroundColor = 'red'
+            return template
+          },
+          onDirectionQueryWillBeSent: (params, query) => {
+            return {...params, query: 'Mapwize'}
+          },
+          onDirectionWillBeDisplayed: (options, direction) => {
+            return {
+              centerOnStart: false
+            }
+          }*/
+        } ).then( function ( instance ) {
+
+          mapInstance = instance
+          mapInstance.on( 'mapwize:click', ( e ) => {
+            mapInstance.setUserLocation( {
+              latitude: e.lngLat.lat,
+              longitude: e.lngLat.lng,
+              floor: e.floor,
+            } )
+          } )
+
+        } )
+      } )
+
+
+
+
     }
 
-    function customTemplate( element ) {
-      return '<div class="mwz-selection-header mwz-d-flex mwz-align-items-center">'
-        + '<div class="mwz-icon">'
-        + '<img src="<' + '%= icon %>" alt="Menu" />'
-        + '</div>'
-        + '<div class="mwz-data mwz-flex-grow-1">'
-        + '<strong class="titleInfos">' + element.data.FirstName + ' ' + element.data.LastName + '</strong><br />'
-        + '</div>'
-        + '</div>'
-        + '<button id="mwz-footer-directions-button" type="button" class="mwz-btn mwz-btn-link mwz-directions-button">'
-        + '<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDMwIDMwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAzMCAzMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIHN0eWxlPSJmaWxsOndoaXRlOyIgZD0iTTI4LjYsMTRMMTYsMS40Yy0wLjYtMC42LTEuNC0wLjYtMiwwTDEuNCwxNGMtMC42LDAuNi0wLjYsMS40LDAsMkwxNCwyOC42YzAuNiwwLjYsMS40LDAuNiwyLDBMMjguNiwxNkMyOS4xLDE1LjQsMjkuMSwxNC42LDI4LjYsMTR6IE0yMiwxMy45bC0zLjksMy43Yy0wLjIsMC4yLTAuNSwwLTAuNS0wLjJ2LTIuMmMwLTAuMi0wLjEtMC4zLTAuMy0wLjNoLTQuNWMtMC4yLDAtMC4zLDAuMS0wLjMsMC4zdjMuMmMwLDAuMi0wLjEsMC4zLTAuMywwLjNoLTEuOWMtMC4yLDAtMC4zLTAuMS0wLjMtMC4zdi00LjVjMC0wLjksMC43LTEuNiwxLjYtMS42aDUuOGMwLjIsMCwwLjMtMC4xLDAuMy0wLjN2LTJjMC0wLjMsMC4zLTAuNCwwLjUtMC4ybDMuOCwzLjhDMjIuMSwxMy42LDIyLjEsMTMuOCwyMiwxMy45eiIvPjwvc3ZnPg==" alt="Directions"> Directions'
-        + '</button>';
-    }
 
   </script>
 </body>

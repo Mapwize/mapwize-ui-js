@@ -12,7 +12,7 @@ mwzDescribe(testSuites, function () {
       } else {
         callbackTest(null)
       }
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 
   mwzTest('location control button hidden by default ', function (callbackTest) {
@@ -24,6 +24,6 @@ mwzDescribe(testSuites, function () {
       } else {
         callbackTest(null)
       }
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 })

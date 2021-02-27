@@ -9,7 +9,7 @@ mwzDescribe(testSuites, function () {
         callbackTest(null);
       }
     }).then(function (map) {
-      $('#mwz-menu-button').trigger('click');
+      $('#mapwize .mwz-menu-button').trigger('click');
     }).catch(function (e) { callbackTest(e.toString()); });
   })
 
@@ -22,7 +22,7 @@ mwzDescribe(testSuites, function () {
         callbackTest(null);
       },
       onSelectedChange: function () {
-        $('#mwz-footer-informations-button').trigger('click');
+        $('#mapwize #mwz-informations-button').trigger('click');
       }
     }).catch(function (e) { callbackTest(e.toString()); });
   })

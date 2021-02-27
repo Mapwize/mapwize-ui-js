@@ -1,0 +1,21 @@
+.mwz-search-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  flex-shrink: 0;
+  z-index: 10;
+  pointer-events: all;
+}
+
+.mwz-small-screen {
+  .mwz-search-container {
+    width: 100%;
+
+    &.mwz-in-search {
+      background-color: lightgray;
+      position: absolute;
+      height: 100%;
+      z-index: 30;
+    }
+  }
+}

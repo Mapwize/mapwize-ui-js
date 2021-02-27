@@ -1,5 +1,16 @@
 # Mapwize UI Changelog
 
+## 3.0.0
+
+/!\ Breaking version
+Rewrite whole code to improve performances and stability    
+Some options may have change
+
+- Feat: introduce place details
+- Upgrade mapwize gl to 4.3.2
+
+- `local` options is deprecated in favor of `preferredLanguage`
+
 ## 2.6.3
 
 - Fix: broken integration inside latest angular applications 

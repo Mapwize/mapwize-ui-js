@@ -14,7 +14,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       return map.setSelected(MAPWIZEPLACEID)
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 
   mwzTest('With placeList id', function (callbackTest) {
@@ -29,7 +29,7 @@ mwzDescribe(testSuites, function () {
       }
     }).then(function (map) {
       return map.setSelected(BATHROOMPLACELISTID)
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 
   mwzTest('With unexisting id', function (callbackTest) {
@@ -41,6 +41,6 @@ mwzDescribe(testSuites, function () {
       }).catch(function () {
         callbackTest(null)
       })
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 })

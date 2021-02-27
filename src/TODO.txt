@@ -1,0 +1,14 @@
+- Add placelist selection
+- Handle every options
+- Improve direction info view
+
+- Add follow user mode behavior / tooltip
+
+- Handle every error message
+
+
+- Hide photo if empty ?
+- What with place list selection ?
+
+- Doc: option locale supprimée pour preferredLanguage
+Doc: options on location and floor control removed
