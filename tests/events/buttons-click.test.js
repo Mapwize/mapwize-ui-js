@@ -22,7 +22,7 @@ mwzDescribe(testSuites, function () {
         callbackTest(null);
       },
       onSelectedChange: function () {
-        $('#mapwize #mwz-informations-button').trigger('click');
+        $('#mapwize').find('.mwz-informations-button').trigger('click');
       }
     }).catch(function (e) { callbackTest(e.toString()); });
   })

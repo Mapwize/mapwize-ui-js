@@ -35,7 +35,6 @@ const defaultCallbackInterceptor = {
   onObjectWillBeDisplayedInSearch: (template: HTMLElement, mwzObject: any) => template,
   shouldMoveToSelectedObject: (mwzObject: any, options: { centerOnElement: boolean; zoom: number }) => options,
   onDetailsWillBeDisplayed: (mwzObject: any, template: { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }) => template,
-  onMenuButtonClick: () => {},
 }
 
 export const buildCallbackInterceptor = (callbackInterceptor: DevCallbackInterceptor): DevCallbackInterceptor => {

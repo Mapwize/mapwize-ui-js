@@ -39,10 +39,12 @@ export default class SearchBar {
     this.container = document.createElement('div')
     this.container.classList.add('mwz-search-bar')
 
-    this.menuButton = document.createElement('button')
-    this.menuButton.classList.add('mwz-menu-button')
-    this.menuButton.onclick = this.listener.onMenuClick
-    this.menuTooltip = buildTooltip(this.menuButton, '')
+    if (this.listener.onMenuClick) {
+      this.menuButton = document.createElement('button')
+      this.menuButton.classList.add('mwz-menu-button')
+      this.menuButton.onclick = this.listener.onMenuClick
+      this.menuTooltip = buildTooltip(this.menuButton, '')
+    }
 
     this.backButton = document.createElement('button')
     this.backButton.classList.add('mwz-back-button')
@@ -71,7 +73,9 @@ export default class SearchBar {
     this.directionButton.onclick = this.listener.onDirectionClick
     this.directionTooltip = buildTooltip(this.directionButton, '')
 
-    this.container.appendChild(this.menuButton)
+    if (this.menuButton) {
+      this.container.appendChild(this.menuButton)
+    }
     this.container.appendChild(this.backButton)
     this.container.appendChild(this.searchTextField)
     this.container.appendChild(this.directionButton)
@@ -87,7 +91,7 @@ export default class SearchBar {
     this.setDirectionButtonHidden(state.directionButtonHidden)
     this.setInSearch(state.isInSearch)
     this.setPlaceholder(state.searchPlaceholder)
-    this.menuTooltip.setContent(state.menuTooltipMessage)
+    this.menuTooltip?.setContent(state.menuTooltipMessage)
     this.backTooltip.setContent(state.backTooltipMessage)
     this.directionTooltip.setContent(state.directionTooltipMessage)
   }
@@ -109,7 +113,7 @@ export default class SearchBar {
       this.setPlaceholder(state.searchPlaceholder)
     }
     if (oldState.menuTooltipMessage !== state.menuTooltipMessage) {
-      this.menuTooltip.setContent(state.menuTooltipMessage)
+      this.menuTooltip?.setContent(state.menuTooltipMessage)
     }
     if (oldState.backTooltipMessage !== state.backTooltipMessage) {
       this.backTooltip.setContent(state.backTooltipMessage)
@@ -146,12 +150,12 @@ export default class SearchBar {
   private setInSearch(inSearch: boolean): void {
     if (inSearch) {
       this.container.classList.add('mwz-in-search')
-      this.menuButton.classList.add('mwz-gone')
+      this.menuButton?.classList.add('mwz-gone')
       this.backButton.classList.remove('mwz-gone')
     }
     else {
       this.container.classList.remove('mwz-in-search')
-      this.menuButton.classList.remove('mwz-gone')
+      this.menuButton?.classList.remove('mwz-gone')
       this.backButton.classList.add('mwz-gone')
     }
   }

@@ -139,7 +139,7 @@ export class UIControllerStore {
   }
 
   public getUnits(): string[] {
-    return ['m', 'ft']
+    return [ 'm', 'ft' ]
   }
 
   public setLanguage(language: string) {
@@ -183,6 +183,10 @@ export class UIControllerStore {
   }
 
   public directionButtonClick() {
+    if (!this.state.uiControllerState.venue) {
+      this.mapActionsDispatcher.fireError('Must be inside venue to enter in direction')
+      return
+    }
     const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
       this.defaultToDirection(draftState)
     })
@@ -263,8 +267,8 @@ export class UIControllerStore {
         !draftState.uiControllerState.directionMode ||
         (draftState.uiControllerState.directionMode && !modes.map((mode) => mode._id).includes(draftState.uiControllerState.directionMode?._id))
       ) {
-        draftState.searchDirectionBarState.selectedMode = modes[0]
-        draftState.uiControllerState.directionMode = modes[0]
+        draftState.searchDirectionBarState.selectedMode = modes[ 0 ]
+        draftState.uiControllerState.directionMode = modes[ 0 ]
       } else {
         draftState.searchDirectionBarState.selectedMode = this.state.uiControllerState.directionMode
       }
@@ -340,7 +344,7 @@ export class UIControllerStore {
       const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent(
         {
           query,
-          objectClass: ['place', 'placeList'],
+          objectClass: [ 'place', 'placeList' ],
           venueId: this.state.uiControllerState.venue._id,
         },
         query,
@@ -353,7 +357,7 @@ export class UIControllerStore {
         searchResults = searchResults.hits
       }
     } else {
-      const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent({ query, objectClass: ['venue'] }, query, 'search-field')
+      const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent({ query, objectClass: [ 'venue' ] }, query, 'search-field')
       searchResults = await this.apiService.search(searchParams)
       searchResults = searchResults.hits
     }
@@ -380,7 +384,7 @@ export class UIControllerStore {
 
     const searchParams = this.devCallbackInterceptor.onDirectionQueryWillBeSent({
       query,
-      objectClass: ['place'],
+      objectClass: [ 'place' ],
       venueId: this.state.uiControllerState.venue._id,
     })
     let searchResults: any
@@ -413,7 +417,7 @@ export class UIControllerStore {
 
     const searchParams = this.devCallbackInterceptor.onDirectionQueryWillBeSent({
       query,
-      objectClass: ['place', 'placeList'],
+      objectClass: [ 'place', 'placeList' ],
       venueId: this.state.uiControllerState.venue._id,
     })
     let searchResults: any
@@ -691,6 +695,19 @@ export class UIControllerStore {
     this.render(oldState, nextState)
   }
 
+  public async externalSelectPlace(place: any): Promise<void> {
+    this.selectPlace(place)
+    return this.mapActionsDispatcher.centerOnPlace(place).then(() => {
+      this.devCallbackInterceptor.onSelectedChange(place, { channel: 'method' })
+    })
+  }
+  public async externalSelectPlacelist(placelist: any): Promise<void> {
+    this.selectPlacelist(placelist)
+    return this.mapActionsDispatcher.centerOnPlacelist(placelist).then(() => {
+      this.devCallbackInterceptor.onSelectedChange(placelist, { channel: 'method' })
+    })
+  }
+
   public onPlaceClick(place: any) {
     place.objectClass = 'place'
     if (this.state.uiControllerState.status === 'default') {
@@ -764,11 +781,13 @@ export class UIControllerStore {
     const details = await this.apiService.getPlaceDetails(place._id)
 
     const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
+      if (this.state.uiControllerState.venue) {
+        draftState.bottomViewState.hidden = false
+        draftState.languageSelectorState.isHidden = true
+        draftState.universeSelectorState.isHidden = true
+      }
       draftState.bottomViewState.content = buildPlaceDetails(details, this.state.uiControllerState.language)
-      draftState.bottomViewState.hidden = false
       draftState.uiControllerState.selectedContent = place
-      draftState.languageSelectorState.isHidden = true
-      draftState.universeSelectorState.isHidden = true
     })
     const oldState = this.state
     this.state = nextState
@@ -782,15 +801,17 @@ export class UIControllerStore {
     this.tryToStartDirection()
   }
 
-  public async selectPlacelist(placelist: any) {
+  private async selectPlacelist(placelist: any) {
     const places = await this.apiService.getPlacesForPlacelist(placelist._id)
 
     const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
+      if (this.state.uiControllerState.venue) {
+        draftState.bottomViewState.hidden = false
+        draftState.languageSelectorState.isHidden = true
+        draftState.universeSelectorState.isHidden = true
+      }
       draftState.bottomViewState.content = buildPlacelistDetails(placelist, places, this.state.uiControllerState.language)
-      draftState.bottomViewState.hidden = false
       draftState.uiControllerState.selectedContent = placelist
-      draftState.languageSelectorState.isHidden = true
-      draftState.universeSelectorState.isHidden = true
     })
     const oldState = this.state
     this.state = nextState

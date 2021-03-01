@@ -221,7 +221,8 @@ const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: stri
   let first = true
   buttons.forEach((b: ButtonContent) => {
     const button = document.createElement('div')
-    button.id = b.id
+    // button.id = b.id
+    button.classList.add(b.id)
     button.classList.add('mwz-small-view-button')
     button.onclick = (e) => {
       e.stopPropagation()
@@ -277,7 +278,8 @@ const buildLargeView = (title: string, buttons: ButtonContent[], rows: HTMLEleme
   let first = true
   buttons.forEach((b) => {
     const button = document.createElement('div')
-    button.id = b.id
+    // button.id = b.id
+    button.classList.add(b.id)
     button.classList.add('mwz-large-view-button')
     button.onclick = (e) => {
       e.stopPropagation()

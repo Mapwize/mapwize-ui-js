@@ -200,9 +200,7 @@ export default class UIController {
       onDirectionClick: () => {
         this.store.directionButtonClick()
       },
-      onMenuClick: () => {
-        callbackInterceptor.onMenuButtonClick()
-      },
+      onMenuClick: callbackInterceptor.onMenuButtonClick,
       onSearchTextFocus: () => {
         this.store.searchFocus()
       },

@@ -6,9 +6,13 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
     }).then(function (map) {
-      map.setDirectionMode().then(function () {
-        callbackTest('Direction mode must not be setted outside venue')
-      }).catch(function (e) { callbackTest(null) })
+      map.on('mapwize:error', function(e) {
+        console.log(e);
+        if (e.error.message === 'Must be inside venue to enter in direction') {
+          callbackTest(null)
+        }
+      })
+      map.setDirectionMode()
     }).catch(function (e) { callbackTest(e.toString()) })
   })
   
@@ -18,11 +22,7 @@ mwzDescribe(testSuites, function () {
   //     centerOnVenueId: EURATECHNOLOGIESVENUEID
   //   }).then(function (map) {
   //     map.on('mapwize:venueenter', function () {
-  //       map.setDirectionMode().then(function () {
-  //         callbackTest(null)
-  //       }).catch(function (e) {
-  //         callbackTest(e.toString())
-  //       })
+  //       map.setDirectionMode()
   //     });
   //   }).catch(function (e) { callbackTest(e.toString()) })
   // })

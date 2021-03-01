@@ -9,10 +9,14 @@ export default class MapActionsDispatcher {
     this.devCallbackInterceptor = devCallbackInterceptor
   }
 
+  public fireError(message: string): void {
+    this.mapwizeMap.fire('mapwize:error', { error: new Error(message) })
+  }
+
   public selectPlace(place: any, preventCenter: boolean = false) {
     this.mapwizeMap.unselectPlace()
     this.mapwizeMap.removeMarkers()
-    const projection = this.mapwizeMap.project([place.marker.longitude, place.marker.longitude])
+    const projection = this.mapwizeMap.project([ place.marker.longitude, place.marker.longitude ])
     // TODO Improve for mobile
     /*if (projection.x < 400 && !preventCenter) {
       this.mapwizeMap.centerOnPlace(place)
@@ -30,26 +34,28 @@ export default class MapActionsDispatcher {
     this.mapwizeMap.removeMarkers()
   }
 
-  public centerOnPlace(place: any) {
+  public async centerOnPlace(place: any): Promise<void> {
     let zoom = this.mapwizeMap.getZoom()
     if (zoom < 19) {
       zoom = 19
     }
-    const opts = this.devCallbackInterceptor.shouldMoveToSelectedObject(place, { centerOnElement: true, zoom: zoom })
+    const opts = this.devCallbackInterceptor.shouldMoveToSelectedObject(place, { centerOnElement: true, zoom })
     if (opts.centerOnElement) {
-      this.mapwizeMap.centerOnPlace(place, opts)
+      return this.mapwizeMap.centerOnPlace(place, opts)
     }
+    return Promise.resolve()
   }
 
-  public centerOnPlacelist(placelist: any) {
+  public async centerOnPlacelist(placelist: any): Promise<void> {
     let zoom = this.mapwizeMap.getZoom()
     if (zoom > 19) {
       zoom = 19
     }
-    const opts = this.devCallbackInterceptor.shouldMoveToSelectedObject(placelist, { centerOnElement: true, zoom: zoom })
+    const opts = this.devCallbackInterceptor.shouldMoveToSelectedObject(placelist, { centerOnElement: true, zoom })
     if (opts.centerOnElement) {
-      this.mapwizeMap.centerOnVenue(placelist.venue, opts)
+      return this.mapwizeMap.centerOnVenue(placelist.venue, opts)
     }
+    return Promise.resolve()
   }
 
   public centerOnVenue(venue: any) {

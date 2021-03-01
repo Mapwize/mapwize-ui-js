@@ -132,7 +132,7 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
           return place
         })
         .then((element: any) => {
-          uiControllerStore.onPlaceClick(element)
+          return uiControllerStore.externalSelectPlace(element)
         })
         .catch(() => {
           return apiService
@@ -142,14 +142,14 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
               return placeList
             })
             .then((element: any) => {
-              uiControllerStore.selectPlacelist(element)
+              return uiControllerStore.externalSelectPlacelist(element)
             })
             .catch(() => {
               return Promise.reject(new Error('String parameter must be either a place id or a placeList id'))
             })
         })
     }
-    uiControllerStore.onPlaceClick(mwzElement)
+    return uiControllerStore.externalSelectPlace(mwzElement)
   }
 
   /**
