@@ -547,7 +547,7 @@ export class UIControllerStore {
 
   public willEnterInVenue(venue: any) {
     const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
-      draftState.searchBarState.searchPlaceholder = lang_entering_venue(this.state.uiControllerState.language, venue.name)
+      draftState.searchBarState.searchPlaceholder = lang_entering_venue(this.state.uiControllerState.preferredLanguage, venue.name)
     })
     const oldState = this.state
     this.state = nextState
@@ -582,7 +582,7 @@ export class UIControllerStore {
           this.mapActionsDispatcher.unselectContent()
         }
       }
-      draftState.searchBarState.searchPlaceholder = lang_search_venue(this.state.uiControllerState.language, titleForLanguage(venue, this.state.uiControllerState.language))
+      draftState.searchBarState.searchPlaceholder = lang_search_venue(this.state.uiControllerState.preferredLanguage, titleForLanguage(venue, this.state.uiControllerState.language))
       draftState.uiControllerState.venue = venue
       draftState.searchBarState.directionButtonHidden = false
     })
@@ -593,7 +593,7 @@ export class UIControllerStore {
 
   public exitVenue(venue: any) {
     const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
-      draftState.searchBarState.searchPlaceholder = lang_search_global(this.state.uiControllerState.language)
+      draftState.searchBarState.searchPlaceholder = lang_search_global(this.state.uiControllerState.preferredLanguage)
       draftState.uiControllerState.lastExitedVenue = venue
       draftState.uiControllerState.venue = null
       draftState.searchBarState.directionButtonHidden = true
@@ -883,7 +883,7 @@ export class UIControllerStore {
 
   private setFromCoordinateSelected(draftState: WritableDraft<MapwizeUIState>, from: any) {
     draftState.uiControllerState.directionFromPoint = from
-    draftState.searchDirectionBarState.fromQuery = lang_coordinates(this.state.uiControllerState.language)
+    draftState.searchDirectionBarState.fromQuery = lang_coordinates(this.state.uiControllerState.preferredLanguage)
   }
 
   private setToSelected(draftState: WritableDraft<MapwizeUIState>, to: any) {
@@ -893,7 +893,7 @@ export class UIControllerStore {
 
   private setToCoordinateSelected(draftState: WritableDraft<MapwizeUIState>, to: any) {
     draftState.uiControllerState.directionToPoint = to
-    draftState.searchDirectionBarState.toQuery = lang_coordinates(this.state.uiControllerState.language)
+    draftState.searchDirectionBarState.toQuery = lang_coordinates(this.state.uiControllerState.preferredLanguage)
   }
 
   private setNextDirectionStep(draftState: WritableDraft<MapwizeUIState>) {
@@ -981,8 +981,8 @@ export class UIControllerStore {
   }
 
   public startDirection(direction: any, directionOptions: any) {
-    let fromLabel = lang_start(this.state.uiControllerState.language)
-    let toLabel = lang_destination(this.state.uiControllerState.language)
+    let fromLabel = lang_start(this.state.uiControllerState.preferredLanguage)
+    let toLabel = lang_destination(this.state.uiControllerState.preferredLanguage)
     if (this.state.uiControllerState.directionFromPoint.objectClass === 'place' || this.state.uiControllerState.directionFromPoint.objectClass === 'placeList') {
       fromLabel = this.state.searchDirectionBarState.fromQuery
     }

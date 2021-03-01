@@ -82,7 +82,7 @@ export default class MapActionsDispatcher {
   }
 
   public setLanguage(language: string) {
-    this.mapwizeMap.setLanguage(language)
+    this.mapwizeMap.setLanguage(language).catch(() => {})
   }
 
   public hasIndoorLocation(): boolean {
