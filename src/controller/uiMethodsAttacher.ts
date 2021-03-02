@@ -37,7 +37,7 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    *      { latitude, longitude, floor, venueId }
    */
   mapInstance.setFrom = (from: any): void => {
-    return uiControllerStore.setFrom(from)
+    uiControllerStore.setFrom(from)
   }
   /**
    * @instance
@@ -65,7 +65,7 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    *      { latitude, longitude, floor, venueId }
    */
   mapInstance.setTo = (to: any): void => {
-    return uiControllerStore.setTo(to)
+    uiControllerStore.setTo(to)
   }
   /**
    * @instance
@@ -102,7 +102,7 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    * @param  {string} modeId
    */
   mapInstance.setMode = (modeId: string): void => {
-    return uiControllerStore.setMode(modeId)
+    uiControllerStore.setMode(modeId)
   }
 
   /**
@@ -111,7 +111,7 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    * @desc Get the currently selected place or placeList object if any
    * @function getSelected
    */
-  mapInstance.getSelected = (): void => {
+  mapInstance.getSelected = (): any => {
     return uiControllerStore.state.uiControllerState.selectedContent
   }
 
@@ -121,7 +121,6 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    * @desc Set the currently selected place or placeList
    * @function setSelected
    * @param {object|string} mwzElement must be either an object (place or placeList) or a id (place or placeList). Use `null` to unselect element
-   * @param {boolean} centerOnElement=true
    */
   mapInstance.setSelected = (mwzElement: any): Promise<void> => {
     if (typeof mwzElement === 'string') {
