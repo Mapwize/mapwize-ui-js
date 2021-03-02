@@ -2,27 +2,26 @@
 
 ## 3.0.0
 
-/!\ Breaking version
-Rewrite whole code to improve performances and stability  
-**We drop IE11 support**
+This new major version comes with a complete rewrite of the code and brings a beautiful interface for place details where you can see photos, opening hours, booking schedule, phone, website and more. It also improves performances and stability.
 
-- Feat: introduce place details
+**This version does not support IE11 anymore**
+
+- Feat: new place details interface
 - Upgrade mapwize gl to 4.4.0
-
-- `local` options is deprecated in favor of `preferredLanguage`
 
 Map options:
 
-- Refactor: Unused `floorControlOptions` options was removed
-- Refactor: Unused `locationControlOptions` options was removed
+- Refactor: `locale` options is deprecated in favor of `preferredLanguage`
+- Removed: `floorControlOptions` options was removed
+- Removed: `locationControlOptions` options was removed
 
-Insyance methods:
+Instance methods:
 
-- Refactor: `setDirectionMode` now return a `void` instead of a `Promise`
-- Refactor: `setSearchMode` now return a `void` instead of a `Promise`
-- Refactor: remove `centerOnElement` param from `setSelected` method
-- Refactor: `getLocale` now return a Local object (`{ code: string, name: string }`) instead of a string
-- Refactor: `getLocales` now return a Local array (`{ code: string, name: string }`) instead of a string array
+- Refactor: `setDirectionMode` now returns `void` instead of a `Promise`
+- Refactor: `setSearchMode` now returns `void` instead of a `Promise`
+- Refactor: removed `centerOnElement` param from `setSelected` method
+- Refactor: `getLocale` now returns a Locale object (`{ code: string, name: string }`) instead of a string
+- Refactor: `getLocales` now returns a Locale array (`{ code: string, name: string }`) instead of a string array
 
 ## 2.6.3
 
