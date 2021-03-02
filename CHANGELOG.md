@@ -4,12 +4,25 @@
 
 /!\ Breaking version
 Rewrite whole code to improve performances and stability  
-Some options may have change
+**We drop IE11 support**
 
 - Feat: introduce place details
 - Upgrade mapwize gl to 4.4.0
 
 - `local` options is deprecated in favor of `preferredLanguage`
+
+Map options:
+
+- Refactor: Unused `floorControlOptions` options was removed
+- Refactor: Unused `locationControlOptions` options was removed
+
+Insyance methods:
+
+- Refactor: `setDirectionMode` now return a `void` instead of a `Promise`
+- Refactor: `setSearchMode` now return a `void` instead of a `Promise`
+- Refactor: remove `centerOnElement` param from `setSelected` method
+- Refactor: `getLocale` now return a Local object (`{ code: string, name: string }`) instead of a string
+- Refactor: `getLocales` now return a Local array (`{ code: string, name: string }`) instead of a string array
 
 ## 2.6.3
 
