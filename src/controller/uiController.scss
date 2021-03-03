@@ -1,0 +1,76 @@
+.mwz-ui-container {
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  outline: none;
+}
+
+.mwz-map-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  outline: none;
+}
+
+.mwz-in-between {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-self: flex-end;
+  position:absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+
+  .mwz-left-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+}
+
+.mwz-in-between .mwz-right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-self: flex-end;
+  height: calc(100% - 32px);
+  margin-bottom: 32px;
+}
+
+.mwz-follow-button {
+  width: 60px;
+  height: 60px;
+  background-color: magenta;
+  flex-shrink: 0;
+  pointer-events: all;
+}
+
+.mwz-small-screen {
+  .mwz-bottom-view {
+    width: 100%;
+  }
+
+  .mwz-in-between {
+    position: static;
+    right: 0;
+    top: unset;
+    height: auto;
+    flex: 1;
+    z-index: 1;
+  }
+}

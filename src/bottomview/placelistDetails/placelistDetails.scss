@@ -1,0 +1,32 @@
+.mwz-placelist-item-container {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 24px 8px 24px;
+  align-items: center;
+  justify-content: space-between;
+  &:hover {
+    background-color: lightgray;
+  }
+}
+
+.mwz-placelist-item-labels-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mwz-placelist-item-labels-title {
+  font-weight: bold;
+}
+
+.mwz-place-list-item-direction-button {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 28px;
+    height: 28px;
+  }
+}

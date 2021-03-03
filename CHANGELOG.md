@@ -1,8 +1,31 @@
 # Mapwize UI Changelog
 
+## 3.0.0
+
+This new major version comes with a complete rewrite of the code and brings a beautiful interface for place details where you can see photos, opening hours, booking schedule, phone, website and more. It also improves performances and stability.
+
+**This version does not support IE11 anymore**
+
+- Feat: new place details interface
+- Upgrade mapwize gl to 4.4.0
+
+Map options:
+
+- Refactor: `locale` options is deprecated in favor of `preferredLanguage`
+- Removed: `floorControlOptions` options was removed
+- Removed: `locationControlOptions` options was removed
+
+Instance methods:
+
+- Refactor: `setDirectionMode` now returns `void` instead of a `Promise`
+- Refactor: `setSearchMode` now returns `void` instead of a `Promise`
+- Refactor: removed `centerOnElement` param from `setSelected` method
+- Refactor: `getLocale` now returns a Locale object (`{ code: string, name: string }`) instead of a string
+- Refactor: `getLocales` now returns a Locale array (`{ code: string, name: string }`) instead of a string array
+
 ## 2.6.3
 
-- Fix: broken integration inside latest angular applications 
+- Fix: broken integration inside latest angular applications
 - Upgrade dependencies
 
 ## 2.6.2
@@ -47,7 +70,7 @@
 
 ## 2.5.4
 
-__Bug fixed in 2.5.5__
+**Bug fixed in 2.5.5**
 
 - Fix: fix search bar padding (#183)
 - Upgrade dependencies
@@ -123,7 +146,7 @@ onSearchResultsWillBeDisplayed: (results: any): any => results
 
 ## 2.4.6
 
-__Bug on Windows fixed in 2.4.7__
+**Bug on Windows fixed in 2.4.7**
 
 - Feat: adding pre-selection hook onElementWillBeSelected
 - Fix: setting locale as preferredLanguage by default
@@ -131,7 +154,7 @@ __Bug on Windows fixed in 2.4.7__
 
 ## 2.4.5
 
-__Bug on Windows fixed in 2.4.7__
+**Bug on Windows fixed in 2.4.7**
 
 - Fix: arrow display in selection details (#121)
 - Fix: selection and direction modules only remove their own markers (#126)
@@ -231,7 +254,6 @@ __Bug on Windows fixed in 2.4.7__
 userPosition --> userLocation
 locale --> setLocale
 unit --> setUnit
-
 
 ## 1.0.9
 

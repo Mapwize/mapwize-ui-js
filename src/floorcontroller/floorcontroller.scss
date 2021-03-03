@@ -1,0 +1,27 @@
+.mwz-floor-controller {
+    display: flex;
+    flex-direction: column;
+    min-height: 50px;
+    width: 40px;
+    margin: 8px 8px 0px 0;
+    padding: 4px 4px;
+    overflow-y: scroll;
+    margin-top: auto !important;
+    pointer-events: all;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.mwz-floor-controller.mwz-gone {
+    display: none;
+}
+
+/* @media only screen and (max-width: 600px) {
+  .mwz-floor-controller {
+    width: 40px;
+  }
+} */

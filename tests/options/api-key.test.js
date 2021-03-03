@@ -6,11 +6,11 @@ mwzDescribe(testSuites, function () {
     MapwizeUI.map({
       apiKey: APIKEY,
     }).then(function (map) {
-      if ($('#mapwize').hasClass('mapwizeui') == true) {
+      if ($('#mapwize').find('.mwz-ui-container').length) {
         callbackTest(null)
       } else {
-        callbackTest('#mapwize don\'t have mapwizeui css class')
+        callbackTest('Don\'t find mwz-ui-container css class in #mapwize container')
       }
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 })

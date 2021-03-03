@@ -1,0 +1,118 @@
+.mwz-language-selector {
+  pointer-events: all;
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  z-index: 2;
+  background-color: white;
+  width: 180px;
+  border-radius: 24px;
+  align-items: stretch;
+  justify-content: stretch;
+  margin-bottom: 32px;
+  margin-left: 8px;
+  overflow: visible;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
+  font-size: 15px;
+  cursor: pointer;
+
+  &.mwz-gone {
+    display: none;
+  }
+
+  &.mwz-expanded {
+    border-radius: 0 0 24px 24px;
+    z-index: 2;
+
+    .mwz-language-selector-list {
+      display: flex;
+    }
+  }
+}
+
+.mwz-language-selector-selected {
+  position: relative;
+  display: flex;
+  z-index: 20;
+  border-radius: 24px;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+
+.mwz-language-selector-image {
+  position: relative;
+  bottom: 0;
+  margin: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.mwz-language-selector-title {
+  margin-right: 16px;
+  flex: 1;
+}
+
+.mwz-language-selector-list {
+  position: absolute;
+  left: 0px;
+  bottom: 48px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 180px;
+  align-items: stretch;
+  border-radius: 24px 24px 0 0;
+  z-index: 1;
+  border-bottom: 1px solid lightgray;
+}
+
+.mwz-language-selector-list-item {
+  padding: 8px;
+  text-align: center;
+
+  &:hover {
+    background-color: lightgray;
+  }
+}
+
+.mwz-small-screen {
+  .mwz-language-selector {
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: 10;
+    width: 48px;
+    border-radius: 24px;
+    align-items: center;
+    justify-content: stretch;
+    overflow: visible;
+
+    &.mwz-gone {
+      display: none;
+    }
+
+    &.mwz-expanded {
+      border-radius: 0 0 24px 24px;
+      height: 60px;
+      align-items: center;
+      justify-content: stretch;
+
+      .mwz-language-selector-selected {
+        height: 60px;
+      }
+    }
+  }
+
+  .mwz-language-selector-list {
+    bottom: 60px;
+    border-radius: 24px 24px 24px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .mwz-language-selector-title {
+    display: none;
+  }
+}

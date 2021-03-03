@@ -1,0 +1,32 @@
+.mwz-search-result-list {
+  max-height: 200px;
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+  margin: 0 8px 0 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2), 0 -1px 0 rgba(0, 0, 0, .02);
+  overflow: scroll;
+
+  &.mwz-gone {
+    display: none;
+  }
+  &.in-direction-search {
+    margin: 0;
+    width: 400px;
+  }
+}
+
+.mwz-small-screen {
+  .mwz-search-result-list {
+    bottom: 0;
+    border-radius: 8px;
+    margin: 8px;
+    max-height: 100%;
+
+    &.in-direction-search {
+      margin: 8px;
+      width: unset;
+      position: unset;
+      top: unset;
+    }
+  }
+}

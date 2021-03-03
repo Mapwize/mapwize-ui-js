@@ -8,10 +8,10 @@ mwzDescribe(testSuites, function () {
       locale: 'fr',
       centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
-      if (map.getLocale() === 'fr') {
+      if (map.getLocale().code === 'fr') {
         callbackTest(null);
       } else {
-        callbackTest('Expect locale to be "fr", but found: ' + map.getLocale());
+        callbackTest('Expect locale to be "fr", but found: ' + map.getLocale().code);
       }
     }).catch(function (e) { callbackTest(e.toString()); });
   })
@@ -22,10 +22,10 @@ mwzDescribe(testSuites, function () {
       locale: 'en',
       centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
-      if (map.getLocale() === 'en') {
+      if (map.getLocale().code === 'en') {
         callbackTest(null);
       } else {
-        callbackTest('Expect locale to be "en", but found: ' + map.getLocale());
+        callbackTest('Expect locale to be "en", but found: ' + map.getLocale().code);
       }
     }).catch(function (e) { callbackTest(e.toString()); });
   })
@@ -36,10 +36,10 @@ mwzDescribe(testSuites, function () {
       centerOnVenueId: EURATECHNOLOGIESVENUEID
     }).then(function (map) {
       map.on('mapwize:venueenter', function (venue) {
-        if (map.getLocale() === 'en') {
+        if (map.getLocale().code === 'en') {
           callbackTest(null);
         } else {
-          callbackTest('Expect locale to be "en", but found: ' + map.getLocale());
+          callbackTest('Expect locale to be "en", but found: ' + map.getLocale().code);
         }
       })
     }).catch(function (e) { callbackTest(e.toString()); });

@@ -2,32 +2,29 @@ const { mwzDescribe, mwzTest } = require('../core/utils')
 
 const testSuites = 'On object will be selected'
 mwzDescribe(testSuites, function () {
-  mwzTest('with center on element true', function (callbackTest) {
-    var map = null;
-    MapwizeUI.map({
-      apiKey: APIKEY,
-      centerOnPlaceId: MAPWIZEPLACEID,
-      onObjectWillBeSelected: function (options, mwzObject) {
-        // return { pitch: 53, bearing: 50, zoom: 20, centerOnElement: true } // NEVER DO THAT, IT WILL BREAK NEXT RELEASES
-        options.pitch = 53
-        options.bearing = 50
-        options.zoom = 20
-        options.centerOnElement = true;
-        return options
-      },
-      onSelectedChange: function (selectedObject, analytics) {
-        setTimeout(function () {
-          if (map.getBearing() == 50 && map.getPitch() == 53 && map.getZoom() == 20) {
-            callbackTest(null)
-          } else {
-            callbackTest('Zoom expected: 20, retrives: ' + map.getZoom() + '\nBearing expected: 50, retrives: ' + map.getBearing() + '\nPitch expected: 53, retrives: ' + map.getPitch())
-          }
-        }, 10000);
-      }
-    }).then(function (mapInstance) {
-      map = mapInstance
-    }).catch(function (e) { callbackTest(e.toString()); });
-  })
+  // mwzTest('with center on element true', function (callbackTest) {
+  //   var map = null;
+  //   MapwizeUI.map({
+  //     apiKey: APIKEY,
+  //     centerOnPlaceId: MAPWIZEPLACEID,
+  //     shouldMoveToSelectedObject: function (mwzObject, options) {
+  //       options.zoom = 20
+  //       return options;
+  //     },
+  //     onSelectedChange: function (selectedObject, analytics) {
+  //       console.log('onSelectedChange');
+  //       setTimeout(function () {
+  //         if (map.getZoom() == 20) {
+  //           callbackTest(null)
+  //         } else {
+  //           callbackTest('Zoom expected: 20, retrives: ' + map.getZoom())
+  //         }
+  //       }, 5000);
+  //     }
+  //   }).then(function (mapInstance) {
+  //     map = mapInstance
+  //   }).catch(function (e) { callbackTest(e.toString()); });
+  // })
 
   mwzTest('with center on element false', function (callbackTest) {
     var map = null;

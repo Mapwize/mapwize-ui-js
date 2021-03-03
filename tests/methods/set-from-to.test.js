@@ -25,6 +25,6 @@ mwzDescribe(testSuites, function () {
           })
         }, 0)
       })
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 })

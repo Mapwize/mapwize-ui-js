@@ -18,7 +18,7 @@ function mwzTest (name, evaluateFn) {
     browser.setTimeout({
       'script': 60000
     });
-
+    console.log(name);
     var testResult = browser.executeAsync(evaluateFn)
 
     if (testResult) {

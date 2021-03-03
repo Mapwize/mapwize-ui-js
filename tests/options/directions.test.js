@@ -19,7 +19,7 @@ mwzDescribe(testSuites, function () {
             callbackTest('Bad direction found. Expected from ' + RECEPTIONPLACEID + ' to ' + MAPWIZEPLACEID + '. Found from ' + e.from.placeId + ' to ' + e.to.placeId)
           }
         })
-      }).catch(function (e) { callbackTest(e) })
+      }).catch(function (e) { callbackTest(e.toString()) })
     })
   })
 })
