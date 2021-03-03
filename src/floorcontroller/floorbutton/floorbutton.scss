@@ -1,0 +1,73 @@
+@keyframes mwz-keyframe-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.mwz-floor-button {
+  pointer-events: all;
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
+  padding: 0;
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  margin-top: 4px;
+  border-radius: 50%;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
+  -webkit-transition: background-color 300ms linear, color 300ms linear;
+  -ms-transition: background-color 300ms linear, color 300ms linear;
+  transition: background-color 300ms linear, color 300ms linear;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: bold;
+  }
+  &:active {
+    outline: none;
+  }
+
+  &.mwz-loading:after {
+    content: '';
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid black;
+    border-color: var(--mapwize-main-color) transparent transparent transparent;
+    animation: mwz-keyframe-loading 1.2s linear infinite;
+    -webkit-animation: mwz-keyframe-loading 1.2s linear infinite;
+  }
+
+  &.mwz-selected {
+    background-color: var(--mapwize-main-color);
+    color: white;
+    font-weight: bold;
+  }
+}
+
+/*@media only screen and (max-width: 600px) {
+  .mwz-floor-button {
+    width: 32px;
+    height: 32px;
+  }
+  .mwz-floor-button.loading:after {
+    width: 24px;
+    height: 24px;
+    border: 4px solid black;
+    border-color: var(--mapwize-main-color) transparent transparent transparent;
+    
+  }
+}*/

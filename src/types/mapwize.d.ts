@@ -1,1 +1,2 @@
-declare module 'mapwize';
+declare module 'mapwize'
+declare const VERSION: string

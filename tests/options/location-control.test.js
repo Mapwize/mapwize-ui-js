@@ -7,23 +7,23 @@ mwzDescribe(testSuites, function () {
       apiKey: APIKEY,
       locationControl: true
     }).then(function (map) {
-      if ($('.mwz-ctrl-location').length !== 1) {
-        callbackTest('.mwz-ctrl-location should exist when locationControl is true')
+      if ($('.mwz-follow-user-button').length !== 1) {
+        callbackTest('.mwz-follow-user-button should exist when locationControl is true')
       } else {
         callbackTest(null)
       }
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 
   mwzTest('location control button hidden by default ', function (callbackTest) {
     MapwizeUI.map({
       apiKey: APIKEY
     }).then(function (map) {
-      if ($('.mwz-ctrl-location').length !== 0) {
-        callbackTest('.mwz-ctrl-location should not exist when locationControl is false')
+      if ($('.mwz-follow-user-button').length !== 0) {
+        callbackTest('.mwz-follow-user-button should not exist when locationControl is false')
       } else {
         callbackTest(null)
       }
-    }).catch(function (e) { callbackTest(e) })
+    }).catch(function (e) { callbackTest(e.toString()) })
   })
 })

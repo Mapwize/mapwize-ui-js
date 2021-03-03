@@ -1,5 +1,0 @@
-const UPARROW = 38
-const DOWNARROW = 40
-const ENTER = 13
-
-export { UPARROW, DOWNARROW, ENTER }
