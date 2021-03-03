@@ -98,7 +98,7 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 - `locationControl` (optional, boolean, default: false) if the user location control should be displayed.
 - `mainColor` (optional, string, default: null) the main color for the interface as hexadecimal string.
 - `direction`  (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
-- `locale` (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
+- `preferredLanguage` (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
 - `unit` (optional, string, default: m) the ui measurement unit
 
 #### Parameters usage
