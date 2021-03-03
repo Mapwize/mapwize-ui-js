@@ -17,7 +17,7 @@ import {
   lang_website,
   lang_website_not_available,
 } from '../../localizor/localizor'
-import { replaceColorInBase64svg, translationForLanguage } from '../../utils/formatter'
+import { replaceColorInBase64svg } from '../../utils/formatter'
 import { bottomViewIcons } from '../../utils/icons'
 import { buildCurrentOpeningStatus, buildOpeningHours } from '../../utils/openingHoursFormatter'
 import './placeDetails.scss'
@@ -66,6 +66,11 @@ export const buildPlaceDetailsViews = (
 ): PlaceDetailsViews => {
   const buttonContents = generateButtonContents(placeDetails, devCallbackInterceptor, listener, language)
   const openingStatus = buildCurrentOpeningStatus(placeDetails, language)
+  let occupiedStatus = undefined
+  if (placeDetails.calendarEvents) {
+    occupiedStatus = isOccupied(new Date(), placeDetails.calendarEvents) ? lang_currently_occupied(language) : lang_currently_available(language)
+  }
+
   const rows = generateRows(placeDetails, openingStatus, mainColor, language)
   return {
     photosView: buildPhotosView(placeDetails.photos, listener),
@@ -74,6 +79,7 @@ export const buildPlaceDetailsViews = (
       buttonContents,
       mainColor,
       placeDetails.subtitleLabel,
+      occupiedStatus,
       placeDetails.openingHours && placeDetails.openingHours.lenght > 0 ? openingStatus : null
     ),
     largeView: buildLargeView(placeDetails.titleLabel, buttonContents, rows, mainColor, language, placeDetails.subtitleLabel, placeDetails.detailsLabel),
@@ -81,15 +87,32 @@ export const buildPlaceDetailsViews = (
 }
 
 const generateButtonContents = (placeDetails: any, devCallbackInterceptor: DevCallbackInterceptor, listener: PlaceDetailsListener, language: string): ButtonContent[] => {
-  const buttonContents: ButtonContent[] = [ { id: 'mwz-directions-button', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick } ]
+  const buttonContents: ButtonContent[] = [
+    { id: 'mwz-directions-button', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick },
+  ]
   if (devCallbackInterceptor.shouldShowInformationButtonFor(placeDetails)) {
-    buttonContents.push({ id: 'mwz-informations-button', title: lang_information(language), imageSrc: bottomViewIcons.INFO, callback: (target: HTMLElement) => listener.onInformationClick(placeDetails) })
+    buttonContents.push({
+      id: 'mwz-informations-button',
+      title: lang_information(language),
+      imageSrc: bottomViewIcons.INFO,
+      callback: (target: HTMLElement) => listener.onInformationClick(placeDetails),
+    })
   }
   if (placeDetails.phone) {
-    buttonContents.push({ id: 'mwz-phone-button', title: lang_call(language), imageSrc: bottomViewIcons.PHONE, callback: (target: HTMLElement) => listener.onPhoneClick(placeDetails.phone) })
+    buttonContents.push({
+      id: 'mwz-phone-button',
+      title: lang_call(language),
+      imageSrc: bottomViewIcons.PHONE,
+      callback: (target: HTMLElement) => listener.onPhoneClick(placeDetails.phone),
+    })
   }
   if (placeDetails.website) {
-    buttonContents.push({ id: 'mwz-website-button', title: lang_website(language), imageSrc: bottomViewIcons.GLOBE, callback: (target: HTMLElement) => listener.onWebsiteClick(placeDetails.website) })
+    buttonContents.push({
+      id: 'mwz-website-button',
+      title: lang_website(language),
+      imageSrc: bottomViewIcons.GLOBE,
+      callback: (target: HTMLElement) => listener.onWebsiteClick(placeDetails.website),
+    })
   }
   if (placeDetails.shareLink) {
     buttonContents.push({
@@ -132,7 +155,7 @@ const generateRows = (placeDetails: any, openingStatus: string, mainColor: strin
   } else {
     unfilledRows.push(buildDefaultRow(lang_opening_hours_not_available(language), replaceColorInBase64svg(bottomViewIcons.CLOCK, '#808080'), false))
   }
-  if (placeDetails.calendarEvents && placeDetails.calendarEvents.length) {
+  if (placeDetails.calendarEvents) {
     const status = isOccupied(new Date(), placeDetails.calendarEvents) ? lang_currently_occupied(language) : lang_currently_available(language)
     rows.push(buildScheduleRow(status, placeDetails.calendarEvents, replaceColorInBase64svg(bottomViewIcons.CALENDAR, mainColor), mainColor))
   } else {
@@ -182,7 +205,7 @@ const buildPhotosView = (photoUrls: string[], listener: PlaceDetailsListener): H
   return container
 }
 
-const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: string, subtitle?: string, openingStatus?: string): HTMLElement => {
+const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: string, subtitle?: string, occupiedStatus?: string, openingStatus?: string): HTMLElement => {
   const state: 'small' | 'medium' | 'large' = 'medium'
 
   const container = document.createElement('div')
@@ -212,6 +235,13 @@ const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: stri
     openingLabel.innerHTML = openingStatus
     openingLabel.classList.add('mwz-small-view-opening-status')
     container.appendChild(openingLabel)
+  }
+
+  if (occupiedStatus) {
+    const occupiedLabel = document.createElement('span')
+    occupiedLabel.innerHTML = occupiedStatus
+    occupiedLabel.classList.add('mwz-small-view-opening-status')
+    container.appendChild(occupiedLabel)
   }
 
   const buttonContainer = document.createElement('div')
@@ -571,7 +601,7 @@ const isToday = (someDate: Date) => {
 
 const isOccupied = (currentDate: Date, intervals: CalendarEvent[]): boolean => {
   for (let i = 0; i < intervals.length; i++) {
-    if (currentDate > new Date(intervals[ i ].start) && currentDate < new Date(intervals[ i ].end)) {
+    if (currentDate > new Date(intervals[i].start) && currentDate < new Date(intervals[i].end)) {
       return true
     }
   }
