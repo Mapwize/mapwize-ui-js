@@ -6,7 +6,7 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `3.0.0` uses Mapwize SDK version `4.3.2`.
+MapwizeUI version `3.0.1` uses Mapwize SDK version `4.4.1`.
 For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/).
 
 ## Description
@@ -49,7 +49,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@3.0.0"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@3.0.1"></script>
 ```
 
 ### Compile Mapwize UI
@@ -94,18 +94,19 @@ In addition to all [sdk options](https://docs.mapwize.io/developers/js/sdk/lates
 - `shouldShowInformationButtonFor` (optional, function, default: function (selected) { return false; }) Callback defining if the information button should be displayed in the card when a place or placelist is selected. The selected place or placelist is provided as parameter. The function must return a boolean. If this is not defined, the information button is never shown by default.
 - `onInformationButtonClick` (optional, function) Callback called when the user clicks on the information button in the card when a place or placelist is selected. Use `shouldShowInformationButtonFor` to define if the information button should be displayed or not.
 - `onMenuButtonClick` (optional, function) callback called when the user clicked on the menu button (left button on the search bar)
-- `onSelectedChange`  (optional, function) callback called when the selected element (place or placeList) changes. The function is called with 2 parameters: the selectedObject and some analytics details. selectedObject is null when nothing is selected anymore. View the analytics section for details about the analytics parameter.
+- `onSelectedChange` (optional, function) callback called when the selected element (place or placeList) changes. The function is called with 2 parameters: the selectedObject and some analytics details. selectedObject is null when nothing is selected anymore. View the analytics section for details about the analytics parameter.
 - `locationControl` (optional, boolean, default: false) if the user location control should be displayed.
 - `mainColor` (optional, string, default: null) the main color for the interface as hexadecimal string.
-- `direction`  (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
+- `direction` (optional, { from: string, to: string }, default: null) to display directions at start. Object with keys from and to containing place ids (string).
 - `preferredLanguage` (optional, string, default: en) the UI language as 2 letter ISO 639-1 code (also used as map default language)
 - `unit` (optional, string, default: m) the ui measurement unit
 
 #### Parameters usage
-|    | Without options | Without `container` parameter | With `container` parameter | With `container` option |
-|---:|:---------------:|:-----------------------------:|:--------------------------:|:-----------------------:|
-|html| `<div id="mapwize"></div>` | `<div id="mapwize"></div>` | `<div id="myMap"></div>` | `<div id="myMap"></div>` |
-|js  | `MapwizeUI.map(apiKey)` | `MapwizeUI.map(options)` | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
+
+|      |      Without options       | Without `container` parameter |    With `container` parameter     |        With `container` option         |
+| ---: | :------------------------: | :---------------------------: | :-------------------------------: | :------------------------------------: |
+| html | `<div id="mapwize"></div>` |  `<div id="mapwize"></div>`   |     `<div id="myMap"></div>`      |        `<div id="myMap"></div>`        |
+|   js |  `MapwizeUI.map(apiKey)`   |   `MapwizeUI.map(options)`    | `MapwizeUI.map('myMap', options)` | `MapwizeUI.map({ container: 'myMap'})` |
 
 ## Methods
 
@@ -115,6 +116,7 @@ Change the ui locale if param `newLocale` is provided. Also sets the map preferr
 
 Signature: `(newLocale: string): string`
 Parameters:
+
 - `newLocale`(optional, string, default: null) the new locale to use (needs to be in `map.getLocales()` array)
 
 Return: the new locale, or the previous one if newLocale is not valid
@@ -133,6 +135,7 @@ Change the UI measurement unit
 
 Signature: `(newUnit: string): string`
 Parameters:
+
 - `newUnit`(optional, string, default: null) the new measurement unit to use (needs to be in `map.getUnits()` array)
 
 Return: the new measurement unit, or the previous one if newUnit is not valid
@@ -159,6 +162,7 @@ Set the from field of direction module
 
 Signature: `(from: any): void`
 Parameters:
+
 - `from` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { objectClass: 'userPosition' }, { latitude, longitude, floor, venueId }
 
 Return: there is no return value
@@ -169,6 +173,7 @@ Set the to field of direction module
 
 Signature: `(to: any): void`
 Parameters:
+
 - `to` (required, object) Need to be one of: { objectClass: 'place', mapwize place object }, { objectClass: 'placeList', mapwize placeList object }, { latitude, longitude, floor, venueId }
 
 Return: there is no return value
@@ -194,7 +199,12 @@ Return: there is no return value
 ### Simplest example [(open in jsfiddle)](https://jsfiddle.net/Mapwize/8peukahd/)
 
 ```html
-<style> #mapwize { width: 400px; height: 400px; } </style>
+<style>
+	#mapwize {
+		width: 400px;
+		height: 400px;
+	}
+</style>
 <div id="mapwize"></div>
 ```
 
@@ -207,36 +217,46 @@ MapwizeUI.map('YOUR_MAPWIZE_API_KEY_HERE')
 To have the map centered on a venue at start up:
 
 ```html
-<style> #mapwize { width: 400px; height: 400px; } </style>
+<style>
+	#mapwize {
+		width: 400px;
+		height: 400px;
+	}
+</style>
 <div id="mapwize"></div>
 ```
 
 ```javascript
 var options = {
-  apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
-  centerOnVenueId: 'YOUR_VENUE_ID'
+	apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+	centerOnVenueId: 'YOUR_VENUE_ID',
 }
-MapwizeUI.map(options).then(map => {
-  console.log('Mapwize map and ui are ready to be used')
+MapwizeUI.map(options).then((map) => {
+	console.log('Mapwize map and ui are ready to be used')
 })
 ```
 
 ### Center on place
 
-To have the map centered on a place with the place selected at start up: 
+To have the map centered on a place with the place selected at start up:
 
 ```html
-<style> #mapwize { width: 400px; height: 400px; } </style>
+<style>
+	#mapwize {
+		width: 400px;
+		height: 400px;
+	}
+</style>
 <div id="mapwize"></div>
 ```
 
 ```javascript
 var options = {
-  apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
-  centerOnPlaceId: 'YOUR_PLACE_ID'
+	apiKey: 'YOUR_MAPWIZE_API_KEY_HERE',
+	centerOnPlaceId: 'YOUR_PLACE_ID',
 }
-MapwizeUI.map(options).then(map => {
-  console.log('Mapwize map and ui are ready to be used')
+MapwizeUI.map(options).then((map) => {
+	console.log('Mapwize map and ui are ready to be used')
 })
 ```
 
@@ -263,7 +283,7 @@ or using the CDN as explained in the installation section.
 
 ## Analytics
 
-Mapwize SDK and Mapwize UI do __not__ have analytics trackers built in. This means that Mapwize does not know how maps are used in your applications, which we believe is a good thing for privacy. This also means that Mapwize is not able to provide you with analytics metrics and that, if you want any, you will have to intrument your code with your own analytics tracker.
+Mapwize SDK and Mapwize UI do **not** have analytics trackers built in. This means that Mapwize does not know how maps are used in your applications, which we believe is a good thing for privacy. This also means that Mapwize is not able to provide you with analytics metrics and that, if you want any, you will have to intrument your code with your own analytics tracker.
 
 Events and callbacks from Mapwize SDK and Mapwize UI can be used to detect changes in the interface and trigger tracking events. We believe using the following events would make sense:
 
@@ -283,18 +303,30 @@ This example shows how to listen to the events:
 MapwizeUI.map({
 	apiKey: apiKey,
 	onSelectedChange: function (selectedObject, analytics) {
-	  console.log('onSelectedChange', selectedObject, analytics)
-	}
+		console.log('onSelectedChange', selectedObject, analytics)
+	},
 }).then(function (instance) {
 	console.log('MAP LOADED')
 	mapwizeMap = instance
-	        
-	mapwizeMap.on('mapwize:directionstart', function (e) {console.log('directionstart', e)} );
-	mapwizeMap.on('mapwize:venueenter', function (e) {console.log('venueenter', e)} );
-	mapwizeMap.on('mapwize:floorchange', function (e) {console.log('floorchange', e)} );
-	mapwizeMap.on('mapwize:universechange', function (e) {console.log('universechange', e)} );
-	mapwizeMap.on('mapwize:languagechange', function (e) {console.log('languagechange', e)} );
-	mapwizeMap.on('mapwize:venueexit', function (e) {console.log('venueexit', e)} );
+
+	mapwizeMap.on('mapwize:directionstart', function (e) {
+		console.log('directionstart', e)
+	})
+	mapwizeMap.on('mapwize:venueenter', function (e) {
+		console.log('venueenter', e)
+	})
+	mapwizeMap.on('mapwize:floorchange', function (e) {
+		console.log('floorchange', e)
+	})
+	mapwizeMap.on('mapwize:universechange', function (e) {
+		console.log('universechange', e)
+	})
+	mapwizeMap.on('mapwize:languagechange', function (e) {
+		console.log('languagechange', e)
+	})
+	mapwizeMap.on('mapwize:venueexit', function (e) {
+		console.log('venueexit', e)
+	})
 })
 ```
 

@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 3.0.1
+
+- Adding multi-universe support in search
+- Improving calendarEvents support
+- Adding occupation status label in mobile view
+
 ## 3.0.0
 
 This new major version comes with a complete rewrite of the code and brings a beautiful interface for place details where you can see photos, opening hours, booking schedule, phone, website and more. It also improves performances and stability.
@@ -11,7 +17,6 @@ This new major version comes with a complete rewrite of the code and brings a be
 
 Map options:
 
-- Refactor: `locale` options is deprecated in favor of `preferredLanguage`
 - Removed: `floorControlOptions` options was removed
 - Removed: `locationControlOptions` options was removed
 
