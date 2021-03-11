@@ -23,7 +23,6 @@ export interface SearchBarListener {
 }
 
 export default class SearchBar {
-
   private container: HTMLElement
   private backButton: HTMLElement
   private backTooltip: any
@@ -130,8 +129,7 @@ export default class SearchBar {
   private setHidden(hidden: boolean): void {
     if (hidden) {
       this.container.classList.add('mwz-gone')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-gone')
     }
   }
@@ -140,8 +138,7 @@ export default class SearchBar {
     if (hidden) {
       this.directionButton.classList.add('mwz-gone')
       this.searchTextField.classList.add('mwz-no-border')
-    }
-    else {
+    } else {
       this.directionButton.classList.remove('mwz-gone')
       this.searchTextField.classList.remove('mwz-no-border')
     }
@@ -152,12 +149,10 @@ export default class SearchBar {
       this.container.classList.add('mwz-in-search')
       this.menuButton?.classList.add('mwz-gone')
       this.backButton.classList.remove('mwz-gone')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-in-search')
       this.menuButton?.classList.remove('mwz-gone')
       this.backButton.classList.add('mwz-gone')
     }
   }
-
 }

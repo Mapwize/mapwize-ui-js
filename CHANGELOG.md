@@ -2,6 +2,7 @@
 
 ## 3.0.1
 
+- Adding multi-universe support in search
 - Improving calendarEvents support
 - Adding occupation status label in mobile view
 
