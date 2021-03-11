@@ -139,7 +139,7 @@ export class UIControllerStore {
   }
 
   public getUnits(): string[] {
-    return [ 'm', 'ft' ]
+    return ['m', 'ft']
   }
 
   public setLanguage(language: string) {
@@ -203,6 +203,8 @@ export class UIControllerStore {
         if (!this.state.searchDirectionBarState.isFromFocus && !this.state.searchDirectionBarState.isToFocus) {
           draftState.searchResultListState.isHidden = true
           draftState.searchResultListState.results = null
+          draftState.searchResultListState.universes = []
+          draftState.searchResultListState.currentUniverse = undefined
           draftState.searchResultListState.showCurrentLocation = undefined
           draftState.searchContainerState.isInSearch = false
         }
@@ -220,6 +222,8 @@ export class UIControllerStore {
         if (!this.state.searchDirectionBarState.isFromFocus && !this.state.searchDirectionBarState.isToFocus) {
           draftState.searchResultListState.isHidden = true
           draftState.searchResultListState.results = null
+          draftState.searchResultListState.universes = []
+          draftState.searchResultListState.currentUniverse = undefined
           draftState.searchResultListState.showCurrentLocation = undefined
           draftState.searchContainerState.isInSearch = false
         }
@@ -267,8 +271,8 @@ export class UIControllerStore {
         !draftState.uiControllerState.directionMode ||
         (draftState.uiControllerState.directionMode && !modes.map((mode) => mode._id).includes(draftState.uiControllerState.directionMode?._id))
       ) {
-        draftState.searchDirectionBarState.selectedMode = modes[ 0 ]
-        draftState.uiControllerState.directionMode = modes[ 0 ]
+        draftState.searchDirectionBarState.selectedMode = modes[0]
+        draftState.uiControllerState.directionMode = modes[0]
       } else {
         draftState.searchDirectionBarState.selectedMode = this.state.uiControllerState.directionMode
       }
@@ -344,7 +348,7 @@ export class UIControllerStore {
       const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent(
         {
           query,
-          objectClass: [ 'place', 'placeList' ],
+          objectClass: ['place', 'placeList'],
           venueId: this.state.uiControllerState.venue._id,
         },
         query,
@@ -357,12 +361,14 @@ export class UIControllerStore {
         searchResults = searchResults.hits
       }
     } else {
-      const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent({ query, objectClass: [ 'venue' ] }, query, 'search-field')
+      const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent({ query, objectClass: ['venue'] }, query, 'search-field')
       searchResults = await this.apiService.search(searchParams)
       searchResults = searchResults.hits
     }
     const nextStateAsync = await produce(this.state, async (draftState: WritableDraft<MapwizeUIState>) => {
       draftState.searchResultListState.results = buildSearchResult(this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults), this.state.uiControllerState.language)
+      draftState.searchResultListState.universes = this.state.universeSelectorState.universes
+      draftState.searchResultListState.currentUniverse = this.state.universeSelectorState.selectedUniverse
       draftState.searchResultListState.showCurrentLocation = undefined
     })
     const oldStateAsync = this.state
@@ -384,7 +390,8 @@ export class UIControllerStore {
 
     const searchParams = this.devCallbackInterceptor.onDirectionQueryWillBeSent({
       query,
-      objectClass: [ 'place' ],
+      objectClass: ['place'],
+      universeId: this.state.universeSelectorState.selectedUniverse._id,
       venueId: this.state.uiControllerState.venue._id,
     })
     let searchResults: any
@@ -400,6 +407,8 @@ export class UIControllerStore {
       draftState.searchResultListState.showCurrentLocation = this.mapActionsDispatcher.hasIndoorLocation()
         ? lang_current_location(this.state.uiControllerState.preferredLanguage)
         : undefined
+      draftState.searchResultListState.universes = []
+      draftState.searchResultListState.currentUniverse = undefined
     })
     const oldStateAsync = this.state
     this.state = nextStateAsync
@@ -417,7 +426,8 @@ export class UIControllerStore {
 
     const searchParams = this.devCallbackInterceptor.onDirectionQueryWillBeSent({
       query,
-      objectClass: [ 'place', 'placeList' ],
+      universeId: this.state.universeSelectorState.selectedUniverse._id,
+      objectClass: ['place', 'placeList'],
       venueId: this.state.uiControllerState.venue._id,
     })
     let searchResults: any
@@ -431,6 +441,8 @@ export class UIControllerStore {
     const nextStateAsync = await produce(this.state, async (draftState: WritableDraft<MapwizeUIState>) => {
       draftState.searchResultListState.results = buildSearchResult(this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults), this.state.uiControllerState.language)
       draftState.searchResultListState.showCurrentLocation = undefined
+      draftState.searchResultListState.universes = []
+      draftState.searchResultListState.currentUniverse = undefined
     })
     const oldStateAsync = this.state
     this.state = nextStateAsync
@@ -445,7 +457,7 @@ export class UIControllerStore {
     this.render(oldState, nextState)
   }
 
-  public selectSearchResult(result: SearchResult) {
+  public selectSearchResult(result: SearchResult, universe?: Universe | undefined) {
     if (this.state.searchDirectionBarState.isFromFocus) {
       this.selectFrom(result)
     } else if (this.state.searchDirectionBarState.isToFocus) {
@@ -453,14 +465,17 @@ export class UIControllerStore {
       this.selectTo(result)
     } else if (this.state.uiControllerState.status === 'inSearch') {
       this.devCallbackInterceptor.onSelectedChange(result, { channel: 'search', searchQuery: this.state.searchBarState.searchQuery })
-      this.selectDefaultSearchResult(result)
+      this.selectDefaultSearchResult(result, universe)
     }
   }
 
-  private selectDefaultSearchResult(result: SearchResult) {
+  private selectDefaultSearchResult(result: SearchResult, universe?: Universe | undefined) {
     if (result.objectClass === 'place') {
       this.selectPlace(result)
       this.mapActionsDispatcher.centerOnPlace(result)
+      if (universe) {
+        this.mapActionsDispatcher.setUniverse(universe._id)
+      }
     }
     if (result.objectClass === 'placeList') {
       this.selectPlacelist(result)
@@ -473,6 +488,8 @@ export class UIControllerStore {
       draftState.searchContainerState.isInSearch = false
       draftState.uiControllerState.status = 'default'
       draftState.searchResultListState.results = null
+      draftState.searchResultListState.universes = []
+      draftState.searchResultListState.currentUniverse = undefined
       draftState.searchResultListState.showCurrentLocation = undefined
       /*if (result.objectClass === 'placeList') {
         draftState.bottomViewState.content = buildPlacelist(result, this.state.uiControllerState.language)
@@ -582,7 +599,10 @@ export class UIControllerStore {
           this.mapActionsDispatcher.unselectContent()
         }
       }
-      draftState.searchBarState.searchPlaceholder = lang_search_venue(this.state.uiControllerState.preferredLanguage, titleForLanguage(venue, this.state.uiControllerState.language))
+      draftState.searchBarState.searchPlaceholder = lang_search_venue(
+        this.state.uiControllerState.preferredLanguage,
+        titleForLanguage(venue, this.state.uiControllerState.language)
+      )
       draftState.uiControllerState.venue = venue
       draftState.searchBarState.directionButtonHidden = false
     })
@@ -900,17 +920,23 @@ export class UIControllerStore {
     if (!draftState.uiControllerState.directionFromPoint) {
       draftState.searchDirectionBarState.isFromFocus = true
       draftState.searchResultListState.results = null
+      draftState.searchResultListState.universes = []
+      draftState.searchResultListState.currentUniverse = undefined
       draftState.searchResultListState.showCurrentLocation = undefined
       draftState.uiControllerState.status = 'inFromSearch'
     } else if (!draftState.uiControllerState.directionToPoint) {
       draftState.searchDirectionBarState.isToFocus = true
       draftState.searchResultListState.results = null
+      draftState.searchResultListState.universes = []
+      draftState.searchResultListState.currentUniverse = undefined
       draftState.searchResultListState.showCurrentLocation = undefined
       draftState.uiControllerState.status = 'inToSearch'
     } else {
       draftState.searchResultListState.isInDirectionSearch = false
       draftState.searchResultListState.isHidden = true
       draftState.searchResultListState.results = null
+      draftState.searchResultListState.universes = []
+      draftState.searchResultListState.currentUniverse = undefined
       draftState.searchResultListState.showCurrentLocation = undefined
       draftState.searchContainerState.isInSearch = false
       draftState.uiControllerState.status = 'inDirection'
@@ -1023,6 +1049,8 @@ export class UIControllerStore {
   private searchToDefault(draftState: WritableDraft<MapwizeUIState>) {
     draftState.searchResultListState.isHidden = true
     draftState.searchResultListState.results = null
+    draftState.searchResultListState.universes = []
+    draftState.searchResultListState.currentUniverse = undefined
     draftState.searchResultListState.showCurrentLocation = undefined
     draftState.searchBarState.isInSearch = false
     draftState.searchBarState.searchQuery = ''
@@ -1036,6 +1064,8 @@ export class UIControllerStore {
     draftState.searchBarState.isInSearch = false
     draftState.searchResultListState.isHidden = false
     draftState.searchResultListState.results = null
+    draftState.searchResultListState.universes = []
+    draftState.searchResultListState.currentUniverse = undefined
     draftState.searchResultListState.showCurrentLocation = undefined
     draftState.searchDirectionBarState.isHidden = false
     // draftState.searchDirectionBarState.isFromFocus = true
@@ -1061,6 +1091,8 @@ export class UIControllerStore {
     draftState.searchBarState.isInSearch = false
     draftState.searchResultListState.isHidden = true
     draftState.searchResultListState.results = null
+    draftState.searchResultListState.universes = []
+    draftState.searchResultListState.currentUniverse = undefined
     draftState.searchResultListState.showCurrentLocation = undefined
     draftState.searchDirectionBarState.isHidden = true
     draftState.searchDirectionBarState.fromQuery = ''
@@ -1093,6 +1125,8 @@ export class UIControllerStore {
     draftState.searchBarState.isInSearch = false
     draftState.searchResultListState.isHidden = true
     draftState.searchResultListState.results = null
+    draftState.searchResultListState.universes = []
+    draftState.searchResultListState.currentUniverse = undefined
     draftState.searchResultListState.showCurrentLocation = undefined
     draftState.searchDirectionBarState.isHidden = true
     draftState.searchContainerState.isInSearch = false

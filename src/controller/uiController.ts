@@ -251,7 +251,7 @@ export default class UIController {
     this.searchResultList = new SearchResultList(
       {
         onCurrentLocationSelected: () => this.store.selectCurrentLocation(),
-        onResultSelected: (searchResult) => this.store.selectSearchResult(searchResult),
+        onResultSelected: (searchResult, universe) => this.store.selectSearchResult(searchResult, universe),
       },
       callbackInterceptor
     )
@@ -337,7 +337,7 @@ export default class UIController {
                   trigger: '',
                   theme: 'dark',
                   content: lang_clipboard(this.uiOptions.preferredLanguage),
-                  duration: [ 300, 2000 ],
+                  duration: [300, 2000],
                   placement: 'top',
                 })
                 tip.show()
@@ -351,7 +351,7 @@ export default class UIController {
               trigger: '',
               theme: 'dark',
               content: lang_clipboard(this.uiOptions.preferredLanguage),
-              duration: [ 300, 2000 ],
+              duration: [300, 2000],
               placement: 'top',
             })
             tip.show()
@@ -520,7 +520,7 @@ const buildDefaultState = async (options: UIOptions, apiService: ApiService): Pr
     state.bottomViewState.hidden = false
     state.uiControllerState.selectedContent = { ...place, objectClass: 'place' }
   } else if (options.direction) {
-    const [ from, to ] = await Promise.all([ directionObjectToMapwizeObject(options.direction.from, apiService), directionObjectToMapwizeObject(options.direction.to, apiService) ])
+    const [from, to] = await Promise.all([directionObjectToMapwizeObject(options.direction.from, apiService), directionObjectToMapwizeObject(options.direction.to, apiService)])
 
     if (to.objectClass === 'place') {
       const details = await apiService.getPlaceDetails(to._id)
