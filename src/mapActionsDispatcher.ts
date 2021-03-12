@@ -16,11 +16,11 @@ export default class MapActionsDispatcher {
   public selectPlace(place: any, preventCenter: boolean = false) {
     this.mapwizeMap.unselectPlace()
     this.mapwizeMap.removeMarkers()
-    const projection = this.mapwizeMap.project([ place.marker.longitude, place.marker.longitude ])
+    const projection = this.mapwizeMap.project([place.marker.longitude, place.marker.latitude])
     // TODO Improve for mobile
-    /*if (projection.x < 400 && !preventCenter) {
+    if (projection.x < 400 && !preventCenter) {
       this.mapwizeMap.centerOnPlace(place)
-    }*/
+    }
     this.mapwizeMap.selectPlace(place)
   }
 
@@ -83,6 +83,10 @@ export default class MapActionsDispatcher {
 
   public setLanguage(language: string) {
     this.mapwizeMap.setLanguage(language).catch(() => {})
+  }
+
+  public setUniverse(universeId: string) {
+    this.mapwizeMap.setUniverse(universeId).catch(() => {})
   }
 
   public hasIndoorLocation(): boolean {
