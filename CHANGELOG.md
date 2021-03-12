@@ -5,7 +5,7 @@
 - Adding multi-universe support in search
 - Improving calendarEvents support
 - Adding occupation status label in mobile view
-- Fixing marker does not displayed
+- Fixing marker not displayed
 
 ## 3.0.0
 
