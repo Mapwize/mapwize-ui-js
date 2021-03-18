@@ -342,8 +342,23 @@ If you would like to manage the locales on your own, you'll have to modify the s
 
 - Clone the repository
 - Go to the `src/locales/` folder
-- Edit the srings for the existing locales in the files like `en.locale.json` while keeping the keys unchanged.
-- Add a new locale by adding a file like `LOCALE_CODE.locale.json` with a 2 letter locale code. Make sure to copy all keys from another locale.
+- Edit the srings for the existing locales in the files like `en.locale.ts` while keeping the keys unchanged.
+- Add a new locale by adding a file like `LOCALE_CODE.locale.ts` with a 2 letter locale code. Make sure to copy all keys from another locale.
+- Open the file `src/localizor.ts` and add you new language in the following function
+
+```typescript
+export const lang_available_locale = (): Locale[] => {
+	return [
+		{ code: 'en', name: 'English' },
+		{ code: 'fr', name: 'Français' },
+		{ code: 'de', name: 'Deutsch' },
+		{ code: 'nl', name: 'Nederlands' },
+		{ code: 'pt', name: 'Português' },
+		{ code: 'YOUR_LOCALE_CODE', name: 'YOUR_LOCALE_NAME' },
+	]
+}
+```
+
 - Run `npm run dist` commands in your terminal
 - Copy the file `dist/mapwizeui.js` in your project
 - Import `mapwizeui.js` module in your project
