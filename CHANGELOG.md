@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.0.2
+
+- Fix: `remove` method correctly destroy the map
+
 ## 3.0.1
 
 - Adding multi-universe support in search
