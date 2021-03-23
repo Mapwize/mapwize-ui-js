@@ -14,9 +14,10 @@
 
 .mwz-map-container {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: lightblue;
   outline: none;
 }
 
@@ -27,7 +28,7 @@
   justify-content: space-between;
   align-items: flex-end;
   align-self: flex-end;
-  position:absolute;
+  position: absolute;
   top: 0;
   right: 0;
   height: 100%;
@@ -39,7 +40,6 @@
     justify-content: flex-end;
     align-items: flex-end;
   }
-
 }
 
 .mwz-in-between .mwz-right-container {

@@ -73,6 +73,7 @@ const defaultOptions: UIOptions = {
 export default class UIController {
   private store: UIControllerStore
   private uiContainer: HTMLElement
+  private mapContainer: HTMLElement
   private mapwizeMap: any
   private uiOptions: UIOptions
   private apiService: ApiService
@@ -87,6 +88,25 @@ export default class UIController {
   private floorController: FloorController
   private navigationController: NavigationControl
   private bottomView: BottomView
+
+  public destroy(detroyMap: () => void) {
+    detroyMap()
+    this.uiContainer.remove()
+    this.store = null
+    this.uiContainer = null
+    this.mapwizeMap = null
+    this.uiOptions = null
+    this.apiService = null
+    this.searchContainer = null
+    this.searchDirectionBar = null
+    this.searchResultList = null
+    this.languageSelector = null
+    this.universeSelector = null
+    this.followUserButton = null
+    this.floorController = null
+    this.navigationController = null
+    this.bottomView = null
+  }
 
   public async init(mainContainer: HTMLElement, options: UIOptions): Promise<any> {
     mainContainer.classList.add('main-container')
@@ -113,9 +133,14 @@ export default class UIController {
     this.uiContainer = document.createElement('div')
     this.uiContainer.classList.add('mwz-ui-container')
 
+    this.mapContainer = document.createElement('div')
+    this.mapContainer.classList.add('mwz-map-container')
+
+    mainContainer.appendChild(this.mapContainer)
+
     this.apiService = new ApiService(options)
     const defaultState = await buildDefaultState(options, this.apiService)
-    const mapInstance = await map({ container: mainContainer, ...options })
+    const mapInstance = await map({ container: this.mapContainer, ...options })
     this.store = new UIControllerStore(defaultState, this.render.bind(this), new MapActionsDispatcher(mapInstance, callbackInterceptor), this.apiService, callbackInterceptor)
     this.initMapwizeMap(mapInstance)
 
@@ -126,7 +151,7 @@ export default class UIController {
     this.buildUIComponents(this.uiContainer, options.mainColor, callbackInterceptor, mapInstance)
     this.renderDefault(defaultState)
 
-    return attachUIMethods(mapInstance, this.store, this.apiService)
+    return attachUIMethods(mapInstance, this.store, this.apiService, this)
   }
 
   private initMapwizeMap(mapInstance: any): void {
