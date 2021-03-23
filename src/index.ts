@@ -51,7 +51,11 @@ function map(container: string | HTMLElement, options?: any) {
   }
 
   if (typeof container === 'string') {
-    container = document.getElementById(container)
+    const element = document.getElementById(container)
+    if (!element) {
+      return Promise.reject(new Error('HTMLElement #' + container + ' does not exist'))
+    }
+    container = element
   }
 
   const uiController = new UIController()
