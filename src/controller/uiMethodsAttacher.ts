@@ -1,8 +1,9 @@
 import { Locale } from '../localizor/localizor'
 import { ApiService } from '../services/apiService'
+import UIController from './uiController'
 import { UIControllerStore } from './uiControllerStore'
 
-const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiService: ApiService): any => {
+const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiService: ApiService, controller: UIController): any => {
   /**
    * @instance
    * @memberof Map
@@ -217,6 +218,7 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
   }
 
   const mapRemoveSave = mapInstance.remove.bind(mapInstance)
+  const mapDestroySave = controller.destroy.bind(controller)
   /**
    * @instance
    * @memberof Map
@@ -225,8 +227,8 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    */
   mapInstance.remove = (): void => {
     // TODO Etienne si t'as une idée de comment faire le ménage, sinon c'est pas grave
-
-    mapRemoveSave()
+    // mapDestroySave()
+    controller.destroy(mapRemoveSave)
   }
 
   return mapInstance

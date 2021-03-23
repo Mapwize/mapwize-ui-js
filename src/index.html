@@ -17,7 +17,7 @@
     #mapwize {
       position: absolute;
       top: 0;
-      bottom: 200px;
+      bottom: 0;
       left: 0;
       right: 0;
       /* width: 100%;
@@ -63,6 +63,9 @@
     <button onclick="setUserLocation(null)">Set user location without floor</button>
 
     <button onclick="remove()">Kill the map</button>
+
+    <button onclick="createMap()">Create a map</button>
+    <button onclick="destroyMap()">Destroy the map</button>
   </div>
   <script>
 
@@ -132,69 +135,43 @@
       mapInstance.remove()
     }
 
+    function createMap() {
+      var appleStoreId = '5cac6506af35300016a65929'
+      MapwizeUI.map( 'mapwize', {
+        preferredLanguage: 'fr',
+        unit: 'ft',
+        locationControl: true,
+        floorControl: true,
+        centerOnPlaceId: appleStoreId,
+        shouldShowInformationButtonFor: () => true,
+        shouldMoveToSelectedObject: ( object, options ) => {
+          return {
+            ...options
+          }
+        },
+        onDetailsWillBeDisplayed: ( mwzObject, template ) => {
+          return template
+        },
+        onSelectedChange: ( mwzObject, analytics ) => {
+          console.log( mwzObject, analytics )
+        }
+      } ).then( function ( instance ) {
+        mapInstance = instance
+      } )
+    }
+
+    function destroyMap() {
+      mapInstance.remove()
+      //document.getElementById("mapwize").innerHTML = ""
+    }
+
     window.onload = function () {
       var apiKey = 'MapwizeDevAPIKEY'
       var mapwizePlaceId = '5d08d8a4efe1d20012809ee5'
       var receptionPlaceId = '569f8d7cb4d7200b003c32a1'
-      var appleStoreId = '5cac6506af35300016a65929'
+      
 
       MapwizeUI.apiKey( apiKey )
-
-      MapwizeUI.Api.getDirection( {
-        from: { placeId: '5cecfe6e3a98890016d6eff6' },
-        to: { placeListId: '5728a351a3a26c0b0027d5cf' },
-        modeId: '5e7a1d5fb5459e00166b5675'
-      } ).then( function ( direction ) {
-        MapwizeUI.map( 'mapwize', {
-          preferredLanguage: 'fr',
-          unit: 'ft',
-          locationControl: true,
-          floorControl: true,
-          direction: direction,
-          centerOnPlaceId: appleStoreId,
-          shouldShowInformationButtonFor: () => true,
-          shouldMoveToSelectedObject: ( object, options ) => {
-            return {
-              ...options
-            }
-          },
-          onDetailsWillBeDisplayed: ( mwzObject, template ) => {
-            return template
-          },
-          onSelectedChange: ( mwzObject, analytics ) => {
-            console.log( mwzObject, analytics )
-          }
-          /*onSearchQueryWillBeSent: (params, query) => {
-            return {...params}
-          },
-          onSearchResultsWillBeDisplayed: (results) => {
-            return [results[0]]
-          },
-          onObjectWillBeDisplayedInSearch: (template, object) => {
-            template.style.backgroundColor = 'red'
-            return template
-          },
-          onDirectionQueryWillBeSent: (params, query) => {
-            return {...params, query: 'Mapwize'}
-          },
-          onDirectionWillBeDisplayed: (options, direction) => {
-            return {
-              centerOnStart: false
-            }
-          }*/
-        } ).then( function ( instance ) {
-
-          mapInstance = instance
-          mapInstance.on( 'mapwize:click', ( e ) => {
-            mapInstance.setUserLocation( {
-              latitude: e.lngLat.lat,
-              longitude: e.lngLat.lng,
-              floor: e.floor,
-            } )
-          } )
-
-        } )
-      } )
 
 
 
