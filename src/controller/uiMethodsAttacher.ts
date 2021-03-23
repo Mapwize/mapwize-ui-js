@@ -218,7 +218,6 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
   }
 
   const mapRemoveSave = mapInstance.remove.bind(mapInstance)
-  const mapDestroySave = controller.destroy.bind(controller)
   /**
    * @instance
    * @memberof Map
@@ -226,8 +225,6 @@ const attach = (mapInstance: any, uiControllerStore: UIControllerStore, apiServi
    * @function remove
    */
   mapInstance.remove = (): void => {
-    // TODO Etienne si t'as une idée de comment faire le ménage, sinon c'est pas grave
-    // mapDestroySave()
     controller.destroy(mapRemoveSave)
   }
 

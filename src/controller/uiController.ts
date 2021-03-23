@@ -205,7 +205,6 @@ export default class UIController {
     })
 
     this.mapwizeMap.on('mapwize:click', (e: any) => {
-      console.log('map click ', e)
       if (e.place) {
         this.store.onPlaceClick(e.place)
       } else if (e.venue) {
