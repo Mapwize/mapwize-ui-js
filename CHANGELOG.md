@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.0.3
+
+- Fix: map option bug when pass only an object to the map
+
 ## 3.0.2
 
 - Fix: `remove` method correctly destroy the map
