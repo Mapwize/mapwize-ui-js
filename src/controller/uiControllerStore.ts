@@ -75,6 +75,12 @@ export class UIControllerStore {
     ) {
       return
     }
+    let mapLanguage = this.state.uiControllerState.language
+    if (this.state.uiControllerState.venue) {
+      if (this.state.uiControllerState.venue.supportedLanguages.includes(locale)) {
+        mapLanguage = locale
+      }
+    }
     const nextState = await produce(this.state, async (draftState: WritableDraft<MapwizeUIState>) => {
       draftState.uiControllerState.preferredLanguage = locale
       draftState.universeSelectorState.tooltipMessage = lang_change_universe(locale)
@@ -84,7 +90,7 @@ export class UIControllerStore {
       draftState.searchBarState.directionTooltipMessage = lang_direction(locale)
       draftState.searchResultListState.noResultLabel = lang_search_no_results(locale)
       if (this.state.uiControllerState.venue) {
-        draftState.searchBarState.searchPlaceholder = lang_search_venue(locale, titleForLanguage(this.state.uiControllerState.venue, locale))
+        draftState.searchBarState.searchPlaceholder = lang_search_venue(locale, titleForLanguage(this.state.uiControllerState.venue, mapLanguage))
       } else {
         draftState.searchBarState.searchPlaceholder = lang_search_global(locale)
       }
@@ -92,14 +98,14 @@ export class UIControllerStore {
       draftState.searchDirectionBarState.toPlaceholder = lang_choose_destination(locale)
       if (this.state.uiControllerState.directionFromPoint) {
         if (this.state.uiControllerState.directionFromPoint.objectClass === 'place') {
-          draftState.searchDirectionBarState.fromQuery = titleForLanguage(this.state.uiControllerState.directionFromPoint, locale)
+          draftState.searchDirectionBarState.fromQuery = titleForLanguage(this.state.uiControllerState.directionFromPoint, mapLanguage)
         } else {
           draftState.searchDirectionBarState.fromQuery = lang_coordinates(locale)
         }
       }
       if (this.state.uiControllerState.directionToPoint) {
         if (this.state.uiControllerState.directionToPoint.objectClass === 'place' || this.state.uiControllerState.directionToPoint.objectClass === 'placeList') {
-          draftState.searchDirectionBarState.toQuery = titleForLanguage(this.state.uiControllerState.directionToPoint, locale)
+          draftState.searchDirectionBarState.toQuery = titleForLanguage(this.state.uiControllerState.directionToPoint, mapLanguage)
         } else {
           draftState.searchDirectionBarState.toQuery = lang_coordinates(locale)
         }
@@ -108,18 +114,18 @@ export class UIControllerStore {
       if (this.state.uiControllerState.selectedContent) {
         if (this.state.uiControllerState.selectedContent.objectClass === 'place') {
           const details = await this.apiService.getPlaceDetails(this.state.uiControllerState.selectedContent._id)
-          draftState.bottomViewState.content = buildPlaceDetails(details, locale)
+          draftState.bottomViewState.content = buildPlaceDetails(details, mapLanguage)
         }
         if (this.state.uiControllerState.selectedContent.objectClass === 'placeList') {
           const places = await this.apiService.getPlacesForPlacelist(this.state.uiControllerState.selectedContent._id)
-          draftState.bottomViewState.content = buildPlacelistDetails(this.state.uiControllerState.selectedContent, places, locale)
+          draftState.bottomViewState.content = buildPlacelistDetails(this.state.uiControllerState.selectedContent, places, mapLanguage, locale)
         }
       }
     })
     const oldState = this.state
     this.state = nextState
     this.render(oldState, nextState)
-    this.mapActionsDispatcher.setLanguage(locale)
+    this.mapActionsDispatcher.setLanguage(mapLanguage)
   }
 
   public setUnit(unit: string) {
@@ -139,13 +145,13 @@ export class UIControllerStore {
   }
 
   public getUnits(): string[] {
-    return [ 'm', 'ft' ]
+    return ['m', 'ft']
   }
 
   public setLanguage(language: string) {
     const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
       draftState.uiControllerState.language = language
-      draftState.universeSelectorState.tooltipMessage = lang_change_universe(language)
+      draftState.universeSelectorState.tooltipMessage = lang_change_universe(this.state.uiControllerState.preferredLanguage)
     })
     const oldState = this.state
     this.state = nextState
@@ -271,8 +277,8 @@ export class UIControllerStore {
         !draftState.uiControllerState.directionMode ||
         (draftState.uiControllerState.directionMode && !modes.map((mode) => mode._id).includes(draftState.uiControllerState.directionMode?._id))
       ) {
-        draftState.searchDirectionBarState.selectedMode = modes[ 0 ]
-        draftState.uiControllerState.directionMode = modes[ 0 ]
+        draftState.searchDirectionBarState.selectedMode = modes[0]
+        draftState.uiControllerState.directionMode = modes[0]
       } else {
         draftState.searchDirectionBarState.selectedMode = this.state.uiControllerState.directionMode
       }
@@ -348,7 +354,7 @@ export class UIControllerStore {
       const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent(
         {
           query,
-          objectClass: [ 'place', 'placeList' ],
+          objectClass: ['place', 'placeList'],
           venueId: this.state.uiControllerState.venue._id,
         },
         query,
@@ -361,12 +367,16 @@ export class UIControllerStore {
         searchResults = searchResults.hits
       }
     } else {
-      const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent({ query, objectClass: [ 'venue' ] }, query, 'search-field')
+      const searchParams = this.devCallbackInterceptor.onSearchQueryWillBeSent({ query, objectClass: ['venue'] }, query, 'search-field')
       searchResults = await this.apiService.search(searchParams)
       searchResults = searchResults.hits
     }
     const nextStateAsync = await produce(this.state, async (draftState: WritableDraft<MapwizeUIState>) => {
-      draftState.searchResultListState.results = buildSearchResult(this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults), this.state.uiControllerState.language, this.state.uiControllerState.preferredLanguage)
+      draftState.searchResultListState.results = buildSearchResult(
+        this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults),
+        this.state.uiControllerState.language,
+        this.state.uiControllerState.preferredLanguage
+      )
       draftState.searchResultListState.universes = this.state.universeSelectorState.universes
       draftState.searchResultListState.currentUniverse = this.state.universeSelectorState.selectedUniverse
       draftState.searchResultListState.showCurrentLocation = undefined
@@ -390,7 +400,7 @@ export class UIControllerStore {
 
     const searchParams = this.devCallbackInterceptor.onDirectionQueryWillBeSent({
       query,
-      objectClass: [ 'place' ],
+      objectClass: ['place'],
       universeId: this.state.universeSelectorState.selectedUniverse._id,
       venueId: this.state.uiControllerState.venue._id,
     })
@@ -403,7 +413,11 @@ export class UIControllerStore {
     }
 
     const nextStateAsync = await produce(this.state, async (draftState: WritableDraft<MapwizeUIState>) => {
-      draftState.searchResultListState.results = buildSearchResult(this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults), this.state.uiControllerState.language, this.state.uiControllerState.preferredLanguage)
+      draftState.searchResultListState.results = buildSearchResult(
+        this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults),
+        this.state.uiControllerState.language,
+        this.state.uiControllerState.preferredLanguage
+      )
       draftState.searchResultListState.showCurrentLocation = this.mapActionsDispatcher.hasIndoorLocation()
         ? lang_current_location(this.state.uiControllerState.preferredLanguage)
         : undefined
@@ -427,7 +441,7 @@ export class UIControllerStore {
     const searchParams = this.devCallbackInterceptor.onDirectionQueryWillBeSent({
       query,
       universeId: this.state.universeSelectorState.selectedUniverse._id,
-      objectClass: [ 'place', 'placeList' ],
+      objectClass: ['place', 'placeList'],
       venueId: this.state.uiControllerState.venue._id,
     })
     let searchResults: any
@@ -439,7 +453,11 @@ export class UIControllerStore {
     }
 
     const nextStateAsync = await produce(this.state, async (draftState: WritableDraft<MapwizeUIState>) => {
-      draftState.searchResultListState.results = buildSearchResult(this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults), this.state.uiControllerState.language, this.state.uiControllerState.preferredLanguage)
+      draftState.searchResultListState.results = buildSearchResult(
+        this.devCallbackInterceptor.onSearchResultsWillBeDisplayed(searchResults),
+        this.state.uiControllerState.language,
+        this.state.uiControllerState.preferredLanguage
+      )
       draftState.searchResultListState.showCurrentLocation = undefined
       draftState.searchResultListState.universes = []
       draftState.searchResultListState.currentUniverse = undefined
