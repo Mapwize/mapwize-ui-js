@@ -140,7 +140,7 @@ export default class UIController {
 
     this.apiService = new ApiService(options)
     const defaultState = await buildDefaultState(options, this.apiService)
-    const mapInstance = await map({ container: this.mapContainer, ...options })
+    const mapInstance = await map({ ...options, container: this.mapContainer })
     this.store = new UIControllerStore(defaultState, this.render.bind(this), new MapActionsDispatcher(mapInstance, callbackInterceptor), this.apiService, callbackInterceptor)
     this.initMapwizeMap(mapInstance)
 
