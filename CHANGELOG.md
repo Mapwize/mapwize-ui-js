@@ -3,7 +3,8 @@
 ## 3.0.4
 
 - Improving translation architecture
-- Fixing crash when setLocale does not match a valid venue language
+- Fix: Crash when setLocale does not match a valid venue language
+- Fix: Map must fit in the container
 
 ## 3.0.3
 
