@@ -15,7 +15,7 @@ export const buildLanguageDisplays = (languages: string[]): LanguageDisplay[] =>
   return languages.map((l) => {
     return {
       code: l,
-      value: LANGUAGES[l],
+      value: LANGUAGES[ l ],
     }
   })
 }
@@ -31,7 +31,7 @@ export const buildPlaceDetails = (placeDetails: any, language: string): any => {
   }
 }
 
-export const buildPlacelistDetails = (placelist: any, places: any[], language: string): any => {
+export const buildPlacelistDetails = (placelist: any, places: any[], language: string, preferredLanguage: string): any => {
   const translation = translationForLanguage(placelist.translations, language)
   places = places.map((p) => {
     const t = translationForLanguage(p.translations, language)
@@ -40,7 +40,7 @@ export const buildPlacelistDetails = (placelist: any, places: any[], language: s
       objectClass: 'place',
       titleLabel: t.title,
       subtitleLabel: t.subTitle,
-      floorLabel: lang_floor(language, p.floor),
+      floorLabel: lang_floor(preferredLanguage, p.floor),
     }
   })
   return {
@@ -48,7 +48,7 @@ export const buildPlacelistDetails = (placelist: any, places: any[], language: s
     titleLabel: translation.title,
     subtitleLabel: translation.subTitle,
     detailsLabel: translation.details,
-    places: places,
+    places,
   }
 }
 
@@ -62,7 +62,7 @@ export const buildPlacelist = (placelist: any, language: string): any => {
   }
 }
 
-export const buildSearchResult = (searchResult: any[], language: string): SearchResult[] => {
+export const buildSearchResult = (searchResult: any[], language: string, preferredLanguage: string): SearchResult[] => {
   const map = searchResult.map((s) => {
     if (!s) {
       return {}
@@ -70,7 +70,7 @@ export const buildSearchResult = (searchResult: any[], language: string): Search
     const translation = translationForLanguage(s.translations, language)
     let floorLabel
     if (s.floor || s.floor === 0) {
-      floorLabel = lang_floor(language, s.floor)
+      floorLabel = lang_floor(preferredLanguage, s.floor)
     }
     return {
       ...s,
@@ -93,7 +93,7 @@ export const subtitleForLanguage = (object: any, language: string): string => {
 }
 
 export const buildLanguageDisplay = (language: string): string => {
-  return LANGUAGES[language]
+  return LANGUAGES[ language ]
 }
 
 export const buildDirectionInfo = (direction: any, unit: string): BottomViewDirectionProps => {
@@ -122,13 +122,13 @@ export const buildDirectionError = (language: string): BottomViewDirectionProps 
 export const translationForLanguage = (translations: Translation[], language: string): Translation => {
   const filterTranslation = translations.filter((t) => t.language === language)
   if (filterTranslation.length === 0) {
-    return translations[0]
+    return translations[ 0 ]
   } else {
-    return filterTranslation[0]
+    return filterTranslation[ 0 ]
   }
 }
 
-const LANGUAGES: { [key: string]: string } = {
+const LANGUAGES: { [ key: string ]: string } = {
   da: 'Dansk',
   de: 'Deutsch',
   nl: 'Nederlands',

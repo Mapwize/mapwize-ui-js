@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 3.0.4
+
+- Improving translation architecture
+- Fix: Crash when setLocale does not match a valid venue language
+- Fix: Map must fit in the container
+
 ## 3.0.3
 
 - Fix: map option bug when pass only an object to the map
