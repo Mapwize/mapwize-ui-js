@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.0.5
+
+- Adding default translation to English if the language does not exist in MapwizeUI
+
 ## 3.0.4
 
 - Improving translation architecture
