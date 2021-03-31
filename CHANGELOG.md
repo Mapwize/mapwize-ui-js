@@ -1,7 +1,12 @@
 # Mapwize UI Changelog
 
+## 3.0.6
+
+- Fix broken version (3.0.5)
+
 ## 3.0.5
 
+**Broken version fixed in 3.0.6**
 - Adding default translation to English if the language does not exist in MapwizeUI
 - Upgrade mapwize gl to 4.4.2
 
