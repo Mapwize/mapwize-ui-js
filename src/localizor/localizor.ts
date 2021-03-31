@@ -21,226 +21,231 @@ lang_available_locale().forEach((l) => {
   allLocalesFunctions[code] = locales('./' + code + '.locale.ts').default
 })
 
+const languageOrDefault = (language: string): string => {
+  const locale = lang_available_locale().find((l) => l.code === language)
+  return locale ? locale.code : 'en'
+}
+
 export const lang_search_global = (language: string): string => {
-  return allLocalesFunctions[language].lang_search_global()
+  return allLocalesFunctions[languageOrDefault(language)].lang_search_global()
 }
 
 export const lang_search_venue = (language: string, title: string) => {
-  return allLocalesFunctions[language].lang_search_venue(title)
+  return allLocalesFunctions[languageOrDefault(language)].lang_search_venue(title)
 }
 
 export const lang_entering_venue = (language: string, title: string) => {
-  return allLocalesFunctions[language].lang_entering_venue(title)
+  return allLocalesFunctions[languageOrDefault(language)].lang_entering_venue(title)
 }
 
 export const lang_search_no_results = (language: string) => {
-  return allLocalesFunctions[language].lang_search_no_results()
+  return allLocalesFunctions[languageOrDefault(language)].lang_search_no_results()
 }
 
 export const lang_choose_starting_point = (language: string) => {
-  return allLocalesFunctions[language].lang_choose_starting_point()
+  return allLocalesFunctions[languageOrDefault(language)].lang_choose_starting_point()
 }
 
 export const lang_choose_destination = (language: string) => {
-  return allLocalesFunctions[language].lang_choose_destination()
+  return allLocalesFunctions[languageOrDefault(language)].lang_choose_destination()
 }
 
 export const lang_on_floor = (language: string, floor: string) => {
-  return allLocalesFunctions[language].lang_on_floor(floor)
+  return allLocalesFunctions[languageOrDefault(language)].lang_on_floor(floor)
 }
 
 export const lang_floor = (language: string, floor: string) => {
-  return allLocalesFunctions[language].lang_floor(floor)
+  return allLocalesFunctions[languageOrDefault(language)].lang_floor(floor)
 }
 
 export const lang_coordinates = (language: string) => {
-  return allLocalesFunctions[language].lang_coordinates()
+  return allLocalesFunctions[languageOrDefault(language)].lang_coordinates()
 }
 
 export const lang_current_location = (language: string) => {
-  return allLocalesFunctions[language].lang_current_location()
+  return allLocalesFunctions[languageOrDefault(language)].lang_current_location()
 }
 
 export const lang_use_current_location = (language: string) => {
-  return allLocalesFunctions[language].lang_use_current_location()
+  return allLocalesFunctions[languageOrDefault(language)].lang_use_current_location()
 }
 
 export const lang_empty_title = (language: string) => {
-  return allLocalesFunctions[language].lang_empty_title()
+  return allLocalesFunctions[languageOrDefault(language)].lang_empty_title()
 }
 
 export const lang_menu = (language: string) => {
-  return allLocalesFunctions[language].lang_menu()
+  return allLocalesFunctions[languageOrDefault(language)].lang_menu()
 }
 
 export const lang_back = (language: string) => {
-  return allLocalesFunctions[language].lang_back()
+  return allLocalesFunctions[languageOrDefault(language)].lang_back()
 }
 
 export const lang_direction = (language: string) => {
-  return allLocalesFunctions[language].lang_direction()
+  return allLocalesFunctions[languageOrDefault(language)].lang_direction()
 }
 
 export const lang_information = (language: string) => {
-  return allLocalesFunctions[language].lang_information()
+  return allLocalesFunctions[languageOrDefault(language)].lang_information()
 }
 
 export const lang_zoom_out = (language: string) => {
-  return allLocalesFunctions[language].lang_zoom_out()
+  return allLocalesFunctions[languageOrDefault(language)].lang_zoom_out()
 }
 
 export const lang_zoom_in = (language: string) => {
-  return allLocalesFunctions[language].lang_zoom_in()
+  return allLocalesFunctions[languageOrDefault(language)].lang_zoom_in()
 }
 
 export const lang_reset_north = (language: string) => {
-  return allLocalesFunctions[language].lang_reset_north()
+  return allLocalesFunctions[languageOrDefault(language)].lang_reset_north()
 }
 
 export const lang_use_ctrl = (language: string) => {
-  return allLocalesFunctions[language].lang_use_ctrl()
+  return allLocalesFunctions[languageOrDefault(language)].lang_use_ctrl()
 }
 
 export const lang_change_language = (language: string) => {
-  return allLocalesFunctions[language].lang_change_language()
+  return allLocalesFunctions[languageOrDefault(language)].lang_change_language()
 }
 
 export const lang_change_universe = (language: string) => {
-  return allLocalesFunctions[language].lang_change_universe()
+  return allLocalesFunctions[languageOrDefault(language)].lang_change_universe()
 }
 
 export const lang_call = (language: string) => {
-  return allLocalesFunctions[language].lang_call()
+  return allLocalesFunctions[languageOrDefault(language)].lang_call()
 }
 
 export const lang_website = (language: string) => {
-  return allLocalesFunctions[language].lang_website()
+  return allLocalesFunctions[languageOrDefault(language)].lang_website()
 }
 
 export const lang_share = (language: string) => {
-  return allLocalesFunctions[language].lang_share()
+  return allLocalesFunctions[languageOrDefault(language)].lang_share()
 }
 
 export const lang_outdoor = (language: string) => {
-  return allLocalesFunctions[language].lang_outdoor()
+  return allLocalesFunctions[languageOrDefault(language)].lang_outdoor()
 }
 
 export const lang_website_not_available = (language: string) => {
-  return allLocalesFunctions[language].lang_website_not_available()
+  return allLocalesFunctions[languageOrDefault(language)].lang_website_not_available()
 }
 
 export const lang_phone_not_available = (language: string) => {
-  return allLocalesFunctions[language].lang_phone_not_available()
+  return allLocalesFunctions[languageOrDefault(language)].lang_phone_not_available()
 }
 
 export const lang_capacity_not_available = (language: string) => {
-  return allLocalesFunctions[language].lang_capacity_not_available()
+  return allLocalesFunctions[languageOrDefault(language)].lang_capacity_not_available()
 }
 
 export const lang_opening_hours_not_available = (language: string) => {
-  return allLocalesFunctions[language].lang_opening_hours_not_available()
+  return allLocalesFunctions[languageOrDefault(language)].lang_opening_hours_not_available()
 }
 
 export const lang_schedule_not_available = (language: string) => {
-  return allLocalesFunctions[language].lang_schedule_not_available()
+  return allLocalesFunctions[languageOrDefault(language)].lang_schedule_not_available()
 }
 
 export const lang_currently_available = (language: string) => {
-  return allLocalesFunctions[language].lang_currently_available()
+  return allLocalesFunctions[languageOrDefault(language)].lang_currently_available()
 }
 
 export const lang_currently_occupied = (language: string) => {
-  return allLocalesFunctions[language].lang_currently_occupied()
+  return allLocalesFunctions[languageOrDefault(language)].lang_currently_occupied()
 }
 
 export const lang_monday = (language: string) => {
-  return allLocalesFunctions[language].lang_monday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_monday()
 }
 
 export const lang_tuesday = (language: string) => {
-  return allLocalesFunctions[language].lang_tuesday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_tuesday()
 }
 
 export const lang_wednesday = (language: string) => {
-  return allLocalesFunctions[language].lang_wednesday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_wednesday()
 }
 
 export const lang_thursday = (language: string) => {
-  return allLocalesFunctions[language].lang_thursday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_thursday()
 }
 
 export const lang_friday = (language: string) => {
-  return allLocalesFunctions[language].lang_friday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_friday()
 }
 
 export const lang_saturday = (language: string) => {
-  return allLocalesFunctions[language].lang_saturday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_saturday()
 }
 
 export const lang_sunday = (language: string) => {
-  return allLocalesFunctions[language].lang_sunday()
+  return allLocalesFunctions[languageOrDefault(language)].lang_sunday()
 }
 
 export const lang_open_24_7 = (language: string) => {
-  return allLocalesFunctions[language].lang_open_24_7()
+  return allLocalesFunctions[languageOrDefault(language)].lang_open_24_7()
 }
 
 export const lang_close_24_7 = (language: string) => {
-  return allLocalesFunctions[language].lang_close_24_7()
+  return allLocalesFunctions[languageOrDefault(language)].lang_close_24_7()
 }
 
 export const lang_close_open_at = (language: string, time: string) => {
-  return allLocalesFunctions[language].lang_close_open_at(time)
+  return allLocalesFunctions[languageOrDefault(language)].lang_close_open_at(time)
 }
 
 export const lang_close_open_tomorrow = (language: string, time: string) => {
-  return allLocalesFunctions[language].lang_close_open_tomorrow(time)
+  return allLocalesFunctions[languageOrDefault(language)].lang_close_open_tomorrow(time)
 }
 
 export const lang_close_open = (language: string, day: string, time: string) => {
-  return allLocalesFunctions[language].lang_close_open(day, time)
+  return allLocalesFunctions[languageOrDefault(language)].lang_close_open(day, time)
 }
 
 export const lang_open_close_at = (language: string, time: string) => {
-  return allLocalesFunctions[language].lang_open_close_at(time)
+  return allLocalesFunctions[languageOrDefault(language)].lang_open_close_at(time)
 }
 
 export const lang_open_close_tomorrow = (language: string, time: string) => {
-  return allLocalesFunctions[language].lang_open_close_tomorrow(time)
+  return allLocalesFunctions[languageOrDefault(language)].lang_open_close_tomorrow(time)
 }
 
 export const lang_open_close = (language: string, day: string, time: string) => {
-  return allLocalesFunctions[language].lang_open_close(day, time)
+  return allLocalesFunctions[languageOrDefault(language)].lang_open_close(day, time)
 }
 
 export const lang_open_all_day = (language: string) => {
-  return allLocalesFunctions[language].lang_open_all_day()
+  return allLocalesFunctions[languageOrDefault(language)].lang_open_all_day()
 }
 
 export const lang_closed = (language: string) => {
-  return allLocalesFunctions[language].lang_closed()
+  return allLocalesFunctions[languageOrDefault(language)].lang_closed()
 }
 
 export const lang_floor_controller = (language: string) => {
-  return allLocalesFunctions[language].lang_floor_controller()
+  return allLocalesFunctions[languageOrDefault(language)].lang_floor_controller()
 }
 
 export const lang_start = (language: string) => {
-  return allLocalesFunctions[language].lang_start()
+  return allLocalesFunctions[languageOrDefault(language)].lang_start()
 }
 
 export const lang_destination = (language: string) => {
-  return allLocalesFunctions[language].lang_destination()
+  return allLocalesFunctions[languageOrDefault(language)].lang_destination()
 }
 
 export const lang_clipboard = (language: string) => {
-  return allLocalesFunctions[language].lang_clipboard()
+  return allLocalesFunctions[languageOrDefault(language)].lang_clipboard()
 }
 
 export const lang_details = (language: string) => {
-  return allLocalesFunctions[language].lang_details()
+  return allLocalesFunctions[languageOrDefault(language)].lang_details()
 }
 
 export const lang_overview = (language: string) => {
-  return allLocalesFunctions[language].lang_overview()
+  return allLocalesFunctions[languageOrDefault(language)].lang_overview()
 }
