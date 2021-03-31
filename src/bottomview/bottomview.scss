@@ -1,13 +1,12 @@
 .mwz-bottom-view {
   width: 400px;
-  height: 100%;
   bottom: 0;
   background-color: white;
   flex-shrink: 0;
   z-index: 3;
   pointer-events: all;
   position: absolute;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .2), 0 -1px 0 rgba(0, 0, 0, .02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
   overflow-y: scroll;
 
   &.mwz-gone {

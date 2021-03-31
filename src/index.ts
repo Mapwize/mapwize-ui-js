@@ -3,7 +3,7 @@ import './style.scss'
 import { Api, apiKey, apiUrl, isTelemetryEnabled, Cache, config, version } from 'mapwize'
 import { AttributionControl, GeolocateControl, LngLat, LngLatBounds, Marker, Point, Popup, ScaleControl, setRTLTextPlugin, Style } from 'mapwize'
 import { AccessKeyError, LoadError, MWZError, NoLocationError, VenueEnterError } from 'mapwize'
-
+import { buildSmallViewButton, buildExpandedViewButton, buildDefaultRow, buildExpandableRow } from './bottomview/placeDetails/placeDetailsFactory'
 import UIController from './controller/uiController'
 
 const uiVersion = {
@@ -69,4 +69,5 @@ export { uiVersion as version }
 // export { getUnits, getLocales }
 export { MWZError, AccessKeyError, LoadError, NoLocationError, VenueEnterError }
 export { Api, Cache, GeolocateControl, ScaleControl, AttributionControl, Popup, Marker, Style, LngLat, LngLatBounds, Point, setRTLTextPlugin }
+export { buildExpandableRow, buildExpandedViewButton, buildDefaultRow, buildSmallViewButton }
 // export { FloorControl, LocationControl, NavigationControl }
