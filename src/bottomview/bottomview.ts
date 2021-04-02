@@ -99,7 +99,6 @@ export default class BottomView {
       this.largeDetails = placeDetailsView.largeView
       this.container.appendChild(this.largeDetails)
       this.container.onclick = (e) => {
-        console.log('onclick', this.detailsConfig.preventExpand)
         if (this.detailsConfig.preventExpand) {
           return
         }
