@@ -1,12 +1,16 @@
 .mwz-bottom-view-direction {
   display: flex;
   flex-direction: row;
-  margin-top: 139px;
+
   padding: 16px;
 
   &.mwz-gone {
     display: none;
   }
+}
+
+.mwz-expanded .mwz-bottom-view-direction {
+  margin-top: 139px;
 }
 
 .mwz-direction-error-label {

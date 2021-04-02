@@ -147,9 +147,42 @@
             ...options
           }
         },
-        onDetailsWillBeDisplayed: ( mwzObject, template ) => {
+        onDetailsWillBeDisplayed: ( template ) => {
+          template.initiallyExpanded = false
+          const smallButton = MapwizeUI.buildSmallViewButton('', 'coucou', false, () => console.log('clicliclic'))
+          template.smallViewButtons.push({type:'custom', html: smallButton})
+          const joke = ['Coucou', 'Cyprien', 'T\'es', 'Beau', 'MDR']
+          const bigButton = joke.map(j => {return {type:'custom', html: MapwizeUI.buildExpandedViewButton('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png', j, true, () => console.log('clicliclic'))}})
+          const rows = joke.map(j => { return {
+            type:'custom', 
+            informationAvailable: true, 
+            html: MapwizeUI.buildDefaultRow(j, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png', true)
+          }
+          })
+
+          const content = document.createElement('div')
+          content.style.height = "200px"
+          content.style.backgroundColor = "red"
+          content.style.fontSize = "50px"
+          content.innerHTML = "NAN C'EST PAS VRAI LOL"
+          const row = {
+            type: 'custom',
+            informationAvailable: true,
+            html: MapwizeUI.buildExpandableRow("Cypien <3", 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png', content) 
+          }
+
+          template.expandedViewButtons = bigButton
+          template.expandedViewRows = rows
+          template.expandedViewRows.push(row)
+          template.title = "No, I am not an apple store"
+          template.subtitle = "Microsoft retailer"
+          template.openingStatus = "I can't close, My boss would kill me"
+          template.scheduleStatus = "Schedule whenever you want, I don't care"
           return template
         },
+        /*
+buildExpandableRow = (title: string, imgSrc: string, expandedContent: HTMLElement)
+        */
         onSelectedChange: ( mwzObject, analytics ) => {
           console.log( mwzObject, analytics )
         }
@@ -171,7 +204,7 @@
 
       MapwizeUI.apiKey( apiKey )
 
-
+      createMap()
 
 
     }
