@@ -16,19 +16,18 @@ export interface SearchDirectionBarState {
 }
 
 export interface SearchDirectionBarListener {
-  onSelectedModeChange: (mode: DirectionMode) => void,
-  onFromQueryChange: (query: string) => void,
-  onToQueryChange: (query: string) => void,
-  onSwapButtonClick: () => void,
-  onBackButtonClick: () => void,
-  onFromFocus: () => void,
-  onFromBlur: () => void,
-  onToFocus: () => void,
+  onSelectedModeChange: (mode: DirectionMode) => void
+  onFromQueryChange: (query: string) => void
+  onToQueryChange: (query: string) => void
+  onSwapButtonClick: () => void
+  onBackButtonClick: () => void
+  onFromFocus: () => void
+  onFromBlur: () => void
+  onToFocus: () => void
   onToBlur: () => void
 }
 
 export default class SearchDirectionBar {
-
   private container: HTMLElement
   private listener: SearchDirectionBarListener
   private modeSelector: DirectionModeSelector
@@ -67,6 +66,7 @@ export default class SearchDirectionBar {
     this.modeSelector = new DirectionModeSelector(this.listener.onSelectedModeChange, mainColor)
 
     const backButton = document.createElement('button')
+    backButton.type = 'button'
     backButton.classList.add('mwz-search-direction-back-button')
     backButton.onclick = this.listener.onBackButtonClick
     queryContentLeft.appendChild(backButton)
@@ -97,6 +97,7 @@ export default class SearchDirectionBar {
     queryContentCenter.appendChild(this.toField)
 
     const swapButton = document.createElement('button')
+    swapButton.type = 'button'
     swapButton.classList.add('mwz-search-direction-swap-button')
     swapButton.onclick = this.listener.onSwapButtonClick
     queryContentRight.appendChild(swapButton)
@@ -108,7 +109,6 @@ export default class SearchDirectionBar {
 
     this.container.appendChild(queryContent)
     this.container.appendChild(this.modeSelector.getHtmlElement())
-
   }
 
   public getHtmlElement(): HTMLElement {
@@ -162,8 +162,7 @@ export default class SearchDirectionBar {
   private setFromFocus(focus: boolean): void {
     if (focus && this.fromField !== document.activeElement) {
       setTimeout(() => this.fromField.focus(), 0)
-    }
-    else if (!focus && this.fromField === document.activeElement) {
+    } else if (!focus && this.fromField === document.activeElement) {
       setTimeout(() => this.fromField.blur(), 0)
     }
   }
@@ -171,8 +170,7 @@ export default class SearchDirectionBar {
   private setToFocus(focus: boolean): void {
     if (focus && this.toField !== document.activeElement) {
       setTimeout(() => this.toField.focus(), 0)
-    }
-    else if (!focus && this.toField === document.activeElement) {
+    } else if (!focus && this.toField === document.activeElement) {
       setTimeout(() => this.toField.blur(), 0)
     }
   }
@@ -180,8 +178,7 @@ export default class SearchDirectionBar {
   private setInSearch(inSearch: boolean): void {
     if (inSearch) {
       this.container.classList.add('mwz-in-search')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-in-search')
     }
   }
@@ -189,8 +186,7 @@ export default class SearchDirectionBar {
   private setHidden(hidden: boolean): void {
     if (hidden) {
       this.container.classList.add('mwz-gone')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-gone')
 
       // TODO DO BETTER
@@ -202,5 +198,4 @@ export default class SearchDirectionBar {
       // }
     }
   }
-
 }
