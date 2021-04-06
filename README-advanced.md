@@ -57,20 +57,6 @@ Called before displaying a result in the search result list. You can use this me
 onObjectWillBeDisplayedInSearch?: (template: HTMLElement, mwzObject: any) => HTMLElement
 ```
 
-### onDetailsWillBeDisplayed
-
-Called before displaying the details view. You can use this method to change on the fly the content that you want to display.
-The first attribute is the object that has been selected.
-The second attribute is an object like:
-{
-photosView: HTMLElement // The view that contains the photos
-smallView: HTMLElement // The view displayed by default on mobile. It won't be displayed on desktop view
-largeView: HTMLElement // The view displayed by default on desktop view. It will be displayed on mobile when the user click on the bottom view
-}
-You can update this object as you want and return it. Your views will be displayed.
-
-`onDetailsWillBeDisplayed?: (mwzObject: any,templates: { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }) => { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }`
-
 ## Direction mode icons
 
 This is the procedure to change the icons of the direction modes
