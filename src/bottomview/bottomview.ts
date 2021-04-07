@@ -106,7 +106,9 @@ export default class BottomView {
           this.listener.onExpandClick()
         }
       }
-      if (this.detailsConfig.initiallyExpanded) {
+      if (this.detailsConfig.initiallyExpanded && !this.container.classList.contains('mwz-expanded')) {
+        this.listener.onExpandClick()
+      } else if (!this.detailsConfig.initiallyExpanded && this.container.classList.contains('mwz-expanded')) {
         this.listener.onExpandClick()
       }
     }
@@ -118,7 +120,14 @@ export default class BottomView {
       this.container.appendChild(this.smallDetails)
       this.largeDetails = placelistDetailsView.largeView
       this.container.appendChild(this.largeDetails)
-      this.container.onclick = null
+      this.container.onclick = (e) => {
+        if (this.detailsConfig.preventExpand) {
+          return
+        }
+        if (!this.container.classList.contains('mwz-expanded')) {
+          this.listener.onExpandClick()
+        }
+      }
     }
   }
 

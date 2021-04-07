@@ -148,35 +148,6 @@ export const buildDetailsViews = (config: DetailsViewConfig, listener: PlaceDeta
   return { photosView, smallView, largeView }
 }
 
-export const buildPlaceDetailsViews = (
-  placeDetails: any,
-  language: string,
-  mainColor: string,
-  devCallbackInterceptor: DevCallbackInterceptor,
-  listener: PlaceDetailsListener
-): PlaceDetailsViews => {
-  const buttonContents = generateButtonContents(placeDetails, devCallbackInterceptor, listener, language)
-  const openingStatus = buildCurrentOpeningStatus(placeDetails, language)
-  let occupiedStatus = undefined
-  if (placeDetails.calendarEvents) {
-    occupiedStatus = isOccupied(new Date(), placeDetails.calendarEvents) ? lang_currently_occupied(language) : lang_currently_available(language)
-  }
-
-  const rows = generateRows(placeDetails, openingStatus, mainColor, language)
-  return {
-    photosView: buildPhotosView(placeDetails.photos, listener),
-    smallView: buildSmallView(
-      placeDetails.titleLabel,
-      buttonContents,
-      mainColor,
-      placeDetails.subtitleLabel,
-      occupiedStatus,
-      placeDetails.openingHours && placeDetails.openingHours.lenght > 0 ? openingStatus : null
-    ),
-    largeView: buildLargeView(placeDetails.titleLabel, buttonContents, rows, mainColor, language, placeDetails.subtitleLabel, placeDetails.detailsLabel),
-  }
-}
-
 const generateButtonContents = (placeDetails: any, devCallbackInterceptor: DevCallbackInterceptor, listener: PlaceDetailsListener, language: string): ButtonContent[] => {
   const buttonContents: ButtonContent[] = [
     { id: 'mwz-directions-button', type: 'direction', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick },

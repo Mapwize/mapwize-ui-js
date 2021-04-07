@@ -285,7 +285,7 @@ or using the CDN as explained in the installation section.
 
 ## Place Details view customization
 
-Mapwize UI has a default interface to display place details when a place is selected. The place title, subtitle, photos, website, phone number, schedule, availability, etc  are shown in a bottom view that can be small or extended. On desktop the view will show on the left while on mobile it will be at the bottom or above the map.
+Mapwize UI has a default interface to display place details when a place is selected. The place title, subtitle, photos, website, phone number, schedule, availability, etc are shown in a bottom view that can be small or extended. On desktop the view will show on the left while on mobile it will be at the bottom or above the map.
 
 This interface can be modified using the `onDetailsWillBeDisplayed?: (detailsViewConfig: DetailsViewConfig) => DetailsViewConfig` option. This methods is called each time the Mapwize UI SDK is going to display the Place Details View. The `detailsViewConfig` argument is the default configuration computed by the SDK. The method should return the configuration object as desired and that will be used by the SDK to display the information.
 
@@ -367,7 +367,7 @@ onDetailsWillBeDisplayed: ( detailsViewConfiguration ) => {
 		type:'custom',
 		html: MapwizeUI.buildSmallViewButton(imageSrc, 'Custom small button', false, () => console.log('the button has been clicked'))
 	}
-	detailsViewConfiguration.smallViewButtons.push({type:'custom', html: smallButton})
+	detailsViewConfiguration.smallViewButtons.push(smallButton)
 
 	// Removing all default button in the expanded view and add a custom one
 	const bigButton = {

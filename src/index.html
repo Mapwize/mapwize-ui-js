@@ -147,38 +147,45 @@
             ...options
           }
         },
-        onDetailsWillBeDisplayed: ( template ) => {
-          template.initiallyExpanded = false
-          const smallButton = MapwizeUI.buildSmallViewButton('', 'coucou', false, () => console.log('clicliclic'))
-          template.smallViewButtons.push({type:'custom', html: smallButton})
-          const joke = ['Coucou', 'Cyprien', 'T\'es', 'Beau', 'MDR']
-          const bigButton = joke.map(j => {return {type:'custom', html: MapwizeUI.buildExpandedViewButton('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png', j, true, () => console.log('clicliclic'))}})
-          const rows = joke.map(j => { return {
-            type:'custom', 
-            informationAvailable: true, 
-            html: MapwizeUI.buildDefaultRow(j, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png', true)
-          }
-          })
+        onDetailsWillBeDisplayed: ( detailsViewConfiguration ) => {
+          const imageSrc = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png'
 
+          // Do not expand the view by default. The view will be displayed in a small state at the beginning
+          detailsViewConfiguration.initiallyExpanded = false
+
+          // Adding a custom button to the small view
+          const smallButton = {
+            type:'custom',
+            html: MapwizeUI.buildSmallViewButton(imageSrc, 'Custom small button', false, () => console.log('the button has been clicked'))
+          }
+          detailsViewConfiguration.smallViewButtons.push(smallButton)
+
+          // Removing all default button in the expanded view and add a custom one
+          const bigButton = {
+            type:'custom',
+            html: MapwizeUI.buildExpandedViewButton(imageSrc, 'Custom big button', true, () => console.log('the button has been clicked'))
+          }
+          detailsViewConfiguration.expandedViewButtons = [bigButton]
+
+          // Adding a custom expandable row before all other rows
           const content = document.createElement('div')
           content.style.height = "200px"
           content.style.backgroundColor = "red"
-          content.style.fontSize = "50px"
-          content.innerHTML = "NAN C'EST PAS VRAI LOL"
           const row = {
             type: 'custom',
             informationAvailable: true,
-            html: MapwizeUI.buildExpandableRow("Cypien <3", 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png', content) 
+            html: MapwizeUI.buildExpandableRow("My custom row", imageSrc, content)
           }
+          detailsViewConfiguration.expandedViewRows = [row, ...detailsViewConfiguration.expandedViewRows]
 
-          template.expandedViewButtons = bigButton
-          template.expandedViewRows = rows
-          template.expandedViewRows.push(row)
-          template.title = "No, I am not an apple store"
-          template.subtitle = "Microsoft retailer"
-          template.openingStatus = "I can't close, My boss would kill me"
-          template.scheduleStatus = "Schedule whenever you want, I don't care"
-          return template
+          // Change the title with a custom one
+          detailsViewConfiguration.title = "Yes! I am a custom title"
+
+          // Change the subtitle with a custom one
+          detailsViewConfiguration.subtitle = "Why am I only a subtitle"
+
+          // Return your updated detailsViewConfiguration
+          return detailsViewConfiguration
         },
         /*
 buildExpandableRow = (title: string, imgSrc: string, expandedContent: HTMLElement)
