@@ -242,7 +242,7 @@ const generateRows = (placeDetails: any, openingStatus: string, mainColor: strin
       html: buildDefaultRow(lang_capacity_not_available(language), replaceColorInBase64svg(bottomViewIcons.GROUP, '#808080'), false),
     })
   }
-  if (placeDetails.openingHours) {
+  if (placeDetails.openingHours && placeDetails.openingHours.length > 0) {
     rows.push({
       type: 'opening_hours',
       informationAvailable: true,

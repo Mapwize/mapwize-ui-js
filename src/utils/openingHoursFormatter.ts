@@ -51,7 +51,10 @@ export const buildOpeningHours = (openHours: any[], language: string): any => {
 }
 
 export const buildCurrentOpeningStatus = (placeDetails: any, language: string): string => {
-  return getCurrentOpeningState(placeDetails.openingHours, placeDetails.timezone, language)
+  if (placeDetails.openingHours && placeDetails.openingHours.length > 0) {
+    return getCurrentOpeningState(placeDetails.openingHours, placeDetails.timezone, language)
+  }
+  return null
 }
 
 const getFormattedHours = (minuts: number): string => {

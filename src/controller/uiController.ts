@@ -435,7 +435,7 @@ export default class UIController {
 
   private handleMargin(state: MapwizeUIState): void {
     if (!state.bottomViewState.hidden && !this.uiContainer.classList.contains('mwz-small-screen')) {
-      this.mapwizeMap.setLeftMargin(400)
+      this.mapwizeMap.setLeftMargin(410)
     } else {
       this.mapwizeMap.setLeftMargin(0)
     }
