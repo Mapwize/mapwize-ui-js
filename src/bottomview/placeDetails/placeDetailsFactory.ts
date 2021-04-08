@@ -1,3 +1,4 @@
+import { title } from 'process'
 import { DevCallbackInterceptor } from '../../devCallbackInterceptor'
 import {
   lang_call,
@@ -17,10 +18,41 @@ import {
   lang_website,
   lang_website_not_available,
 } from '../../localizor/localizor'
-import { replaceColorInBase64svg } from '../../utils/formatter'
+import { replaceColorInBase64svg, subtitleForLanguage } from '../../utils/formatter'
 import { bottomViewIcons } from '../../utils/icons'
 import { buildCurrentOpeningStatus, buildOpeningHours } from '../../utils/openingHoursFormatter'
 import './placeDetails.scss'
+
+export type DetailsViewConfig = {
+  mwzObject: any
+  preventExpand: boolean
+  initiallyExpanded: boolean
+  title: string
+  subtitle: string
+  openingStatus: string
+  occupiedStatus: string
+  mainColor: string
+  language: string
+  details: string
+  expandedViewButtons: DetailsViewButton[]
+  expandedViewRows: DetailsViewRow[]
+  smallViewButtons: DetailsViewButton[]
+}
+
+export type DetailsViewButtonType = 'phone' | 'direction' | 'information' | 'website' | 'share' | 'custom'
+
+export type DetailsViewRowType = 'floor' | 'website' | 'phone' | 'capacity' | 'opening_hours' | 'schedule' | 'custom'
+
+export type DetailsViewButton = {
+  type: DetailsViewButtonType
+  html: HTMLElement
+}
+
+export type DetailsViewRow = {
+  type: DetailsViewRowType
+  informationAvailable: boolean
+  html: HTMLElement
+}
 
 export interface PlaceDetailsViews {
   smallView: HTMLElement
@@ -41,6 +73,7 @@ export interface PlaceDetailsListener {
 
 interface ButtonContent {
   id: string
+  type: DetailsViewButtonType
   title: string
   imageSrc: string
   callback: (target: HTMLElement) => void
@@ -57,14 +90,32 @@ interface CalendarEvent {
   end: string
 }
 
-export const buildPlaceDetailsViews = (
+export const prepareDetailsViewConfig = (
   placeDetails: any,
   language: string,
   mainColor: string,
   devCallbackInterceptor: DevCallbackInterceptor,
   listener: PlaceDetailsListener
-): PlaceDetailsViews => {
+): DetailsViewConfig => {
   const buttonContents = generateButtonContents(placeDetails, devCallbackInterceptor, listener, language)
+  const smallButtons: DetailsViewButton[] = buttonContents.map((content) => {
+    const src = replaceColorInBase64svg(content.imageSrc, content.type !== 'direction' ? mainColor : '#FFF')
+    const html = buildSmallViewButton(src, content.title, content.type !== 'direction', content.callback)
+    html.classList.add(content.id)
+    return {
+      type: content.type,
+      html: html,
+    }
+  })
+  const largeButtons: DetailsViewButton[] = buttonContents.map((content) => {
+    const src = replaceColorInBase64svg(content.imageSrc, content.type !== 'direction' ? mainColor : '#FFF')
+    const html = buildExpandedViewButton(src, content.title, content.type !== 'direction', content.callback)
+    html.classList.add(content.id)
+    return {
+      type: content.type,
+      html: html,
+    }
+  })
   const openingStatus = buildCurrentOpeningStatus(placeDetails, language)
   let occupiedStatus = undefined
   if (placeDetails.calendarEvents) {
@@ -72,94 +123,151 @@ export const buildPlaceDetailsViews = (
   }
 
   const rows = generateRows(placeDetails, openingStatus, mainColor, language)
+
   return {
-    photosView: buildPhotosView(placeDetails.photos, listener),
-    smallView: buildSmallView(
-      placeDetails.titleLabel,
-      buttonContents,
-      mainColor,
-      placeDetails.subtitleLabel,
-      occupiedStatus,
-      placeDetails.openingHours && placeDetails.openingHours.lenght > 0 ? openingStatus : null
-    ),
-    largeView: buildLargeView(placeDetails.titleLabel, buttonContents, rows, mainColor, language, placeDetails.subtitleLabel, placeDetails.detailsLabel),
+    mwzObject: placeDetails,
+    preventExpand: false,
+    initiallyExpanded: true,
+    expandedViewButtons: largeButtons,
+    expandedViewRows: rows,
+    smallViewButtons: smallButtons,
+    mainColor: mainColor,
+    occupiedStatus: occupiedStatus,
+    openingStatus: openingStatus,
+    title: placeDetails.titleLabel,
+    subtitle: placeDetails.subtitleLabel,
+    details: placeDetails.detailsLabel,
+    language: language,
   }
+}
+
+export const buildDetailsViews = (config: DetailsViewConfig, listener: PlaceDetailsListener) => {
+  const photosView = buildPhotosView(config.mwzObject.photos, listener)
+  const smallView = buildSmallView(config.title, config.smallViewButtons, config.mainColor, config.subtitle, config.occupiedStatus, config.openingStatus)
+  const largeView = buildLargeView(config.title, config.expandedViewButtons, config.expandedViewRows, config.mainColor, config.language, config.subtitle, config.details)
+  return { photosView, smallView, largeView }
 }
 
 const generateButtonContents = (placeDetails: any, devCallbackInterceptor: DevCallbackInterceptor, listener: PlaceDetailsListener, language: string): ButtonContent[] => {
   const buttonContents: ButtonContent[] = [
-    { id: 'mwz-directions-button', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick },
+    { id: 'mwz-directions-button', type: 'direction', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick },
   ]
   if (devCallbackInterceptor.shouldShowInformationButtonFor(placeDetails)) {
     buttonContents.push({
       id: 'mwz-informations-button',
+      type: 'information',
       title: lang_information(language),
       imageSrc: bottomViewIcons.INFO,
-      callback: (target: HTMLElement) => listener.onInformationClick(placeDetails),
+      callback: () => listener.onInformationClick(placeDetails),
     })
   }
   if (placeDetails.phone) {
     buttonContents.push({
       id: 'mwz-phone-button',
+      type: 'phone',
       title: lang_call(language),
       imageSrc: bottomViewIcons.PHONE,
-      callback: (target: HTMLElement) => listener.onPhoneClick(placeDetails.phone),
+      callback: () => listener.onPhoneClick(placeDetails.phone),
     })
   }
   if (placeDetails.website) {
     buttonContents.push({
       id: 'mwz-website-button',
+      type: 'website',
       title: lang_website(language),
       imageSrc: bottomViewIcons.GLOBE,
-      callback: (target: HTMLElement) => listener.onWebsiteClick(placeDetails.website),
+      callback: () => listener.onWebsiteClick(placeDetails.website),
     })
   }
   if (placeDetails.shareLink) {
     buttonContents.push({
       id: 'mwz-share-button',
+      type: 'share',
       title: lang_share(language),
       imageSrc: bottomViewIcons.SHARE,
-      callback: (target: HTMLElement) => listener.onShareClick(target, placeDetails.shareLink),
+      callback: (e: HTMLElement) => listener.onShareClick(e, placeDetails.shareLink),
     })
   }
 
   return buttonContents
 }
 
-const generateRows = (placeDetails: any, openingStatus: string, mainColor: string, language: string): HTMLElement[] => {
-  const rows: HTMLElement[] = []
-  const unfilledRows: HTMLElement[] = []
-  rows.push(
-    buildDefaultRow(
+const generateRows = (placeDetails: any, openingStatus: string, mainColor: string, language: string): DetailsViewRow[] => {
+  const rows: DetailsViewRow[] = []
+  const unfilledRows: DetailsViewRow[] = []
+  rows.push({
+    type: 'floor',
+    informationAvailable: true,
+    html: buildDefaultRow(
       placeDetails.floor.number !== null ? lang_on_floor(language, placeDetails.floor.number) : lang_outdoor(language),
       replaceColorInBase64svg(bottomViewIcons.FLOOR, mainColor)
-    )
-  )
+    ),
+  })
   if (placeDetails.website) {
-    rows.push(buildDefaultRow('<a href="' + placeDetails.website + '" target="_blank">' + placeDetails.website + '</a>', replaceColorInBase64svg(bottomViewIcons.GLOBE, mainColor)))
+    rows.push({
+      type: 'website',
+      informationAvailable: true,
+      html: buildDefaultRow('<a href="' + placeDetails.website + '" target="_blank">' + placeDetails.website + '</a>', replaceColorInBase64svg(bottomViewIcons.GLOBE, mainColor)),
+    })
   } else {
-    unfilledRows.push(buildDefaultRow(lang_website_not_available(language), replaceColorInBase64svg(bottomViewIcons.GLOBE, '#808080'), false))
+    unfilledRows.push({
+      type: 'website',
+      informationAvailable: false,
+      html: buildDefaultRow(lang_website_not_available(language), replaceColorInBase64svg(bottomViewIcons.GLOBE, '#808080'), false),
+    })
   }
   if (placeDetails.phone) {
-    rows.push(buildDefaultRow(placeDetails.phone, replaceColorInBase64svg(bottomViewIcons.PHONE_OUTLINE, mainColor)))
+    rows.push({
+      type: 'phone',
+      informationAvailable: true,
+      html: buildDefaultRow(placeDetails.phone, replaceColorInBase64svg(bottomViewIcons.PHONE_OUTLINE, mainColor)),
+    })
   } else {
-    unfilledRows.push(buildDefaultRow(lang_phone_not_available(language), replaceColorInBase64svg(bottomViewIcons.PHONE_OUTLINE, '#808080'), false))
+    unfilledRows.push({
+      type: 'phone',
+      informationAvailable: false,
+      html: buildDefaultRow(lang_phone_not_available(language), replaceColorInBase64svg(bottomViewIcons.PHONE_OUTLINE, '#808080'), false),
+    })
   }
   if (placeDetails.capacity) {
-    rows.push(buildDefaultRow(placeDetails.capacity, replaceColorInBase64svg(bottomViewIcons.GROUP, mainColor)))
+    rows.push({
+      type: 'capacity',
+      informationAvailable: true,
+      html: buildDefaultRow(placeDetails.capacity, replaceColorInBase64svg(bottomViewIcons.GROUP, mainColor)),
+    })
   } else {
-    unfilledRows.push(buildDefaultRow(lang_capacity_not_available(language), replaceColorInBase64svg(bottomViewIcons.GROUP, '#808080'), false))
+    unfilledRows.push({
+      type: 'capacity',
+      informationAvailable: false,
+      html: buildDefaultRow(lang_capacity_not_available(language), replaceColorInBase64svg(bottomViewIcons.GROUP, '#808080'), false),
+    })
   }
-  if (placeDetails.openingHours) {
-    rows.push(buildOpeningHoursRow(openingStatus, buildOpeningHours(placeDetails.openingHours, language), replaceColorInBase64svg(bottomViewIcons.CLOCK, mainColor)))
+  if (placeDetails.openingHours && placeDetails.openingHours.length > 0) {
+    rows.push({
+      type: 'opening_hours',
+      informationAvailable: true,
+      html: buildOpeningHoursRow(openingStatus, buildOpeningHours(placeDetails.openingHours, language), replaceColorInBase64svg(bottomViewIcons.CLOCK, mainColor)),
+    })
   } else {
-    unfilledRows.push(buildDefaultRow(lang_opening_hours_not_available(language), replaceColorInBase64svg(bottomViewIcons.CLOCK, '#808080'), false))
+    unfilledRows.push({
+      type: 'opening_hours',
+      informationAvailable: false,
+      html: buildDefaultRow(lang_opening_hours_not_available(language), replaceColorInBase64svg(bottomViewIcons.CLOCK, '#808080'), false),
+    })
   }
   if (placeDetails.calendarEvents) {
     const status = isOccupied(new Date(), placeDetails.calendarEvents) ? lang_currently_occupied(language) : lang_currently_available(language)
-    rows.push(buildScheduleRow(status, placeDetails.calendarEvents, replaceColorInBase64svg(bottomViewIcons.CALENDAR, mainColor), mainColor))
+    rows.push({
+      type: 'schedule',
+      informationAvailable: true,
+      html: buildScheduleRow(status, placeDetails.calendarEvents, replaceColorInBase64svg(bottomViewIcons.CALENDAR, mainColor), mainColor),
+    })
   } else {
-    unfilledRows.push(buildDefaultRow(lang_schedule_not_available(language), replaceColorInBase64svg(bottomViewIcons.CALENDAR, '#808080'), false))
+    unfilledRows.push({
+      type: 'schedule',
+      informationAvailable: false,
+      html: buildDefaultRow(lang_schedule_not_available(language), replaceColorInBase64svg(bottomViewIcons.CALENDAR, '#808080'), false),
+    })
   }
   return rows.concat(unfilledRows)
 }
@@ -205,7 +313,7 @@ const buildPhotosView = (photoUrls: string[], listener: PlaceDetailsListener): H
   return container
 }
 
-const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: string, subtitle?: string, occupiedStatus?: string, openingStatus?: string): HTMLElement => {
+const buildSmallView = (title: string, buttons: DetailsViewButton[], mainColor: string, subtitle?: string, occupiedStatus?: string, openingStatus?: string): HTMLElement => {
   const state: 'small' | 'medium' | 'large' = 'medium'
 
   const container = document.createElement('div')
@@ -231,14 +339,14 @@ const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: stri
   }
 
   if (openingStatus) {
-    const openingLabel = document.createElement('span')
+    const openingLabel = document.createElement('div')
     openingLabel.innerHTML = openingStatus
     openingLabel.classList.add('mwz-small-view-opening-status')
     container.appendChild(openingLabel)
   }
 
   if (occupiedStatus) {
-    const occupiedLabel = document.createElement('span')
+    const occupiedLabel = document.createElement('div')
     occupiedLabel.innerHTML = occupiedStatus
     occupiedLabel.classList.add('mwz-small-view-opening-status')
     container.appendChild(occupiedLabel)
@@ -248,42 +356,22 @@ const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: stri
   buttonContainer.classList.add('mwz-small-view-button-container')
   container.appendChild(buttonContainer)
 
-  let first = true
-  buttons.forEach((b: ButtonContent) => {
-    const button = document.createElement('div')
-    // button.id = b.id
-    button.classList.add(b.id)
-    button.classList.add('mwz-small-view-button')
-    button.onclick = (e) => {
-      e.stopPropagation()
-      b.callback(button)
-    }
-
-    const image = document.createElement('img')
-    image.classList.add('mwz-small-view-button-image')
-    image.src = b.imageSrc
-    button.appendChild(image)
-
-    const label = document.createElement('span')
-    label.classList.add('mwz-small-view-button-title')
-    label.innerHTML = b.title
-    button.appendChild(label)
-
-    if (!first) {
-      button.classList.add('mwz-outlined')
-      image.src = replaceColorInBase64svg(b.imageSrc, mainColor)
-    } else {
-      image.src = replaceColorInBase64svg(b.imageSrc, '#ffffff')
-    }
-
-    buttonContainer.appendChild(button)
-    first = false
+  buttons.forEach((b: DetailsViewButton) => {
+    buttonContainer.appendChild(b.html)
   })
 
   return container
 }
 
-const buildLargeView = (title: string, buttons: ButtonContent[], rows: HTMLElement[], mainColor: string, language: string, subtitle?: string, details?: string): HTMLElement => {
+const buildLargeView = (
+  title: string,
+  buttons: DetailsViewButton[],
+  rows: DetailsViewRow[],
+  mainColor: string,
+  language: string,
+  subtitle?: string,
+  details?: string
+): HTMLElement => {
   const container = document.createElement('div')
   container.classList.add('mwz-large-view-container')
 
@@ -305,41 +393,11 @@ const buildLargeView = (title: string, buttons: ButtonContent[], rows: HTMLEleme
   buttonContainer.classList.add('mwz-large-view-button-container')
   overviewDiv.appendChild(buttonContainer)
 
-  let first = true
   buttons.forEach((b) => {
-    const button = document.createElement('div')
-    // button.id = b.id
-    button.classList.add(b.id)
-    button.classList.add('mwz-large-view-button')
-    button.onclick = (e) => {
-      e.stopPropagation()
-      b.callback(button)
-    }
-
-    const imageContainer = document.createElement('div')
-    imageContainer.classList.add('mwz-large-view-button-image')
-    button.appendChild(imageContainer)
-    const image = document.createElement('img')
-    //image.classList.add('mwz-large-view-button-image')
-    image.src = b.imageSrc
-    imageContainer.appendChild(image)
-
-    if (!first) {
-      button.classList.add('mwz-outlined')
-      image.src = replaceColorInBase64svg(b.imageSrc, mainColor)
-    } else {
-      image.src = replaceColorInBase64svg(b.imageSrc, '#ffffff')
-    }
-
-    const label = document.createElement('span')
-    label.innerHTML = b.title
-    button.appendChild(label)
-
-    buttonContainer.appendChild(button)
-    first = false
+    buttonContainer.appendChild(b.html)
   })
 
-  rows.forEach((r) => overviewDiv.appendChild(r))
+  rows.forEach((r) => overviewDiv.appendChild(r.html))
 
   if (details) {
     const detailsDiv = document.createElement('div')
@@ -390,7 +448,62 @@ const embbedInPager = (overview: HTMLElement, details: HTMLElement, language: st
   return container
 }
 
-const buildDefaultRow = (title: string, imgSrc: string, infoAvailable: boolean = true): HTMLElement => {
+export const buildExpandedViewButton = (imgSrc: string, title: string, outlined: boolean, callback: (target: HTMLElement) => void): HTMLElement => {
+  const button = document.createElement('div')
+  button.classList.add('mwz-large-view-button')
+  button.onclick = (e) => {
+    e.stopPropagation()
+    callback(button)
+  }
+  const imageContainer = document.createElement('div')
+  imageContainer.classList.add('mwz-large-view-button-image')
+  button.appendChild(imageContainer)
+  const image = document.createElement('img')
+  image.src = imgSrc
+  imageContainer.appendChild(image)
+
+  if (outlined) {
+    button.classList.add('mwz-outlined')
+    image.src = imgSrc
+  } else {
+    image.src = imgSrc
+  }
+
+  const label = document.createElement('span')
+  label.innerHTML = title
+  button.appendChild(label)
+
+  return button
+}
+
+export const buildSmallViewButton = (imgSrc: string, title: string, outlined: boolean, callback: (target: HTMLElement) => void): HTMLElement => {
+  const button = document.createElement('div')
+  button.classList.add('mwz-small-view-button')
+  button.onclick = (e) => {
+    e.stopPropagation()
+    callback(button)
+  }
+
+  const image = document.createElement('img')
+  image.classList.add('mwz-small-view-button-image')
+  image.src = imgSrc
+  button.appendChild(image)
+
+  const label = document.createElement('span')
+  label.classList.add('mwz-small-view-button-title')
+  label.innerHTML = title
+  button.appendChild(label)
+
+  if (outlined) {
+    button.classList.add('mwz-outlined')
+    image.src = imgSrc
+  } else {
+    image.src = imgSrc
+  }
+  return button
+}
+
+export const buildDefaultRow = (title: string, imgSrc: string, infoAvailable: boolean = true): HTMLElement => {
   const container = document.createElement('div')
   container.classList.add('mwz-large-view-default-row')
 
@@ -405,6 +518,50 @@ const buildDefaultRow = (title: string, imgSrc: string, infoAvailable: boolean =
 
   container.appendChild(image)
   container.appendChild(label)
+
+  return container
+}
+
+export const buildExpandableRow = (title: string, imgSrc: string, expandedContent: HTMLElement): HTMLElement => {
+  const container = document.createElement('div')
+  container.classList.add('mwz-large-view-openable-row')
+
+  const mainRow = document.createElement('div')
+  mainRow.classList.add('mwz-large-view-default-row')
+
+  const image = document.createElement('img')
+  image.src = imgSrc
+
+  const label = document.createElement('span')
+  label.innerHTML = title
+
+  const dropButton = document.createElement('img')
+  dropButton.classList.add('mwz-large-view-openable-toggle-button')
+  dropButton.src = bottomViewIcons.LEFT_CHEVRON
+
+  mainRow.appendChild(image)
+  mainRow.appendChild(label)
+  mainRow.appendChild(dropButton)
+
+  const openContent = document.createElement('div')
+  openContent.classList.add('mwz-large-view-openable-row-content')
+  openContent.appendChild(expandedContent)
+
+  let open = false
+  container.onclick = (e) => {
+    e.stopPropagation()
+    if (open) {
+      openContent.classList.remove('open')
+      dropButton.classList.remove('open')
+    } else {
+      openContent.classList.add('open')
+      dropButton.classList.add('open')
+    }
+    open = !open
+  }
+
+  container.appendChild(mainRow)
+  container.appendChild(openContent)
 
   return container
 }

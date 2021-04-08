@@ -51,7 +51,10 @@ export const buildOpeningHours = (openHours: any[], language: string): any => {
 }
 
 export const buildCurrentOpeningStatus = (placeDetails: any, language: string): string => {
-  return getCurrentOpeningState(placeDetails.openingHours, placeDetails.timezone, language)
+  if (placeDetails.openingHours && placeDetails.openingHours.length > 0) {
+    return getCurrentOpeningState(placeDetails.openingHours, placeDetails.timezone, language)
+  }
+  return null
 }
 
 const getFormattedHours = (minuts: number): string => {
@@ -102,7 +105,12 @@ const getCurrentOpeningState = (input: any[], timezoneCode: string, language: st
     const openingInterval = getNextOpeningIntervalFromIntervals(intervals, weekday, currentMinuts)
     if (openingInterval) {
       if (openingInterval.day === weekday) {
-        return lang_close_open_at(language, getFormattedHours(openingInterval.open))
+        console.log(openingInterval.close, currentMinuts)
+        if (openingInterval.close > currentMinuts) {
+          return lang_close_open_at(language, getFormattedHours(openingInterval.open))
+        } else {
+          return lang_close_open(language, dayOfWeekAsString(openingInterval.day, language), getFormattedHours(openingInterval.open))
+        }
       }
       if (openingInterval.day - weekday === 1 || openingInterval.day - weekday === -6) {
         return lang_close_open_tomorrow(language, getFormattedHours(openingInterval.open))
@@ -122,6 +130,9 @@ const getNextOpeningIntervalFromIntervals = (intervals: any[], day: number, minu
   for (let i = 0; i < intervals.length; i++) {
     if (intervals[i].day === day && intervals[i].open > minuts && intervals[i].close > minuts) {
       return intervals[i]
+    }
+    if (intervals[i].day === day && intervals[i].close < minuts) {
+      nextPossibleOpening.push(intervals[i])
     }
     if (intervals[i].day !== day) {
       nextPossibleOpening.push(intervals[i])
