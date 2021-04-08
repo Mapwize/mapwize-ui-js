@@ -1,7 +1,7 @@
 import { DevCallbackInterceptor } from '../devCallbackInterceptor'
 import './bottomview.scss'
 import BottomViewDirection, { BottomViewDirectionProps } from './direction/bottomviewDirection'
-import { buildPlaceDetailsViews } from './placeDetails/placeDetailsFactory'
+import { buildDetailsViews, DetailsViewConfig, prepareDetailsViewConfig } from './placeDetails/placeDetailsFactory'
 import { buildPlacelistViews } from './placelistDetails/placelistDetailsFactory'
 
 export interface BottomViewState {
@@ -30,6 +30,7 @@ export default class BottomView {
   private photosView: HTMLElement
   private smallDetails: HTMLElement
   private largeDetails: HTMLElement
+  private detailsConfig: DetailsViewConfig
   private devCallbackInterceptor: DevCallbackInterceptor
   private mainColor: string
 
@@ -80,6 +81,7 @@ export default class BottomView {
     if (this.photosView) {
       this.photosView.remove()
     }
+    this.container.onclick = null
     const placeDetailsListener = {
       ...this.listener,
       onCloseClick: () => {
@@ -87,8 +89,9 @@ export default class BottomView {
       },
     }
     if (content && content.objectClass === 'placeDetails') {
-      const placeDetailsView = buildPlaceDetailsViews(content, language, this.mainColor, this.devCallbackInterceptor, placeDetailsListener)
-      this.devCallbackInterceptor.onDetailsWillBeDisplayed(content, placeDetailsView)
+      const placeDetailsConfig = prepareDetailsViewConfig(content, language, this.mainColor, this.devCallbackInterceptor, placeDetailsListener)
+      this.detailsConfig = this.devCallbackInterceptor.onDetailsWillBeDisplayed(placeDetailsConfig)
+      const placeDetailsView = buildDetailsViews(this.detailsConfig, placeDetailsListener)
       this.photosView = placeDetailsView.photosView
       this.container.appendChild(this.photosView)
       this.smallDetails = placeDetailsView.smallView
@@ -96,9 +99,17 @@ export default class BottomView {
       this.largeDetails = placeDetailsView.largeView
       this.container.appendChild(this.largeDetails)
       this.container.onclick = (e) => {
+        if (this.detailsConfig.preventExpand) {
+          return
+        }
         if (!this.container.classList.contains('mwz-expanded')) {
           this.listener.onExpandClick()
         }
+      }
+      if (this.detailsConfig.initiallyExpanded && !this.container.classList.contains('mwz-expanded')) {
+        this.listener.onExpandClick()
+      } else if (!this.detailsConfig.initiallyExpanded && this.container.classList.contains('mwz-expanded')) {
+        this.listener.onExpandClick()
       }
     }
     if (content && content.objectClass === 'placeList') {
@@ -109,7 +120,14 @@ export default class BottomView {
       this.container.appendChild(this.smallDetails)
       this.largeDetails = placelistDetailsView.largeView
       this.container.appendChild(this.largeDetails)
-      this.container.onclick = null
+      this.container.onclick = (e) => {
+        if (this.detailsConfig.preventExpand) {
+          return
+        }
+        if (!this.container.classList.contains('mwz-expanded')) {
+          this.listener.onExpandClick()
+        }
+      }
     }
   }
 
@@ -123,6 +141,9 @@ export default class BottomView {
       this.directionView.setHidden(true)
       this.container.classList.remove('in-direction')
       this.container.onclick = (e) => {
+        if (this.detailsConfig.preventExpand) {
+          return
+        }
         if (!this.container.classList.contains('mwz-expanded')) {
           this.listener.onExpandClick()
         }

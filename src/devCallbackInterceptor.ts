@@ -1,3 +1,5 @@
+import { DetailsViewConfig } from './bottomview/placeDetails/placeDetailsFactory'
+
 export interface DevCallbackInterceptor {
   onDirectionQueryWillBeSent?: (query: any) => any
   onDirectionWillBeDisplayed?: (directionOptions: any, direction: any) => any
@@ -9,10 +11,7 @@ export interface DevCallbackInterceptor {
   onObjectWillBeDisplayedInSearch?: (template: HTMLElement, mwzObject: any) => any
   onSearchResultsWillBeDisplayed?: (results: any) => any
   shouldMoveToSelectedObject?: (mwzObject: any, options: { centerOnElement: boolean; zoom: number }) => { centerOnElement: boolean; zoom: number }
-  onDetailsWillBeDisplayed?: (
-    mwzObject: any,
-    templates: { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }
-  ) => { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }
+  onDetailsWillBeDisplayed?: (detailsViewConfig: DetailsViewConfig) => DetailsViewConfig
   onMenuButtonClick?: () => void
 }
 
@@ -34,7 +33,7 @@ const defaultCallbackInterceptor = {
   onSearchResultsWillBeDisplayed: (results: any) => results,
   onObjectWillBeDisplayedInSearch: (template: HTMLElement, mwzObject: any) => template,
   shouldMoveToSelectedObject: (mwzObject: any, options: { centerOnElement: boolean; zoom: number }) => options,
-  onDetailsWillBeDisplayed: (mwzObject: any, template: { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }) => template,
+  onDetailsWillBeDisplayed: (detailsViewConfig: DetailsViewConfig) => detailsViewConfig,
 }
 
 export const buildCallbackInterceptor = (callbackInterceptor: DevCallbackInterceptor): DevCallbackInterceptor => {

@@ -1,3 +1,5 @@
+import { DetailsViewConfig } from '../bottomview/placeDetails/placeDetailsFactory'
+
 export interface UIOptions {
   /**
    * Your Mapwize Api Key.
@@ -132,19 +134,27 @@ export interface UIOptions {
   shouldMoveToSelectedObject?: (mwzObject: any, options: { centerOnElement: boolean; zoom: number }) => { centerOnElement: boolean; zoom: number }
   /**
    * Called before displaying the details view. You can use this method to change on the fly the content that you want to display.
-   * The first attribute is the object that has been selected.
-   * The second attribute is an object like:
-   * {
-   *   photosView: HTMLElement    // The view that contains the photos
-   *   smallView: HTMLElement     // The view displayed by default on mobile. It won't be displayed on desktop view
-   *   largeView: HTMLElement     // The view displayed by default on desktop view. It will be displayed on mobile when the user click on the bottom view
-   * }
-   * You can update this object as you want and return it. Your views will be displayed.
+   *
+   * The DetailsViewConfig argument
+   * mwzObject: any - The place details object
+   * preventExpand: boolean - if true, the user won't be able to expand the view
+   * initiallyExpanded: boolean - if true, the view will be display expanded at start
+   * title: string - the title that will be displayed
+   * subtitle: string - the subtitle that will be displayed
+   * language: string - the language used to display information
+   * expandedViewButtons: DetailsViewButton[]
+   * expandedViewRows: DetailsViewRow[]
+   * smallViewButtons: DetailsViewButton[]
+   * You can update this object as you want and return it. The SDK will use your configuration to display the view.
+   *
+   * To help you creating component that look like ours. You can use the following method:
+   *
+   * buildExpandableRow(title: string, imgSrc: string, expandedContent: HTMLElement): HTMLElement
+   * buildDefaultRow(title: string, imgSrc: string, infoAvailable: boolean = true): HTMLElement
+   * buildSmallViewButton(imgSrc: string, title: string, outlined: boolean, callback: (target: HTMLElement) => void): HTMLElement
+   * buildExpandedViewButton(imgSrc: string, title: string, outlined: boolean, callback: (target: HTMLElement) => void): HTMLElement
    */
-  onDetailsWillBeDisplayed?: (
-    mwzObject: any,
-    templates: { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }
-  ) => { photosView: HTMLElement; largeView: HTMLElement; smallView: HTMLElement }
+  onDetailsWillBeDisplayed?: (detailsViewConfig: DetailsViewConfig) => DetailsViewConfig
   /**
    * Called when the user click on the menu button
    */

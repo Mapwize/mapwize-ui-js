@@ -24,12 +24,12 @@ export interface SearchBarListener {
 
 export default class SearchBar {
   private container: HTMLElement
-  private backButton: HTMLElement
+  private backButton: HTMLButtonElement
   private backTooltip: any
-  private menuButton: HTMLElement
+  private menuButton: HTMLButtonElement
   private menuTooltip: any
   private searchTextField: HTMLInputElement
-  private directionButton: HTMLElement
+  private directionButton: HTMLButtonElement
   private directionTooltip: any
   private listener: SearchBarListener
 
@@ -40,12 +40,14 @@ export default class SearchBar {
 
     if (this.listener.onMenuClick) {
       this.menuButton = document.createElement('button')
+      this.menuButton.type = 'button'
       this.menuButton.classList.add('mwz-menu-button')
       this.menuButton.onclick = this.listener.onMenuClick
       this.menuTooltip = buildTooltip(this.menuButton, '')
     }
 
     this.backButton = document.createElement('button')
+    this.backButton.type = 'button'
     this.backButton.classList.add('mwz-back-button')
     this.backButton.classList.add('mwz-gone')
     this.backButton.onclick = this.listener.onBackClick
@@ -64,6 +66,7 @@ export default class SearchBar {
       this.listener.onSearchTextChange(this.searchTextField.value)
     }
     this.directionButton = document.createElement('button')
+    this.directionButton.type = 'button'
     this.directionButton.classList.add('mwz-direction-button')
     const directionImage = document.createElement('img')
     directionImage.src = bottomViewIcons.DIRECTION

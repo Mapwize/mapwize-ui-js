@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.0.7
+
+- Improving place details view customization
+
 ## 3.0.6
 
 - Fix broken version (3.0.5)

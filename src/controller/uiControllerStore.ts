@@ -1000,7 +1000,7 @@ export class UIControllerStore {
           draftState.uiControllerState.direction = direction
           draftState.bottomViewState.directionContent = buildDirectionInfo(direction, this.state.uiControllerState.unit)
           draftState.bottomViewState.hidden = false
-          draftState.bottomViewState.expanded = false
+          //draftState.bottomViewState.expanded = false
         })
         const oldState = this.state
         this.state = nextState
@@ -1014,7 +1014,7 @@ export class UIControllerStore {
           draftState.uiControllerState.direction = null
           draftState.bottomViewState.directionContent = buildDirectionError(this.state.uiControllerState.preferredLanguage)
           draftState.bottomViewState.hidden = false
-          draftState.bottomViewState.expanded = false
+          //draftState.bottomViewState.expanded = false
         })
         const oldState = this.state
         this.state = nextState
