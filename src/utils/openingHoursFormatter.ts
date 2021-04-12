@@ -1,4 +1,6 @@
 import * as dayjs from 'dayjs'
+import * as timezone from 'dayjs/plugin/timezone'
+import * as utc from 'dayjs/plugin/utc'
 import {
   lang_closed,
   lang_close_24_7,
@@ -18,8 +20,6 @@ import {
   lang_tuesday,
   lang_wednesday,
 } from '../localizor/localizor'
-import * as utc from 'dayjs/plugin/utc'
-import * as timezone from 'dayjs/plugin/timezone'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -51,6 +51,7 @@ export const buildOpeningHours = (openHours: any[], language: string): any => {
 }
 
 export const buildCurrentOpeningStatus = (placeDetails: any, language: string): string => {
+  console.log(placeDetails.openingHours)
   if (placeDetails.openingHours && placeDetails.openingHours.length > 0) {
     return getCurrentOpeningState(placeDetails.openingHours, placeDetails.timezone, language)
   }

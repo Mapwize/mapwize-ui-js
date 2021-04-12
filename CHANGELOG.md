@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 3.0.8
+
+- Opening small details view by default
+- Remove share button from details view
+- Fixing subtitle alignment
+
 ## 3.0.7
 
 - Improving place details view customization
@@ -11,6 +17,7 @@
 ## 3.0.5
 
 **Broken version fixed in 3.0.6**
+
 - Adding default translation to English if the language does not exist in MapwizeUI
 - Upgrade mapwize gl to 4.4.2
 

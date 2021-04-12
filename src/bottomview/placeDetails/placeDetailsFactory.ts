@@ -1,4 +1,3 @@
-import { title } from 'process'
 import { DevCallbackInterceptor } from '../../devCallbackInterceptor'
 import {
   lang_call,
@@ -14,11 +13,10 @@ import {
   lang_overview,
   lang_phone_not_available,
   lang_schedule_not_available,
-  lang_share,
   lang_website,
   lang_website_not_available,
 } from '../../localizor/localizor'
-import { replaceColorInBase64svg, subtitleForLanguage } from '../../utils/formatter'
+import { replaceColorInBase64svg } from '../../utils/formatter'
 import { bottomViewIcons } from '../../utils/icons'
 import { buildCurrentOpeningStatus, buildOpeningHours } from '../../utils/openingHoursFormatter'
 import './placeDetails.scss'
@@ -127,7 +125,7 @@ export const prepareDetailsViewConfig = (
   return {
     mwzObject: placeDetails,
     preventExpand: false,
-    initiallyExpanded: true,
+    initiallyExpanded: false,
     expandedViewButtons: largeButtons,
     expandedViewRows: rows,
     smallViewButtons: smallButtons,
@@ -179,15 +177,15 @@ const generateButtonContents = (placeDetails: any, devCallbackInterceptor: DevCa
       callback: () => listener.onWebsiteClick(placeDetails.website),
     })
   }
-  if (placeDetails.shareLink) {
-    buttonContents.push({
-      id: 'mwz-share-button',
-      type: 'share',
-      title: lang_share(language),
-      imageSrc: bottomViewIcons.SHARE,
-      callback: (e: HTMLElement) => listener.onShareClick(e, placeDetails.shareLink),
-    })
-  }
+  // if (placeDetails.shareLink) {
+  //   buttonContents.push({
+  //     id: 'mwz-share-button',
+  //     type: 'share',
+  //     title: lang_share(language),
+  //     imageSrc: bottomViewIcons.SHARE,
+  //     callback: (e: HTMLElement) => listener.onShareClick(e, placeDetails.shareLink),
+  //   })
+  // }
 
   return buttonContents
 }
@@ -332,7 +330,7 @@ const buildSmallView = (title: string, buttons: DetailsViewButton[], mainColor: 
   firstLineContainer.appendChild(toggleContainer)
 
   if (subtitle) {
-    const subtitleLabel = document.createElement('span')
+    const subtitleLabel = document.createElement('div')
     subtitleLabel.innerHTML = subtitle
     subtitleLabel.classList.add('mwz-small-view-subtitle')
     container.appendChild(subtitleLabel)
