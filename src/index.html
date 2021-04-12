@@ -147,46 +147,46 @@
             ...options
           }
         },
-        onDetailsWillBeDisplayed: ( detailsViewConfiguration ) => {
-          const imageSrc = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png'
+        // onDetailsWillBeDisplayed: ( detailsViewConfiguration ) => {
+        //   const imageSrc = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/1200px-Love_Heart_symbol.svg.png'
 
-          // Do not expand the view by default. The view will be displayed in a small state at the beginning
-          detailsViewConfiguration.initiallyExpanded = false
+        //   // Do not expand the view by default. The view will be displayed in a small state at the beginning
+        //   detailsViewConfiguration.initiallyExpanded = false
 
-          // Adding a custom button to the small view
-          const smallButton = {
-            type:'custom',
-            html: MapwizeUI.buildSmallViewButton(imageSrc, 'Custom small button', false, () => console.log('the button has been clicked'))
-          }
-          detailsViewConfiguration.smallViewButtons.push(smallButton)
+        //   // Adding a custom button to the small view
+        //   const smallButton = {
+        //     type:'custom',
+        //     html: MapwizeUI.buildSmallViewButton(imageSrc, 'Custom small button', false, () => console.log('the button has been clicked'))
+        //   }
+        //   detailsViewConfiguration.smallViewButtons.push(smallButton)
 
-          // Removing all default button in the expanded view and add a custom one
-          const bigButton = {
-            type:'custom',
-            html: MapwizeUI.buildExpandedViewButton(imageSrc, 'Custom big button', true, () => console.log('the button has been clicked'))
-          }
-          detailsViewConfiguration.expandedViewButtons = [bigButton]
+        //   // Removing all default button in the expanded view and add a custom one
+        //   const bigButton = {
+        //     type:'custom',
+        //     html: MapwizeUI.buildExpandedViewButton(imageSrc, 'Custom big button', true, () => console.log('the button has been clicked'))
+        //   }
+        //   detailsViewConfiguration.expandedViewButtons = [bigButton]
 
-          // Adding a custom expandable row before all other rows
-          const content = document.createElement('div')
-          content.style.height = "200px"
-          content.style.backgroundColor = "red"
-          const row = {
-            type: 'custom',
-            informationAvailable: true,
-            html: MapwizeUI.buildExpandableRow("My custom row", imageSrc, content)
-          }
-          detailsViewConfiguration.expandedViewRows = [row, ...detailsViewConfiguration.expandedViewRows]
+        //   // Adding a custom expandable row before all other rows
+        //   const content = document.createElement('div')
+        //   content.style.height = "200px"
+        //   content.style.backgroundColor = "red"
+        //   const row = {
+        //     type: 'custom',
+        //     informationAvailable: true,
+        //     html: MapwizeUI.buildExpandableRow("My custom row", imageSrc, content)
+        //   }
+        //   detailsViewConfiguration.expandedViewRows = [row, ...detailsViewConfiguration.expandedViewRows]
 
-          // Change the title with a custom one
-          detailsViewConfiguration.title = "Yes! I am a custom title"
+        //   // Change the title with a custom one
+        //   detailsViewConfiguration.title = "Yes! I am a custom title"
 
-          // Change the subtitle with a custom one
-          detailsViewConfiguration.subtitle = "Why am I only a subtitle"
+        //   // Change the subtitle with a custom one
+        //   detailsViewConfiguration.subtitle = "Why am I only a subtitle"
 
-          // Return your updated detailsViewConfiguration
-          return detailsViewConfiguration
-        },
+        //   // Return your updated detailsViewConfiguration
+        //   return detailsViewConfiguration
+        // },
         /*
 buildExpandableRow = (title: string, imgSrc: string, expandedContent: HTMLElement)
         */
