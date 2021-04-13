@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.0.9
+
+- Fixing photo not showing in small view
+
 ## 3.0.8
 
 - Opening small details view by default
