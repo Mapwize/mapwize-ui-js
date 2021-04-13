@@ -104,10 +104,10 @@
 
 .mwz-bottom-photos-view {
   position: relative;
-  display: none;
   overflow-y: hidden;
   overflow-x: scroll;
-  height: 28%;
+  width: 100%;
+  height: 100px;
 
   &.mwz-gone {
     display: none;
@@ -119,7 +119,10 @@
 }
 
 .mwz-bottom-photos-view-image {
-  object-fit: cover;
+  object-fit: cover; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
+  height: 100%;
+  width: 100%;
 }
 
 .in-direction {
@@ -371,9 +374,6 @@
   padding: 16px 0 0 0;
 }
 
-.mwz-bottom-photos-view {
-  height: 100px;
-}
 .mwz-expanded .mwz-bottom-photos-view {
   height: 25%;
 }
