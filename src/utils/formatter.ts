@@ -1,13 +1,13 @@
 import { BottomViewDirectionProps } from '../bottomview/direction/bottomviewDirection'
 import { FloorDisplay } from '../floorcontroller/floorcontroller'
 import { LanguageDisplay } from '../languageSelector/languageSelector'
-import { lang_floor, lang_on_floor, lang_search_no_results } from '../localizor/localizor'
-import { Floor, SearchResult, Translation } from '../types/types'
+import { lang_floor, lang_search_no_results } from '../localizor/localizor'
+import { Floor, FloorTranslation, SearchResult, Translation } from '../types/types'
 
 export const buildFloorDisplays = (floors: Floor[], language: string): FloorDisplay[] => {
   return floors.map((f) => {
-    const translation = translationForLanguage(f.translations, language)
-    return { title: translation.title, number: f.number }
+    const translation = translationFloorForLanguage(f.translations, language)
+    return { title: translation.shortTitle, number: f.number }
   })
 }
 
@@ -15,19 +15,25 @@ export const buildLanguageDisplays = (languages: string[]): LanguageDisplay[] =>
   return languages.map((l) => {
     return {
       code: l,
-      value: LANGUAGES[ l ],
+      value: LANGUAGES[l],
     }
   })
 }
 
 export const buildPlaceDetails = (placeDetails: any, language: string): any => {
   const translation = translationForLanguage(placeDetails.translations, language)
+
+  let floorLabel = translationFloorForLanguage(placeDetails.floor.translations, language).title
+  if (parseFloat(floorLabel) === placeDetails.floor.number) {
+    floorLabel = lang_floor(language, placeDetails.floor.number)
+  }
   return {
     ...placeDetails,
     objectClass: 'placeDetails',
     titleLabel: translation.title,
     subtitleLabel: translation.subTitle,
     detailsLabel: translation.details,
+    floorLabel: floorLabel,
   }
 }
 
@@ -69,8 +75,11 @@ export const buildSearchResult = (searchResult: any[], language: string, preferr
     }
     const translation = translationForLanguage(s.translations, language)
     let floorLabel
-    if (s.floor || s.floor === 0) {
-      floorLabel = lang_floor(preferredLanguage, s.floor)
+    if (s.floorDetails) {
+      floorLabel = translationFloorForLanguage(s.floorDetails.translations, language).title
+      if (parseFloat(floorLabel) === s.floorDetails.number) {
+        floorLabel = lang_floor(language, s.floorDetails.number)
+      }
     }
     return {
       ...s,
@@ -93,7 +102,7 @@ export const subtitleForLanguage = (object: any, language: string): string => {
 }
 
 export const buildLanguageDisplay = (language: string): string => {
-  return LANGUAGES[ language ]
+  return LANGUAGES[language]
 }
 
 export const buildDirectionInfo = (direction: any, unit: string): BottomViewDirectionProps => {
@@ -119,16 +128,25 @@ export const buildDirectionError = (language: string): BottomViewDirectionProps 
   }
 }
 
-export const translationForLanguage = (translations: Translation[], language: string): Translation => {
+export const translationFloorForLanguage = (translations: FloorTranslation[], language: string): FloorTranslation => {
   const filterTranslation = translations.filter((t) => t.language === language)
   if (filterTranslation.length === 0) {
-    return translations[ 0 ]
+    return translations[0]
   } else {
-    return filterTranslation[ 0 ]
+    return filterTranslation[0]
   }
 }
 
-const LANGUAGES: { [ key: string ]: string } = {
+export const translationForLanguage = (translations: Translation[], language: string): Translation => {
+  const filterTranslation = translations.filter((t) => t.language === language)
+  if (filterTranslation.length === 0) {
+    return translations[0]
+  } else {
+    return filterTranslation[0]
+  }
+}
+
+const LANGUAGES: { [key: string]: string } = {
   da: 'Dansk',
   de: 'Deutsch',
   nl: 'Nederlands',
