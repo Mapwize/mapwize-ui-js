@@ -7,9 +7,7 @@ import {
   lang_details,
   lang_direction,
   lang_information,
-  lang_on_floor,
   lang_opening_hours_not_available,
-  lang_outdoor,
   lang_overview,
   lang_phone_not_available,
   lang_schedule_not_available,
@@ -196,10 +194,7 @@ const generateRows = (placeDetails: any, openingStatus: string, mainColor: strin
   rows.push({
     type: 'floor',
     informationAvailable: true,
-    html: buildDefaultRow(
-      placeDetails.floor.number !== null ? lang_on_floor(language, placeDetails.floor.number) : lang_outdoor(language),
-      replaceColorInBase64svg(bottomViewIcons.FLOOR, mainColor)
-    ),
+    html: buildDefaultRow(placeDetails.floorLabel, replaceColorInBase64svg(bottomViewIcons.FLOOR, mainColor)),
   })
   if (placeDetails.website) {
     rows.push({

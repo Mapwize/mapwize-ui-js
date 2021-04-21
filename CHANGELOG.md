@@ -1,5 +1,10 @@
 # Mapwize UI Changelog
 
+## 3.1.0
+
+- Updating Mapwize gl to 4.5.0
+- Using translated floor in search results and place details
+
 ## 3.0.9
 
 - Fixing photo not showing in small view

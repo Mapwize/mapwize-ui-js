@@ -1,6 +1,13 @@
 export interface Floor {
   number: number
-  translations: Translation[]
+  name: string
+  translations: FloorTranslation[]
+}
+
+export interface FloorTranslation {
+  language: string
+  title: string
+  shortTitle: string
 }
 
 export interface Translation {
