@@ -35,7 +35,7 @@ export type DetailsViewConfig = {
   smallViewButtons: DetailsViewButton[]
 }
 
-export type DetailsViewButtonType = 'phone' | 'direction' | 'information' | 'website' | 'share' | 'custom'
+export type DetailsViewButtonType = 'phone' | 'direction' | 'information' | 'website' | 'share' | 'custom' | 'report_issues'
 
 export type DetailsViewRowType = 'floor' | 'website' | 'phone' | 'capacity' | 'opening_hours' | 'schedule' | 'custom'
 
@@ -65,6 +65,7 @@ export interface PlaceDetailsListener {
   onCloseClick: () => void
   onPlaceClick: (place: any) => void
   onDirectionToPlaceClick: (place: any) => void
+  onReportIssueClick: (place: any) => void
 }
 
 interface ButtonContent {
@@ -175,15 +176,15 @@ const generateButtonContents = (placeDetails: any, devCallbackInterceptor: DevCa
       callback: () => listener.onWebsiteClick(placeDetails.website),
     })
   }
-  // if (placeDetails.shareLink) {
-  //   buttonContents.push({
-  //     id: 'mwz-share-button',
-  //     type: 'share',
-  //     title: lang_share(language),
-  //     imageSrc: bottomViewIcons.SHARE,
-  //     callback: (e: HTMLElement) => listener.onShareClick(e, placeDetails.shareLink),
-  //   })
-  // }
+  if (placeDetails.issueTypes.length > 0) {
+    buttonContents.push({
+      id: 'mwz-issue-button',
+      type: 'report_issues',
+      title: 'Report Issue',
+      imageSrc: bottomViewIcons.SHARE,
+      callback: (e: HTMLElement) => listener.onReportIssueClick(placeDetails),
+    })
+  }
 
   return buttonContents
 }

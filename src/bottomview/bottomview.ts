@@ -21,6 +21,7 @@ export interface BottomViewListener {
   onInformationClick: (placeDetails: any) => void
   onPlaceClick: (place: any) => void
   onDirectionToPlaceClick: (place: any) => void
+  onReportIssueClick: (place: any) => void
 }
 
 export default class BottomView {

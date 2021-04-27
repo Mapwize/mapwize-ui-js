@@ -1,0 +1,128 @@
+.mwz-alert-overlay {
+  background-color: #000b;
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.mwz-alert-container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.mwz-issue-row {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mwz-textfield {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 4px 0;
+  font-size: small;
+  font-family: inherit;
+}
+
+.mwz-textarea {
+  resize: none;
+  height: 100px;
+  font-size: small;
+  font-family: inherit;
+}
+
+.mwz-label {
+  color: gray;
+  margin-bottom: 4px;
+}
+
+.mwz-alert-title {
+  font-weight: 700;
+  font-size: large;
+}
+
+.mwz-issue-picker {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mwz-issue-row-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mwz-issue-row-error {
+  color: red;
+  margin-left: 12px;
+}
+
+.mwz-radio-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 16px;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--mapwize-main-color);
+  &.selected {
+    background-color: var(--mapwize-main-color);
+    color: white;
+  }
+}
+
+.mwz-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 16px 16px 0 16px;
+}
+
+.mwz-send-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--mapwize-main-color);
+  border-radius: 8px;
+  width: 100px;
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+}
+
+.mwz-cancel-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  padding: 8px 16px;
+  color: var(--mapwize-main-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mwz-small-screen {
+  .mwz-alert-container {
+    width: 100%;
+
+    padding: 16px;
+  }
+}

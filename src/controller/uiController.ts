@@ -1,24 +1,11 @@
-import { map, apiKey, apiUrl } from 'mapwize'
-import tippy, { followCursor } from 'tippy.js'
-
-import './uiController.scss'
-
+import { apiKey, apiUrl, map } from 'mapwize'
+import tippy from 'tippy.js'
 import BottomView, { BottomViewState } from '../bottomview/bottomview'
+import { buildCallbackInterceptor, DevCallbackInterceptor } from '../devCallbackInterceptor'
 import FloorController, { FloorControllerState } from '../floorcontroller/floorcontroller'
 import FollowUserButton from '../followbutton/followUserButton'
+import { buildReportIssuesView } from '../issuesReporting/reportIssuesFactory'
 import LanguageSelector, { LanguageSelectorState } from '../languageSelector/languageSelector'
-import SearchBar, { SearchBarState } from '../searchbars/search/searchBar'
-import SearchContainer, { SearchContainerState } from '../searchbars/searchContainer'
-import SearchDirectionBar, { SearchDirectionBarState } from '../searchbars/searchDirection/searchDirectionBar'
-import SearchResultList, { SearchResultListState } from '../searchbars/searchResult/searchResultList/searchResultList'
-import UniverseSelector, { UniverseSelectorState } from '../universeSelector/universeSelector'
-import { UIControllerStore } from './uiControllerStore'
-import MapActionsDispatcher from '../mapActionsDispatcher'
-import { Floor, FollowUserMode } from '../types/types'
-import { buildCallbackInterceptor, DevCallbackInterceptor } from '../devCallbackInterceptor'
-import NavigationControl from '../navigationControls/navigationControls'
-import { ApiService } from '../services/apiService'
-import { observeChange } from '../sizeObserver'
 import {
   lang_back,
   lang_change_language,
@@ -26,16 +13,28 @@ import {
   lang_choose_destination,
   lang_choose_starting_point,
   lang_clipboard,
+  lang_coordinates,
   lang_direction,
   lang_floor_controller,
   lang_menu,
   lang_search_global,
-  lang_coordinates,
   lang_search_no_results,
 } from '../localizor/localizor'
-import attachUIMethods from './uiMethodsAttacher'
-import { buildDirectionInfo, buildPlaceDetails, titleForLanguage } from '../utils/formatter'
+import MapActionsDispatcher from '../mapActionsDispatcher'
+import NavigationControl from '../navigationControls/navigationControls'
+import SearchBar, { SearchBarState } from '../searchbars/search/searchBar'
+import SearchContainer, { SearchContainerState } from '../searchbars/searchContainer'
+import SearchDirectionBar, { SearchDirectionBarState } from '../searchbars/searchDirection/searchDirectionBar'
+import SearchResultList, { SearchResultListState } from '../searchbars/searchResult/searchResultList/searchResultList'
+import { ApiService } from '../services/apiService'
+import { observeChange } from '../sizeObserver'
+import { Floor, FollowUserMode } from '../types/types'
 import { UIOptions } from '../types/uioptions'
+import UniverseSelector, { UniverseSelectorState } from '../universeSelector/universeSelector'
+import { buildDirectionInfo, buildPlaceDetails, titleForLanguage } from '../utils/formatter'
+import './uiController.scss'
+import { UIControllerStore } from './uiControllerStore'
+import attachUIMethods from './uiMethodsAttacher'
 
 const defaultOptions: UIOptions = {
   apiKey: null,
@@ -220,6 +219,11 @@ export default class UIController {
     })
   }
 
+  openReportIssue(mapwizeUIContainer: HTMLElement, venue: any, placeDetails: any, userInfo: any, language: string): void {
+    const alert = buildReportIssuesView(venue, placeDetails, null, language)
+    mapwizeUIContainer.appendChild(alert)
+  }
+
   private buildUIComponents(uiContainer: HTMLElement, mainColor: string, callbackInterceptor: DevCallbackInterceptor, mapInstance: any): void {
     this.searchBar = new SearchBar({
       onDirectionClick: () => {
@@ -397,6 +401,9 @@ export default class UIController {
         },
         onDirectionToPlaceClick: (place: any) => {
           this.store.selectPlaceAndGoDirection(place)
+        },
+        onReportIssueClick: (place: any) => {
+          this.openReportIssue(this.uiContainer, this.mapwizeMap.getVenue(), place, null, 'en')
         },
       },
       callbackInterceptor,
