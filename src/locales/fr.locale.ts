@@ -55,4 +55,13 @@ export default {
   lang_clipboard: () => `Le lien de partage a été copié dans votre presse-papier`,
   lang_details: () => `Détails`,
   lang_overview: () => `Vue d'ensemble`,
+  lang_error_required: () => `obligatoire`,
+  lang_description: () => `Description`,
+  lang_summary: () => `Sujet`,
+  lang_issue_type: () => `Type de problème`,
+  lang_issue_email: () => `Adresse mail`,
+  lang_place: () => `Place`,
+  lang_venue: () => `Venue`,
+  lang_report_an_issue: () => `Signaler un problème`,
+  lang_issue_reported_success: () => `Votre problème a été signalé !`,
 }

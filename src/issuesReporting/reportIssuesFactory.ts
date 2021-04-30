@@ -1,4 +1,5 @@
 import { Api } from 'mapwize'
+import { lang_error_required } from '../localizor/localizor'
 import { titleForLanguage } from '../utils/formatter'
 import './reportIssuesView.scss'
 
@@ -51,6 +52,9 @@ export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: a
           descriptionRow.setError('')
           summaryRow.setError('')
           issuePickerRow.setError('')
+          const successAlert = buildSuccessAlert(language, () => container.remove())
+          alertContainer.innerHTML = ''
+          alertContainer.appendChild(successAlert)
         })
         .catch((e) => {
           const errorMessages = buildErrorMessages(e.response.content.errors, language)
@@ -74,6 +78,24 @@ export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: a
   alertContainer.appendChild(summaryRow.container)
   alertContainer.appendChild(descriptionRow.container)
   alertContainer.appendChild(buttonsRow)
+
+  return container
+}
+
+const buildSuccessAlert = (language: string, onclick: () => void): HTMLElement => {
+  const container = document.createElement('div')
+  container.classList.add('mwz-success-alert')
+  const successMessage = document.createElement('div')
+  successMessage.classList.add('mwz-success-message')
+  successMessage.innerHTML = 'Your issue has been reported!'
+
+  const okButton = document.createElement('div')
+  okButton.classList.add('mwz-success-okbutton')
+  okButton.innerHTML = 'OK'
+  okButton.onclick = onclick
+
+  container.appendChild(successMessage)
+  container.appendChild(okButton)
 
   return container
 }
@@ -276,5 +298,16 @@ const buildErrorMessages = (errors: any, language: string): { emailError?: strin
     descriptionError: errors.description?.code || '',
   }
 
+  if (errorMessages.issueTypeError === 'error.required') {
+    errorMessages.issueTypeError = lang_error_required(language)
+  }
+
+  if (errorMessages.summaryError === 'error.required') {
+    errorMessages.summaryError = lang_error_required(language)
+  }
+
+  if (errorMessages.descriptionError === 'error.required') {
+    errorMessages.descriptionError = lang_error_required(language)
+  }
   return errorMessages
 }

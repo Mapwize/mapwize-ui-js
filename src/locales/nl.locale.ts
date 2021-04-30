@@ -55,4 +55,13 @@ export default {
   lang_clipboard: () => `Link is gekopieerd naarste klembord`,
   lang_details: () => `Details`,
   lang_overview: () => `Overzicht`,
+  lang_error_required: () => `verplicht`,
+  lang_description: () => `Omschrijving`,
+  lang_summary: () => `Samenvatting`,
+  lang_issue_type: () => `Probleem type`,
+  lang_issue_email: () => `E-mail`,
+  lang_place: () => `Plaats`,
+  lang_venue: () => `Locatie`,
+  lang_report_an_issue: () => `Een probleem melden`,
+  lang_issue_reported_success: () => `Uw probleem is gemeld!`,
 }

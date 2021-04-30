@@ -19,7 +19,7 @@
   flex-direction: column;
   width: 400px;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 4px;
 }
 
 .mwz-issue-row {
@@ -101,7 +101,7 @@
   justify-content: center;
   align-items: center;
   background-color: var(--mapwize-main-color);
-  border-radius: 8px;
+  border-radius: 4px;
   width: 100px;
   padding: 8px 16px;
   color: white;
@@ -117,6 +117,25 @@
   color: var(--mapwize-main-color);
   text-decoration: underline;
   cursor: pointer;
+}
+
+.mwz-success-alert {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.mwz-success-message {
+}
+
+.mwz-success-okbutton {
+  align-self: flex-end;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: var(--mapwize-main-color);
+  color: #fff;
 }
 
 .mwz-small-screen {

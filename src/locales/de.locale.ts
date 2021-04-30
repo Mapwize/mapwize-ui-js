@@ -55,4 +55,13 @@ export default {
   lang_clipboard: () => `Der Freigabelink wurde in die Zwischenablage kopiert`,
   lang_details: () => `Details`,
   lang_overview: () => `Übersicht`,
+  lang_error_required: () => `erforderlich`,
+  lang_description: () => `Beschreibung`,
+  lang_summary: () => `Zusammenfassung`,
+  lang_issue_type: () => `Problemtyp`,
+  lang_issue_email: () => `Email`,
+  lang_place: () => `Platz`,
+  lang_venue: () => `Tagungsort`,
+  lang_report_an_issue: () => `Ein Problem melden`,
+  lang_issue_reported_success: () => `Ihr Problem wurde gemeldet!`,
 }

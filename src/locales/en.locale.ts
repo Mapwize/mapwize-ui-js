@@ -55,4 +55,13 @@ export default {
   lang_clipboard: () => `The share link has been copied to the clipboard`,
   lang_details: () => `Details`,
   lang_overview: () => `Overview`,
+  lang_error_required: () => `required`,
+  lang_description: () => `Description`,
+  lang_summary: () => `Summary`,
+  lang_issue_type: () => `Issue type`,
+  lang_issue_email: () => `Email`,
+  lang_place: () => `Place`,
+  lang_venue: () => `Venue`,
+  lang_report_an_issue: () => `Report an issue`,
+  lang_issue_reported_success: () => `Your issue has been reported!`,
 }

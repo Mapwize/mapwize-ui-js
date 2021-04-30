@@ -249,3 +249,39 @@ export const lang_details = (language: string) => {
 export const lang_overview = (language: string) => {
   return allLocalesFunctions[languageOrDefault(language)].lang_overview()
 }
+
+export const lang_error_required = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_error_required()
+}
+
+export const lang_description = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_description()
+}
+
+export const lang_summary = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_summary()
+}
+
+export const lang_issue_type = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_issue_type()
+}
+
+export const lang_issue_email = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_issue_email()
+}
+
+export const lang_place = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_place()
+}
+
+export const lang_venue = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_venue()
+}
+
+export const lang_report_an_issue = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_report_an_issue()
+}
+
+export const lang_issue_reported_success = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_issue_reported_success()
+}
