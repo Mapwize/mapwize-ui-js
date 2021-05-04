@@ -62,7 +62,7 @@
   "dependencies": {
     "dayjs": "1.10.4",
     "immer": "8.0.1",
-    "mapwize": "4.5.0",
+    "mapwize": "4.5.1",
     "tippy.js": "6.2.7"
   }
 }
