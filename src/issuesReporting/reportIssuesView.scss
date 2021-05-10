@@ -33,15 +33,38 @@
   border-left: none;
   border-right: none;
   padding: 4px 0;
-  font-size: small;
+  font-size: 16px;
   font-family: inherit;
+  outline: none;
+
+  &:focus {
+    border-bottom: 2px solid var(--mapwize-main-color);
+  }
 }
 
 .mwz-textarea {
   resize: none;
   height: 100px;
-  font-size: small;
+  font-size: 16px;
+  margin-top: 4px;
   font-family: inherit;
+  outline: none;
+  &:focus {
+    border: 2px solid var(--mapwize-main-color);
+    border-radius: 2px;
+  }
+}
+
+.mwz-issue-label-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 12px;
+    margin-top: -6px;
+  }
 }
 
 .mwz-label {
@@ -64,6 +87,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 8px;
 }
 
 .mwz-issue-row-error {
@@ -125,6 +149,10 @@
   justify-content: space-between;
   align-items: center;
   flex: 1;
+}
+
+.mwz-issue-value {
+  margin-left: 32px;
 }
 
 .mwz-success-message {

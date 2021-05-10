@@ -12,10 +12,11 @@ import {
   lang_summary,
   lang_venue,
 } from '../localizor/localizor'
-import { titleForLanguage } from '../utils/formatter'
+import { replaceColorInBase64svg, titleForLanguage } from '../utils/formatter'
+import { bottomViewIcons } from '../utils/icons'
 import './reportIssuesView.scss'
 
-export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: any, language: string): HTMLElement => {
+export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: any, language: string, color: string): HTMLElement => {
   var issueContent: any = {
     owner: venue.owner,
     venueId: venue._id,
@@ -41,18 +42,19 @@ export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: a
 
   container.appendChild(alertContainer)
 
-  const venueTitleRow = buildVenueTitleRow(venueTitle, language)
-  const placeTitleRow = buildPlaceTitleRow(placeTitle, language)
-  const emailRow = buildEmailRow(userInfo, language, (value: string) => {
+  const venueTitleRow = buildVenueTitleRow(venueTitle, replaceColorInBase64svg(bottomViewIcons.ISSUE_VENUE, color), language)
+  const placeTitleRow = buildPlaceTitleRow(placeTitle, replaceColorInBase64svg(bottomViewIcons.ISSUE_PLACE, color), language)
+  console.log(color)
+  const emailRow = buildEmailRow(userInfo, replaceColorInBase64svg(bottomViewIcons.MAIL, color), language, (value: string) => {
     issueContent.reporterEmail = value
   })
-  const issuePickerRow = buildIssueTypePickerRow(placeDetails.issueTypes, language, (value: string) => {
+  const issuePickerRow = buildIssueTypePickerRow(replaceColorInBase64svg(bottomViewIcons.ISSUE_TYPE, color), placeDetails.issueTypes, language, (value: string) => {
     issueContent.issueTypeId = value
   })
-  const summaryRow = buildSummaryRow(language, (value: string) => {
+  const summaryRow = buildSummaryRow(replaceColorInBase64svg(bottomViewIcons.ISSUE_SUMMARY, color), language, (value: string) => {
     issueContent.summary = value
   })
-  const descriptionRow = buildDescriptionRow(language, (value: string) => {
+  const descriptionRow = buildDescriptionRow(replaceColorInBase64svg(bottomViewIcons.ISSUE_DESCRIPTION, color), language, (value: string) => {
     issueContent.description = value
   })
   const buttonsRow = buildButtonsRow(
@@ -108,16 +110,22 @@ const buildSuccessAlert = (language: string, onclick: () => void): HTMLElement =
   return container
 }
 
-const buildVenueTitleRow = (title: string, language: string): { setError: (message: string) => void; container: HTMLElement } => {
+const buildVenueTitleRow = (title: string, iconBase64: string, language: string): { setError: (message: string) => void; container: HTMLElement } => {
   const container = document.createElement('div')
   container.classList.add('mwz-issue-row')
+  const labelContainer = document.createElement('div')
+  labelContainer.classList.add('mwz-issue-label-container')
+  const icon = document.createElement('img')
+  icon.src = iconBase64
+  labelContainer.appendChild(icon)
   const label = document.createElement('div')
   label.classList.add('mwz-label')
   label.innerHTML = lang_venue(language)
   const value = document.createElement('div')
+  value.classList.add('mwz-issue-value')
   value.innerHTML = title
-
-  container.appendChild(label)
+  labelContainer.appendChild(label)
+  container.appendChild(labelContainer)
   container.appendChild(value)
   const setError: (message: string) => void = (message: string) => {}
   return {
@@ -126,16 +134,22 @@ const buildVenueTitleRow = (title: string, language: string): { setError: (messa
   }
 }
 
-const buildPlaceTitleRow = (title: string, language: string): { setError: (message: string) => void; container: HTMLElement } => {
+const buildPlaceTitleRow = (title: string, iconBase64: string, language: string): { setError: (message: string) => void; container: HTMLElement } => {
   const container = document.createElement('div')
   container.classList.add('mwz-issue-row')
+  const labelContainer = document.createElement('div')
+  labelContainer.classList.add('mwz-issue-label-container')
+  const icon = document.createElement('img')
+  icon.src = iconBase64
+  labelContainer.appendChild(icon)
   const label = document.createElement('div')
   label.classList.add('mwz-label')
   label.innerHTML = lang_place(language)
   const value = document.createElement('div')
+  value.classList.add('mwz-issue-value')
   value.innerHTML = title
-
-  container.appendChild(label)
+  labelContainer.appendChild(label)
+  container.appendChild(labelContainer)
   container.appendChild(value)
   const setError: (message: string) => void = (message: string) => {}
   return {
@@ -144,20 +158,32 @@ const buildPlaceTitleRow = (title: string, language: string): { setError: (messa
   }
 }
 
-const buildEmailRow = (userInfo: any, language: string, valueChange: (value: string) => void): { setError: (message: string) => void; container: HTMLElement } => {
+const buildEmailRow = (
+  userInfo: any,
+  iconBase64: string,
+  language: string,
+  valueChange: (value: string) => void
+): { setError: (message: string) => void; container: HTMLElement } => {
   const container = document.createElement('div')
   container.classList.add('mwz-issue-row')
   const header = document.createElement('div')
   header.classList.add('mwz-issue-row-header')
+  const labelContainer = document.createElement('div')
+  labelContainer.classList.add('mwz-issue-label-container')
+  const icon = document.createElement('img')
+  icon.src = iconBase64
+  labelContainer.appendChild(icon)
   const label = document.createElement('div')
   label.classList.add('mwz-label')
   label.innerHTML = lang_issue_email(language)
   const error = document.createElement('div')
   error.classList.add('mwz-issue-row-error')
-  header.appendChild(label)
+  labelContainer.appendChild(label)
+  header.appendChild(labelContainer)
   header.appendChild(error)
   const value = document.createElement('input')
   value.classList.add('mwz-textfield')
+  value.classList.add('mwz-issue-value')
   value.placeholder = lang_issue_email(language)
   value.setAttribute('type', 'text')
   value.value = userInfo?.email
@@ -173,20 +199,32 @@ const buildEmailRow = (userInfo: any, language: string, valueChange: (value: str
   }
 }
 
-const buildIssueTypePickerRow = (issuesTypes: any[], language: string, valueChange: (value: string) => void): { setError: (message: string) => void; container: HTMLElement } => {
+const buildIssueTypePickerRow = (
+  iconBase64: string,
+  issuesTypes: any[],
+  language: string,
+  valueChange: (value: string) => void
+): { setError: (message: string) => void; container: HTMLElement } => {
   const container = document.createElement('div')
   container.classList.add('mwz-issue-row')
   const header = document.createElement('div')
   header.classList.add('mwz-issue-row-header')
+  const labelContainer = document.createElement('div')
+  labelContainer.classList.add('mwz-issue-label-container')
+  const icon = document.createElement('img')
+  icon.src = iconBase64
+  labelContainer.appendChild(icon)
   const label = document.createElement('div')
   label.classList.add('mwz-label')
   label.innerHTML = lang_issue_type(language)
   const error = document.createElement('div')
+  labelContainer.appendChild(label)
   error.classList.add('mwz-issue-row-error')
-  header.appendChild(label)
+  header.appendChild(labelContainer)
   header.appendChild(error)
   const value = document.createElement('div')
   value.classList.add('mwz-issue-picker')
+  value.classList.add('mwz-issue-value')
   const radioButtons: HTMLElement[] = []
   issuesTypes.forEach((it, i) => {
     const issueContainer = document.createElement('div')
@@ -221,20 +259,27 @@ const buildIssueTypePickerRow = (issuesTypes: any[], language: string, valueChan
   }
 }
 
-const buildSummaryRow = (language: string, valueChange: (value: string) => void): { setError: (message: string) => void; container: HTMLElement } => {
+const buildSummaryRow = (iconBase64: string, language: string, valueChange: (value: string) => void): { setError: (message: string) => void; container: HTMLElement } => {
   const container = document.createElement('div')
   container.classList.add('mwz-issue-row')
   const header = document.createElement('div')
   header.classList.add('mwz-issue-row-header')
+  const labelContainer = document.createElement('div')
+  labelContainer.classList.add('mwz-issue-label-container')
+  const icon = document.createElement('img')
+  icon.src = iconBase64
+  labelContainer.appendChild(icon)
   const label = document.createElement('div')
   label.classList.add('mwz-label')
   label.innerHTML = lang_summary(language)
+  labelContainer.appendChild(label)
   const error = document.createElement('div')
   error.classList.add('mwz-issue-row-error')
-  header.appendChild(label)
+  header.appendChild(labelContainer)
   header.appendChild(error)
   const value = document.createElement('input')
   value.classList.add('mwz-textfield')
+  value.classList.add('mwz-issue-value')
   value.placeholder = lang_summary(language)
   value.setAttribute('type', 'text')
   value.oninput = (e) => valueChange((e.target as HTMLInputElement).value)
@@ -249,20 +294,27 @@ const buildSummaryRow = (language: string, valueChange: (value: string) => void)
   }
 }
 
-const buildDescriptionRow = (language: string, valueChange: (value: string) => void): { setError: (message: string) => void; container: HTMLElement } => {
+const buildDescriptionRow = (iconBase64: string, language: string, valueChange: (value: string) => void): { setError: (message: string) => void; container: HTMLElement } => {
   const container = document.createElement('div')
   container.classList.add('mwz-issue-row')
   const header = document.createElement('div')
   header.classList.add('mwz-issue-row-header')
+  const labelContainer = document.createElement('div')
+  labelContainer.classList.add('mwz-issue-label-container')
+  const icon = document.createElement('img')
+  icon.src = iconBase64
+  labelContainer.appendChild(icon)
   const label = document.createElement('div')
   label.classList.add('mwz-label')
   label.innerHTML = lang_description(language)
+  labelContainer.appendChild(label)
   const error = document.createElement('div')
   error.classList.add('mwz-issue-row-error')
-  header.appendChild(label)
+  header.appendChild(labelContainer)
   header.appendChild(error)
   const value = document.createElement('textarea')
   value.classList.add('mwz-textarea')
+  value.classList.add('mwz-issue-value')
   value.placeholder = lang_description(language)
   value.oninput = (e) => valueChange((e.target as HTMLTextAreaElement).value)
   value.setAttribute('type', 'text')
