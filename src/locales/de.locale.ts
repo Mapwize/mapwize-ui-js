@@ -64,4 +64,6 @@ export default {
   lang_venue: () => `Tagungsort`,
   lang_report_an_issue: () => `Ein Problem melden`,
   lang_issue_reported_success: () => `Ihr Problem wurde gemeldet!`,
+  lang_send: () => `Senden`,
+  lang_cancel: () => `Stornieren!`,
 }

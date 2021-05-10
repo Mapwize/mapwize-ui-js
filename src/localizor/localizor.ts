@@ -285,3 +285,11 @@ export const lang_report_an_issue = (language: string) => {
 export const lang_issue_reported_success = (language: string) => {
   return allLocalesFunctions[languageOrDefault(language)].lang_issue_reported_success()
 }
+
+export const lang_send = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_send()
+}
+
+export const lang_cancel = (language: string) => {
+  return allLocalesFunctions[languageOrDefault(language)].lang_cancel()
+}

@@ -64,4 +64,6 @@ export default {
   lang_venue: () => `Venue`,
   lang_report_an_issue: () => `Signaler un problème`,
   lang_issue_reported_success: () => `Votre problème a été signalé !`,
+  lang_send: () => `Envoyer`,
+  lang_cancel: () => `Annuler`,
 }

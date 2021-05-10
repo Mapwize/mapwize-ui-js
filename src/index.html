@@ -192,7 +192,8 @@
         },
         onSelectedChange: ( mwzObject, analytics ) => {
           console.log( mwzObject, analytics )
-        }
+        },
+        shouldShowReportIssueRowFor: (mwzObject) => true
       } ).then( function ( instance ) {
         mapInstance = instance
       } )
@@ -204,7 +205,7 @@
     }
 
     window.onload = function () {
-      var apiKey = 'Your api key'
+      var apiKey = 'MapwizeDevAPIKEY'
       var mapwizePlaceId = '5d08d8a4efe1d20012809ee5'
       var receptionPlaceId = '569f8d7cb4d7200b003c32a1'
       

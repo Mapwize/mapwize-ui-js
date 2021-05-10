@@ -105,7 +105,6 @@ const getCurrentOpeningState = (input: any[], timezoneCode: string, language: st
     const openingInterval = getNextOpeningIntervalFromIntervals(intervals, weekday, currentMinuts)
     if (openingInterval) {
       if (openingInterval.day === weekday) {
-        console.log(openingInterval.close, currentMinuts)
         if (openingInterval.close > currentMinuts) {
           return lang_close_open_at(language, getFormattedHours(openingInterval.open))
         } else {

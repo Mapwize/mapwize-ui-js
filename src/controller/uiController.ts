@@ -357,7 +357,7 @@ export default class UIController {
           if (navigator.share) {
             navigator
               .share({
-                title: 'WebShare API Demo',
+                title: 'Place sharing',
                 url: sharelink,
               })
               .catch(() => {
@@ -403,7 +403,7 @@ export default class UIController {
           this.store.selectPlaceAndGoDirection(place)
         },
         onReportIssueClick: (place: any) => {
-          this.openReportIssue(this.uiContainer, this.mapwizeMap.getVenue(), place, null, 'en')
+          this.openReportIssue(this.uiContainer, this.mapwizeMap.getVenue(), place, null, this.store.state.uiControllerState.preferredLanguage)
         },
       },
       callbackInterceptor,
