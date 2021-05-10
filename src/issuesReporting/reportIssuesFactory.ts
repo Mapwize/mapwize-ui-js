@@ -160,7 +160,7 @@ const buildEmailRow = (userInfo: any, language: string, valueChange: (value: str
   value.classList.add('mwz-textfield')
   value.placeholder = lang_issue_email(language)
   value.setAttribute('type', 'text')
-  value.textContent = userInfo?.email
+  value.value = userInfo?.email
   value.oninput = (e) => valueChange((e.target as HTMLInputElement).value)
   container.appendChild(header)
   container.appendChild(value)
@@ -189,7 +189,6 @@ const buildIssueTypePickerRow = (issuesTypes: any[], language: string, valueChan
   value.classList.add('mwz-issue-picker')
   const radioButtons: HTMLElement[] = []
   issuesTypes.forEach((it, i) => {
-    console.log(it)
     const issueContainer = document.createElement('div')
     issueContainer.classList.add('mwz-radio-button')
     issueContainer.id = '' + i

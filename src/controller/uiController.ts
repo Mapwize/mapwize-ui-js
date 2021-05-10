@@ -220,8 +220,10 @@ export default class UIController {
   }
 
   openReportIssue(mapwizeUIContainer: HTMLElement, venue: any, placeDetails: any, userInfo: any, language: string): void {
-    const alert = buildReportIssuesView(venue, placeDetails, null, language)
-    mapwizeUIContainer.appendChild(alert)
+    this.apiService.getUserInfo().then((u) => {
+      const alert = buildReportIssuesView(venue, placeDetails, u, language)
+      mapwizeUIContainer.appendChild(alert)
+    })
   }
 
   private buildUIComponents(uiContainer: HTMLElement, mainColor: string, callbackInterceptor: DevCallbackInterceptor, mapInstance: any): void {
