@@ -263,7 +263,7 @@ const generateRows = (
     })
   }
   if (placeDetails.issueTypes.length > 0 && devCallbackInterceptor.shouldShowReportIssueRowFor(placeDetails)) {
-    const row = buildDefaultRow(lang_report_an_issue(language), replaceColorInBase64svg(bottomViewIcons.SHARE, mainColor), true)
+    const row = buildDefaultRow(lang_report_an_issue(language), replaceColorInBase64svg(bottomViewIcons.REPORT_ISSUE, mainColor), true)
     row.onclick = (e) => listener.onReportIssueClick(placeDetails)
     row.style.cursor = 'pointer'
     unfilledRows.push({
