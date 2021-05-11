@@ -1,9 +1,7 @@
 import { DirectionMode } from '../../../types/types'
 import DirectionModeButton, { ModeSelectedCallback } from '../directionModeButton/directionModeButton'
-import './directionModeSelector.scss'
 
 export default class DirectionModeSelector {
-
   private container: HTMLElement
   private callback: ModeSelectedCallback
   private buttons: DirectionModeButton[]
@@ -28,7 +26,6 @@ export default class DirectionModeSelector {
       this.buttons.push(modeElement)
       this.container.appendChild(modeElement.getHtmlElement())
     })
-
   }
 
   public setSelectedMode(mode: DirectionMode): void {
@@ -36,5 +33,4 @@ export default class DirectionModeSelector {
       b.setSelected(b.getDirectionMode()._id === mode._id)
     })
   }
-
 }

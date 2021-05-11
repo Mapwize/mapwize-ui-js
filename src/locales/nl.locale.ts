@@ -55,7 +55,7 @@ export default {
   lang_clipboard: () => `Link is gekopieerd naarste klembord`,
   lang_details: () => `Details`,
   lang_overview: () => `Overzicht`,
-  lang_error_required: () => `verplicht`,
+  lang_error_required: () => `Dit veld is verplicht`,
   lang_description: () => `Omschrijving`,
   lang_summary: () => `Samenvatting`,
   lang_issue_type: () => `Probleem type`,

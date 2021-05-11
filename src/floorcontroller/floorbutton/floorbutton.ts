@@ -1,4 +1,3 @@
-import './floorbutton.scss'
 import { FloorDisplay } from '../floorcontroller'
 
 export type FloorSelectedCallback = (floor?: number) => void

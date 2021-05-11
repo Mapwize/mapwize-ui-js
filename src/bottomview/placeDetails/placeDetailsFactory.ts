@@ -18,7 +18,6 @@ import {
 import { replaceColorInBase64svg } from '../../utils/formatter'
 import { bottomViewIcons } from '../../utils/icons'
 import { buildCurrentOpeningStatus, buildOpeningHours } from '../../utils/openingHoursFormatter'
-import './placeDetails.scss'
 
 export type DetailsViewConfig = {
   mwzObject: any

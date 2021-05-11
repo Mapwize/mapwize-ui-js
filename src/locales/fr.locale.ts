@@ -55,7 +55,7 @@ export default {
   lang_clipboard: () => `Le lien de partage a été copié dans votre presse-papier`,
   lang_details: () => `Détails`,
   lang_overview: () => `Vue d'ensemble`,
-  lang_error_required: () => `obligatoire`,
+  lang_error_required: () => `Ce champ est obligatoire`,
   lang_description: () => `Description`,
   lang_summary: () => `Sujet`,
   lang_issue_type: () => `Type de problème`,

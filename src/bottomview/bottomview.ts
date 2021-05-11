@@ -1,5 +1,4 @@
 import { DevCallbackInterceptor } from '../devCallbackInterceptor'
-import './bottomview.scss'
 import BottomViewDirection, { BottomViewDirectionProps } from './direction/bottomviewDirection'
 import { buildDetailsViews, DetailsViewConfig, prepareDetailsViewConfig } from './placeDetails/placeDetailsFactory'
 import { buildPlacelistViews } from './placelistDetails/placelistDetailsFactory'

@@ -1,6 +1,5 @@
 import { lang_reset_north, lang_zoom_in, lang_zoom_out } from '../localizor/localizor'
 import { buildTooltip } from '../utils/tippyConfig'
-import './navigationControls.scss'
 
 type Options = {
   showCompass?: boolean

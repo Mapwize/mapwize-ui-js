@@ -14,13 +14,13 @@ import {
 } from '../localizor/localizor'
 import { replaceColorInBase64svg, titleForLanguage } from '../utils/formatter'
 import { bottomViewIcons } from '../utils/icons'
-import './reportIssuesView.scss'
 
 export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: any, language: string, color: string): HTMLElement => {
   var issueContent: any = {
     owner: venue.owner,
     venueId: venue._id,
     placeId: placeDetails._id,
+    reporterEmail: userInfo?.email || '',
   }
 
   const container = document.createElement('div')
@@ -44,7 +44,6 @@ export const buildReportIssuesView = (venue: any, placeDetails: any, userInfo: a
 
   const venueTitleRow = buildVenueTitleRow(venueTitle, replaceColorInBase64svg(bottomViewIcons.ISSUE_VENUE, color), language)
   const placeTitleRow = buildPlaceTitleRow(placeTitle, replaceColorInBase64svg(bottomViewIcons.ISSUE_PLACE, color), language)
-  console.log(color)
   const emailRow = buildEmailRow(userInfo, replaceColorInBase64svg(bottomViewIcons.MAIL, color), language, (value: string) => {
     issueContent.reporterEmail = value
   })
@@ -186,7 +185,7 @@ const buildEmailRow = (
   value.classList.add('mwz-issue-value')
   value.placeholder = lang_issue_email(language)
   value.setAttribute('type', 'text')
-  value.value = userInfo?.email
+  value.value = userInfo?.email || ''
   value.oninput = (e) => valueChange((e.target as HTMLInputElement).value)
   container.appendChild(header)
   container.appendChild(value)

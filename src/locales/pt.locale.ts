@@ -55,7 +55,7 @@ export default {
   lang_clipboard: () => `O link foi copiado para a área de transferência`,
   lang_details: () => `Detalhes`,
   lang_overview: () => `Visão global`,
-  lang_error_required: () => `required`,
+  lang_error_required: () => `Este campo é obrigatório`,
   lang_description: () => `Descrição`,
   lang_summary: () => `Resumo`,
   lang_issue_type: () => `Tipo de problema`,

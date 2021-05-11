@@ -1,6 +1,5 @@
 import { bottomViewIcons } from '../../utils/icons'
 import { buildTooltip } from '../../utils/tippyConfig'
-import './searchBar.scss'
 
 export interface SearchBarState {
   searchQuery: string

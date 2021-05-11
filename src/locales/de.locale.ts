@@ -55,7 +55,7 @@ export default {
   lang_clipboard: () => `Der Freigabelink wurde in die Zwischenablage kopiert`,
   lang_details: () => `Details`,
   lang_overview: () => `Übersicht`,
-  lang_error_required: () => `erforderlich`,
+  lang_error_required: () => `Dieses Feld wird benötigt`,
   lang_description: () => `Beschreibung`,
   lang_summary: () => `Zusammenfassung`,
   lang_issue_type: () => `Problemtyp`,

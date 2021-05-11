@@ -55,7 +55,7 @@ export default {
   lang_clipboard: () => `The share link has been copied to the clipboard`,
   lang_details: () => `Details`,
   lang_overview: () => `Overview`,
-  lang_error_required: () => `required`,
+  lang_error_required: () => `This field is required`,
   lang_description: () => `Description`,
   lang_summary: () => `Summary`,
   lang_issue_type: () => `Issue type`,

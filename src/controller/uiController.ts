@@ -28,11 +28,11 @@ import SearchDirectionBar, { SearchDirectionBarState } from '../searchbars/searc
 import SearchResultList, { SearchResultListState } from '../searchbars/searchResult/searchResultList/searchResultList'
 import { ApiService } from '../services/apiService'
 import { observeChange } from '../sizeObserver'
+import style from '../style.scss'
 import { Floor, FollowUserMode } from '../types/types'
 import { UIOptions } from '../types/uioptions'
 import UniverseSelector, { UniverseSelectorState } from '../universeSelector/universeSelector'
 import { buildDirectionInfo, buildPlaceDetails, titleForLanguage } from '../utils/formatter'
-import './uiController.scss'
 import { UIControllerStore } from './uiControllerStore'
 import attachUIMethods from './uiMethodsAttacher'
 
@@ -134,7 +134,19 @@ export default class UIController {
 
     this.mapContainer = document.createElement('div')
     this.mapContainer.classList.add('mwz-map-container')
-
+    this.mapContainer.style.top = '0'
+    this.mapContainer.style.left = '0'
+    this.mapContainer.style.width = '100%'
+    this.mapContainer.style.height = '100%'
+    this.mapContainer.style.position = 'relative'
+    this.mapContainer.style.outline = 'none'
+    // position: relative;
+    //   top: 0;
+    //   left: 0;
+    //   width: 100%;
+    //   height: 100%;
+    //   outline: none;
+    // fantome.appendChild(this.mapContainer)
     mainContainer.appendChild(this.mapContainer)
 
     this.apiService = new ApiService(options)
@@ -145,7 +157,28 @@ export default class UIController {
 
     observeChange(mapInstance, this.uiContainer, options.sizeBreakPoint)
 
-    mainContainer.appendChild(this.uiContainer)
+    // fantome.appendChild(document.createElement('div'))
+    const test = document.createElement('div')
+    test.style.top = '-100%'
+    test.style.left = '0'
+    test.style.width = '100%'
+    test.style.height = '100%'
+    test.style.zIndex = '2'
+    test.style.display = 'flex'
+    test.style.flexDirection = 'column'
+    test.style.justifyContent = 'space-between'
+    test.style.pointerEvents = 'none'
+    test.style.position = 'relative'
+    test.style.outline = 'none'
+
+    mainContainer.appendChild(test)
+    var fantome = test.attachShadow({ mode: 'closed' })
+
+    const styleTag = document.createElement('style')
+    styleTag.innerHTML = style
+    fantome.appendChild(styleTag)
+    fantome.appendChild(this.uiContainer)
+    // mainContainer.appendChild(this.uiContainer)
 
     this.buildUIComponents(this.uiContainer, options.mainColor, callbackInterceptor, mapInstance)
     this.renderDefault(defaultState)
@@ -220,10 +253,16 @@ export default class UIController {
   }
 
   openReportIssue(mapwizeUIContainer: HTMLElement, venue: any, placeDetails: any, userInfo: any, language: string): void {
-    this.apiService.getUserInfo().then((u) => {
-      const alert = buildReportIssuesView(venue, placeDetails, u, language, this.uiOptions.mainColor)
-      mapwizeUIContainer.appendChild(alert)
-    })
+    this.apiService
+      .getUserInfo()
+      .then((u) => {
+        const alert = buildReportIssuesView(venue, placeDetails, u, language, this.uiOptions.mainColor)
+        mapwizeUIContainer.appendChild(alert)
+      })
+      .catch((e) => {
+        const alert = buildReportIssuesView(venue, placeDetails, null, language, this.uiOptions.mainColor)
+        mapwizeUIContainer.appendChild(alert)
+      })
   }
 
   private buildUIComponents(uiContainer: HTMLElement, mainColor: string, callbackInterceptor: DevCallbackInterceptor, mapInstance: any): void {
