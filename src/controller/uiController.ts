@@ -154,6 +154,7 @@ export default class UIController {
     observeChange(mapInstance, this.uiContainer, options.sizeBreakPoint)
 
     this.shadowContainer = document.createElement('div')
+    this.shadowContainer.id = 'mwz-shadow-container'
     this.shadowContainer.style.top = '-100%'
     this.shadowContainer.style.left = '0'
     this.shadowContainer.style.width = '100%'
@@ -167,7 +168,7 @@ export default class UIController {
     this.shadowContainer.style.outline = 'none'
 
     mainContainer.appendChild(this.shadowContainer)
-    var fantome = this.shadowContainer.attachShadow({ mode: 'closed' })
+    var fantome = this.shadowContainer.attachShadow({ mode: 'open' })
 
     const styleTag = document.createElement('style')
     styleTag.innerHTML = style

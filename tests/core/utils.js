@@ -1,24 +1,27 @@
 var _ = require('lodash')
 
-function mwzDescribe (testSuites, fn) {
+function mwzDescribe(testSuites, fn) {
   describe(testSuites, function () {
     fn()
   })
 }
 
-function mwzTest (name, evaluateFn) {
+function mwzTest(name, evaluateFn, testFn) {
   it(name, function () {
     this.retries(2)
     browser.url('http://localhost:8888/tests/core/index.html')
-    browser.waitUntil(function () {
-      return browser.execute(function () {
-        return document.readyState === 'complete' && MapwizeUI;
-      })
-    }, 20000, 'Unable to load page after 20 seconds')
+    browser.waitUntil(
+      function () {
+        return browser.execute(function () {
+          return document.readyState === 'complete' && MapwizeUI
+        })
+      },
+      20000,
+      'Unable to load page after 20 seconds'
+    )
     browser.setTimeout({
-      'script': 60000
-    });
-    console.log(name);
+      script: 60000,
+    })
     var testResult = browser.executeAsync(evaluateFn)
 
     if (testResult) {
@@ -31,10 +34,14 @@ function mwzTest (name, evaluateFn) {
         throw new Error(testResult)
       }
     }
-  });
+
+    if (testFn) {
+      testFn()
+    }
+  })
 }
 
-function latitude (data) {
+function latitude(data) {
   if (isFinite(data.lat)) {
     return data.lat
   } else if (isFinite(data.latitude)) {
@@ -42,7 +49,7 @@ function latitude (data) {
   }
   return false
 }
-function longitude (data) {
+function longitude(data) {
   if (isFinite(data.lon)) {
     return data.lon
   } else if (isFinite(data.lng)) {
@@ -53,14 +60,14 @@ function longitude (data) {
   return false
 }
 
-function roundCoordinates (coords) {
+function roundCoordinates(coords) {
   return {
     latitude: Math.round(latitude(coords) * 100000000) / 100000000,
-    longitude: Math.round(longitude(coords) * 100000000) / 100000000
+    longitude: Math.round(longitude(coords) * 100000000) / 100000000,
   }
 }
 
-function isSameCoordinates (expected, found) {
+function isSameCoordinates(expected, found) {
   var isSameLatitude = true
   var isSameLongitude = true
 
@@ -84,14 +91,14 @@ function isSameCoordinates (expected, found) {
   return null
 }
 
-function isSameFloor (expected, found) {
+function isSameFloor(expected, found) {
   if (expected !== found) {
     return 'Floor expected: ' + expected + ' found: ' + found
   }
   return null
 }
 
-function isSamePosition (expectedCoordinates, foundCoordinates, expectedFloor, foundFloor) {
+function isSamePosition(expectedCoordinates, foundCoordinates, expectedFloor, foundFloor) {
   var coordinatesError = isSameCoordinates(expectedCoordinates, foundCoordinates)
   var floorError = isSameFloor(expectedFloor, foundFloor)
 
@@ -105,14 +112,13 @@ function isSamePosition (expectedCoordinates, foundCoordinates, expectedFloor, f
   return null
 }
 
-
 var tools = {
   isSamePosition: isSamePosition,
   isSameFloor: isSameFloor,
-  isSameCoordinates: isSameCoordinates
+  isSameCoordinates: isSameCoordinates,
 }
 
 module.exports = {
   mwzTest: mwzTest,
-  mwzDescribe: mwzDescribe
+  mwzDescribe: mwzDescribe,
 }
