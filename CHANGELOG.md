@@ -1,8 +1,9 @@
 # Mapwize UI Changelog
 
-## 3.1.2
+## 3.2.0
 
 - Updating Mapwize gl to 4.5.2
+- Moving UI Component in ShadowDom to avoid css conflict
 
 ## 3.1.1
 
