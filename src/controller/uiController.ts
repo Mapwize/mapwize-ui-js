@@ -72,6 +72,7 @@ const defaultOptions: UIOptions = {
 export default class UIController {
   private store: UIControllerStore
   private uiContainer: HTMLElement
+  private shadowContainer: HTMLElement
   private mapContainer: HTMLElement
   private mapwizeMap: any
   private uiOptions: UIOptions
@@ -91,6 +92,8 @@ export default class UIController {
   public destroy(detroyMap: () => void) {
     detroyMap()
     this.uiContainer.remove()
+    this.shadowContainer.remove()
+    this.mapContainer.remove()
     this.store = null
     this.uiContainer = null
     this.mapwizeMap = null
@@ -140,13 +143,6 @@ export default class UIController {
     this.mapContainer.style.height = '100%'
     this.mapContainer.style.position = 'relative'
     this.mapContainer.style.outline = 'none'
-    // position: relative;
-    //   top: 0;
-    //   left: 0;
-    //   width: 100%;
-    //   height: 100%;
-    //   outline: none;
-    // fantome.appendChild(this.mapContainer)
     mainContainer.appendChild(this.mapContainer)
 
     this.apiService = new ApiService(options)
@@ -157,28 +153,26 @@ export default class UIController {
 
     observeChange(mapInstance, this.uiContainer, options.sizeBreakPoint)
 
-    // fantome.appendChild(document.createElement('div'))
-    const test = document.createElement('div')
-    test.style.top = '-100%'
-    test.style.left = '0'
-    test.style.width = '100%'
-    test.style.height = '100%'
-    test.style.zIndex = '2'
-    test.style.display = 'flex'
-    test.style.flexDirection = 'column'
-    test.style.justifyContent = 'space-between'
-    test.style.pointerEvents = 'none'
-    test.style.position = 'relative'
-    test.style.outline = 'none'
+    this.shadowContainer = document.createElement('div')
+    this.shadowContainer.style.top = '-100%'
+    this.shadowContainer.style.left = '0'
+    this.shadowContainer.style.width = '100%'
+    this.shadowContainer.style.height = '100%'
+    this.shadowContainer.style.zIndex = '2'
+    this.shadowContainer.style.display = 'flex'
+    this.shadowContainer.style.flexDirection = 'column'
+    this.shadowContainer.style.justifyContent = 'space-between'
+    this.shadowContainer.style.pointerEvents = 'none'
+    this.shadowContainer.style.position = 'relative'
+    this.shadowContainer.style.outline = 'none'
 
-    mainContainer.appendChild(test)
-    var fantome = test.attachShadow({ mode: 'closed' })
+    mainContainer.appendChild(this.shadowContainer)
+    var fantome = this.shadowContainer.attachShadow({ mode: 'closed' })
 
     const styleTag = document.createElement('style')
     styleTag.innerHTML = style
     fantome.appendChild(styleTag)
     fantome.appendChild(this.uiContainer)
-    // mainContainer.appendChild(this.uiContainer)
 
     this.buildUIComponents(this.uiContainer, options.mainColor, callbackInterceptor, mapInstance)
     this.renderDefault(defaultState)
