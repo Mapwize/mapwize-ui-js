@@ -1,6 +1,4 @@
 import { Universe } from '../types/types'
-import './universeSelector.scss'
-import tippy from 'tippy.js'
 import { buildTooltip } from '../utils/tippyConfig'
 
 export interface UniverseSelectorState {
@@ -17,7 +15,6 @@ export interface UniverseSelectorListener {
 }
 
 export default class UniverseSelector {
-
   private container: HTMLElement
   private listener: UniverseSelectorListener
   private expanded: boolean
@@ -39,7 +36,8 @@ export default class UniverseSelector {
 
     const image = document.createElement('img')
     image.classList.add('mwz-universe-selector-image')
-    image.src = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUwIDUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MCA1MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxnPjxwYXRoIGQ9Ik00Mi43LDMyLjVMMzcuMiwyOWw1LjUtMy40YzAuMi0wLjEsMC4zLTAuNCwwLjMtMC42YzAtMC4yLTAuMS0wLjUtMC4zLTAuNkwzNy4yLDIxbDUuNS0zLjRjMC4yLTAuMSwwLjMtMC40LDAuMy0wLjZzLTAuMS0wLjUtMC4zLTAuNkwyNS40LDUuNWMtMC4yLTAuMS0wLjUtMC4xLTAuNywwTDcuMywxNi4zQzcuMSwxNi41LDcsMTYuNyw3LDE2LjljMCwwLjIsMC4xLDAuNSwwLjMsMC42bDUuNSwzLjRsLTUuNSwzLjRDNy4xLDI0LjUsNywyNC44LDcsMjVzMC4xLDAuNSwwLjMsMC42bDUuNSwzLjRsLTUuNSwzLjRDNy4xLDMyLjYsNywzMi44LDcsMzMuMWMwLDAuMiwwLjEsMC41LDAuMywwLjZsMTcuMywxMC45YzAuMSwwLjEsMC4yLDAuMSwwLjQsMC4xczAuMywwLDAuNC0wLjFsMTcuMy0xMC45YzAuMi0wLjEsMC4zLTAuNCwwLjMtMC42QzQzLDMyLjgsNDIuOSwzMi42LDQyLjcsMzIuNXogTTksMTYuOWwxNi0xMGwxNiwxMEwyNSwyN0w5LDE2Ljl6IE05LDI1bDUuMS0zLjJsMTAuNSw2LjZjMC4xLDAuMSwwLjIsMC4xLDAuNCwwLjFzMC4zLDAsMC40LTAuMWwxMC41LTYuNkw0MSwyNUwyNSwzNUw5LDI1eiBNMjUsNDMuMWwtMTYtMTBsNS4xLTMuMmwxMC41LDYuNmMwLjEsMC4xLDAuMiwwLjEsMC40LDAuMXMwLjMsMCwwLjQtMC4xbDEwLjUtNi42bDUuMSwzLjJMMjUsNDMuMXoiLz48L2c+PC9nPjwvc3ZnPg=='
+    image.src =
+      'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUwIDUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MCA1MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxnPjxwYXRoIGQ9Ik00Mi43LDMyLjVMMzcuMiwyOWw1LjUtMy40YzAuMi0wLjEsMC4zLTAuNCwwLjMtMC42YzAtMC4yLTAuMS0wLjUtMC4zLTAuNkwzNy4yLDIxbDUuNS0zLjRjMC4yLTAuMSwwLjMtMC40LDAuMy0wLjZzLTAuMS0wLjUtMC4zLTAuNkwyNS40LDUuNWMtMC4yLTAuMS0wLjUtMC4xLTAuNywwTDcuMywxNi4zQzcuMSwxNi41LDcsMTYuNyw3LDE2LjljMCwwLjIsMC4xLDAuNSwwLjMsMC42bDUuNSwzLjRsLTUuNSwzLjRDNy4xLDI0LjUsNywyNC44LDcsMjVzMC4xLDAuNSwwLjMsMC42bDUuNSwzLjRsLTUuNSwzLjRDNy4xLDMyLjYsNywzMi44LDcsMzMuMWMwLDAuMiwwLjEsMC41LDAuMywwLjZsMTcuMywxMC45YzAuMSwwLjEsMC4yLDAuMSwwLjQsMC4xczAuMywwLDAuNC0wLjFsMTcuMy0xMC45YzAuMi0wLjEsMC4zLTAuNCwwLjMtMC42QzQzLDMyLjgsNDIuOSwzMi42LDQyLjcsMzIuNXogTTksMTYuOWwxNi0xMGwxNiwxMEwyNSwyN0w5LDE2Ljl6IE05LDI1bDUuMS0zLjJsMTAuNSw2LjZjMC4xLDAuMSwwLjIsMC4xLDAuNCwwLjFzMC4zLDAsMC40LTAuMWwxMC41LTYuNkw0MSwyNUwyNSwzNUw5LDI1eiBNMjUsNDMuMWwtMTYtMTBsNS4xLTMuMmwxMC41LDYuNmMwLjEsMC4xLDAuMiwwLjEsMC40LDAuMXMwLjMsMCwwLjQtMC4xbDEwLjUtNi42bDUuMSwzLjJMMjUsNDMuMXoiLz48L2c+PC9nPjwvc3ZnPg=='
     selected.appendChild(image)
 
     this.title = document.createElement('span')
@@ -52,7 +50,6 @@ export default class UniverseSelector {
     this.container.appendChild(this.list)
 
     this.tooltip = buildTooltip(this.container, 'Change the venue universe')
-
   }
 
   public getHtmlElement(): HTMLElement {
@@ -112,11 +109,9 @@ export default class UniverseSelector {
   private setHidden(hidden: boolean): void {
     if (hidden) {
       this.container.classList.add('mwz-gone')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-gone')
     }
-
   }
 
   private setExpanded(expanded: boolean): void {
@@ -124,8 +119,7 @@ export default class UniverseSelector {
     if (this.expanded) {
       this.container.classList.add('mwz-expanded')
       this.list.classList.remove('mwz-gone')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-expanded')
       this.list.classList.add('mwz-gone')
     }

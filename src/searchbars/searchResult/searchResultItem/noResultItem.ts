@@ -1,6 +1,3 @@
-import { SearchResult } from '../../../types/types'
-import './searchResultItem.scss'
-
 export default class NoResultItem {
   private container: HTMLElement
 

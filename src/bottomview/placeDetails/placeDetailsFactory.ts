@@ -10,6 +10,7 @@ import {
   lang_opening_hours_not_available,
   lang_overview,
   lang_phone_not_available,
+  lang_report_an_issue,
   lang_schedule_not_available,
   lang_website,
   lang_website_not_available,
@@ -17,7 +18,6 @@ import {
 import { replaceColorInBase64svg } from '../../utils/formatter'
 import { bottomViewIcons } from '../../utils/icons'
 import { buildCurrentOpeningStatus, buildOpeningHours } from '../../utils/openingHoursFormatter'
-import './placeDetails.scss'
 
 export type DetailsViewConfig = {
   mwzObject: any
@@ -37,7 +37,7 @@ export type DetailsViewConfig = {
 
 export type DetailsViewButtonType = 'phone' | 'direction' | 'information' | 'website' | 'share' | 'custom'
 
-export type DetailsViewRowType = 'floor' | 'website' | 'phone' | 'capacity' | 'opening_hours' | 'schedule' | 'custom'
+export type DetailsViewRowType = 'floor' | 'website' | 'phone' | 'capacity' | 'opening_hours' | 'schedule' | 'report_issues' | 'custom'
 
 export type DetailsViewButton = {
   type: DetailsViewButtonType
@@ -65,6 +65,7 @@ export interface PlaceDetailsListener {
   onCloseClick: () => void
   onPlaceClick: (place: any) => void
   onDirectionToPlaceClick: (place: any) => void
+  onReportIssueClick: (place: any) => void
 }
 
 interface ButtonContent {
@@ -118,7 +119,7 @@ export const prepareDetailsViewConfig = (
     occupiedStatus = isOccupied(new Date(), placeDetails.calendarEvents) ? lang_currently_occupied(language) : lang_currently_available(language)
   }
 
-  const rows = generateRows(placeDetails, openingStatus, mainColor, language)
+  const rows = generateRows(placeDetails, openingStatus, mainColor, language, devCallbackInterceptor, listener)
 
   return {
     mwzObject: placeDetails,
@@ -175,20 +176,18 @@ const generateButtonContents = (placeDetails: any, devCallbackInterceptor: DevCa
       callback: () => listener.onWebsiteClick(placeDetails.website),
     })
   }
-  // if (placeDetails.shareLink) {
-  //   buttonContents.push({
-  //     id: 'mwz-share-button',
-  //     type: 'share',
-  //     title: lang_share(language),
-  //     imageSrc: bottomViewIcons.SHARE,
-  //     callback: (e: HTMLElement) => listener.onShareClick(e, placeDetails.shareLink),
-  //   })
-  // }
 
   return buttonContents
 }
 
-const generateRows = (placeDetails: any, openingStatus: string, mainColor: string, language: string): DetailsViewRow[] => {
+const generateRows = (
+  placeDetails: any,
+  openingStatus: string,
+  mainColor: string,
+  language: string,
+  devCallbackInterceptor: DevCallbackInterceptor,
+  listener: PlaceDetailsListener
+): DetailsViewRow[] => {
   const rows: DetailsViewRow[] = []
   const unfilledRows: DetailsViewRow[] = []
   rows.push({
@@ -260,6 +259,16 @@ const generateRows = (placeDetails: any, openingStatus: string, mainColor: strin
       type: 'schedule',
       informationAvailable: false,
       html: buildDefaultRow(lang_schedule_not_available(language), replaceColorInBase64svg(bottomViewIcons.CALENDAR, '#808080'), false),
+    })
+  }
+  if (placeDetails.issueTypes.length > 0 && devCallbackInterceptor.shouldShowReportIssueRowFor(placeDetails)) {
+    const row = buildDefaultRow(lang_report_an_issue(language), replaceColorInBase64svg(bottomViewIcons.REPORT_ISSUE, mainColor), true)
+    row.onclick = (e) => listener.onReportIssueClick(placeDetails)
+    row.style.cursor = 'pointer'
+    unfilledRows.push({
+      type: 'report_issues',
+      informationAvailable: true,
+      html: row,
     })
   }
   return rows.concat(unfilledRows)

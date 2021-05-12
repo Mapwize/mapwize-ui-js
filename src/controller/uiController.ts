@@ -1,24 +1,11 @@
-import { map, apiKey, apiUrl } from 'mapwize'
-import tippy, { followCursor } from 'tippy.js'
-
-import './uiController.scss'
-
+import { apiKey, apiUrl, map } from 'mapwize'
+import tippy from 'tippy.js'
 import BottomView, { BottomViewState } from '../bottomview/bottomview'
+import { buildCallbackInterceptor, DevCallbackInterceptor } from '../devCallbackInterceptor'
 import FloorController, { FloorControllerState } from '../floorcontroller/floorcontroller'
 import FollowUserButton from '../followbutton/followUserButton'
+import { buildReportIssuesView } from '../issuesReporting/reportIssuesFactory'
 import LanguageSelector, { LanguageSelectorState } from '../languageSelector/languageSelector'
-import SearchBar, { SearchBarState } from '../searchbars/search/searchBar'
-import SearchContainer, { SearchContainerState } from '../searchbars/searchContainer'
-import SearchDirectionBar, { SearchDirectionBarState } from '../searchbars/searchDirection/searchDirectionBar'
-import SearchResultList, { SearchResultListState } from '../searchbars/searchResult/searchResultList/searchResultList'
-import UniverseSelector, { UniverseSelectorState } from '../universeSelector/universeSelector'
-import { UIControllerStore } from './uiControllerStore'
-import MapActionsDispatcher from '../mapActionsDispatcher'
-import { Floor, FollowUserMode } from '../types/types'
-import { buildCallbackInterceptor, DevCallbackInterceptor } from '../devCallbackInterceptor'
-import NavigationControl from '../navigationControls/navigationControls'
-import { ApiService } from '../services/apiService'
-import { observeChange } from '../sizeObserver'
 import {
   lang_back,
   lang_change_language,
@@ -26,16 +13,28 @@ import {
   lang_choose_destination,
   lang_choose_starting_point,
   lang_clipboard,
+  lang_coordinates,
   lang_direction,
   lang_floor_controller,
   lang_menu,
   lang_search_global,
-  lang_coordinates,
   lang_search_no_results,
 } from '../localizor/localizor'
-import attachUIMethods from './uiMethodsAttacher'
-import { buildDirectionInfo, buildPlaceDetails, titleForLanguage } from '../utils/formatter'
+import MapActionsDispatcher from '../mapActionsDispatcher'
+import NavigationControl from '../navigationControls/navigationControls'
+import SearchBar, { SearchBarState } from '../searchbars/search/searchBar'
+import SearchContainer, { SearchContainerState } from '../searchbars/searchContainer'
+import SearchDirectionBar, { SearchDirectionBarState } from '../searchbars/searchDirection/searchDirectionBar'
+import SearchResultList, { SearchResultListState } from '../searchbars/searchResult/searchResultList/searchResultList'
+import { ApiService } from '../services/apiService'
+import { observeChange } from '../sizeObserver'
+import style from '../style.scss'
+import { Floor, FollowUserMode } from '../types/types'
 import { UIOptions } from '../types/uioptions'
+import UniverseSelector, { UniverseSelectorState } from '../universeSelector/universeSelector'
+import { buildDirectionInfo, buildPlaceDetails, titleForLanguage } from '../utils/formatter'
+import { UIControllerStore } from './uiControllerStore'
+import attachUIMethods from './uiMethodsAttacher'
 
 const defaultOptions: UIOptions = {
   apiKey: null,
@@ -73,6 +72,7 @@ const defaultOptions: UIOptions = {
 export default class UIController {
   private store: UIControllerStore
   private uiContainer: HTMLElement
+  private shadowContainer: HTMLElement
   private mapContainer: HTMLElement
   private mapwizeMap: any
   private uiOptions: UIOptions
@@ -92,6 +92,8 @@ export default class UIController {
   public destroy(detroyMap: () => void) {
     detroyMap()
     this.uiContainer.remove()
+    this.shadowContainer.remove()
+    this.mapContainer.remove()
     this.store = null
     this.uiContainer = null
     this.mapwizeMap = null
@@ -135,7 +137,12 @@ export default class UIController {
 
     this.mapContainer = document.createElement('div')
     this.mapContainer.classList.add('mwz-map-container')
-
+    this.mapContainer.style.top = '0'
+    this.mapContainer.style.left = '0'
+    this.mapContainer.style.width = '100%'
+    this.mapContainer.style.height = '100%'
+    this.mapContainer.style.position = 'relative'
+    this.mapContainer.style.outline = 'none'
     mainContainer.appendChild(this.mapContainer)
 
     this.apiService = new ApiService(options)
@@ -146,7 +153,27 @@ export default class UIController {
 
     observeChange(mapInstance, this.uiContainer, options.sizeBreakPoint)
 
-    mainContainer.appendChild(this.uiContainer)
+    this.shadowContainer = document.createElement('div')
+    this.shadowContainer.id = 'mwz-shadow-container'
+    this.shadowContainer.style.top = '-100%'
+    this.shadowContainer.style.left = '0'
+    this.shadowContainer.style.width = '100%'
+    this.shadowContainer.style.height = '100%'
+    this.shadowContainer.style.zIndex = '2'
+    this.shadowContainer.style.display = 'flex'
+    this.shadowContainer.style.flexDirection = 'column'
+    this.shadowContainer.style.justifyContent = 'space-between'
+    this.shadowContainer.style.pointerEvents = 'none'
+    this.shadowContainer.style.position = 'relative'
+    this.shadowContainer.style.outline = 'none'
+
+    mainContainer.appendChild(this.shadowContainer)
+    var fantome = this.shadowContainer.attachShadow({ mode: 'open' })
+
+    const styleTag = document.createElement('style')
+    styleTag.innerHTML = style
+    fantome.appendChild(styleTag)
+    fantome.appendChild(this.uiContainer)
 
     this.buildUIComponents(this.uiContainer, options.mainColor, callbackInterceptor, mapInstance)
     this.renderDefault(defaultState)
@@ -218,6 +245,19 @@ export default class UIController {
         })
       }
     })
+  }
+
+  openReportIssue(mapwizeUIContainer: HTMLElement, venue: any, placeDetails: any, userInfo: any, language: string): void {
+    this.apiService
+      .getUserInfo()
+      .then((u) => {
+        const alert = buildReportIssuesView(venue, placeDetails, u, language, this.uiOptions.mainColor)
+        mapwizeUIContainer.appendChild(alert)
+      })
+      .catch((e) => {
+        const alert = buildReportIssuesView(venue, placeDetails, null, language, this.uiOptions.mainColor)
+        mapwizeUIContainer.appendChild(alert)
+      })
   }
 
   private buildUIComponents(uiContainer: HTMLElement, mainColor: string, callbackInterceptor: DevCallbackInterceptor, mapInstance: any): void {
@@ -353,7 +393,7 @@ export default class UIController {
           if (navigator.share) {
             navigator
               .share({
-                title: 'WebShare API Demo',
+                title: 'Place sharing',
                 url: sharelink,
               })
               .catch(() => {
@@ -397,6 +437,9 @@ export default class UIController {
         },
         onDirectionToPlaceClick: (place: any) => {
           this.store.selectPlaceAndGoDirection(place)
+        },
+        onReportIssueClick: (place: any) => {
+          this.openReportIssue(this.uiContainer, this.mapwizeMap.getVenue(), place, null, this.store.state.uiControllerState.preferredLanguage)
         },
       },
       callbackInterceptor,

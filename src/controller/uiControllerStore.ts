@@ -1,23 +1,6 @@
 import produce from 'immer'
 import { WritableDraft } from 'immer/dist/internal'
-
-import { DirectionMode, Floor, Language, SearchResult, Universe } from '../types/types'
-import { MapwizeUIState } from './uiController'
-import MapActionsDispatcher from '../mapActionsDispatcher'
-import {
-  buildDirectionError,
-  buildDirectionInfo,
-  buildFloorDisplays,
-  buildLanguageDisplay,
-  buildLanguageDisplays,
-  buildPlaceDetails,
-  buildPlacelist,
-  buildPlacelistDetails,
-  buildSearchResult,
-  titleForLanguage,
-} from '../utils/formatter'
 import { DevCallbackInterceptor } from '../devCallbackInterceptor'
-import { ApiService } from '../services/apiService'
 import {
   lang_available_locale,
   lang_back,
@@ -37,6 +20,21 @@ import {
   lang_start,
   Locale,
 } from '../localizor/localizor'
+import MapActionsDispatcher from '../mapActionsDispatcher'
+import { ApiService } from '../services/apiService'
+import { DirectionMode, Floor, SearchResult, Universe } from '../types/types'
+import {
+  buildDirectionError,
+  buildDirectionInfo,
+  buildFloorDisplays,
+  buildLanguageDisplay,
+  buildLanguageDisplays,
+  buildPlaceDetails,
+  buildPlacelistDetails,
+  buildSearchResult,
+  titleForLanguage,
+} from '../utils/formatter'
+import { MapwizeUIState } from './uiController'
 
 export class UIControllerStore {
   private render: (oldState: MapwizeUIState, newState: MapwizeUIState) => void

@@ -16,11 +16,11 @@ export default class MapActionsDispatcher {
   public selectPlace(place: any, preventCenter: boolean = false) {
     this.mapwizeMap.unselectPlace()
     this.mapwizeMap.removeMarkers()
-    const projection = this.mapwizeMap.project([place.marker.longitude, place.marker.latitude])
-    // TODO Improve for mobile
-    if (projection.x < 400 && !preventCenter) {
-      this.mapwizeMap.centerOnPlace(place)
-    }
+    // const projection = this.mapwizeMap.project([place.marker.longitude, place.marker.latitude])
+    // // TODO Improve for mobile
+    // if (projection.x < 400 && !preventCenter) {
+    //   this.mapwizeMap.centerOnPlace(place)
+    // }
     this.mapwizeMap.selectPlace(place)
   }
 

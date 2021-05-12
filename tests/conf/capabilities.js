@@ -45,7 +45,7 @@ module.exports = {
       os: 'Windows',
       os_version: '8',
       browser: 'Chrome',
-      browser_version: '62.0',
+      browser_version: '63.0',
       browserName: 'Windows 8 - Chrome 62.0',
     },
     {
@@ -61,8 +61,8 @@ module.exports = {
       os: 'Windows',
       os_version: '10',
       browser: 'Firefox',
-      browser_version: '60.0',
-      browserName: 'Windows 10 - Firefox 60.0',
+      browser_version: '63.0',
+      browserName: 'Windows 10 - Firefox 63.0',
       // }, { // Temporarly comment edge tests due to driver error
       //   // Latest Edge - Windows
       //   os: 'Windows',

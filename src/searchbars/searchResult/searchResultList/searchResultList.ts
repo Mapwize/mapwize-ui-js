@@ -1,9 +1,8 @@
-import { SearchResult, Universe } from '../../../types/types'
-import './searchResultList.scss'
-import SearchResultItem, { SearchResultItemCallback } from '../searchResultItem/searchResultItem'
-import NoResultItem from '../searchResultItem/noResultItem'
 import { DevCallbackInterceptor } from '../../../devCallbackInterceptor'
+import { SearchResult, Universe } from '../../../types/types'
 import CurrentLocationItem from '../searchResultItem/currentLocationItem'
+import NoResultItem from '../searchResultItem/noResultItem'
+import SearchResultItem from '../searchResultItem/searchResultItem'
 
 export interface SearchResultListener {
   onResultSelected: (searchResult: SearchResult, universe?: Universe | undefined) => void

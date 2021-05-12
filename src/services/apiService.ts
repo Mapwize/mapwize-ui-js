@@ -1,4 +1,4 @@
-import { Api } from 'mapwize'
+import { Api, apiUrl } from 'mapwize'
 
 export interface ApiServiceOptions {
   restrictContentToOrganizationId?: string
@@ -41,6 +41,11 @@ export class ApiService {
   }
   public async getPlacesForPlacelist(placelistId: string) {
     return Api.getPlacesInPlaceList(placelistId)
+  }
+
+  public async getUserInfo() {
+    const url = Api.buildUrl(apiUrl(), '/v1/users/me')
+    return Api.promiseGET(url)
   }
 
   mergeSearchParams(seachParams: any, options: ApiServiceOptions): any {

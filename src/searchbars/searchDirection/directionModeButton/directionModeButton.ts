@@ -1,7 +1,6 @@
 import { DirectionMode } from '../../../types/types'
 import { replaceColorInBase64svg } from '../../../utils/formatter'
 import { directionModeIcons } from '../../../utils/icons'
-import './directionModeButton.scss'
 
 export type ModeSelectedCallback = (directionMode: DirectionMode) => void
 

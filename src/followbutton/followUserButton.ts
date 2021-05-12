@@ -1,10 +1,8 @@
-import './followUserButton.scss'
 import { FollowUserMode } from '../types/types'
 
 export type FollowUserClickCallback = () => void
 
 export default class FollowUserButton {
-
   private container: HTMLElement
 
   constructor(callback: FollowUserClickCallback) {
@@ -28,5 +26,4 @@ export default class FollowUserButton {
       this.container.className = 'mwz-follow-user-button mwz-follow-no-location'
     }
   }
-
 }
