@@ -1,5 +1,4 @@
 import { SearchResult } from '../../../types/types'
-import './searchResultItem.scss'
 
 export type SearchResultItemCallback = (searchResult: SearchResult) => void
 

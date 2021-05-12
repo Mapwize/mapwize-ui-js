@@ -6,7 +6,7 @@ Fully featured and ready to use Widget to add Mapwize Indoor Maps and Navigation
 
 And it's open-source !
 
-MapwizeUI version `3.1.1` uses Mapwize SDK version `4.5.1`.
+MapwizeUI version `3.2.0` uses Mapwize SDK version `4.5.2`.
 
 For documentation about Mapwize SDK objects like Venue, Place, MapOptions... Please refer to the Mapwize SDK documentation on [docs.mapwize.io](https://docs.mapwize.io/developers/js/sdk/latest/).
 
@@ -28,10 +28,10 @@ The Mapwize UI widget comes with the following components:
 The SDK is tested against the following browsers:
 
 - Chrome 62+
-- Firefox 60+
+- Firefox 63+
 - Safari 11+
 - iOS Safari 11+
-- Edge 16+
+- Edge 79+
 
 **IE 11 is not supported anymore since version 3.0.0**
 
@@ -50,7 +50,7 @@ npm install mapwize-ui --save
 You use the CDN url directly in your HTML page
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@3.1.1"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mapwize-ui@3.2.0"></script>
 ```
 
 ### Compile Mapwize UI

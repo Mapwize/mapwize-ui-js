@@ -1,5 +1,4 @@
 import { DevCallbackInterceptor } from '../devCallbackInterceptor'
-import './bottomview.scss'
 import BottomViewDirection, { BottomViewDirectionProps } from './direction/bottomviewDirection'
 import { buildDetailsViews, DetailsViewConfig, prepareDetailsViewConfig } from './placeDetails/placeDetailsFactory'
 import { buildPlacelistViews } from './placelistDetails/placelistDetailsFactory'
@@ -21,6 +20,7 @@ export interface BottomViewListener {
   onInformationClick: (placeDetails: any) => void
   onPlaceClick: (place: any) => void
   onDirectionToPlaceClick: (place: any) => void
+  onReportIssueClick: (place: any) => void
 }
 
 export default class BottomView {

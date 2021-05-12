@@ -5,6 +5,7 @@ export interface DevCallbackInterceptor {
   onDirectionWillBeDisplayed?: (directionOptions: any, direction: any) => any
   onSelectedChange?: (mwzObject: any, analytics?: { channel: string; searchQuery?: string }) => void
   shouldShowInformationButtonFor?: (mwzObject: any) => boolean
+  shouldShowReportIssueRowFor?: (mwzObject: any) => boolean
   onInformationButtonClick?: (placeDetails: any) => void
   onFollowButtonClickWithoutLocation?: () => void
   onSearchQueryWillBeSent?: (searchOptions: any, searchString: string, channel: string) => any
@@ -23,6 +24,7 @@ const defaultCallbackInterceptor = {
     return
   },
   shouldShowInformationButtonFor: (mwzObject: any) => false,
+  shouldShowReportIssueRowFor: (mwzObject: any) => false,
   onInformationButtonClick: () => {
     return
   },

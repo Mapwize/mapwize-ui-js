@@ -5,3 +5,23 @@
   border-radius: 4px;
   font-size: 12px;
 }
+
+@import './controller/uiController.scss';
+@import './floorcontroller/floorcontroller.scss';
+@import './floorcontroller/floorbutton/floorbutton.scss';
+@import './bottomview/bottomview.scss';
+@import './bottomview/direction/bottomviewDirection.scss';
+@import './bottomview/placeDetails/placeDetails.scss';
+@import './bottomview/placelistDetails/placelistDetails.scss';
+@import './followbutton/followUserButton.scss';
+@import './issuesReporting/reportIssuesView.scss';
+@import './languageSelector/languageSelector.scss';
+@import './navigationControls/navigationControls.scss';
+@import './searchbars/searchContainer.scss';
+@import './searchbars/search/searchBar.scss';
+@import './searchbars/searchDirection/searchDirectionBar.scss';
+@import './searchbars/searchDirection/directionModeButton/directionModeButton.scss';
+@import './searchbars/searchDirection/directionModeSelector/directionModeSelector.scss';
+@import './searchbars/searchResult/searchResultItem/searchResultItem.scss';
+@import './searchbars/searchResult/searchResultList/searchResultList.scss';
+@import './universeSelector/universeSelector.scss';

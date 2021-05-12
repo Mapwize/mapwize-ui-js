@@ -1,16 +1,12 @@
-import './searchContainer.scss'
-import SearchBar, { SearchBarListener } from './search/searchBar'
+import SearchBar from './search/searchBar'
+import SearchDirectionBar from './searchDirection/searchDirectionBar'
 import SearchResultList from './searchResult/searchResultList/searchResultList'
-import { DirectionMode, SearchResult } from '../types/types'
-import { SearchResultItemCallback } from './searchResult/searchResultItem/searchResultItem'
-import SearchDirectionBar, { SearchDirectionBarListener } from './searchDirection/searchDirectionBar'
 
 export interface SearchContainerState {
   isInSearch: boolean
 }
 
 export default class SearchContainer {
-
   private container: HTMLElement
 
   constructor(searchBar: SearchBar, searchDirectionBar: SearchDirectionBar, searchResultList: SearchResultList) {
@@ -24,8 +20,7 @@ export default class SearchContainer {
   public renderDefault(state: SearchContainerState): void {
     if (state.isInSearch) {
       this.container.classList.add('mwz-in-search')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-in-search')
     }
   }
@@ -36,8 +31,7 @@ export default class SearchContainer {
     }
     if (state.isInSearch) {
       this.container.classList.add('mwz-in-search')
-    }
-    else {
+    } else {
       this.container.classList.remove('mwz-in-search')
     }
   }
@@ -91,5 +85,4 @@ export default class SearchContainer {
   //   this.container.classList.remove('mwz-in-search')
   //   this.searchDirectionBar.setHidden(true)
   // }
-
 }

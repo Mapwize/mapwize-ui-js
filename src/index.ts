@@ -1,9 +1,30 @@
-import './style.scss'
+// import './style.scss'
 
-import { Api, apiKey, apiUrl, isTelemetryEnabled, Cache, config, version } from 'mapwize'
-import { AttributionControl, GeolocateControl, LngLat, LngLatBounds, Marker, Point, Popup, ScaleControl, setRTLTextPlugin, Style } from 'mapwize'
-import { AccessKeyError, LoadError, MWZError, NoLocationError, VenueEnterError } from 'mapwize'
-import { buildSmallViewButton, buildExpandedViewButton, buildDefaultRow, buildExpandableRow } from './bottomview/placeDetails/placeDetailsFactory'
+import {
+  AccessKeyError,
+  Api,
+  apiKey,
+  apiUrl,
+  AttributionControl,
+  Cache,
+  config,
+  GeolocateControl,
+  isTelemetryEnabled,
+  LngLat,
+  LngLatBounds,
+  LoadError,
+  Marker,
+  MWZError,
+  NoLocationError,
+  Point,
+  Popup,
+  ScaleControl,
+  setRTLTextPlugin,
+  Style,
+  VenueEnterError,
+  version,
+} from 'mapwize'
+import { buildDefaultRow, buildExpandableRow, buildExpandedViewButton, buildSmallViewButton } from './bottomview/placeDetails/placeDetailsFactory'
 import UIController from './controller/uiController'
 
 const uiVersion = {

@@ -1,6 +1,5 @@
 import { DirectionMode } from '../../types/types'
 import DirectionModeSelector from './directionModeSelector/directionModeSelector'
-import './searchDirectionBar.scss'
 
 export interface SearchDirectionBarState {
   fromPlaceholder: string

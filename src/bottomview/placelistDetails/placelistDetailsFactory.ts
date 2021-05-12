@@ -1,9 +1,8 @@
-import { DevCallbackInterceptor } from "../../devCallbackInterceptor";
-import { lang_direction, lang_information } from "../../localizor/localizor";
-import { replaceColorInBase64svg } from "../../utils/formatter";
-import { bottomViewIcons } from "../../utils/icons";
-import { PlaceDetailsListener } from "../placeDetails/placeDetailsFactory";
-import './placelistDetails.scss'
+import { DevCallbackInterceptor } from '../../devCallbackInterceptor'
+import { lang_direction, lang_information } from '../../localizor/localizor'
+import { replaceColorInBase64svg } from '../../utils/formatter'
+import { bottomViewIcons } from '../../utils/icons'
+import { PlaceDetailsListener } from '../placeDetails/placeDetailsFactory'
 
 export interface PlacelistViews {
   photosView: HTMLElement
@@ -18,34 +17,33 @@ interface ButtonContent {
   callback: (target: HTMLElement) => void
 }
 
-export const buildPlacelistViews = (placelist: any, mainColor: string, language: string, devCallbackInterceptor: DevCallbackInterceptor, listener: PlaceDetailsListener): PlacelistViews => {
-
+export const buildPlacelistViews = (
+  placelist: any,
+  mainColor: string,
+  language: string,
+  devCallbackInterceptor: DevCallbackInterceptor,
+  listener: PlaceDetailsListener
+): PlacelistViews => {
   const buttonContents = generateButtonContents(placelist, devCallbackInterceptor, listener, language)
 
   return {
     photosView: buildPhotosView([], listener),
-    smallView: buildSmallView(
-      placelist.titleLabel,
-      buttonContents,
-      mainColor,
-      placelist.subtitleLabel,
-    ),
-    largeView: buildLargeView(
-      placelist.titleLabel,
-      placelist.places,
-      buttonContents,
-      mainColor,
-      placelist.subtitleLabel,
-      listener
-    )
+    smallView: buildSmallView(placelist.titleLabel, buttonContents, mainColor, placelist.subtitleLabel),
+    largeView: buildLargeView(placelist.titleLabel, placelist.places, buttonContents, mainColor, placelist.subtitleLabel, listener),
   }
-
 }
 
 const generateButtonContents = (placelist: any, devCallbackInterceptor: DevCallbackInterceptor, listener: PlaceDetailsListener, language: string): ButtonContent[] => {
-  const buttonContents: ButtonContent[] = [ { id: 'mwz-directions-button', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick } ]
+  const buttonContents: ButtonContent[] = [
+    { id: 'mwz-directions-button', title: lang_direction(language), imageSrc: bottomViewIcons.DIRECTION, callback: listener.onDirectionClick },
+  ]
   if (devCallbackInterceptor.shouldShowInformationButtonFor(placelist)) {
-    buttonContents.push({ id: 'mwz-informations-button', title: lang_information(language), imageSrc: bottomViewIcons.INFO, callback: (target: HTMLElement) => listener.onInformationClick(placelist) })
+    buttonContents.push({
+      id: 'mwz-informations-button',
+      title: lang_information(language),
+      imageSrc: bottomViewIcons.INFO,
+      callback: (target: HTMLElement) => listener.onInformationClick(placelist),
+    })
   }
 
   return buttonContents
@@ -64,7 +62,8 @@ const buildPhotosView = (photoUrls: string[], listener: PlaceDetailsListener): H
   container.appendChild(closeButton)
   const closeImg = document.createElement('img')
   closeImg.classList.add('mwz-bottom-photos-close-button-img')
-  closeImg.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTYuNjcgMGwyLjgzIDIuODI5LTkuMzM5IDkuMTc1IDkuMzM5IDkuMTY3LTIuODMgMi44MjktMTIuMTctMTEuOTk2eiIvPjwvc3ZnPg=='
+  closeImg.src =
+    'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTYuNjcgMGwyLjgzIDIuODI5LTkuMzM5IDkuMTc1IDkuMzM5IDkuMTY3LTIuODMgMi44MjktMTIuMTctMTEuOTk2eiIvPjwvc3ZnPg=='
   closeButton.appendChild(closeImg)
 
   if (!photoUrls || photoUrls.length === 0) {
@@ -80,7 +79,7 @@ const buildPhotosView = (photoUrls: string[], listener: PlaceDetailsListener): H
     container.classList.add('mwz-single-photo')
   }
 
-  photoUrls.forEach(url => {
+  photoUrls.forEach((url) => {
     const img = document.createElement('img')
     img.classList.add('mwz-bottom-photos-view-image')
     img.src = url
@@ -91,7 +90,6 @@ const buildPhotosView = (photoUrls: string[], listener: PlaceDetailsListener): H
 }
 
 const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: string, subtitle?: string): HTMLElement => {
-
   const container = document.createElement('div')
   container.classList.add('mwz-small-view-container')
 
@@ -119,7 +117,7 @@ const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: stri
   container.appendChild(buttonContainer)
 
   let first = true
-  buttons.forEach(b => {
+  buttons.forEach((b) => {
     const button = document.createElement('div')
     // button.id = b.id
     button.classList.add(b.id)
@@ -142,8 +140,7 @@ const buildSmallView = (title: string, buttons: ButtonContent[], mainColor: stri
     if (!first) {
       button.classList.add('mwz-outlined')
       image.src = replaceColorInBase64svg(b.imageSrc, mainColor)
-    }
-    else {
+    } else {
       image.src = replaceColorInBase64svg(b.imageSrc, '#ffffff')
     }
 
@@ -175,7 +172,7 @@ const buildLargeView = (title: string, places: any[], buttons: ButtonContent[], 
   container.appendChild(buttonContainer)
 
   let first = true
-  buttons.forEach(b => {
+  buttons.forEach((b) => {
     const button = document.createElement('div')
     // button.id = b.id
     button.classList.add(b.id)
@@ -193,8 +190,7 @@ const buildLargeView = (title: string, places: any[], buttons: ButtonContent[], 
     if (!first) {
       button.classList.add('mwz-outlined')
       image.src = replaceColorInBase64svg(b.imageSrc, mainColor)
-    }
-    else {
+    } else {
       image.src = replaceColorInBase64svg(b.imageSrc, '#ffffff')
     }
 
@@ -206,9 +202,7 @@ const buildLargeView = (title: string, places: any[], buttons: ButtonContent[], 
     first = false
   })
 
-
-  places.forEach(place => {
-
+  places.forEach((place) => {
     const placeContainer = document.createElement('div')
     placeContainer.onclick = () => {
       listener.onPlaceClick(place)
