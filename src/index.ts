@@ -10,6 +10,7 @@ import {
   config,
   GeolocateControl,
   isTelemetryEnabled,
+  isBrowserSupported,
   LngLat,
   LngLatBounds,
   LoadError,
@@ -85,7 +86,7 @@ function map(container: string | HTMLElement, options?: any) {
 }
 
 export { map as default }
-export { map, config, apiKey, apiUrl, isTelemetryEnabled }
+export { map, config, apiKey, apiUrl, isTelemetryEnabled, isBrowserSupported }
 export { uiVersion as version }
 // export { getUnits, getLocales }
 export { MWZError, AccessKeyError, LoadError, NoLocationError, VenueEnterError }
