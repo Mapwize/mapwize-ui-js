@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.3.0
+
+- Updating Mapwize gl to 4.6.0
+
 ## 3.2.1
 
 - Updating Mapwize gl to 4.5.3
