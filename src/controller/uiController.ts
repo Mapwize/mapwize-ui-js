@@ -18,7 +18,7 @@ import {
   lang_floor_controller,
   lang_menu,
   lang_search_global,
-  lang_search_no_results,
+  lang_search_no_results
 } from '../localizor/localizor'
 import MapActionsDispatcher from '../mapActionsDispatcher'
 import NavigationControl from '../navigationControls/navigationControls'
@@ -582,8 +582,8 @@ const buildDefaultState = async (options: UIOptions, apiService: ApiService): Pr
   }
 
   if (options.centerOnPlaceId) {
-    const place = await apiService.getPlace(options.centerOnPlaceId)
     const details = await apiService.getPlaceDetails(options.centerOnPlaceId)
+    const place = await apiService.getPlace(details._id)
     state.bottomViewState.content = buildPlaceDetails(details, state.uiControllerState.preferredLanguage)
     state.bottomViewState.hidden = false
     state.uiControllerState.selectedContent = { ...place, objectClass: 'place' }
