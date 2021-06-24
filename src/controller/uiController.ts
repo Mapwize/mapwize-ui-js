@@ -18,7 +18,7 @@ import {
   lang_floor_controller,
   lang_menu,
   lang_search_global,
-  lang_search_no_results
+  lang_search_no_results,
 } from '../localizor/localizor'
 import MapActionsDispatcher from '../mapActionsDispatcher'
 import NavigationControl from '../navigationControls/navigationControls'
