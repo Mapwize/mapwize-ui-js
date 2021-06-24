@@ -1,6 +1,6 @@
 {
   "name": "mapwize-ui",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "",
   "private": true,
   "scripts": {
@@ -62,7 +62,7 @@
   "dependencies": {
     "dayjs": "1.10.4",
     "immer": "8.0.1",
-    "mapwize": "4.6.0",
+    "mapwize": "4.6.1",
     "tippy.js": "6.2.7"
   }
 }
