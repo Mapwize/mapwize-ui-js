@@ -32,6 +32,7 @@ export default class SearchDirectionBar {
   private modeSelector: DirectionModeSelector
   private fromField: HTMLInputElement
   private toField: HTMLInputElement
+  private swapButton: HTMLButtonElement
 
   constructor(listener: SearchDirectionBarListener, mainColor: string) {
     this.listener = listener
@@ -95,11 +96,11 @@ export default class SearchDirectionBar {
     queryContentCenter.appendChild(this.fromField)
     queryContentCenter.appendChild(this.toField)
 
-    const swapButton = document.createElement('button')
-    swapButton.type = 'button'
-    swapButton.classList.add('mwz-search-direction-swap-button')
-    swapButton.onclick = this.listener.onSwapButtonClick
-    queryContentRight.appendChild(swapButton)
+    this.swapButton = document.createElement('button')
+    this.swapButton.type = 'button'
+    this.swapButton.classList.add('mwz-search-direction-swap-button')
+    this.swapButton.onclick = this.listener.onSwapButtonClick
+    queryContentRight.appendChild(this.swapButton)
 
     queryContent.appendChild(queryContentLeft)
     queryContent.appendChild(queryContentIcons)
@@ -155,6 +156,11 @@ export default class SearchDirectionBar {
     }
     if (oldState.isToFocus !== state.isToFocus) {
       this.setToFocus(state.isToFocus)
+    }
+    if (state.isFromFocus || state.isToFocus) {
+      this.swapButton.classList.add('mwz-swap-button-gone')
+    } else {
+      this.swapButton.classList.remove('mwz-swap-button-gone')
     }
   }
 
