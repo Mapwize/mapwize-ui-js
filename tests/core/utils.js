@@ -9,7 +9,7 @@ function mwzDescribe(testSuites, fn) {
 function mwzTest(name, evaluateFn, testFn) {
   it(name, function () {
     this.retries(2)
-    browser.url('http://localhost:8888/tests/core/index.html')
+    browser.url('tests/core/index.html')
     browser.waitUntil(
       function () {
         return browser.execute(function () {

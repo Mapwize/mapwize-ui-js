@@ -1,0 +1,94 @@
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+default:
+  interruptible: true
+
+stages:
+- build
+- test
+- publish
+
+build:
+  stage: build
+  image: node:14
+  before_script:
+    - if [ -f "package-lock.json" ]; then echo "Running npm ci..."; npm ci; else echo "Running npm i..."; npm i; fi
+  script:
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+test:local:
+  stage: test
+  image: docker:20
+  services:
+    - name: docker:20-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_VERIFY: 1
+    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+    DOCKER_HOST: "tcp://docker:2376"
+  script:
+    - docker network create ${CI_JOB_ID}
+    - docker run -d --net=${CI_JOB_ID} --name nginx -v $PWD:/usr/share/nginx/html:ro nginx:alpine
+    - docker run -d --net=${CI_JOB_ID} --name chrome --shm-size=2g selenium/standalone-chrome:90.0
+    - >
+      docker run --rm --net=${CI_JOB_ID} --entrypoint=sh -v $PWD:/mapwize-ui-js node:14 -c '
+        apt-get update &&
+        apt-get install -y libnss3 &&
+        cd /mapwize-ui-js &&
+        if [ -f "package-lock.json" ]; then echo "Running npm ci..."; npm ci; else echo "Running npm i..."; npm i; fi &&
+        if ! [ -d "dist" ]; then npm run build; fi &&
+        export WEBDRIVER_HOSTNAME=chrome &&
+        export WEBDRIVER_BASEURL=http://nginx &&
+        ./node_modules/@wdio/cli/bin/wdio.js tests/conf/local.conf.js
+      '
+    - docker rm -f nginx chrome 
+    - docker network rm ${CI_JOB_ID}
+  dependencies:
+    - build
+  allow_failure: true
+  retry: 2
+
+test:browserstack:
+  stage: test
+  image: node:14
+  before_script:
+    - if [ -f "package-lock.json" ]; then echo "Running 'npm ci'..."; npm ci; else echo "Running 'npm i'..."; npm i; fi
+    - if ! [ -d "dist" ]; then npm run build; fi
+  script:
+    - npm run test-browserstack
+  dependencies:
+    - build
+  allow_failure: true
+  only:
+    refs:
+      - external_pull_requests
+    variables:
+      - $CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME == "master"
+
+publish:
+  stage: publish
+  image: debian:buster
+  before_script:
+    - apt-get update
+    - apt-get install -y curl git jq build-essential python3 python3-pip zip
+    - pip3 install --upgrade pip setuptools
+    - pip3 install --upgrade httpie
+    - http --ignore-stdin --check-status --print=b --download https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+    - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    - \. "$NVM_DIR/nvm.sh"
+    - nvm install 14
+    - nvm use 14
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+    - if [ -f "package-lock.json" ]; then echo "Running 'npm ci'..."; npm ci; else echo "Running 'npm i'..."; npm i; fi
+    - if ! [ -d "dist" ]; then npm run build; fi
+  script:
+    - ./ci/publish-script.sh
+  dependencies:
+    - build
+  only:
+    - tags
