@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 3.3.1
+
+- Updating Mapwize gl to 4.6.1
+- Fixing swap field in direction search
+- Fixing result list display issue
+
 ## 3.3.0
 
 - Updating Mapwize gl to 4.6.0

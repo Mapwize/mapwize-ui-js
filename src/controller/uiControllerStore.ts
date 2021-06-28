@@ -204,7 +204,7 @@ export class UIControllerStore {
     setTimeout(() => {
       const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
         draftState.searchDirectionBarState.isFromFocus = false
-        if (!this.state.searchDirectionBarState.isFromFocus && !this.state.searchDirectionBarState.isToFocus) {
+        if (this.state.searchDirectionBarState.isFromFocus && !this.state.searchDirectionBarState.isToFocus) {
           draftState.searchResultListState.isHidden = true
           draftState.searchResultListState.results = null
           draftState.searchResultListState.universes = []
@@ -223,7 +223,7 @@ export class UIControllerStore {
     setTimeout(() => {
       const nextState = produce(this.state, (draftState: WritableDraft<MapwizeUIState>) => {
         draftState.searchDirectionBarState.isToFocus = false
-        if (!this.state.searchDirectionBarState.isFromFocus && !this.state.searchDirectionBarState.isToFocus) {
+        if (!this.state.searchDirectionBarState.isFromFocus && this.state.searchDirectionBarState.isToFocus) {
           draftState.searchResultListState.isHidden = true
           draftState.searchResultListState.results = null
           draftState.searchResultListState.universes = []
