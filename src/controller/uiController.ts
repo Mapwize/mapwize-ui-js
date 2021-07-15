@@ -130,7 +130,7 @@ export default class UIController {
 
     const styleEl = document.createElement('style')
     document.head.appendChild(styleEl)
-    styleEl.innerHTML = ':root { --mapwize-main-color:' + options.mainColor + '; }'
+    styleEl.innerHTML = ':root { --mapwize-main-color:' + options.mainColor + '; } .tippy-box[data-theme~=\'dark\'] {background-color: #111111;color: white;padding: 2px 8px;border-radius: 4px;font-size: 12px;font-family: Arial, Helvetica, sans-serif;}'
 
     this.uiContainer = document.createElement('div')
     this.uiContainer.classList.add('mwz-ui-container')

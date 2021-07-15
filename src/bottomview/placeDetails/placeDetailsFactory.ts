@@ -709,10 +709,20 @@ const drawSchedule = (ctx: CanvasRenderingContext2D, gridWidth: number, height: 
     let startInMinuts = start.getHours() + start.getMinutes() / 60
     let endInMinuts = end.getHours() + end.getMinutes() / 60
     if (!isToday(start)) {
-      startInMinuts = 0
+      if (start > new Date()) {
+        return 
+      }
+      else {
+        startInMinuts = 0
+      }
     }
     if (!isToday(end)) {
-      endInMinuts = 23.99
+      if (end < new Date()) {
+        return 
+      }
+      else {
+        endInMinuts = 23.99
+      }
     }
 
     ctx.beginPath()
