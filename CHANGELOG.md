@@ -1,5 +1,11 @@
 # Mapwize UI Changelog
 
+## 3.3.2
+
+- Fixing schedule display
+- Fixing tooltip style
+- Updating every fonts for consistency
+
 ## 3.3.1
 
 - Updating Mapwize gl to 4.6.1
