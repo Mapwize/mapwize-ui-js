@@ -704,7 +704,6 @@ const drawAxe = (ctx: CanvasRenderingContext2D, gridWidth: number, height: numbe
 
 const drawSchedule = (ctx: CanvasRenderingContext2D, gridWidth: number, height: number, events: CalendarEvent[], mainColor: string) => {
   events.forEach((event) => {
-    console.log(event)
     const start = new Date(event.start)
     const end = new Date(event.end)
     let startInMinuts = start.getHours() + start.getMinutes() / 60
