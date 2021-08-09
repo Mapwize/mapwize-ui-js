@@ -325,7 +325,7 @@ const buildSmallView = (title: string, buttons: DetailsViewButton[], mainColor: 
   firstLineContainer.classList.add('mwz-small-view-first-line-container')
   container.appendChild(firstLineContainer)
 
-  const titleLabel = document.createElement('span')
+  const titleLabel = document.createElement('div')
   titleLabel.innerHTML = title
   titleLabel.classList.add('mwz-small-view-title')
   firstLineContainer.appendChild(titleLabel)
@@ -704,23 +704,22 @@ const drawAxe = (ctx: CanvasRenderingContext2D, gridWidth: number, height: numbe
 
 const drawSchedule = (ctx: CanvasRenderingContext2D, gridWidth: number, height: number, events: CalendarEvent[], mainColor: string) => {
   events.forEach((event) => {
+    console.log(event)
     const start = new Date(event.start)
     const end = new Date(event.end)
     let startInMinuts = start.getHours() + start.getMinutes() / 60
     let endInMinuts = end.getHours() + end.getMinutes() / 60
     if (!isToday(start)) {
       if (start > new Date()) {
-        return 
-      }
-      else {
+        return
+      } else {
         startInMinuts = 0
       }
     }
     if (!isToday(end)) {
       if (end < new Date()) {
-        return 
-      }
-      else {
+        return
+      } else {
         endInMinuts = 23.99
       }
     }

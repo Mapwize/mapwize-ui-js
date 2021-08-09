@@ -1,5 +1,9 @@
 # Mapwize UI Changelog
 
+## 3.3.3
+
+- Improving long title display in details view
+
 ## 3.3.2
 
 - Fixing schedule display
