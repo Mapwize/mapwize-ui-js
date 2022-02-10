@@ -42,7 +42,7 @@
     "jsdoc": "3.6.6",
     "jsdoc-babel": "0.5.0",
     "license-webpack-plugin": "2.3.11",
-    "node-sass": "5.0.0",
+    "node-sass": "7.0.0",
     "npx": "10.2.2",
     "sass": "1.32.6",
     "sass-lint": "1.13.1",
